@@ -1,0 +1,243 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --ink: #0F0F0F;
+    --paper: #FFFFFF;
+    --paper-soft: #FBFBFB;
+  }
+
+  body {
+    font-family: 'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--paper);
+    color: var(--ink);
+    direction: rtl;
+    text-align: right;
+  }
+
+  h1, h2, h3, .font-heading {
+    font-family: 'Marhey', 'Lalezar', cursive;
+  }
+
+  .font-comic {
+    font-family: 'Lalezar', cursive;
+  }
+
+  .font-note {
+    font-family: 'Caveat', 'Cairo', cursive;
+  }
+}
+
+/* Blueprint & Paper Subtle Texture */
+.paper-pattern {
+  background-color: #ffffff;
+  background-image: 
+    radial-gradient(#0f0f0f 0.75px, transparent 0.75px),
+    radial-gradient(#0f0f0f 0.75px, #ffffff 0.75px);
+  background-size: 32px 32px;
+  background-position: 0 0, 16px 16px;
+  opacity: 0.98;
+}
+
+.paper-grid {
+  background-size: 24px 24px;
+  background-image: 
+    linear-gradient(to right, rgba(15, 15, 15, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 15, 15, 0.05) 1px, transparent 1px);
+}
+
+.paper-ruled {
+  background-size: 100% 28px;
+  background-image: linear-gradient(to bottom, transparent 27px, rgba(15, 15, 15, 0.08) 28px);
+}
+
+/* Hand-drawn Irregular Border Geometries */
+.sketch-border-1 {
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+}
+
+.sketch-border-2 {
+  border-radius: 20px 255px 25px 230px / 240px 20px 220px 30px;
+}
+
+.sketch-border-3 {
+  border-radius: 255px 25px 225px 25px / 25px 225px 25px 255px;
+}
+
+.sketch-border-pill {
+  border-radius: 999px 980px 995px 985px / 980px 995px 985px 990px;
+}
+
+.sketch-border-tag {
+  border-radius: 12px 180px 14px 190px / 185px 15px 175px 12px;
+}
+
+.sketch-border-circle {
+  border-radius: 51% 49% 53% 47% / 48% 52% 48% 52%;
+}
+
+/* Comic / Hand-Drawn Hard Offset Shadows (0px blur, strictly RTL bottom-left) */
+.sketch-shadow-sm {
+  box-shadow: -3px 3px 0px #0F0F0F;
+}
+
+.sketch-shadow {
+  box-shadow: -5px 5px 0px #0F0F0F;
+}
+
+.sketch-shadow-lg {
+  box-shadow: -8px 8px 0px #0F0F0F;
+}
+
+.sketch-shadow-xl {
+  box-shadow: -12px 12px 0px #0F0F0F;
+}
+
+.sketch-shadow-pressed {
+  box-shadow: -1px 1px 0px #0F0F0F;
+}
+
+/* Inverted shadow when hovering or active */
+.sketch-shadow-hover {
+  transition: transform 0.1s steps(2, jump-none), box-shadow 0.1s steps(2, jump-none);
+}
+
+.sketch-shadow-hover:hover {
+  transform: translate(2px, -2px);
+  box-shadow: -7px 7px 0px #0F0F0F;
+}
+
+.sketch-shadow-hover:active {
+  transform: translate(-3px, 3px);
+  box-shadow: -1px 1px 0px #0F0F0F;
+}
+
+/* Hand-Drawn Buttons */
+.btn-sketch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  font-weight: 700;
+  border: 2.5px solid #0F0F0F;
+  background-color: #FFFFFF;
+  color: #0F0F0F;
+  box-shadow: -4px 4px 0px #0F0F0F;
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.12s steps(3, jump-none);
+}
+
+.btn-sketch:hover {
+  background-color: #0F0F0F;
+  color: #FFFFFF;
+  transform: rotate(-1deg) scale(1.02);
+  box-shadow: -6px 6px 0px #0F0F0F;
+}
+
+.btn-sketch:active {
+  transform: translate(-3px, 3px) rotate(0deg);
+  box-shadow: -1px 1px 0px #0F0F0F;
+}
+
+.btn-sketch-primary {
+  background-color: #0F0F0F;
+  color: #FFFFFF;
+}
+
+.btn-sketch-primary:hover {
+  background-color: #FFFFFF;
+  color: #0F0F0F;
+}
+
+/* Stop-Motion Frame-by-Frame Animations */
+@keyframes stop-motion-wobble {
+  0% { transform: rotate(0deg) translate(0, 0); }
+  25% { transform: rotate(-1deg) translate(-1px, 1px); }
+  50% { transform: rotate(0.8deg) translate(1px, -1px); }
+  75% { transform: rotate(-0.5deg) translate(-1px, -0.5px); }
+  100% { transform: rotate(0deg) translate(0, 0); }
+}
+
+@keyframes frame-jitter {
+  0% { border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; }
+  50% { border-radius: 20px 255px 25px 230px / 240px 20px 220px 30px; }
+  100% { border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; }
+}
+
+@keyframes scribble-strike {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+@keyframes stickman-walk {
+  0% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-4px) rotate(-3deg); }
+  50% { transform: translateY(0px) rotate(0deg); }
+  75% { transform: translateY(-4px) rotate(3deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes stamp-slam {
+  0% { transform: scale(3) rotate(-15deg); opacity: 0; }
+  60% { transform: scale(0.9) rotate(-3deg); opacity: 1; }
+  100% { transform: scale(1) rotate(-4deg); opacity: 1; }
+}
+
+.animate-wobble-slow {
+  animation: stop-motion-wobble 2s steps(4, jump-none) infinite;
+}
+
+.animate-wobble-hover:hover {
+  animation: stop-motion-wobble 0.6s steps(3, jump-none) infinite;
+}
+
+.animate-stickman {
+  animation: stickman-walk 0.8s steps(4, jump-none) infinite;
+}
+
+.animate-stamp {
+  animation: stamp-slam 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Custom Checkbox Animation */
+.check-marker {
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  animation: draw-check 0.3s steps(5, jump-none) forwards;
+}
+
+@keyframes draw-check {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Scribble Out Effect */
+.scribble-overlay {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    #0F0F0F 0,
+    #0F0F0F 4px,
+    transparent 0,
+    transparent 12px
+  );
+}
+
+/* Cross-hatching pattern for shadows & fills */
+.comic-hatch {
+  background: repeating-linear-gradient(
+    45deg,
+    #0F0F0F,
+    #0F0F0F 1.5px,
+    transparent 1.5px,
+    transparent 6px
+  );
+}
+
+.comic-dots {
+  background-image: radial-gradient(#0F0F0F 1.5px, transparent 1.5px);
+  background-size: 8px 8px;
+}
