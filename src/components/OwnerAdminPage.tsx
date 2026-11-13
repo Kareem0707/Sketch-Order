@@ -320,7 +320,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  <h1 className="font-heading font-black text-lg sm:text-xl leading-none">
  لوحة تحكم إدارة المنصة (Owner Admin)
  </h1>
- <span className="text-[10px] font-mono font-black bg-emerald-500 text-slate-950 px-2 py-0.5 rounded-full border border-emerald-600 shadow-xs">
+ <span className="text-[10px] font-mono font-black bg-orange-500 text-slate-950 px-2 py-0.5 rounded-full border border-orange-600 shadow-xs">
  LIVE SAAS
  </span>
  </div>
@@ -363,7 +363,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  {/* Success Banner Alert */}
  {actionSuccessMessage && (
  <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-4 animate-fadeIn">
- <div className="p-3.5 rounded-2xl bg-emerald-500 text-slate-950 font-black text-sm flex items-center justify-between border-2 border-emerald-600 shadow-md">
+ <div className="p-3.5 rounded-2xl bg-orange-500 text-slate-950 font-black text-sm flex items-center justify-between border-2 border-orange-600 shadow-md">
  <div className="flex items-center gap-2">
  <CheckCircle2 className="w-5 h-5 shrink-0" />
  <span>{actionSuccessMessage}</span>
@@ -391,11 +391,11 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  >
  <div className="flex items-center justify-between mb-2">
  <span className="text-xs font-mono font-black opacity-75">إجمالي الإيرادات المحصلة</span>
- <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-500 flex items-center justify-center font-bold">
+ <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-orange-500 flex items-center justify-center font-bold">
  <DollarSign className="w-4 h-4" />
  </div>
  </div>
- <div className="text-3xl font-black font-mono tracking-tight text-emerald-500">
+ <div className="text-3xl font-black font-mono tracking-tight text-orange-500">
  {totalRevenue.toLocaleString()} <span className="text-sm font-heading">ج.م</span>
  </div>
  <p className="text-[11px] font-bold opacity-60 mt-1">دفع لمرة واحدة • أرباح المنصة صافية 100%</p>
@@ -411,11 +411,11 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  >
  <div className="flex items-center justify-between mb-2">
  <span className="text-xs font-mono font-black opacity-75">متاجر مفعلة ونشطة (Live)</span>
- <div className="w-8 h-8 rounded-full bg-indigo-500/20 text-indigo-500 flex items-center justify-center font-bold">
+ <div className="w-8 h-8 rounded-full bg-orange-500/20 text-orange-500 flex items-center justify-center font-bold">
  <Store className="w-4 h-4" />
  </div>
  </div>
- <div className="text-3xl font-black font-mono tracking-tight text-indigo-500">
+ <div className="text-3xl font-black font-mono tracking-tight text-orange-500">
  {liveCount} <span className="text-sm font-heading">متجر</span>
  </div>
  <p className="text-[11px] font-bold opacity-60 mt-1">شغالة بدومينات ساب مستقلة وقابلة للبيع</p>
@@ -431,11 +431,11 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  >
  <div className="flex items-center justify-between mb-2">
  <span className="text-xs font-mono font-black opacity-75">بانتظار المراجعة والتفعيل</span>
- <div className="w-8 h-8 rounded-full bg-amber-500/20 text-amber-500 flex items-center justify-center font-bold animate-pulse">
+ <div className="w-8 h-8 rounded-full bg-orange-500/20 text-orange-500 flex items-center justify-center font-bold animate-pulse">
  <Clock className="w-4 h-4" />
  </div>
  </div>
- <div className="text-3xl font-black font-mono tracking-tight text-amber-500">
+ <div className="text-3xl font-black font-mono tracking-tight text-orange-500">
  {pendingCount} <span className="text-sm font-heading">طلب جديد</span>
  </div>
  <p className="text-[11px] font-bold opacity-60 mt-1">يحتاج فحص سكرين التحويل والضغط تفعيل</p>
@@ -506,7 +506,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  }}
  className={`px-4 py-2 rounded-xl text-xs font-black transition-all border flex items-center gap-1.5 ${
  filterStatus === 'approved'
- ? 'bg-emerald-500 text-slate-950 border-emerald-600 shadow-xs'
+ ? 'bg-orange-500 text-slate-950 border-orange-600 shadow-xs'
  : 'bg-transparent border-inherit opacity-70 hover:opacity-100'
  }`}
  >
@@ -630,7 +630,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  )}`}
  target="_blank"
  rel="noreferrer"
- className="text-emerald-500 font-bold flex items-center gap-1 mt-1 hover:underline"
+ className="text-orange-500 font-bold flex items-center gap-1 mt-1 hover:underline"
  >
  <MessageCircle className="w-3.5 h-3.5" />
  <span className="font-mono">{order.whatsappNumber}</span>
@@ -647,7 +647,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  {/* Payment & Amount */}
  <div>
  <span className="text-slate-400 block mb-1">طريقة الدفع والقيمة:</span>
- <div className="font-black text-base text-emerald-500 font-mono">
+ <div className="font-black text-base text-orange-500 font-mono">
  {typeof order.amount === 'number' ? order.amount.toLocaleString() : order.amount} ج.م
  </div>
  <div className="font-bold opacity-80 mt-0.5">

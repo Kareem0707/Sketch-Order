@@ -186,7 +186,7 @@ export interface TenantStoreAccount {
   ownerName: string;
   ownerPhone: string;
   planTier: 'standard' | 'pro' | 'custom';
-  status: 'active' | 'pending';
+  status: 'active' | 'pending' | 'suspended';
   templateId: TemplateId;
   storeConfig: CustomStoreConfig;
   createdAt: string;

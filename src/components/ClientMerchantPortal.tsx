@@ -88,7 +88,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  ordersCount: 3,
  storeConfig: {
  storeName: 'سبورتك إيجيبت (SPORTECH)',
- tagline: 'واجهة متجر سبورتك الرياضي بتصميم Figma التفاعلي الحصري',
+ tagline: 'واجهة متجر سبورتك الرياضي بتصميم Figma التفاعلي العصري',
  niche: 'sneakers',
  templateId: 'sportech-sneakers',
  accentColor: '#F97316',

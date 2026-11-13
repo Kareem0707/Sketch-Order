@@ -50,6 +50,7 @@ interface FullPageStoreStudioProps {
  onBackToHome: () => void;
  onBuyAndDeploy: (config: CustomStoreConfig) => void;
  initialConfig?: CustomStoreConfig | null;
+  initialTemplateId?: TemplateId;
  onOpenTemplatesPage?: () => void;
  isDarkMode?: boolean;
  onToggleDarkMode?: () => void;
@@ -522,6 +523,17 @@ export const DEFAULT_PRODUCTS_MAP: Record<TemplateId, CustomProduct[]> = {
  ],
 };
 
+export const DEFAULT_TAGLINES_MAP: Record<TemplateId, string> = {
+  'sportech-sneakers': 'المتجر الأول في مصر للكوتشيات والمستلزمات الرياضية الأصلية',
+  'cloudrunner-product': 'حذاء الجري فائق الخفة والممتص للصدمات لتجربة مشي وركض استثنائية',
+  'dinereserve-food': 'تجربة طعام فاخرة في قلب القاهرة مع حجوزات طاولات فورية وقائمة استثنائية',
+  'fasco-fashion': 'تشكيلة أوفر سايز 100% قطن مصري شبابي بستايل الستريت وير الكاجوال',
+  'burger-club': 'أشهى برجر سماش باللحم البلدي، صوصات سرية وبطاطس كريسبي ساخنة',
+  'panto-minimal': 'أثاث وديكور اسكندنافي عصري بخطوط ناعمة وخامات خشبية طبيعية',
+  'velvety-jewelry': 'عطور شرقية وفرنسية نادرة ومجوهرات مطلية بالذهب بتصاميم راقية',
+  'sketch-comic': 'تصميم ورقي مصري مميز مستوحى من فن الكوميكس والرسومات اليدوية',
+};
+
 export const DEFAULT_CATEGORIES_MAP: Record<TemplateId, string[]> = {
  'sportech-sneakers': ['الكل', 'سنيكرز', 'كرة قدم', 'كرة سلة', 'جيم وتدريب', 'قمصان'],
  'cloudrunner-product': ['الكل', 'كوتشيات ركض', 'ملابس ركض', 'إكسسوارات'],
@@ -541,6 +553,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  onBackToHome,
  onBuyAndDeploy,
  initialConfig = null,
+  initialTemplateId,
  onOpenTemplatesPage,
  isDarkMode = false,
  onToggleDarkMode,
@@ -550,19 +563,23 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  const [adminTab, setAdminTab] = useState<'products' | 'categories' | 'analytics' | 'branding'>('products');
  
  // USER INSTRUCTION 1: "خلي دا الشكل اللي يظهر اول ما يفتح الاستوديو" (Catalog open by default)
- const [templateCatalogOpen, setTemplateCatalogOpen] = useState<boolean>(true);
  
  // USER INSTRUCTION 6: "واعمل زر يدخلك جوا تيمبليت الويب بشكل كامل كأنك مستخدم"
  const [isFullScreenStorefront, setIsFullScreenStorefront] = useState<boolean>(false);
 
  // USER INSTRUCTION: Live Studio Viewport Switcher (iPhone 13 Pro 390px, Tablet 768px, Desktop 100%)
  const [viewportMode, setViewportMode] = useState<'mobile' | 'tablet' | 'desktop'>('mobile');
- const [catalogFilter, setCatalogFilter] = useState<string>('all');
 
  // Active Store Configuration
- const [selectedTemplateId, setSelectedTemplateId] = useState<TemplateId>(
- initialConfig ? initialConfig.templateId : 'sportech-sneakers'
- );
+  const [selectedTemplateId, setSelectedTemplateId] = useState<TemplateId>(
+    initialTemplateId || (initialConfig ? initialConfig.templateId : 'sportech-sneakers')
+  );
+
+  React.useEffect(() => {
+    if (initialTemplateId && initialTemplateId !== selectedTemplateId) {
+      handleSelectTemplate(initialTemplateId);
+    }
+  }, [initialTemplateId]);
 
  const [storeConfig, setStoreConfig] = useState<CustomStoreConfig>(
  initialConfig || {
@@ -636,7 +653,6 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  const newCats = DEFAULT_CATEGORIES_MAP[tmplId] || ['عام'];
 
  setSelectedTemplateId(tmplId);
- setTemplateCatalogOpen(false);
  setPhoneScreen('home');
  setActiveProductInPhone(newProds[0]);
  setStoreConfig((prev) => ({
@@ -878,7 +894,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  }}
  className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 sm:gap-1.5 transition-all ${
  activeView === 'admin'
- ? 'bg-emerald-600 text-white shadow-xs'
+ ? 'bg-orange-500 text-slate-950 font-black shadow-xs'
  : 'text-slate-400 hover:text-white'
  }`}
  >
@@ -902,10 +918,10 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  ? 'bg-orange-500 text-slate-950 shadow-xs'
  : 'text-slate-400 hover:text-white'
  }`}
- title="معاينة آيفون 13 برو (390px)"
+ title="معاينة شاشة الهاتف (390px)"
  >
  <Smartphone className="w-3.5 h-3.5" />
- <span>آيفون (390px)</span>
+ <span>موبايل (390px)</span>
  </button>
  <button
  type="button"
@@ -964,9 +980,9 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <button
  onClick={() => {
  playClick();
- setTemplateCatalogOpen(true);
+ if (onOpenTemplatesPage) onOpenTemplatesPage();
  }}
- className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition-all shadow-xs"
+ className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 text-white font-bold text-xs transition-all shadow-xs"
  >
  <Grid className="w-3.5 h-3.5" />
  <span className="hidden sm:inline">الكتالوج (8)</span>
@@ -993,7 +1009,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  playClick();
  onBuyAndDeploy(storeConfig);
  }}
- className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs transition-all shadow-sm shadow-emerald-500/20 active:scale-95 shrink-0"
+ className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-xs transition-all shadow-sm shadow-emerald-500/20 active:scale-95 shrink-0"
  >
  <Rocket className="w-3.5 h-3.5" />
  <span className="hidden sm:inline">امتلك موقعك الآن</span>
@@ -1022,7 +1038,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
 
  <button
  onClick={() => onBuyAndDeploy(storeConfig)}
- className="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black"
+ className="px-3 py-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-slate-950 font-black"
  >
  امتلك هذا المتجر
  </button>
@@ -1052,13 +1068,9 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
 
  <div className="flex items-center gap-2 shrink-0">
  <button
- onClick={() => {
- if (onOpenTemplatesPage) {
- onOpenTemplatesPage();
- } else {
- setTemplateCatalogOpen(true);
- }
- }}
+                onClick={() => {
+                  if (onOpenTemplatesPage) onOpenTemplatesPage();
+                }}
  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 border border-orange-500/30 transition-colors whitespace-nowrap text-xs font-bold"
  >
  <Grid className="w-3.5 h-3.5" />
@@ -1224,8 +1236,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <div className="flex items-center justify-between">
  <button
  onClick={() => {
- if (onOpenTemplatesPage) onOpenTemplatesPage();
- else setTemplateCatalogOpen(true);
+                    if (onOpenTemplatesPage) onOpenTemplatesPage();
  }}
  className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors shadow-xs"
  title="Catalog"
@@ -1407,7 +1418,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <div className="px-4 py-3 bg-white border-b border-slate-100 flex items-center justify-between sticky top-0 z-30">
  <div className="flex items-center gap-2">
  <button
- onClick={() => setTemplateCatalogOpen(true)}
+ onClick={() => { if (onOpenTemplatesPage) onOpenTemplatesPage(); }}
  className="p-1 text-slate-800 hover:text-black"
  >
  <Menu className="w-5 h-5" />
@@ -1821,7 +1832,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  </p>
  <button
  onClick={() => setTableBookingSuccess(false)}
- className="w-full py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs"
+ className="w-full py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-xs"
  >
  حسناً، عودة للتصفح
  </button>
@@ -2574,7 +2585,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <div className="flex items-center gap-2">
  <Plus className="w-4 h-4 text-emerald-400" />
  <h3 className="font-heading font-black text-base text-white">
- إضافة منتج جديد يظهر فوراً في الآيفون
+ إضافة منتج جديد يظهر فوراً في شاشة الهاتف
  </h3>
  </div>
  </div>
@@ -2660,7 +2671,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <div className="pt-2 flex justify-end">
  <button
  type="submit"
- className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs flex items-center gap-1.5"
+ className="px-5 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-xs flex items-center gap-1.5"
  >
  <Plus className="w-4 h-4" />
  <span>أضف المنتج للمتجر فوراً</span>
@@ -2803,169 +2814,6 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  {/* ======================================================== */}
  {/* FIGMA COMMUNITY STYLE TEMPLATES CATALOG MODAL (ARABIC & DARK THEME) */}
  {/* ======================================================== */}
- {templateCatalogOpen && (
- <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/80 backdrop-blur-md overflow-y-auto">
- <div className="relative max-w-6xl w-full my-6 bg-[#0F172A] border-2 border-slate-700 rounded-3xl p-5 sm:p-8 shadow-2xl text-white max-h-[92vh] overflow-y-auto space-y-6">
- 
- {/* Top Bar / Breadcrumb */}
- <div className="flex flex-wrap items-center justify-between border-b border-slate-800 pb-4 gap-3">
- <div className="space-y-1">
- <div className="flex items-center gap-2 text-xs text-slate-400 font-medium">
- <span onClick={() => onBackToHome()} className="hover:text-orange-400 cursor-pointer">الرئيسية</span>
- <span>&gt;</span>
- <span>قوالب المتاجر الجاهزة</span>
- <span>&gt;</span>
- <span className="text-orange-400 font-bold">كتالوج سكتش أوردر الحصري</span>
- </div>
- <h3 className="text-xl sm:text-3xl font-black font-heading text-white tracking-tight flex items-center gap-2">
- <span>كتالوج التيمبليتس الجاهزة (8 تيمبليتس حصرية)</span>
- <span className="text-xs font-mono font-bold bg-orange-500/20 text-orange-400 border border-orange-500/40 px-2.5 py-0.5 rounded-full">
- 2026 EDITION
- </span>
- </h3>
- <p className="text-xs sm:text-sm text-slate-300 font-medium">
- اختر التصميم المناسب لبراندك، وكل تيمبليت بيجي بمنتجاته وصوره الواقعية وتقسيمته الخاصة.
- </p>
- </div>
-
- <div className="flex items-center gap-2">
- <button
- onClick={() => setTemplateCatalogOpen(false)}
- className="p-2.5 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors border border-slate-700"
- title="إغلاق الكتالوج والمعاينة"
- >
- <X className="w-5 h-5" />
- </button>
- </div>
- </div>
-
- {/* Arabic Filter Chips */}
- <div className="flex items-center justify-between gap-3 overflow-x-auto pb-1">
- <div className="flex items-center gap-2 overflow-x-auto scrollbar-none">
- {[
- { id: 'all', label: 'الكل' },
- { id: 'sportech-sneakers', label: ' كوتشيات ورياضة' },
- { id: 'cloudrunner-product', label: ' صفحة منتج هبوط' },
- { id: 'dinereserve-food', label: ' مطاعم وأكلات فاخرة' },
- { id: 'fasco-fashion', label: ' أزياء وستريت وير' },
- { id: 'burger-club', label: ' برجر وساندوتشات' },
- { id: 'panto-minimal', label: ' أثاث وديكور' },
- { id: 'velvety-jewelry', label: ' عطور ومجوهرات' },
- { id: 'sketch-comic', label: ' سكتش ورقي' },
- ].map((chip) => {
- const isActive = catalogFilter === chip.id;
- return (
- <button
- key={chip.id}
- onClick={() => {
- playClick();
- setCatalogFilter(chip.id);
- }}
- className={`px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all border ${
- isActive
- ? 'bg-orange-500 text-slate-950 border-orange-400 shadow-xs'
- : 'bg-slate-900 text-slate-300 border-slate-700 hover:border-slate-500 hover:text-white'
- }`}
- >
- {chip.label}
- </button>
- );
- })}
- </div>
-
- <span className="text-xs font-bold text-orange-400 shrink-0 font-mono">
- 8 تيمبليتس متاحة بالكامل
- </span>
- </div>
-
- {/* Template Cards Grid */}
- <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
- {STUDIO_TEMPLATES.filter((t) => catalogFilter === 'all' || t.id === catalogFilter).map((tmpl) => {
- const isSelected = selectedTemplateId === tmpl.id;
- return (
- <div
- key={tmpl.id}
- className={`rounded-2xl border transition-all duration-300 bg-slate-900 overflow-hidden flex flex-col justify-between group shadow-lg hover:shadow-2xl ${
- isSelected
- ? 'border-orange-500 ring-2 ring-orange-500/40 shadow-orange-500/20'
- : 'border-slate-800 hover:border-slate-600'
- }`}
- >
- {/* Mockup Preview Container */}
- <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-950 border-b border-slate-800">
- <img
- src={tmpl.previewImage}
- alt={tmpl.name}
- onError={(e) => {
- e.currentTarget.src = tmpl.previewImage;
- }}
- className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
- />
- <span className="absolute top-2.5 right-2.5 text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-900/90 text-orange-400 shadow-xs border border-slate-700 backdrop-blur-xs">
- {tmpl.categoryBadge}
- </span>
- <div
- className="absolute bottom-2.5 left-2.5 w-3.5 h-3.5 rounded-full border-2 border-slate-900 shadow-xs"
- style={{ backgroundColor: tmpl.accentColor }}
- title="لون هوية التيمبليت"
- />
- </div>
-
- {/* Card Content & Stats */}
- <div className="p-3.5 space-y-2 flex-1 flex flex-col justify-between">
- <div>
- <h4 className="text-sm font-black text-white leading-snug">
- {tmpl.name}
- </h4>
- <p className="text-[11px] text-slate-400 font-medium mt-0.5">
- سكتش أوردر • تصميم شامل في باقتك
- </p>
- </div>
-
- {/* Stats Bar */}
- <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400 font-bold">
- <div className="flex items-center gap-1">
- <Heart className="w-3.5 h-3.5 text-rose-400" />
- <span>3.4k إعجاب</span>
- </div>
- <div className="flex items-center gap-1">
- <Rocket className="w-3.5 h-3.5 text-orange-400" />
- <span>16.3k مبيعات</span>
- </div>
- </div>
-
- {/* Select & Apply Button */}
- <button
- onClick={() => {
- handleSelectTemplate(tmpl.id);
- setTemplateCatalogOpen(false);
- }}
- className={`w-full py-2.5 rounded-xl text-xs font-black transition-all flex items-center justify-center gap-1.5 ${
- isSelected
- ? 'bg-orange-500 text-slate-950 shadow-md font-black'
- : 'bg-slate-800 hover:bg-orange-500 hover:text-slate-950 text-slate-200 border border-slate-700'
- }`}
- >
- {isSelected ? (
- <>
- <CheckCircle2 className="w-3.5 h-3.5 text-slate-950" />
- <span>التيمبليت النشط حالياً</span>
- </>
- ) : (
- <span>معاينة وتفعيل في الاستوديو </span>
- )}
- </button>
- </div>
- </div>
- );
- })}
- </div>
-
- </div>
- </div>
- )}
-
- {/* Size Guide Modal inside Phone */}
  {sizeGuideModalOpen && (
  <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
  <div className="bg-slate-900 text-white rounded-2xl p-5 max-w-sm w-full space-y-4 border border-slate-700">

@@ -17,7 +17,8 @@ import {
 import type { TemplateId } from '../types';
 import { STUDIO_TEMPLATES } from './FullPageStoreStudio';
 import { playClick, playPaperFlip } from '../utils/soundEffects';
-import logoSquareImg from '../assets/sketch-order-logo-square.png';
+import brushLogoWhite from '../assets/sketch-brush-logo-white.png';
+import brushLogoBlack from '../assets/sketch-brush-logo-black.png';
 import mascotPng from '../assets/sketch-mascot.png';
 
 interface TemplatesShowcasePageProps {
@@ -105,7 +106,7 @@ export const TemplatesShowcasePage: React.FC<TemplatesShowcasePageProps> = ({
  </button>
 
  <div className="flex items-center gap-2 border-r border-slate-300 dark:border-slate-800 pr-3">
- <img src={logoSquareImg} alt="Sketch Order" className={`h-8 w-8 object-contain ${isDarkMode ? 'invert' : ''}`} />
+            <img src={isDarkMode ? brushLogoWhite : brushLogoBlack} alt="سكتش أوردر" className="h-8 object-contain" />
  <img src={mascotPng} alt="Mascot" className="w-7 h-7 object-contain hidden sm:block" />
  <div>
  <span className="font-heading font-black text-base sm:text-lg tracking-tight block leading-none">
@@ -153,7 +154,7 @@ export const TemplatesShowcasePage: React.FC<TemplatesShowcasePageProps> = ({
  playClick();
  onBuyTemplate('sportech-sneakers');
  }}
- className="px-3.5 sm:px-4 py-2 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-black text-xs sm:text-sm flex items-center gap-1.5 shadow-md transition-transform active:scale-95"
+ className="px-3.5 sm:px-4 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-white font-black text-xs sm:text-sm flex items-center gap-1.5 shadow-md transition-transform active:scale-95"
  >
  <Rocket className="w-4 h-4" />
  <span>امتلك متجرك الآن</span>
@@ -183,14 +184,14 @@ export const TemplatesShowcasePage: React.FC<TemplatesShowcasePageProps> = ({
  <div>
  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-orange-100 dark:bg-orange-950/60 text-orange-700 dark:text-orange-300 border border-orange-300 dark:border-orange-800/80 mb-2">
  <Sparkles className="w-3.5 h-3.5" />
- <span>8 تيمبليتس متكاملة وحصرية لعام 2026</span>
+ <span>8 تيمبليتس متكاملة ومباشرة لعام 2026</span>
  </div>
  <h1 className="text-2xl sm:text-4xl font-black font-heading tracking-tight leading-tight">
  كتالوج تيمبليتس المتاجر الإلكترونية الجاهزة
  </h1>
  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-3xl mt-1.5 leading-relaxed">
  كل تيمبليت مبني بهندسة UI/UX مخصصة لمجال معين (كوتشيات، أزياء أوفر سايز، مطاعم فاخرة، أثاث، مجوهرات) بمنتجاته الحقيقية وتقسيمته العملية.
- يمكنك تجربة وتعديل أي قالب مباشرة على شاشة الآيفون ، أو فتحه في صفحة كاملة كأنك عميل يتسوق أونلاين .
+ يمكنك تجربة وتعديل أي قالب مباشرة على شاشة الموبايل ، أو فتحه في صفحة كاملة كأنك عميل يتسوق أونلاين .
  </p>
  </div>
 
@@ -281,7 +282,7 @@ export const TemplatesShowcasePage: React.FC<TemplatesShowcasePageProps> = ({
  >
  <Heart
  className={`w-4 h-4 ${
- isLiked ? 'fill-red-500 text-red-500' : 'text-slate-400'
+ isLiked ? 'fill-orange-500 text-orange-500' : 'text-slate-400'
  }`}
  />
  </button>
@@ -311,10 +312,10 @@ export const TemplatesShowcasePage: React.FC<TemplatesShowcasePageProps> = ({
  {/* Stats Bar */}
  <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-bold">
  <span className="flex items-center gap-1">
- <Heart className="w-3.5 h-3.5 text-red-500" />
+ <Heart className="w-3.5 h-3.5 text-orange-500" />
  <span>{isLiked ? '3.5k' : '3.4k'} إعجاب</span>
  </span>
- <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
+ <span className="flex items-center gap-1 text-slate-600 dark:text-slate-300">
  <CheckCircle2 className="w-3.5 h-3.5" />
  <span>شامل مجاناً بالباقة</span>
  </span>
@@ -323,7 +324,7 @@ export const TemplatesShowcasePage: React.FC<TemplatesShowcasePageProps> = ({
  {/* Action Buttons */}
  <div className="pt-2 space-y-2">
  
- {/* Primary Button: Preview in iPhone Studio */}
+ {/* Primary Button: Preview in Studio */}
  <button
  onClick={() => {
  playClick();
@@ -332,7 +333,7 @@ export const TemplatesShowcasePage: React.FC<TemplatesShowcasePageProps> = ({
  className="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-black dark:bg-white dark:hover:bg-slate-200 text-white dark:text-slate-950 font-black text-xs flex items-center justify-center gap-1.5 transition-transform active:scale-95 shadow-xs"
  >
  <Smartphone className="w-3.5 h-3.5" />
- <span>معاينة وتخصيص في الآيفون </span>
+ <span>معاينة وتعديل في الاستوديو </span>
  </button>
 
  <div className="grid grid-cols-2 gap-2">
@@ -359,7 +360,7 @@ export const TemplatesShowcasePage: React.FC<TemplatesShowcasePageProps> = ({
  playClick();
  onBuyTemplate(tmpl.id);
  }}
- className="py-2 rounded-xl text-xs font-bold bg-orange-600/10 hover:bg-orange-600 text-orange-600 hover:text-white border border-orange-500/30 transition-all flex items-center justify-center gap-1"
+ className="py-2 rounded-xl text-xs font-bold bg-orange-500/10 hover:bg-orange-500 text-orange-500 hover:text-slate-950 border border-orange-500/40 transition-all flex items-center justify-center gap-1"
  title="طلب حجز هذا القالب فوراً"
  >
  <ShoppingBag className="w-3 h-3" />

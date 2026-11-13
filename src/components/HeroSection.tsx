@@ -103,7 +103,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
  <p className="text-lg sm:text-2xl font-bold text-[#0F0F0F]/85 dark:text-slate-200 max-w-3xl mx-auto leading-relaxed pt-2">
  حوّل فوضى رسايل الواتس وإنستجرام ومشاكل فودافون كاش وتأخير الردود لمتجر تفاعلي شيك وسريع بأسلوب{' '}
  <span className="font-comic text-xl sm:text-3xl font-black px-2 py-0.5 border-b-3 border-[#0F0F0F] dark:border-orange-500 text-orange-600 dark:text-orange-400 bg-orange-500/10 rounded-sm">
- سكتش أوردر الحصري
+ سكتش أوردر
  </span>{' '}
  اللي يدخل قلب زبونك من أول ثانية!
  </p>
@@ -581,7 +581,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
  <div className="flex items-center justify-between px-2 text-xs text-zinc-400">
  <span className="font-mono text-[11px]">HD 1080p • 2D VECTOR ANIMATION READY</span>
  <div className="flex items-center gap-1 text-[11px] font-bold text-amber-400">
- <span>تكتكة زرار الآيفون شغالة ✓</span>
+ <span>تكتكة زرار الموبايل شغالة ✓</span>
  </div>
  </div>
 

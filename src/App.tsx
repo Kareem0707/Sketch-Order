@@ -13,7 +13,7 @@ import { FaqSection } from './components/FaqSection';
 import { Footer } from './components/Footer';
 import { OrderModal } from './components/OrderModal';
 import { Hammer, ArrowLeft, Grid } from 'lucide-react';
-import type { CustomStoreConfig } from './types';
+import type { CustomStoreConfig, TemplateId } from './types';
 import { playClick, playPaperFlip } from './utils/soundEffects';
 
 type ViewMode =
@@ -32,6 +32,7 @@ export const App: React.FC = () => {
   const [preselectedFeatures, setPreselectedFeatures] = useState<string[]>([]);
   const [activeCustomStore, setActiveCustomStore] = useState<CustomStoreConfig | null>(null);
   const [activeTenantSubdomain, setActiveTenantSubdomain] = useState<string>('sportech');
+  const [activeStudioTemplateId, setActiveStudioTemplateId] = useState<TemplateId>('sportech-sneakers');
 
   // Dark Theme Management
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
@@ -126,8 +127,9 @@ export const App: React.FC = () => {
           playClick();
           setViewMode('home');
         }}
-        onSelectTemplateToStudio={(_tId) => {
+        onSelectTemplateToStudio={(tId) => {
           playPaperFlip();
+          setActiveStudioTemplateId(tId);
           setViewMode('studio');
         }}
         onOpenLiveStore={(_tId) => {
@@ -158,6 +160,7 @@ export const App: React.FC = () => {
           }}
           onBuyAndDeploy={handleBuyCustomStore}
           initialConfig={activeCustomStore}
+          initialTemplateId={activeStudioTemplateId}
           onOpenTemplatesPage={openTemplatesShowcase}
           isDarkMode={isDarkMode}
           onToggleDarkMode={toggleDarkMode}

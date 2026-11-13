@@ -235,7 +235,12 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  {/* ======================================================== */}
  {/* 0. SIMULATOR CONTROLS BAR (Top of Page) */}
  {/* ======================================================== */}
- <div className="bg-slate-950 text-white border-b border-slate-800 text-xs py-2 px-4 flex items-center justify-between select-none">
+ {store?.status === 'suspended' && (
+        <div className="bg-orange-500 text-slate-950 px-4 py-2 text-center text-xs font-black flex items-center justify-center gap-2">
+          <span>تنبيه: هذا المتجر معطل مؤقتاً بواسطة الإدارة. يُرجى مراجعة إدارة منصة سكتش أوردر لإعادة تفعيله.</span>
+        </div>
+      )}
+      <div className="bg-slate-950 text-white border-b border-slate-800 text-xs py-2 px-4 flex items-center justify-between select-none">
  <div className="flex items-center gap-2">
  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
  <span className="font-bold">أنت الآن تتصفح المتجر المباشر الحقيقي للزبائن:</span>
@@ -250,7 +255,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  playClick();
  onBackToMerchantPortal();
  }}
- className="px-3 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition-transform active:scale-95"
+ className="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 text-white font-bold transition-transform active:scale-95"
  >
  لوحة تحكم التاجر 
  </button>
@@ -367,7 +372,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  {storeConfig.tagline}
  </h1>
  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-bold">
- استكشف أحدث التشكيلات الحصرية بضمان جودة 100% مع شحن سريع ومعاينة قبل الاستلام.
+ استكشف أحدث التشكيلات الأصلية بضمان جودة 100% مع شحن سريع ومعاينة قبل الاستلام.
  </p>
  <div className="pt-2">
  <button
@@ -922,7 +927,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  playClick();
  onBackToMerchantPortal();
  }}
- className="w-full py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-xs shadow-md flex items-center justify-center gap-2"
+ className="w-full py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 text-white font-black text-xs shadow-md flex items-center justify-center gap-2"
  >
  <span>شاهد وصول هذا الأوردر فوراً في لوحة تحكم التاجر </span>
  <ArrowRight className="w-4 h-4 -scale-x-100" />

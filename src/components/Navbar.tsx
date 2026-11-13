@@ -107,7 +107,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="font-black px-3.5 py-1.5 border-2 border-[#0F0F0F] dark:border-orange-500 sketch-border-tag bg-[#0F0F0F] dark:bg-orange-500 text-white dark:text-slate-950 hover:bg-neutral-800 dark:hover:bg-orange-400 transition-all flex items-center gap-1.5 sketch-shadow-sm -rotate-1 active:scale-95"
             >
               <Smartphone className="w-3.5 h-3.5 text-orange-400 dark:text-slate-950" />
-              <span>استوديو الآيفون</span>
+              <span>استوديو المتاجر</span>
             </button>
 
             <button
@@ -261,7 +261,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               <span className="flex items-center gap-2">
                 <Smartphone className="w-4 h-4" />
-                <span>استوديو الآيفون التفاعلي</span>
+                <span>استوديو المتاجر المباشر</span>
               </span>
               <span className="text-[10px] bg-slate-950 text-white px-2 py-0.5 rounded-full font-bold">جرّب لايف</span>
             </button>
