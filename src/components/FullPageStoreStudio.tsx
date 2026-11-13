@@ -31,6 +31,8 @@ import {
   Calendar,
   Users,
   Menu,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import type {
   TemplateId,
@@ -46,6 +48,9 @@ interface FullPageStoreStudioProps {
   onBackToHome: () => void;
   onBuyAndDeploy: (config: CustomStoreConfig) => void;
   initialConfig?: CustomStoreConfig | null;
+  onOpenTemplatesPage?: () => void;
+  isDarkMode?: boolean;
+  onToggleDarkMode?: () => void;
 }
 
 // -------------------------------------------------------------
@@ -177,7 +182,7 @@ export const STUDIO_TEMPLATES: StudioTemplateMeta[] = [
 // REALISTIC PRODUCTS DATASETS
 // -------------------------------------------------------------
 
-const DEFAULT_PRODUCTS_MAP: Record<TemplateId, CustomProduct[]> = {
+export const DEFAULT_PRODUCTS_MAP: Record<TemplateId, CustomProduct[]> = {
   'sportech-sneakers': [
     {
       id: 'sp-1',
@@ -488,7 +493,7 @@ const DEFAULT_PRODUCTS_MAP: Record<TemplateId, CustomProduct[]> = {
   ],
 };
 
-const DEFAULT_CATEGORIES_MAP: Record<TemplateId, string[]> = {
+export const DEFAULT_CATEGORIES_MAP: Record<TemplateId, string[]> = {
   'sportech-sneakers': ['الكل', 'سنيكرز', 'كرة قدم', 'كرة سلة', 'جيم وتدريب', 'قمصان'],
   'cloudrunner-product': ['الكل', 'كوتشيات ركض', 'ملابس ركض', 'إكسسوارات'],
   'dinereserve-food': ['الكل', 'ستيك هاوس', 'سوشي', 'إيطالي', 'كافيه وحلويات'],
@@ -507,6 +512,9 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
   onBackToHome,
   onBuyAndDeploy,
   initialConfig = null,
+  onOpenTemplatesPage,
+  isDarkMode = false,
+  onToggleDarkMode,
 }) => {
   // Main Studio States
   const [activeView, setActiveView] = useState<'preview' | 'admin'>('preview');
@@ -877,6 +885,20 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
               <span className="sm:hidden">الكتالوج</span>
             </button>
 
+            {/* Dark Mode Toggle if provided */}
+            {onToggleDarkMode && (
+              <button
+                onClick={() => {
+                  playClick();
+                  onToggleDarkMode();
+                }}
+                className="p-1.5 rounded-lg border border-slate-700 bg-slate-900 text-amber-400 hover:bg-slate-800"
+                title="تبديل الثيم"
+              >
+                {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              </button>
+            )}
+
             {/* Buy Store */}
             <button
               onClick={() => {
@@ -921,44 +943,40 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
       )}
 
       {/* ======================================================== */}
-      {/* SECONDARY BAR: TEMPLATE SWITCHER */}
+      {/* SECONDARY BAR: CLEAN TEMPLATE SELECTOR */}
       {/* ======================================================== */}
       {!isFullScreenStorefront && (
-        <div className="bg-slate-900 border-b border-slate-800 px-4 py-2 flex items-center justify-between overflow-x-auto gap-3">
-          <div className="flex items-center gap-2 overflow-x-auto scrollbar-none py-1">
-            <span className="text-xs font-bold text-slate-400 shrink-0 ml-1">
-              التيمبليت المختار:
-            </span>
-
-            {STUDIO_TEMPLATES.map((tmpl) => {
-              const isSelected = selectedTemplateId === tmpl.id;
-              return (
-                <button
-                  key={tmpl.id}
-                  onClick={() => handleSelectTemplate(tmpl.id)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap flex items-center gap-2 border transition-all ${
-                    isSelected
-                      ? 'bg-slate-800 text-white border-indigo-500 ring-1 ring-indigo-500 shadow-sm'
-                      : 'bg-slate-950 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-slate-200'
-                  }`}
-                >
-                  <img
-                    src={tmpl.previewImage}
-                    alt={tmpl.name}
-                    className="w-4 h-4 rounded-full object-cover shrink-0"
-                  />
-                  <span>{tmpl.name}</span>
-                </button>
-              );
-            })}
+        <div className="bg-slate-900 border-b border-slate-800 px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3 text-xs font-bold">
+          <div className="flex items-center gap-2.5">
+            <span className="text-slate-400">القالب النشط:</span>
+            <select
+              value={selectedTemplateId}
+              onChange={(e) => handleSelectTemplate(e.target.value as TemplateId)}
+              className="bg-slate-950 border border-slate-700 text-white font-bold text-xs rounded-xl px-3 py-1.5 outline-none hover:border-orange-500 transition-colors cursor-pointer"
+            >
+              {STUDIO_TEMPLATES.map((tmpl) => (
+                <option key={tmpl.id} value={tmpl.id}>
+                  {tmpl.name} ({tmpl.categoryBadge})
+                </option>
+              ))}
+            </select>
           </div>
 
-          <button
-            onClick={() => setTemplateCatalogOpen(true)}
-            className="text-xs text-indigo-400 hover:text-indigo-300 font-bold shrink-0 underline underline-offset-4"
-          >
-            عرض الكتالوج كبطاقات (8)
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => {
+                if (onOpenTemplatesPage) {
+                  onOpenTemplatesPage();
+                } else {
+                  setTemplateCatalogOpen(true);
+                }
+              }}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 border border-orange-500/30 transition-colors"
+            >
+              <Grid className="w-3.5 h-3.5" />
+              <span>كتالوج القوالب الكامل (صفحة كاملة)</span>
+            </button>
+          </div>
         </div>
       )}
 
@@ -2209,6 +2227,49 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
                               </div>
                             ))
                         )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* ================================================== */}
+                {/* IN-PHONE SCREEN 6: CATEGORIES BROWSER */}
+                {/* ================================================== */}
+                {phoneScreen === 'categories' && (
+                  <div className="flex-1 flex flex-col justify-between animate-fadeIn">
+                    <div>
+                      <div className="p-4 border-b border-inherit/15 flex items-center justify-between">
+                        <button
+                          onClick={() => setPhoneScreen('home')}
+                          className="w-8 h-8 rounded-full border border-slate-500/30 flex items-center justify-center"
+                        >
+                          <ChevronLeft className="w-4 h-4 -scale-x-100" />
+                        </button>
+                        <h3 className="font-heading font-black text-lg">
+                          أقسام المتجر ({storeConfig.categories.length})
+                        </h3>
+                        <div className="w-8"></div>
+                      </div>
+
+                      <div className="p-4 grid grid-cols-2 gap-3">
+                        {storeConfig.categories.map((cat, i) => (
+                          <button
+                            key={i}
+                            onClick={() => {
+                              setSelectedCategory(cat);
+                              setPhoneScreen('home');
+                            }}
+                            className="p-4 rounded-2xl border border-slate-500/20 bg-slate-500/5 hover:bg-orange-500/10 hover:border-orange-500 transition-all text-center space-y-2 group"
+                          >
+                            <div className="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-500 mx-auto flex items-center justify-center font-bold text-lg group-hover:scale-110 transition-transform">
+                              🏷️
+                            </div>
+                            <h4 className="font-heading font-black text-xs">{cat}</h4>
+                            <span className="text-[10px] text-orange-500 font-bold block">
+                              تصفح المنتجات
+                            </span>
+                          </button>
+                        ))}
                       </div>
                     </div>
                   </div>

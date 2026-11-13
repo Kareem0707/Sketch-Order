@@ -173,3 +173,32 @@ export const playClick = () => {
   osc.start();
   osc.stop(ctx.currentTime + 0.03);
 };
+
+// Cash register / coin ding for orders and payments
+export const playCashSound = () => {
+  if (!isSoundEnabled) return;
+  const ctx = getAudioContext();
+  if (!ctx) return;
+
+  const osc1 = ctx.createOscillator();
+  const osc2 = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  osc1.type = 'sine';
+  osc2.type = 'triangle';
+  osc1.frequency.setValueAtTime(987.77, ctx.currentTime); // B5
+  osc2.frequency.setValueAtTime(1318.51, ctx.currentTime + 0.08); // E6
+
+  gain.gain.setValueAtTime(0.12, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+
+  osc1.connect(gain);
+  osc2.connect(gain);
+  gain.connect(ctx.destination);
+
+  osc1.start();
+  osc2.start(ctx.currentTime + 0.08);
+  osc1.stop(ctx.currentTime + 0.35);
+  osc2.stop(ctx.currentTime + 0.35);
+};
+

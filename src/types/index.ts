@@ -162,3 +162,34 @@ export interface ClientOrderRequest {
   status: 'pending_review' | 'approved_building' | 'deployed_live' | 'cancelled';
   approvedAt?: string;
 }
+
+
+export interface TenantCustomerOrder {
+  id: string;
+  tenantSubdomain: string;
+  createdAt: string;
+  customerName: string;
+  customerPhone: string;
+  customerGovernorate: string;
+  customerAddress: string;
+  items: CartItem[];
+  totalAmount: number;
+  paymentMethod: 'cash_on_delivery' | 'instapay' | 'vodafone_cash';
+  status: 'new' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled';
+  notes?: string;
+}
+
+export interface TenantStoreAccount {
+  tenantId: string;
+  subdomain: string;
+  brandName: string;
+  ownerName: string;
+  ownerPhone: string;
+  planTier: 'standard' | 'pro' | 'custom';
+  status: 'active' | 'pending';
+  templateId: TemplateId;
+  storeConfig: CustomStoreConfig;
+  createdAt: string;
+  salesTotal: number;
+  ordersCount: number;
+}

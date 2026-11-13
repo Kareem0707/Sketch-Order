@@ -241,3 +241,112 @@
   background-image: radial-gradient(#0F0F0F 1.5px, transparent 1.5px);
   background-size: 8px 8px;
 }
+
+
+/* ============================================================ */
+/* DARK THEME: CHALKBOARD & INK BLUEPRINT AESTHETIC */
+/* ============================================================ */
+html.dark {
+  --ink: #F8FAFC;
+  --paper: #0B0F17;
+  --paper-soft: #131A29;
+}
+
+html.dark body {
+  background-color: #0B0F17;
+  color: #F8FAFC;
+}
+
+html.dark .paper-pattern {
+  background-color: #0B0F17;
+  background-image: 
+    radial-gradient(#334155 0.85px, transparent 0.85px),
+    radial-gradient(#334155 0.85px, #0B0F17 0.85px);
+  background-size: 32px 32px;
+  background-position: 0 0, 16px 16px;
+  opacity: 0.98;
+}
+
+html.dark .paper-grid {
+  background-size: 24px 24px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+}
+
+html.dark .paper-ruled {
+  background-size: 100% 28px;
+  background-image: linear-gradient(to bottom, transparent 27px, rgba(255, 255, 255, 0.1) 28px);
+}
+
+html.dark .sketch-shadow-sm {
+  box-shadow: -3px 3px 0px rgba(255, 255, 255, 0.85);
+}
+
+html.dark .sketch-shadow {
+  box-shadow: -5px 5px 0px rgba(255, 255, 255, 0.9);
+}
+
+html.dark .sketch-shadow-lg {
+  box-shadow: -8px 8px 0px rgba(255, 255, 255, 0.95);
+}
+
+html.dark .sketch-shadow-xl {
+  box-shadow: -12px 12px 0px #F97316;
+}
+
+html.dark .sketch-shadow-pressed {
+  box-shadow: -1px 1px 0px rgba(255, 255, 255, 0.9);
+}
+
+html.dark .btn-sketch {
+  border: 2.5px solid #FFFFFF;
+  background-color: #111827;
+  color: #FFFFFF;
+  box-shadow: -4px 4px 0px #FFFFFF;
+}
+
+html.dark .btn-sketch:hover {
+  background-color: #FFFFFF;
+  color: #0F0F0F;
+  box-shadow: -6px 6px 0px #F97316;
+}
+
+html.dark .btn-sketch-primary {
+  background-color: #F97316;
+  border-color: #F97316;
+  color: #FFFFFF;
+  box-shadow: -4px 4px 0px #FFFFFF;
+}
+
+html.dark .btn-sketch-primary:hover {
+  background-color: #FFFFFF;
+  border-color: #FFFFFF;
+  color: #0F0F0F;
+  box-shadow: -6px 6px 0px #F97316;
+}
+
+html.dark .scribble-overlay {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    #FFFFFF 0,
+    #FFFFFF 4px,
+    transparent 0,
+    transparent 12px
+  );
+}
+
+html.dark .comic-hatch {
+  background: repeating-linear-gradient(
+    45deg,
+    #334155,
+    #334155 1.5px,
+    transparent 1.5px,
+    transparent 6px
+  );
+}
+
+html.dark .comic-dots {
+  background-image: radial-gradient(#475569 1.5px, transparent 1.5px);
+  background-size: 8px 8px;
+}
