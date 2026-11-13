@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { X, Send, CheckCircle2, ShieldCheck, Zap } from 'lucide-react';
+import { X, Send, CheckCircle2, ShieldCheck, Zap, Upload } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import type { BlueprintFormData, CustomStoreConfig } from '../types';
+import type { BlueprintFormData, CustomStoreConfig, ClientOrderRequest } from '../types';
 import { playStampSlam, playClick } from '../utils/soundEffects';
 import logoImg from '../assets/sketch-order-logo.png';
 import mascotImg from '../assets/sketch-mascot.png';
@@ -19,7 +19,7 @@ const PLAN_INFO = {
     name: 'الباقة الاقتصادية',
     price: 1250,
     priceDisplay: '1,250 ج.م',
-    badge: 'استقبال أوردرات + داتابيز (حد أقصى 4 أقسام)',
+    badge: 'استقبال أوردرات + DataBase (حد أقصى 4 أقسام)',
   },
   pro: {
     name: 'باقة المحترفين والنمو',
@@ -65,6 +65,9 @@ export const OrderModal: React.FC<OrderModalProps> = ({
 
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [stampDate, setStampDate] = useState<string>('');
+  const [receiptBase64, setReceiptBase64] = useState<string | null>(null);
+  const [desiredSubdomain, setDesiredSubdomain] = useState<string>('');
+  const [generatedOrderId, setGeneratedOrderId] = useState<string>('');
 
   useEffect(() => {
     if (initialStoreConfig) {
@@ -76,6 +79,9 @@ export const OrderModal: React.FC<OrderModalProps> = ({
         notes: `تيمبليت: ${initialStoreConfig.templateId} بدومين: ${initialStoreConfig.customDomain}`,
         customStoreConfig: initialStoreConfig,
       }));
+      if (initialStoreConfig.customDomain) {
+        setDesiredSubdomain(initialStoreConfig.customDomain.replace(/\..+$/, ''));
+      }
     }
   }, [initialStoreConfig]);
 
@@ -85,11 +91,66 @@ export const OrderModal: React.FC<OrderModalProps> = ({
     }
   }, [initialPlan]);
 
+  const handleReceiptUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setReceiptBase64(reader.result as string);
+        playClick();
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   if (!isOpen) return null;
+
+  const currentPlan = PLAN_INFO[formData.selectedPlan];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     playStampSlam();
+
+    const orderId = `SK-${Math.floor(1000 + Math.random() * 9000)}`;
+    setGeneratedOrderId(orderId);
+
+    // Build subDomain name
+    const cleanSubdomain = desiredSubdomain.trim()
+      ? `${desiredSubdomain.trim().toLowerCase().replace(/[^a-z0-9-]/g, '')}.sketchorder.com`
+      : `${formData.storeName.trim().toLowerCase().replace(/[^a-z0-9]/g, '') || 'mybrand'}.sketchorder.com`;
+
+    // Save order in localStorage so it appears in the Owner Admin Dashboard
+    const newOrder: ClientOrderRequest = {
+      id: orderId,
+      createdAt: new Date().toLocaleString('ar-EG'),
+      clientName: formData.fullName,
+      whatsappNumber: formData.whatsapp,
+      brandName: formData.storeName,
+      subdomain: cleanSubdomain,
+      selectedPlan: formData.selectedPlan,
+      planName: currentPlan.name,
+      amount: currentPlan.price,
+      templateId: initialStoreConfig ? initialStoreConfig.templateId : 'sportech-sneakers',
+      templateName: initialStoreConfig ? initialStoreConfig.storeName : 'سبورتك الرياضي',
+      paymentMethod: formData.paymentMethod.includes('إنستاباي')
+        ? 'instapay'
+        : formData.paymentMethod.includes('فودافون')
+        ? 'vodafone_cash'
+        : 'card',
+      receiptImageUrl: receiptBase64 || undefined,
+      notes: formData.notes,
+      status: 'pending_review',
+    };
+
+    try {
+      const existing = localStorage.getItem('sketch_order_client_requests');
+      const parsed = existing ? JSON.parse(existing) : [];
+      const updated = [newOrder, ...parsed];
+      localStorage.setItem('sketch_order_client_requests', JSON.stringify(updated));
+      window.dispatchEvent(new Event('sketch_order_new_request'));
+    } catch {
+      // ignore
+    }
 
     confetti({
       particleCount: 80,
@@ -103,24 +164,23 @@ export const OrderModal: React.FC<OrderModalProps> = ({
     setIsSubmitted(true);
   };
 
-  const currentPlan = PLAN_INFO[formData.selectedPlan];
-
   const handleSendToWhatsApp = () => {
     playClick();
-    const domainPart = initialStoreConfig ? `\n- الدومين المطلوب: ${initialStoreConfig.customDomain}` : '';
+    const domainPart = `\n- الساب دومين المطلوب: ${desiredSubdomain || formData.storeName}.sketchorder.com`;
     const templatePart = initialStoreConfig ? `\n- التيمبليت المختار: ${initialStoreConfig.templateId}` : '';
+    const receiptPart = receiptBase64 ? '\n- سكرين شوت التحويل: تم إرفاقها ومحفوظة بالسيستم ✓' : '';
     const message = `أهلاً فريق سكتش أوردر! 🇪🇬✏️
-أنا جاهز لامتلاك متجري الإلكتروني بالكامل:
+تم إرسال طلب جديد عبر الموقع برقم (${generatedOrderId}):
 - الباقة المختارة: ${currentPlan.name} (${currentPlan.priceDisplay})
 - الاسم: ${formData.fullName}
 - اسم المتجر: ${formData.storeName}
 - النشاط: ${formData.storeType}
-- المحافظة: ${formData.governorate}
-- طريقة الدفع المفضلة: ${formData.paymentMethod}${domainPart}${templatePart}
+- المحافظة: ${formData.governorate}${domainPart}${templatePart}
+- طريقة الدفع: ${formData.paymentMethod}${receiptPart}
 - رقم الواتساب: ${formData.whatsapp}
 - ملاحظات: ${formData.notes || 'لا يوجد'}
 
-عايز أستلم متجري والدومين المستقل في خلال دقايق!`;
+يرجى مراجعة التحويل وتفعيل المتجر فوراً!`;
 
     const encoded = encodeURIComponent(message);
     window.open(`https://wa.me/201000000000?text=${encoded}`, '_blank');
@@ -234,7 +294,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
               />
             </div>
 
-            {/* Store Name & Niche */}
+            {/* Store Name & Subdomain */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-black mb-1">
@@ -245,11 +305,38 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                   required
                   placeholder="مثال: سبورتك، فاسكو ستريت، برجر كلوب..."
                   value={formData.storeName}
-                  onChange={(e) => setFormData({ ...formData, storeName: e.target.value })}
+                  onChange={(e) => {
+                    setFormData({ ...formData, storeName: e.target.value });
+                    if (!desiredSubdomain) {
+                      setDesiredSubdomain(e.target.value.toLowerCase().replace(/[^a-z0-9]/g, ''));
+                    }
+                  }}
                   className="w-full p-2.5 text-sm font-bold border-2 border-[#0F0F0F] sketch-border-3 bg-white focus:outline-hidden"
                 />
               </div>
 
+              <div>
+                <label className="block text-xs font-black mb-1">
+                  الساب دومين المطلوب (Subdomain) *
+                </label>
+                <div className="flex items-center" dir="ltr">
+                  <input
+                    type="text"
+                    required
+                    placeholder="mybrand"
+                    value={desiredSubdomain}
+                    onChange={(e) => setDesiredSubdomain(e.target.value)}
+                    className="w-full p-2.5 text-xs font-bold font-mono border-2 border-r-0 border-[#0F0F0F] bg-white text-left focus:outline-hidden"
+                  />
+                  <span className="p-2.5 bg-neutral-100 border-2 border-[#0F0F0F] text-[11px] font-mono font-bold text-slate-700 whitespace-nowrap">
+                    .sketchorder.com
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Niche & Governorate */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-black mb-1">
                   مجال النشاط
@@ -266,24 +353,6 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                   <option value="أثاث وديكور منزلي">أثاث وديكور منزلي</option>
                   <option value="أخرى">أخرى (سأوضحها في الملاحظات)</option>
                 </select>
-              </div>
-            </div>
-
-            {/* Phone & Governorate */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label className="block text-xs font-black mb-1">
-                  رقم الواتساب للتواصل وتفعيل المتجر *
-                </label>
-                <input
-                  type="tel"
-                  required
-                  dir="ltr"
-                  placeholder="010XXXXXXXX or 011/012/015"
-                  value={formData.whatsapp}
-                  onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
-                  className="w-full p-2.5 text-sm font-bold font-mono border-2 border-[#0F0F0F] sketch-border-1 bg-white text-right focus:outline-hidden"
-                />
               </div>
 
               <div>
@@ -306,21 +375,81 @@ export const OrderModal: React.FC<OrderModalProps> = ({
               </div>
             </div>
 
-            {/* Payment Method */}
+            {/* WhatsApp Phone */}
             <div>
               <label className="block text-xs font-black mb-1">
-                طريقة الدفع والتملك المفضلة لديك:
+                رقم الواتساب للتواصل وتفعيل المتجر *
               </label>
+              <input
+                type="tel"
+                required
+                dir="ltr"
+                placeholder="010XXXXXXXX or 011/012/015"
+                value={formData.whatsapp}
+                onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
+                className="w-full p-2.5 text-sm font-bold font-mono border-2 border-[#0F0F0F] sketch-border-1 bg-white text-right focus:outline-hidden"
+              />
+            </div>
+
+            {/* Payment Method & Receipt Upload Box */}
+            <div className="p-3.5 border-2 border-[#0F0F0F] sketch-border-2 bg-amber-50/50 space-y-2.5">
+              <label className="block text-xs font-black text-[#0F0F0F]">
+                طريقة الدفع والتأكيد الفوري:
+              </label>
+
               <select
                 value={formData.paymentMethod}
                 onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}
-                className="w-full p-2.5 text-sm font-bold border-2 border-[#0F0F0F] sketch-border-2 bg-white focus:outline-hidden"
+                className="w-full p-2.5 text-xs font-bold border-2 border-[#0F0F0F] sketch-border-2 bg-white focus:outline-hidden"
               >
-                <option value="إنستاباي (InstaPay)">إنستاباي (InstaPay) - تحويل لحظي فوري</option>
-                <option value="محفظة فودافون كاش">محفظة فودافون كاش / أورنج كاش / اتصالات كاش</option>
-                <option value="كروت بنكية وفيزا وميزة">بطاقة بنكية / فيزا / ميزة (دفع إلكتروني آمن)</option>
-                <option value="كود فوري">كود فوري (الدفع في أي كشك أو سوبرماركت)</option>
+                <option value="إنستاباي (InstaPay)">⚡ إنستاباي (InstaPay) - تحويل فوري لحظي</option>
+                <option value="محفظة فودافون كاش">📱 محفظة فودافون كاش / أورنج كاش</option>
+                <option value="كروت بنكية وفيزا وميزة">💳 بطاقة بنكية / فيزا / ميزة</option>
               </select>
+
+              <div className="text-xs font-bold space-y-1.5 pt-1">
+                <div className="flex items-center justify-between p-2 bg-white border border-[#0F0F0F]/30 rounded-md">
+                  <span className="text-slate-800">⚡ عنوان إنستاباي (InstaPay IPA):</span>
+                  <span className="font-mono font-black text-indigo-700 select-all">kareem07@instapay</span>
+                </div>
+                <div className="flex items-center justify-between p-2 bg-white border border-[#0F0F0F]/30 rounded-md">
+                  <span className="text-slate-800">📱 رقم فودافون كاش:</span>
+                  <span className="font-mono font-black text-rose-700 select-all">01023456789</span>
+                </div>
+              </div>
+
+              {/* Receipt File Upload */}
+              <div className="pt-2 border-t border-dashed border-[#0F0F0F]/30">
+                <label className="block text-xs font-black mb-1.5 text-slate-900">
+                  إرفاق سكرين شوت التحويل لتسريع قبول وتفعيل الموقع:
+                </label>
+                {receiptBase64 ? (
+                  <div className="flex items-center justify-between p-2.5 bg-white border-2 border-[#0F0F0F] rounded-xl shadow-xs">
+                    <div className="flex items-center gap-2.5">
+                      <img src={receiptBase64} alt="Receipt preview" className="w-12 h-12 object-cover rounded-lg border border-slate-300" />
+                      <div>
+                        <span className="text-xs font-black text-emerald-700 flex items-center gap-1">
+                          <CheckCircle2 className="w-4 h-4 text-emerald-600" /> تم إرفاق السكرين شوت
+                        </span>
+                        <span className="text-[10px] text-slate-500 font-mono">سيظهر مباشرة في لوحة إدارة صاحب الموقع</span>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setReceiptBase64(null)}
+                      className="text-xs text-red-600 font-bold hover:underline px-2 py-1"
+                    >
+                      حذف واستبدال
+                    </button>
+                  </div>
+                ) : (
+                  <label className="flex items-center justify-center gap-2 p-3 border-2 border-dashed border-[#0F0F0F] sketch-border-tag bg-white hover:bg-neutral-50 cursor-pointer text-xs font-black transition-colors">
+                    <Upload className="w-4 h-4 text-[#0F0F0F]" />
+                    <span>اضغط هنا لرفع سكرين شوت التحويل (PNG / JPG) 📎</span>
+                    <input type="file" accept="image/*" onChange={handleReceiptUpload} className="hidden" />
+                  </label>
+                )}
+              </div>
             </div>
 
             {/* Notes */}
@@ -377,20 +506,23 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                 <img src={mascotImg} alt="سكتش مان" className="w-6 h-6 rounded-full" />
                 <span className="text-sm font-black">سكتش أوردر • اعتماد رسمي</span>
               </div>
-              <div className="text-3xl sm:text-4xl font-black font-heading text-[#0F0F0F] tracking-tight">
-                معتمد للتسليم في دقائق ✓
+              <div className="text-2xl sm:text-4xl font-black font-heading text-[#0F0F0F] tracking-tight">
+                تم اعتماد الطلب #{generatedOrderId} ✓
               </div>
               <div className="text-xs font-bold mt-2 text-[#0F0F0F]/80">
                 التاريخ: {stampDate} • الباقة: {currentPlan.name} • {currentPlan.priceDisplay}
+              </div>
+              <div className="text-xs font-mono font-bold mt-2 text-indigo-700 bg-indigo-50 py-1 px-3 rounded-md border border-indigo-200">
+                🌐 الساب دومين: {desiredSubdomain || formData.storeName}.sketchorder.com
               </div>
             </div>
 
             <div className="space-y-2">
               <h3 className="text-xl font-black font-heading">
-                ألف مبروك يا {formData.fullName}! تم استلام طلبك بنجاح
+                ألف مبروك يا {formData.fullName}! ظهر طلبك في لوحة تحكم المنصة
               </h3>
               <p className="text-sm font-bold text-[#0F0F0F]/80 max-w-md mx-auto leading-relaxed">
-                مهندس سكتش بيجهز حالياً ملفات ودومين متجر "{formData.storeName}" لتسليمه لك في خلال دقايق بدون أي اشتراكات دورية.
+                تم تسجيل إيصال التحويل وحجز الساب دومين لمتجر "{formData.storeName}". جاري المراجعة والتسليم فوراً في دقائق معدودة!
               </p>
             </div>
 

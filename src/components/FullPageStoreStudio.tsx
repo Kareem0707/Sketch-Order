@@ -30,6 +30,7 @@ import {
   Minimize2,
   Calendar,
   Users,
+  Menu,
 } from 'lucide-react';
 import type {
   TemplateId,
@@ -488,14 +489,14 @@ const DEFAULT_PRODUCTS_MAP: Record<TemplateId, CustomProduct[]> = {
 };
 
 const DEFAULT_CATEGORIES_MAP: Record<TemplateId, string[]> = {
-  'sportech-sneakers': ['سنيكرز', 'كرة قدم', 'كرة سلة', 'جيم وتدريب', 'قمصان'],
-  'cloudrunner-product': ['كوتشيات ركض', 'ملابس ركض', 'إكسسوارات'],
+  'sportech-sneakers': ['الكل', 'سنيكرز', 'كرة قدم', 'كرة سلة', 'جيم وتدريب', 'قمصان'],
+  'cloudrunner-product': ['الكل', 'كوتشيات ركض', 'ملابس ركض', 'إكسسوارات'],
   'dinereserve-food': ['الكل', 'ستيك هاوس', 'سوشي', 'إيطالي', 'كافيه وحلويات'],
-  'fasco-fashion': ['أوفر سايز تيشرت', 'بناطيل كارجو', 'هوديز وسويت شيرت', 'كولكشن الشتاء'],
+  'fasco-fashion': ['الكل', 'هوديز وسويت شيرت', 'بناطيل كارجو', 'أوفر سايز تيشرت', 'كولكشن الشتاء'],
   'burger-club': ['الكل', 'سندوتشات برجر', 'مقبلات وفرايز', 'مشروبات وشيك'],
-  'panto-minimal': ['كراسي ولاونج', 'طاولات وترابيزات', 'كنب وأنتريه', 'إضاءة وديكور'],
-  'velvety-jewelry': ['عطور فاخرة', 'مجوهرات وذهب', 'عناية وتجميل', 'مجموعات الهدايا'],
-  'sketch-comic': ['كوتشيات سكتش', 'ملابس مانجا', 'ستيكرز ورقية', 'كشاكيل ودفاتر'],
+  'panto-minimal': ['الكل', 'كراسي ولاونج', 'طاولات وترابيزات', 'كنب وأنتريه', 'إضاءة وديكور'],
+  'velvety-jewelry': ['الكل', 'عطور فاخرة', 'مجوهرات وذهب', 'عناية وتجميل', 'مجموعات الهدايا'],
+  'sketch-comic': ['الكل', 'كوتشيات سكتش', 'ملابس مانجا', 'ستيكرز ورقية', 'كشاكيل ودفاتر'],
 };
 
 // -------------------------------------------------------------
@@ -1055,346 +1056,784 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
                 {/* ================================================== */}
                 {/* IN-PHONE SCREEN 1: HOME FEED (Main Storefront) */}
                 {/* ================================================== */}
+                {/* ================================================== */}
+                {/* IN-PHONE SCREEN 1: HOME FEED (Main Storefront) */}
+                {/* ================================================== */}
                 {phoneScreen === 'home' && (
-                  <div className="flex-1 flex flex-col justify-between">
-                    <div>
-                      {/* Store Header Inside Phone */}
-                      <div className="p-4 border-b flex items-center justify-between sticky top-0 z-30 bg-inherit/95 backdrop-blur-md border-inherit/15">
-                        <div className="flex items-center gap-2">
-                          <span className="font-heading font-black text-xl tracking-tight">
-                            {storeConfig.storeName}
-                          </span>
-                        </div>
+                  <>
+                    {/* -------------------------------------------------- */}
+                    {/* TEMPLATE A: CLOUD RUNNER 2 (Single Product Showcase - Image 1 & 3) */}
+                    {/* -------------------------------------------------- */}
+                    {selectedTemplateId === 'cloudrunner-product' ? (
+                      <div className="flex-1 flex flex-col justify-between bg-white text-slate-900 animate-fadeIn">
+                        <div className="p-4 space-y-3.5">
+                          {/* Top Navigation */}
+                          <div className="flex items-center justify-between">
+                            <button
+                              onClick={() => setTemplateCatalogOpen(true)}
+                              className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors shadow-xs"
+                              title="كتالوج التيمبليتس"
+                            >
+                              <ChevronLeft className="w-5 h-5 text-slate-800 -scale-x-100" />
+                            </button>
 
-                        <div className="flex items-center gap-3">
-                          <button
-                            onClick={() => setPhoneScreen('search')}
-                            className="p-1.5 opacity-80 hover:opacity-100 transition-opacity"
-                          >
-                            <Search className="w-4 h-4" />
-                          </button>
-                          <button
-                            onClick={() => setPhoneScreen('cart')}
-                            className="relative p-1.5"
-                          >
-                            <ShoppingBag className="w-5 h-5 text-orange-500" />
-                            {simulatedCart.length > 0 && (
-                              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-orange-600 text-white text-[10px] font-bold flex items-center justify-center">
-                                {simulatedCart.reduce((sum, i) => sum + i.quantity, 0)}
-                              </span>
-                            )}
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Store Hero Banner */}
-                      <div className="p-4">
-                        <div
-                          className="relative rounded-2xl p-5 text-white overflow-hidden shadow-lg flex items-center justify-between"
-                          style={{
-                            background:
-                              activeTmplMeta.themeStyle === 'luxury-dark'
-                                ? 'linear-gradient(135deg, #0F172A, #1E1B4B)'
-                                : activeTmplMeta.themeStyle === 'retro'
-                                ? 'linear-gradient(135deg, #022C22, #064E3B)'
-                                : 'linear-gradient(135deg, #0F172A, #C2410C)',
-                          }}
-                        >
-                          <div className="max-w-[200px] space-y-2 z-10">
-                            <span className="text-[10px] font-mono tracking-wider font-bold text-orange-400 uppercase">
-                              SPECIAL COLLECTION 2026
-                            </span>
-                            <h2 className="text-2xl font-black font-heading leading-tight">
-                              {storeConfig.tagline}
-                            </h2>
-                            <div className="flex items-center gap-2 pt-1">
-                              <button
-                                onClick={() => handleOpenProductInsidePhone(storeConfig.products[0])}
-                                className="px-3.5 py-1.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-xs shadow-md transition-transform active:scale-95 flex items-center gap-1.5"
-                              >
-                                <span>{selectedTemplateId === 'dinereserve-food' ? 'قائمة الطعام' : 'اكتشف العروض'}</span>
-                                <ArrowRight className="w-3.5 h-3.5 -scale-x-100" />
-                              </button>
-                              {selectedTemplateId === 'dinereserve-food' && (
-                                <button
-                                  onClick={() => setIsReservationModalOpen(true)}
-                                  className="px-3 py-1.5 rounded-xl bg-white/20 hover:bg-white/30 text-white font-bold text-xs border border-white/30 transition-transform active:scale-95 flex items-center gap-1"
-                                >
-                                  <Calendar className="w-3.5 h-3.5" />
-                                  <span>حجز طاولة</span>
-                                </button>
-                              )}
-                            </div>
+                            <button
+                              onClick={(e) => handleToggleWishlist('cr-1', e)}
+                              className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors shadow-xs"
+                            >
+                              <Heart
+                                className={`w-4 h-4 ${
+                                  wishlistIds.includes('cr-1') ? 'fill-red-500 text-red-500' : 'text-slate-700'
+                                }`}
+                              />
+                            </button>
                           </div>
 
-                          <div className="w-28 h-28 rounded-2xl overflow-hidden shrink-0 border border-white/20 shadow-xl">
+                          {/* Crimson Red Hero Card Container */}
+                          <div className="rounded-[28px] bg-[#B91C1C] p-6 shadow-md relative flex flex-col items-center justify-center min-h-[250px] overflow-hidden">
                             <img
-                              src={storeConfig.products[0].imageUrl}
-                              alt={storeConfig.storeName}
-                              className="w-full h-full object-cover"
+                              src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&auto=format&fit=crop&q=80"
+                              alt="Cloud Runner 2"
+                              className="w-60 h-44 object-contain drop-shadow-[0_20px_20px_rgba(0,0,0,0.45)] hover:scale-105 transition-transform duration-300"
                             />
-                          </div>
-                        </div>
-                      </div>
 
-                      {/* DineReserve Table Booking Modal inside Phone */}
-                      {isReservationModalOpen && (
-                        <div className="absolute inset-0 z-50 bg-black/80 backdrop-blur-sm p-4 flex items-center justify-center animate-fadeIn">
-                          <div className="w-full bg-slate-900 border border-slate-700 rounded-3xl p-5 text-white space-y-4 shadow-2xl">
-                            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                              <div className="flex items-center gap-2">
-                                <Utensils className="w-5 h-5 text-orange-500" />
-                                <h3 className="font-heading font-black text-base">حجز طاولة VIP فاخرة</h3>
-                              </div>
-                              <button
-                                onClick={() => setIsReservationModalOpen(false)}
-                                className="p-1 rounded-full bg-slate-800 text-slate-400 hover:text-white"
-                              >
-                                <X className="w-4 h-4" />
-                              </button>
+                            {/* Carousel Dot Indicators */}
+                            <div className="flex items-center gap-1.5 mt-2">
+                              <span className="w-4 h-1.5 rounded-full bg-slate-950"></span>
+                              <span className="w-1.5 h-1.5 rounded-full bg-red-300"></span>
+                              <span className="w-1.5 h-1.5 rounded-full bg-red-300"></span>
+                              <span className="w-1.5 h-1.5 rounded-full bg-red-300"></span>
+                            </div>
+                          </div>
+
+                          {/* Product Details Section */}
+                          <div className="space-y-3 px-1">
+                            <div>
+                              <h2 className="text-xl font-black font-heading text-slate-950 tracking-tight">
+                                Cloud Runner 2
+                              </h2>
+                              <p className="text-xs text-slate-500 font-medium">
+                                New • Knit running shoe
+                              </p>
                             </div>
 
-                            <div className="space-y-3 text-xs">
-                              <div>
-                                <label className="block text-slate-400 mb-1 flex items-center gap-1 font-bold">
-                                  <Calendar className="w-3.5 h-3.5 text-orange-400" />
-                                  <span>تاريخ الحجز:</span>
-                                </label>
-                                <input
-                                  type="date"
-                                  value={reservationDate}
-                                  onChange={(e) => setReservationDate(e.target.value)}
-                                  className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white font-mono"
+                            {/* Price Row */}
+                            <div className="flex items-baseline gap-2">
+                              <span className="text-2xl font-black font-mono text-slate-950">$129</span>
+                              <span className="text-xs text-slate-400 line-through font-mono">$159</span>
+                              <span className="text-[10px] font-bold bg-red-50 text-red-600 px-2 py-0.5 rounded-md border border-red-100">
+                                19% off
+                              </span>
+                            </div>
+
+                            {/* Social Proof */}
+                            <div className="flex items-center gap-1.5 text-xs text-slate-600 font-medium">
+                              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
+                              <span className="font-bold text-slate-900">4.8</span>
+                              <span className="text-slate-400">•</span>
+                              <span>2,341 reviews</span>
+                              <span className="text-slate-400">•</span>
+                              <span>1.2k sold</span>
+                            </div>
+
+                            {/* Color Selector */}
+                            <div className="space-y-1.5 pt-1">
+                              <div className="text-xs font-bold text-slate-800">
+                                Color: <span className="font-semibold text-slate-600">{selectedColor}</span>
+                              </div>
+                              <div className="flex items-center gap-2.5">
+                                {[
+                                  { name: 'Crimson / Ember', hex: '#DC2626' },
+                                  { name: 'Black', hex: '#18181B' },
+                                  { name: 'Volt', hex: '#84CC16' },
+                                ].map((c) => {
+                                  const isColSelected = selectedColor === c.name || (selectedColor === 'Red Crimson' && c.name === 'Crimson / Ember');
+                                  return (
+                                    <button
+                                      key={c.name}
+                                      onClick={() => {
+                                        playClick();
+                                        setSelectedColor(c.name);
+                                      }}
+                                      className={`w-7 h-7 rounded-full transition-all relative ${
+                                        isColSelected
+                                          ? 'ring-2 ring-offset-2 ring-slate-900 scale-105'
+                                          : 'hover:scale-105'
+                                      }`}
+                                      style={{ backgroundColor: c.hex }}
+                                      title={c.name}
+                                    />
+                                  );
+                                })}
+                              </div>
+                            </div>
+
+                            {/* Size Selector */}
+                            <div className="space-y-1.5 pt-1">
+                              <div className="flex items-center justify-between text-xs font-bold text-slate-800">
+                                <span>Size (US)</span>
+                                <button
+                                  onClick={() => setSizeGuideModalOpen(true)}
+                                  className="text-[11px] text-slate-500 hover:text-slate-900 underline underline-offset-2 font-semibold"
+                                >
+                                  Size guide
+                                </button>
+                              </div>
+                              <div className="grid grid-cols-4 gap-2">
+                                {['7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5'].map((sz) => {
+                                  const isSelected = selectedSize === sz;
+                                  const isDisabled = sz === '9.5';
+                                  return (
+                                    <button
+                                      key={sz}
+                                      disabled={isDisabled}
+                                      onClick={() => {
+                                        playClick();
+                                        setSelectedSize(sz);
+                                      }}
+                                      className={`py-2 rounded-xl text-xs font-bold font-mono transition-all border ${
+                                        isDisabled
+                                          ? 'bg-slate-100 text-slate-300 border-slate-100 cursor-not-allowed line-through'
+                                          : isSelected
+                                          ? 'bg-slate-950 text-white border-slate-950 shadow-xs'
+                                          : 'bg-white text-slate-800 border-slate-200 hover:border-slate-400'
+                                      }`}
+                                    >
+                                      {sz}
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Sticky Bottom Bar for Cloud Runner 2 */}
+                        <div className="p-4 border-t border-slate-100 bg-white sticky bottom-0 z-30 flex items-center justify-between">
+                          <div>
+                            <div className="text-lg font-black font-mono text-slate-950 leading-tight">$129</div>
+                            <div className="text-[10px] text-slate-400 font-medium">Free shipping</div>
+                          </div>
+
+                          <button
+                            onClick={() => {
+                              handleAddToCart({
+                                id: 'cr-1',
+                                name: 'Cloud Runner 2 Knit Running Shoe',
+                                price: 129,
+                                costPrice: 70,
+                                category: 'كوتشيات ركض',
+                                imageUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&auto=format&fit=crop&q=80',
+                              });
+                            }}
+                            className="px-6 py-3 rounded-2xl bg-slate-950 hover:bg-black text-white font-black text-xs flex items-center gap-2 shadow-lg active:scale-95 transition-transform"
+                          >
+                            <ShoppingBag className="w-4 h-4" />
+                            <span>Add to Bag</span>
+                          </button>
+                        </div>
+                      </div>
+                    ) : selectedTemplateId === 'sportech-sneakers' ? (
+                      /* -------------------------------------------------- */
+                      /* TEMPLATE B: SPORTECH (Athletic App Redesign - Image 2 & 4) */
+                      /* -------------------------------------------------- */
+                      <div className="flex-1 flex flex-col justify-between bg-[#F8FAFC] text-slate-900 animate-fadeIn">
+                        <div>
+                          {/* Top Header */}
+                          <div className="px-4 py-3 bg-white border-b border-slate-100 flex items-center justify-between sticky top-0 z-30">
+                            <div className="flex items-center gap-2">
+                              <button
+                                onClick={() => setTemplateCatalogOpen(true)}
+                                className="p-1 text-slate-800 hover:text-black"
+                              >
+                                <Menu className="w-5 h-5" />
+                              </button>
+                              <div className="flex items-center gap-1.5">
+                                <span className="w-2.5 h-2.5 rounded-xs bg-red-600"></span>
+                                <span className="font-heading font-black text-lg tracking-tight text-slate-900">
+                                  SPORTECH
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                              <button
+                                onClick={() => setPhoneScreen('search')}
+                                className="p-1.5 text-slate-700 hover:text-black"
+                              >
+                                <Search className="w-4 h-4" />
+                              </button>
+                              <button
+                                onClick={() => setPhoneScreen('cart')}
+                                className="relative p-1.5 text-slate-800 hover:text-black"
+                              >
+                                <ShoppingBag className="w-5 h-5" />
+                                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-600 text-white text-[9px] font-black flex items-center justify-center">
+                                  {simulatedCart.reduce((sum, i) => sum + i.quantity, 0) || 3}
+                                </span>
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Hero Banner (Black Card + Dynamic Orange/Red Slashes) */}
+                          <div className="p-4">
+                            <div className="relative rounded-2xl bg-gradient-to-r from-[#0B0F19] via-[#111827] to-[#1F2937] p-4 text-white overflow-hidden shadow-lg flex items-center justify-between">
+                              <div className="max-w-[175px] space-y-1.5 z-10">
+                                <h2 className="text-xl font-black font-heading leading-tight tracking-tight uppercase">
+                                  FUEL YOUR <br />
+                                  <span className="text-orange-500">PASSION</span>
+                                </h2>
+                                <p className="text-[11px] text-slate-300 leading-snug">
+                                  Premium gear for a stronger, healthier you
+                                </p>
+                                <button
+                                  onClick={() => handleOpenProductInsidePhone(storeConfig.products[0])}
+                                  className="mt-1 px-3 py-1.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-black text-xs shadow-md flex items-center gap-1 transition-transform active:scale-95"
+                                >
+                                  <span>Shop Now</span>
+                                  <ArrowRight className="w-3 h-3 -scale-x-100" />
+                                </button>
+                              </div>
+
+                              <div className="w-32 h-28 relative z-10 flex items-center justify-center">
+                                <img
+                                  src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&auto=format&fit=crop&q=80"
+                                  alt="Nike Shoe"
+                                  className="w-full h-full object-contain drop-shadow-[0_15px_15px_rgba(0,0,0,0.6)] rotate-[-15deg] hover:scale-105 transition-transform"
                                 />
                               </div>
+                            </div>
 
-                              <div className="grid grid-cols-2 gap-2">
-                                <div>
-                                  <label className="block text-slate-400 mb-1 flex items-center gap-1 font-bold">
-                                    <Clock className="w-3.5 h-3.5 text-orange-400" />
-                                    <span>الوقت:</span>
-                                  </label>
-                                  <input
-                                    type="text"
-                                    value={reservationTime}
-                                    onChange={(e) => setReservationTime(e.target.value)}
-                                    className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white"
-                                  />
+                            {/* Carousel Dots */}
+                            <div className="flex items-center justify-center gap-1.5 mt-2">
+                              <span className="w-3.5 h-1.5 rounded-full bg-orange-500"></span>
+                              <span className="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+                              <span className="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+                              <span className="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+                            </div>
+                          </div>
+
+                          {/* Categories Row (Circular Icons) */}
+                          <div className="px-4 py-1 flex items-center justify-between gap-2 overflow-x-auto scrollbar-none">
+                            {[
+                              { name: 'Sneakers', icon: '👟', filter: 'سنيكرز', color: 'bg-orange-100 text-orange-600' },
+                              { name: 'Football', icon: '⚽', filter: 'كرة قدم', color: 'bg-slate-100 text-slate-800' },
+                              { name: 'Basketball', icon: '🏀', filter: 'كرة سلة', color: 'bg-slate-100 text-slate-800' },
+                              { name: 'Gym', icon: '🏋️', filter: 'جيم وتدريب', color: 'bg-slate-100 text-slate-800' },
+                              { name: 'Jerseys', icon: '👕', filter: 'قمصان', color: 'bg-slate-100 text-slate-800' },
+                            ].map((item) => (
+                              <button
+                                key={item.name}
+                                onClick={() => {
+                                  playClick();
+                                  setSelectedCategory(item.filter);
+                                }}
+                                className="flex flex-col items-center gap-1 shrink-0 group"
+                              >
+                                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-lg shadow-2xs transition-transform group-hover:scale-105 ${
+                                  selectedCategory === item.filter ? 'bg-orange-500 text-white shadow-xs' : item.color
+                                }`}>
+                                  {item.icon}
                                 </div>
-                                <div>
-                                  <label className="block text-slate-400 mb-1 flex items-center gap-1 font-bold">
-                                    <Users className="w-3.5 h-3.5 text-orange-400" />
-                                    <span>الضيوف:</span>
-                                  </label>
-                                  <input
-                                    type="text"
-                                    value={reservationGuests}
-                                    onChange={(e) => setReservationGuests(e.target.value)}
-                                    className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white"
-                                  />
-                                </div>
+                                <span className="text-[10px] font-bold text-slate-600 group-hover:text-slate-900">
+                                  {item.name}
+                                </span>
+                              </button>
+                            ))}
+                          </div>
+
+                          {/* Subtabs Filter */}
+                          <div className="px-4 pt-4 flex items-center justify-between">
+                            <div className="flex items-center gap-1.5 text-xs font-bold">
+                              {['Top Picks', 'New Arrivals', 'Best Sellers', 'Sale'].map((tab) => (
+                                <button
+                                  key={tab}
+                                  onClick={() => {
+                                    playClick();
+                                    setSelectedSubTab(tab);
+                                  }}
+                                  className={`px-3 py-1 rounded-full transition-all ${
+                                    selectedSubTab === tab
+                                      ? 'bg-orange-500 text-white font-black shadow-xs'
+                                      : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300'
+                                  }`}
+                                >
+                                  {tab}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* 2-Column Product Cards Grid */}
+                          <div className="p-4 grid grid-cols-2 gap-3">
+                            {filteredProducts.length > 0 ? (
+                              filteredProducts.map((prod) => {
+                                const isWish = wishlistIds.includes(prod.id);
+                                return (
+                                  <div
+                                    key={prod.id}
+                                    onClick={() => handleOpenProductInsidePhone(prod)}
+                                    className="bg-white rounded-2xl p-3 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-all cursor-pointer group"
+                                  >
+                                    {/* Image Box */}
+                                    <div className="relative rounded-xl h-32 flex items-center justify-center mb-2 overflow-hidden bg-slate-50">
+                                      {prod.badge && (
+                                        <span className={`absolute top-2 right-2 text-[9px] font-black px-2 py-0.5 rounded-full z-10 shadow-xs ${
+                                          prod.badge === 'Best Seller' ? 'bg-orange-500 text-white' : 'bg-slate-900 text-white'
+                                        }`}>
+                                          {prod.badge}
+                                        </span>
+                                      )}
+                                      <button
+                                        onClick={(e) => handleToggleWishlist(prod.id, e)}
+                                        className="absolute top-2 left-2 p-1.5 rounded-full bg-white/90 z-10 transition-transform active:scale-125 shadow-xs"
+                                      >
+                                        <Heart
+                                          className={`w-3.5 h-3.5 ${
+                                            isWish ? 'fill-red-500 text-red-500' : 'text-slate-400'
+                                          }`}
+                                        />
+                                      </button>
+                                      <img
+                                        src={prod.imageUrl}
+                                        alt={prod.name}
+                                        className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-300"
+                                      />
+                                    </div>
+
+                                    {/* Info */}
+                                    <div>
+                                      <h4 className="text-xs font-black text-slate-900 line-clamp-1">
+                                        {prod.name}
+                                      </h4>
+                                      <p className="text-[10px] text-slate-500 font-medium">
+                                        {prod.tag || prod.category}
+                                      </p>
+
+                                      <div className="flex items-center gap-1 text-[10px] text-amber-500 font-bold mt-1">
+                                        <Star className="w-3 h-3 fill-amber-400" />
+                                        <span>{prod.rating || 4.8}</span>
+                                        <span className="text-slate-400">({prod.reviewsCount || 120})</span>
+                                      </div>
+
+                                      <div className="mt-2 flex items-baseline justify-between">
+                                        <span className="text-sm font-black font-mono text-slate-900">
+                                          ${prod.price}
+                                        </span>
+
+                                        <button
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleAddToCart(prod);
+                                          }}
+                                          className="w-7 h-7 rounded-lg bg-slate-950 hover:bg-black text-white flex items-center justify-center transition-colors shadow-xs"
+                                          title="Add to cart"
+                                        >
+                                          <Plus className="w-3.5 h-3.5" />
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                );
+                              })
+                            ) : (
+                              <div className="col-span-2 text-center py-8 space-y-2">
+                                <p className="text-xs text-slate-500 font-bold">لا توجد منتجات مطابقة لهذا القسم</p>
+                                <button
+                                  onClick={() => setSelectedCategory('الكل')}
+                                  className="px-3 py-1 rounded-xl bg-orange-500 text-white font-black text-xs"
+                                >
+                                  عرض كل المنتجات
+                                </button>
                               </div>
-                            </div>
-
-                            <button
-                              onClick={() => {
-                                setIsReservationModalOpen(false);
-                                setTableBookingSuccess(true);
-                              }}
-                              className="w-full py-3 rounded-2xl bg-orange-600 hover:bg-orange-500 text-white font-black text-xs shadow-lg transition-transform active:scale-95 flex items-center justify-center gap-2"
-                            >
-                              <Send className="w-4 h-4" />
-                              <span>تأكيد الحجز الفوري وإرسال التفاصيل</span>
-                            </button>
+                            )}
                           </div>
                         </div>
-                      )}
 
-                      {/* Table Booking Success Modal */}
-                      {tableBookingSuccess && (
-                        <div className="absolute inset-0 z-50 bg-black/85 backdrop-blur-sm p-4 flex items-center justify-center animate-fadeIn">
-                          <div className="w-full bg-slate-900 border-2 border-emerald-500 rounded-3xl p-5 text-center text-white space-y-3 shadow-2xl">
-                            <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center">
-                              <CheckCircle2 className="w-7 h-7" />
-                            </div>
-                            <h3 className="text-base font-black font-heading">تم تسجيل طلب الحجز بنجاح! 🎉</h3>
-                            <p className="text-xs text-slate-300 leading-relaxed">
-                              تم تأكيد حجز طاولة لـ {reservationGuests} بتاريخ {reservationDate} الساعة {reservationTime}.
-                              سيصلك واتساب فوراً من إدارة المطعم.
-                            </p>
-                            <button
-                              onClick={() => setTableBookingSuccess(false)}
-                              className="w-full py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs"
-                            >
-                              حسناً، عودة للتصفح
-                            </button>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Categories Strip */}
-                      <div className="px-4 py-1 flex items-center gap-2 overflow-x-auto scrollbar-none">
-                        {storeConfig.categories.map((cat, i) => (
-                          <button
-                            key={i}
-                            onClick={() => {
-                              playClick();
-                              setSelectedCategory(cat);
-                            }}
-                            className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
-                              selectedCategory === cat
-                                ? 'bg-orange-600 text-white shadow-xs'
-                                : 'bg-slate-800/10 hover:bg-slate-800/20 border border-slate-500/20'
-                            }`}
-                          >
-                            {cat}
+                        {/* SPORTECH Bottom Bar */}
+                        <div className="border-t border-slate-100 px-6 py-2 bg-white flex items-center justify-between text-[11px] font-bold sticky bottom-0 z-30">
+                          <button onClick={() => setPhoneScreen('home')} className="flex flex-col items-center text-orange-500">
+                            <Footprints className="w-4 h-4" />
+                            <span className="text-[10px]">Home</span>
                           </button>
-                        ))}
-                      </div>
-
-                      {/* Subtabs Filter */}
-                      <div className="px-4 pt-4 flex items-center justify-between">
-                        <div className="flex items-center gap-1 p-1 rounded-xl bg-slate-800/10 text-xs font-bold">
-                          {['Top Picks', 'New Arrivals', 'Best Sellers', 'Sale'].map((tab) => (
-                            <button
-                              key={tab}
-                              onClick={() => {
-                                playClick();
-                                setSelectedSubTab(tab);
-                              }}
-                              className={`px-2.5 py-1 rounded-lg transition-all ${
-                                selectedSubTab === tab
-                                  ? 'bg-orange-500 text-white font-black shadow-xs'
-                                  : 'opacity-70 hover:opacity-100'
-                              }`}
-                            >
-                              {tab}
-                            </button>
-                          ))}
+                          <button onClick={() => setPhoneScreen('categories')} className="flex flex-col items-center text-slate-500 hover:text-slate-900">
+                            <Layers className="w-4 h-4" />
+                            <span className="text-[10px]">Categories</span>
+                          </button>
+                          <button onClick={() => setPhoneScreen('cart')} className="flex flex-col items-center text-slate-500 hover:text-slate-900 relative">
+                            <ShoppingBag className="w-4 h-4" />
+                            <span className="text-[10px]">Cart</span>
+                          </button>
+                          <button onClick={() => setPhoneScreen('wishlist')} className="flex flex-col items-center text-slate-500 hover:text-slate-900">
+                            <Heart className="w-4 h-4" />
+                            <span className="text-[10px]">Wishlist</span>
+                          </button>
                         </div>
-
-                        <span className="text-[11px] font-bold text-orange-500 cursor-pointer">
-                          {filteredProducts.length} منتجات
-                        </span>
                       </div>
+                    ) : (
+                      /* -------------------------------------------------- */
+                      /* TEMPLATE C: GENERAL THEMED MULTI-PRODUCT FEED (FASCO, DineReserve, Burger Club, Panto, Velvety) */
+                      /* -------------------------------------------------- */
+                      <div className="flex-1 flex flex-col justify-between">
+                        <div>
+                          {/* Store Header Inside Phone */}
+                          <div className="p-4 border-b flex items-center justify-between sticky top-0 z-30 bg-inherit/95 backdrop-blur-md border-inherit/15">
+                            <div className="flex items-center gap-2">
+                              <span className="font-heading font-black text-xl tracking-tight">
+                                {storeConfig.storeName}
+                              </span>
+                            </div>
 
-                      {/* Products Grid with REAL CLICKABLE ITEMS */}
-                      <div className="p-4 grid grid-cols-2 gap-3">
-                        {filteredProducts.map((prod) => {
-                          const isWish = wishlistIds.includes(prod.id);
-                          return (
-                            <div
-                              key={prod.id}
-                              onClick={() => handleOpenProductInsidePhone(prod)}
-                              className="rounded-2xl p-3 border shadow-xs flex flex-col justify-between hover:shadow-md transition-all cursor-pointer group border-slate-500/20 bg-inherit"
-                            >
-                              {/* Image Box */}
-                              <div className="relative rounded-xl h-36 flex items-center justify-center mb-2 overflow-hidden bg-slate-100/10">
-                                {prod.badge && (
-                                  <span className="absolute top-2 right-2 text-[10px] font-black bg-orange-600 text-white px-2 py-0.5 rounded-full z-10 shadow-xs">
-                                    {prod.badge}
+                            <div className="flex items-center gap-3">
+                              <button
+                                onClick={() => setPhoneScreen('search')}
+                                className="p-1.5 opacity-80 hover:opacity-100 transition-opacity"
+                              >
+                                <Search className="w-4 h-4" />
+                              </button>
+                              <button
+                                onClick={() => setPhoneScreen('cart')}
+                                className="relative p-1.5"
+                              >
+                                <ShoppingBag className="w-5 h-5 text-orange-500" />
+                                {simulatedCart.length > 0 && (
+                                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-orange-600 text-white text-[10px] font-bold flex items-center justify-center">
+                                    {simulatedCart.reduce((sum, i) => sum + i.quantity, 0)}
                                   </span>
                                 )}
-                                <button
-                                  onClick={(e) => handleToggleWishlist(prod.id, e)}
-                                  className="absolute top-2 left-2 p-1.5 rounded-full bg-white/80 dark:bg-black/60 z-10 transition-transform active:scale-125"
-                                >
-                                  <Heart
-                                    className={`w-3.5 h-3.5 ${
-                                      isWish ? 'fill-red-500 text-red-500' : 'text-slate-400'
-                                    }`}
-                                  />
-                                </button>
+                              </button>
+                            </div>
+                          </div>
 
+                          {/* Store Hero Banner */}
+                          <div className="p-4">
+                            <div
+                              className="relative rounded-2xl p-5 text-white overflow-hidden shadow-lg flex items-center justify-between"
+                              style={{
+                                background:
+                                  activeTmplMeta.themeStyle === 'luxury-dark'
+                                    ? 'linear-gradient(135deg, #0F172A, #1E1B4B)'
+                                    : activeTmplMeta.themeStyle === 'retro'
+                                    ? 'linear-gradient(135deg, #022C22, #064E3B)'
+                                    : 'linear-gradient(135deg, #0F172A, #C2410C)',
+                              }}
+                            >
+                              <div className="max-w-[200px] space-y-2 z-10">
+                                <span className="text-[10px] font-mono tracking-wider font-bold text-orange-400 uppercase">
+                                  COLLECTION 2026
+                                </span>
+                                <h2 className="text-2xl font-black font-heading leading-tight">
+                                  {storeConfig.tagline}
+                                </h2>
+                                <div className="flex items-center gap-2 pt-1">
+                                  <button
+                                    onClick={() => handleOpenProductInsidePhone(storeConfig.products[0])}
+                                    className="px-3.5 py-1.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-xs shadow-md transition-transform active:scale-95 flex items-center gap-1.5"
+                                  >
+                                    <span>{selectedTemplateId === 'dinereserve-food' ? 'قائمة الطعام' : 'اكتشف العروض'}</span>
+                                    <ArrowRight className="w-3.5 h-3.5 -scale-x-100" />
+                                  </button>
+                                  {selectedTemplateId === 'dinereserve-food' && (
+                                    <button
+                                      onClick={() => setIsReservationModalOpen(true)}
+                                      className="px-3 py-1.5 rounded-xl bg-white/20 hover:bg-white/30 text-white font-bold text-xs border border-white/30 transition-transform active:scale-95 flex items-center gap-1"
+                                    >
+                                      <Calendar className="w-3.5 h-3.5" />
+                                      <span>حجز طاولة</span>
+                                    </button>
+                                  )}
+                                </div>
+                              </div>
+
+                              <div className="w-28 h-28 rounded-2xl overflow-hidden shrink-0 border border-white/20 shadow-xl">
                                 <img
-                                  src={prod.imageUrl}
-                                  alt={prod.name}
-                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                  src={storeConfig.products[0].imageUrl}
+                                  alt={storeConfig.storeName}
+                                  className="w-full h-full object-cover"
                                 />
                               </div>
+                            </div>
+                          </div>
 
-                              {/* Info */}
-                              <div>
-                                <div className="flex items-center gap-1 text-[10px] text-amber-500 font-bold mb-0.5">
-                                  <Star className="w-3 h-3 fill-amber-400" />
-                                  <span>{prod.rating || 4.8}</span>
-                                  <span className="opacity-60">({prod.reviewsCount || 120})</span>
-                                </div>
-
-                                <h4 className="text-xs font-black line-clamp-2 leading-tight">
-                                  {prod.name}
-                                </h4>
-
-                                <div className="mt-2 flex items-baseline justify-between">
-                                  <div>
-                                    <span className="text-sm font-black font-mono">
-                                      {prod.price} {storeConfig.currency}
-                                    </span>
-                                    {prod.originalPrice && (
-                                      <span className="text-[10px] opacity-50 line-through mr-1 font-mono">
-                                        {prod.originalPrice}
-                                      </span>
-                                    )}
+                          {/* DineReserve Table Booking Modal inside Phone */}
+                          {isReservationModalOpen && (
+                            <div className="absolute inset-0 z-50 bg-black/80 backdrop-blur-sm p-4 flex items-center justify-center animate-fadeIn">
+                              <div className="w-full bg-slate-900 border border-slate-700 rounded-3xl p-5 text-white space-y-4 shadow-2xl">
+                                <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                                  <div className="flex items-center gap-2">
+                                    <Utensils className="w-5 h-5 text-orange-500" />
+                                    <h3 className="font-heading font-black text-base">حجز طاولة VIP فاخرة</h3>
                                   </div>
-
                                   <button
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleAddToCart(prod);
-                                    }}
-                                    className="w-7 h-7 rounded-lg bg-orange-600 hover:bg-orange-500 text-white flex items-center justify-center transition-colors shadow-xs"
-                                    title="إضافة للسلة"
+                                    onClick={() => setIsReservationModalOpen(false)}
+                                    className="p-1 rounded-full bg-slate-800 text-slate-400 hover:text-white"
                                   >
-                                    <Plus className="w-3.5 h-3.5" />
+                                    <X className="w-4 h-4" />
                                   </button>
                                 </div>
+
+                                <div className="space-y-3 text-xs">
+                                  <div>
+                                    <label className="block text-slate-400 mb-1 flex items-center gap-1 font-bold">
+                                      <Calendar className="w-3.5 h-3.5 text-orange-400" />
+                                      <span>تاريخ الحجز:</span>
+                                    </label>
+                                    <input
+                                      type="date"
+                                      value={reservationDate}
+                                      onChange={(e) => setReservationDate(e.target.value)}
+                                      className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white font-mono"
+                                    />
+                                  </div>
+
+                                  <div className="grid grid-cols-2 gap-2">
+                                    <div>
+                                      <label className="block text-slate-400 mb-1 flex items-center gap-1 font-bold">
+                                        <Clock className="w-3.5 h-3.5 text-orange-400" />
+                                        <span>الوقت:</span>
+                                      </label>
+                                      <select
+                                        value={reservationTime}
+                                        onChange={(e) => setReservationTime(e.target.value)}
+                                        className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white"
+                                      >
+                                        <option value="07:00 PM">07:00 PM (عشاء مبكر)</option>
+                                        <option value="09:00 PM">09:00 PM (ذروة السهرة)</option>
+                                        <option value="11:00 PM">11:00 PM (سهرة متأخرة)</option>
+                                      </select>
+                                    </div>
+
+                                    <div>
+                                      <label className="block text-slate-400 mb-1 flex items-center gap-1 font-bold">
+                                        <Users className="w-3.5 h-3.5 text-orange-400" />
+                                        <span>عدد الأفراد:</span>
+                                      </label>
+                                      <select
+                                        value={reservationGuests}
+                                        onChange={(e) => setReservationGuests(e.target.value)}
+                                        className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white"
+                                      >
+                                        <option value="فردين (طاولة ثنائية رومانسية)">فردين</option>
+                                        <option value="4 أفراد (طاولة عائلية)">4 أفراد</option>
+                                        <option value="6-8 أفراد (VIP Lounge)">6-8 أفراد (VIP)</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <button
+                                  onClick={() => {
+                                    setIsReservationModalOpen(false);
+                                    setTableBookingSuccess(true);
+                                  }}
+                                  className="w-full py-3 rounded-2xl bg-orange-600 hover:bg-orange-500 text-white font-black text-xs shadow-lg transition-transform active:scale-95 flex items-center justify-center gap-2"
+                                >
+                                  <Send className="w-4 h-4" />
+                                  <span>تأكيد الحجز الفوري وإرسال التفاصيل</span>
+                                </button>
                               </div>
                             </div>
-                          );
-                        })}
+                          )}
+
+                          {/* Table Booking Success Modal */}
+                          {tableBookingSuccess && (
+                            <div className="absolute inset-0 z-50 bg-black/85 backdrop-blur-sm p-4 flex items-center justify-center animate-fadeIn">
+                              <div className="w-full bg-slate-900 border-2 border-emerald-500 rounded-3xl p-5 text-center text-white space-y-3 shadow-2xl">
+                                <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center">
+                                  <CheckCircle2 className="w-7 h-7" />
+                                </div>
+                                <h3 className="text-base font-black font-heading">تم تسجيل طلب الحجز بنجاح! 🎉</h3>
+                                <p className="text-xs text-slate-300 leading-relaxed">
+                                  تم تأكيد حجز طاولة لـ {reservationGuests} بتاريخ {reservationDate} الساعة {reservationTime}.
+                                  سيصلك واتساب فوراً من إدارة المطعم.
+                                </p>
+                                <button
+                                  onClick={() => setTableBookingSuccess(false)}
+                                  className="w-full py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs"
+                                >
+                                  حسناً، عودة للتصفح
+                                </button>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Categories Strip */}
+                          <div className="px-4 py-1 flex items-center gap-2 overflow-x-auto scrollbar-none">
+                            {storeConfig.categories.map((cat, i) => (
+                              <button
+                                key={i}
+                                onClick={() => {
+                                  playClick();
+                                  setSelectedCategory(cat);
+                                }}
+                                className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
+                                  selectedCategory === cat
+                                    ? 'bg-orange-600 text-white shadow-xs'
+                                    : 'bg-slate-800/10 hover:bg-slate-800/20 border border-slate-500/20'
+                                }`}
+                              >
+                                {cat}
+                              </button>
+                            ))}
+                          </div>
+
+                          {/* Subtabs Filter */}
+                          <div className="px-4 pt-4 flex items-center justify-between">
+                            <div className="flex items-center gap-1 p-1 rounded-xl bg-slate-800/10 text-xs font-bold">
+                              {['Top Picks', 'New Arrivals', 'Best Sellers', 'Sale'].map((tab) => (
+                                <button
+                                  key={tab}
+                                  onClick={() => {
+                                    playClick();
+                                    setSelectedSubTab(tab);
+                                  }}
+                                  className={`px-2.5 py-1 rounded-lg transition-all ${
+                                    selectedSubTab === tab
+                                      ? 'bg-orange-500 text-white font-black shadow-xs'
+                                      : 'opacity-70 hover:opacity-100'
+                                  }`}
+                                >
+                                  {tab}
+                                </button>
+                              ))}
+                            </div>
+
+                            <span className="text-[11px] font-bold text-orange-500 cursor-pointer">
+                              {filteredProducts.length} منتجات
+                            </span>
+                          </div>
+
+                          {/* Products Grid with REAL CLICKABLE ITEMS */}
+                          <div className="p-4 grid grid-cols-2 gap-3">
+                            {filteredProducts.length > 0 ? (
+                              filteredProducts.map((prod) => {
+                                const isWish = wishlistIds.includes(prod.id);
+                                return (
+                                  <div
+                                    key={prod.id}
+                                    onClick={() => handleOpenProductInsidePhone(prod)}
+                                    className="rounded-2xl p-3 border shadow-xs flex flex-col justify-between hover:shadow-md transition-all cursor-pointer group border-slate-500/20 bg-inherit"
+                                  >
+                                    {/* Image Box */}
+                                    <div className="relative rounded-xl h-36 flex items-center justify-center mb-2 overflow-hidden bg-slate-100/10">
+                                      {prod.badge && (
+                                        <span className="absolute top-2 right-2 text-[10px] font-black bg-orange-600 text-white px-2 py-0.5 rounded-full z-10 shadow-xs">
+                                          {prod.badge}
+                                        </span>
+                                      )}
+                                      <button
+                                        onClick={(e) => handleToggleWishlist(prod.id, e)}
+                                        className="absolute top-2 left-2 p-1.5 rounded-full bg-white/80 dark:bg-black/60 z-10 transition-transform active:scale-125"
+                                      >
+                                        <Heart
+                                          className={`w-3.5 h-3.5 ${
+                                            isWish ? 'fill-red-500 text-red-500' : 'text-slate-400'
+                                          }`}
+                                        />
+                                      </button>
+
+                                      <img
+                                        src={prod.imageUrl}
+                                        alt={prod.name}
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                      />
+                                    </div>
+
+                                    {/* Info */}
+                                    <div>
+                                      <div className="flex items-center gap-1 text-[10px] text-amber-500 font-bold mb-0.5">
+                                        <Star className="w-3 h-3 fill-amber-400" />
+                                        <span>{prod.rating || 4.8}</span>
+                                        <span className="opacity-60">({prod.reviewsCount || 120})</span>
+                                      </div>
+
+                                      <h4 className="text-xs font-black line-clamp-2 leading-tight">
+                                        {prod.name}
+                                      </h4>
+
+                                      <div className="mt-2 flex items-baseline justify-between">
+                                        <div>
+                                          <span className="text-sm font-black font-mono">
+                                            {prod.price} {storeConfig.currency}
+                                          </span>
+                                          {prod.originalPrice && (
+                                            <span className="text-[10px] opacity-50 line-through mr-1 font-mono">
+                                              {prod.originalPrice}
+                                            </span>
+                                          )}
+                                        </div>
+
+                                        <button
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleAddToCart(prod);
+                                          }}
+                                          className="w-7 h-7 rounded-lg bg-orange-600 hover:bg-orange-500 text-white flex items-center justify-center transition-colors shadow-xs"
+                                          title="إضافة للسلة"
+                                        >
+                                          <Plus className="w-3.5 h-3.5" />
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                );
+                              })
+                            ) : (
+                              <div className="col-span-2 text-center py-8 space-y-2">
+                                <p className="text-xs opacity-60 font-bold">لا توجد منتجات مطابقة لهذا القسم</p>
+                                <button
+                                  onClick={() => setSelectedCategory('الكل')}
+                                  className="px-3 py-1 rounded-xl bg-orange-600 text-white font-black text-xs"
+                                >
+                                  عرض كل المنتجات
+                                </button>
+                              </div>
+                            )}
+                          </div>
+
+                        </div>
+
+                        {/* Bottom App Bar Inside iPhone 13 Pro */}
+                        <div className="border-t px-6 py-2.5 flex items-center justify-between text-[11px] font-bold border-inherit/20 bg-inherit/95 sticky bottom-0 z-30">
+                          <button
+                            onClick={() => setPhoneScreen('home')}
+                            className="flex flex-col items-center text-orange-500"
+                          >
+                            <Footprints className="w-4 h-4" />
+                            <span>الرئيسية</span>
+                          </button>
+
+                          <button
+                            onClick={() => setPhoneScreen('categories')}
+                            className="flex flex-col items-center opacity-70 hover:opacity-100"
+                          >
+                            <Layers className="w-4 h-4" />
+                            <span>الأقسام</span>
+                          </button>
+
+                          <button
+                            onClick={() => setPhoneScreen('cart')}
+                            className="flex flex-col items-center relative opacity-90 hover:opacity-100"
+                          >
+                            <ShoppingBag className="w-4 h-4" />
+                            <span>السلة</span>
+                            {simulatedCart.length > 0 && (
+                              <span className="absolute -top-1 -right-2 w-2 h-2 rounded-full bg-orange-600 animate-ping"></span>
+                            )}
+                          </button>
+
+                          <button
+                            onClick={() => setPhoneScreen('wishlist')}
+                            className="flex flex-col items-center opacity-70 hover:opacity-100"
+                          >
+                            <Heart className="w-4 h-4" />
+                            <span>المفضلة ({wishlistIds.length})</span>
+                          </button>
+                        </div>
+
                       </div>
-
-                    </div>
-
-                    {/* Bottom App Bar Inside iPhone 13 Pro */}
-                    <div className="border-t px-6 py-2.5 flex items-center justify-between text-[11px] font-bold border-inherit/20 bg-inherit/95 sticky bottom-0 z-30">
-                      <button
-                        onClick={() => setPhoneScreen('home')}
-                        className="flex flex-col items-center text-orange-500"
-                      >
-                        <Footprints className="w-4 h-4" />
-                        <span>الرئيسية</span>
-                      </button>
-
-                      <button
-                        onClick={() => setPhoneScreen('categories')}
-                        className="flex flex-col items-center opacity-70 hover:opacity-100"
-                      >
-                        <Layers className="w-4 h-4" />
-                        <span>الأقسام</span>
-                      </button>
-
-                      <button
-                        onClick={() => setPhoneScreen('cart')}
-                        className="flex flex-col items-center relative opacity-90 hover:opacity-100"
-                      >
-                        <ShoppingBag className="w-4 h-4" />
-                        <span>السلة</span>
-                        {simulatedCart.length > 0 && (
-                          <span className="absolute -top-1 -right-2 w-2 h-2 rounded-full bg-orange-600 animate-ping"></span>
-                        )}
-                      </button>
-
-                      <button
-                        onClick={() => setPhoneScreen('wishlist')}
-                        className="flex flex-col items-center opacity-70 hover:opacity-100"
-                      >
-                        <Heart className="w-4 h-4" />
-                        <span>المفضلة ({wishlistIds.length})</span>
-                      </button>
-                    </div>
-
-                  </div>
+                    )}
+                  </>
                 )}
 
                 {/* ================================================== */}
@@ -2142,79 +2581,135 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
       {/* USER INSTRUCTION 1: FIGMA-STYLE TEMPLATES CATALOG MODAL */}
       {/* (SHOWN FIRST ON STUDIO LAUNCH AS REQUESTED IN IMAGE 1) */}
       {/* ======================================================== */}
+      {/* ======================================================== */}
+      {/* FIGMA COMMUNITY STYLE TEMPLATES CATALOG MODAL (Image 10) */}
+      {/* ======================================================== */}
       {templateCatalogOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
-          <div className="relative max-w-5xl w-full my-8 bg-slate-900 border-2 border-slate-700 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/60 backdrop-blur-md overflow-y-auto">
+          <div className="relative max-w-6xl w-full my-6 bg-[#FAFAFA] border border-slate-200 rounded-3xl p-5 sm:p-8 shadow-2xl text-slate-900 max-h-[92vh] overflow-y-auto space-y-6">
             
-            {/* Modal Header */}
-            <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-              <div>
-                <h3 className="text-xl sm:text-2xl font-black font-heading text-white flex items-center gap-2">
-                  <Grid className="w-5 h-5 text-indigo-400" />
-                  <span>كتالوج التيمبليتس الجاهزة (8 تيمبليتس حصرية)</span>
+            {/* Figma Community Top Bar / Breadcrumb */}
+            <div className="flex flex-wrap items-center justify-between border-b border-slate-200 pb-4 gap-3">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2 text-xs text-slate-500 font-medium">
+                  <span>Home</span>
+                  <span>&gt;</span>
+                  <span>Website templates</span>
+                  <span>&gt;</span>
+                  <span className="text-slate-900 font-bold">Ecommerce</span>
+                </div>
+                <h3 className="text-xl sm:text-3xl font-black font-heading text-slate-900 tracking-tight">
+                  Ecommerce website design templates
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-400 font-medium mt-1">
-                  اختار التيمبليت المناسب لبراندك، وكل تيمبليت بييجي بمنتجاته وصوره الواقعية وتقسيمته الخاصة.
+                <p className="text-xs sm:text-sm text-slate-500 font-medium">
+                  Build a professional online store with these intuitive ecommerce templates.
                 </p>
               </div>
 
-              <button
-                onClick={() => setTemplateCatalogOpen(false)}
-                className="p-2 rounded-xl bg-slate-800 text-slate-400 hover:text-white"
-                title="إغلاق الكتالوج والمعاينة"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setTemplateCatalogOpen(false)}
+                  className="p-2.5 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-700 hover:text-black transition-colors"
+                  title="إغلاق الكتالوج والمعاينة"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
-            {/* Template Cards Grid (Exact Match to User Image 1) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Figma Filter Chips */}
+            <div className="flex items-center justify-between gap-3 overflow-x-auto pb-1">
+              <div className="flex items-center gap-2 overflow-x-auto scrollbar-none">
+                {['All', 'Sports & Athletic', 'Streetwear & Fashion', 'Dining & Food', 'Furniture & Decor', 'Luxury & Jewelry'].map((chip, idx) => (
+                  <button
+                    key={chip}
+                    onClick={() => playClick()}
+                    className={`px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all border ${
+                      idx === 0
+                        ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
+                        : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
+                    }`}
+                  >
+                    {chip}
+                  </button>
+                ))}
+              </div>
+
+              <span className="text-xs font-bold text-slate-500 shrink-0">
+                8 Templates Available
+              </span>
+            </div>
+
+            {/* Template Cards Grid (Figma Community Card Style) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {STUDIO_TEMPLATES.map((tmpl) => {
                 const isSelected = selectedTemplateId === tmpl.id;
                 return (
                   <div
                     key={tmpl.id}
-                    className={`rounded-2xl border-2 p-3.5 flex flex-col justify-between transition-all bg-slate-950/80 ${
+                    className={`rounded-2xl border transition-all duration-300 bg-white overflow-hidden flex flex-col justify-between group shadow-xs hover:shadow-xl ${
                       isSelected
-                        ? 'border-indigo-500 ring-2 ring-indigo-500 shadow-xl scale-[1.02]'
-                        : 'border-slate-800 hover:border-slate-600'
+                        ? 'border-indigo-600 ring-2 ring-indigo-500/40 shadow-md'
+                        : 'border-slate-200 hover:border-slate-400'
                     }`}
                   >
-                    <div className="space-y-3">
-                      <div className="relative h-40 rounded-xl overflow-hidden border border-slate-800 group">
-                        <img
-                          src={tmpl.previewImage}
-                          alt={tmpl.name}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                        <span className="absolute top-2 right-2 text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-950/80 text-white backdrop-blur-xs border border-slate-700">
-                          {tmpl.categoryBadge}
-                        </span>
-                        <div
-                          className="absolute bottom-2 left-2 w-4 h-4 rounded-full border-2 border-white shadow-md"
-                          style={{ backgroundColor: tmpl.accentColor }}
-                        ></div>
-                      </div>
-
-                      <div>
-                        <div className="text-[10px] font-mono text-indigo-400 font-bold">{tmpl.nameEn}</div>
-                        <h4 className="text-sm font-black text-white mt-0.5 leading-snug">{tmpl.name}</h4>
-                        <p className="text-[11px] text-slate-400 line-clamp-2 mt-1 leading-relaxed">
-                          {tmpl.description}
-                        </p>
-                      </div>
+                    {/* Mockup Preview Container */}
+                    <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100 border-b border-slate-100">
+                      <img
+                        src={tmpl.previewImage}
+                        alt={tmpl.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <span className="absolute top-2.5 right-2.5 text-[10px] font-bold px-2 py-0.5 rounded-md bg-white/95 text-slate-800 shadow-xs border border-slate-200">
+                        {tmpl.categoryBadge}
+                      </span>
+                      <div
+                        className="absolute bottom-2.5 left-2.5 w-3.5 h-3.5 rounded-full border-2 border-white shadow-xs"
+                        style={{ backgroundColor: tmpl.accentColor }}
+                        title="Theme Accent"
+                      />
                     </div>
 
-                    <div className="pt-3 border-t border-slate-800/80 mt-3">
+                    {/* Card Content & Stats */}
+                    <div className="p-3.5 space-y-2 flex-1 flex flex-col justify-between">
+                      <div>
+                        <h4 className="text-sm font-black text-slate-900 leading-snug">
+                          {tmpl.name}
+                        </h4>
+                        <p className="text-[11px] text-slate-500 font-medium">
+                          by Sketch Order • Free included
+                        </p>
+                      </div>
+
+                      {/* Stats Bar (Likes & Clones like Figma) */}
+                      <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-bold">
+                        <div className="flex items-center gap-1">
+                          <Heart className="w-3.5 h-3.5 text-slate-400" />
+                          <span>3.4k</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Rocket className="w-3.5 h-3.5 text-slate-400" />
+                          <span>16.3k</span>
+                        </div>
+                      </div>
+
+                      {/* Select & Apply Button */}
                       <button
                         onClick={() => handleSelectTemplate(tmpl.id)}
-                        className={`w-full py-2 rounded-xl text-xs font-black transition-all ${
+                        className={`w-full py-2.5 rounded-xl text-xs font-black transition-all flex items-center justify-center gap-1.5 ${
                           isSelected
                             ? 'bg-indigo-600 text-white shadow-xs'
-                            : 'bg-slate-800 text-slate-200 hover:bg-slate-700'
+                            : 'bg-slate-100 hover:bg-slate-900 hover:text-white text-slate-800'
                         }`}
                       >
-                        {isSelected ? '✓ التيمبليت النشط حالياً' : 'تفعيل ومعاينة في الاستوديو'}
+                        {isSelected ? (
+                          <>
+                            <CheckCircle2 className="w-3.5 h-3.5 text-white" />
+                            <span>التيمبليت النشط حالياً</span>
+                          </>
+                        ) : (
+                          <span>معاينة وتفعيل في الآيفون 📱</span>
+                        )}
                       </button>
                     </div>
                   </div>

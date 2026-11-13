@@ -85,26 +85,26 @@ export const SplitSimulator: React.FC = () => {
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerLeave={handlePointerUp}
-          className="relative max-w-5xl mx-auto h-[620px] sm:h-[540px] border-3 md:border-4 border-[#0F0F0F] sketch-border-1 bg-white sketch-shadow-xl overflow-hidden cursor-ew-resize"
+          className="relative max-w-5xl mx-auto h-[660px] sm:h-[540px] border-3 md:border-4 border-[#0F0F0F] sketch-border-1 bg-white sketch-shadow-xl overflow-hidden cursor-ew-resize"
         >
           
           {/* ======================================================== */}
           {/* LAYER 1: RIGHT SIDE (BEFORE - الطريقة التقليدية) */}
           {/* ======================================================== */}
-          <div className="absolute inset-0 p-6 sm:p-10 bg-[#FAF9F6] text-[#0F0F0F] flex flex-col justify-between overflow-hidden">
+          <div className="absolute inset-0 p-3.5 sm:p-8 bg-[#FAF9F6] text-[#0F0F0F] flex flex-col justify-between overflow-hidden">
             
             {/* Header Badge */}
-            <div className="flex items-center justify-between border-b-2 border-dashed border-[#0F0F0F] pb-3">
-              <div className="flex items-center gap-2">
-                <span className="w-6 h-6 border-2 border-[#0F0F0F] rounded-full flex items-center justify-center font-bold text-xs bg-white">
+            <div className="flex flex-wrap items-center justify-between border-b-2 border-dashed border-[#0F0F0F] pb-2 sm:pb-3 gap-1">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-[#0F0F0F] rounded-full flex items-center justify-center font-bold text-xs bg-white">
                   ❌
                 </span>
-                <span className="text-lg font-black font-heading">
-                  قبل سيستم الويبسايت (فوضى الشات وسكرينات التحويل)
+                <span className="text-sm sm:text-lg font-black font-heading">
+                  قبل سيستم الويبسايت (فوضى الشات)
                 </span>
               </div>
-              <span className="text-xs font-mono font-bold line-through">
-                تضييع وقت: 5 ساعات يومياً في الرد والتدقيق
+              <span className="text-[10px] sm:text-xs font-mono font-bold line-through opacity-80">
+                تضييع وقت 5 ساعات يومياً
               </span>
             </div>
 
@@ -167,26 +167,26 @@ export const SplitSimulator: React.FC = () => {
           {/* LAYER 2: LEFT SIDE (AFTER - مع سكتش أوردر) */}
           {/* ======================================================== */}
           <div
-            className="absolute inset-y-0 left-0 bg-white text-[#0F0F0F] p-6 sm:p-10 flex flex-col justify-between overflow-hidden border-r-3 border-[#0F0F0F]"
+            className="absolute inset-y-0 left-0 bg-white text-[#0F0F0F] p-3.5 sm:p-8 flex flex-col justify-between overflow-hidden border-r-3 border-[#0F0F0F]"
             style={{ width: `${sliderPos}%` }}
           >
             {/* Header Badge */}
-            <div className="flex items-center justify-between border-b-2 border-[#0F0F0F] pb-3 min-w-[320px]">
-              <div className="flex items-center gap-2">
-                <span className="w-6 h-6 border-2 border-[#0F0F0F] rounded-full flex items-center justify-center font-bold text-xs bg-[#0F0F0F] text-white">
+            <div className="flex flex-wrap items-center justify-between border-b-2 border-[#0F0F0F] pb-2 sm:pb-3 gap-1">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-[#0F0F0F] rounded-full flex items-center justify-center font-bold text-xs bg-[#0F0F0F] text-white">
                   ✓
                 </span>
-                <span className="text-lg font-black font-heading">
-                  بعد سيستم الويبسايت (المتجر الإلكتروني السريع المنظم)
+                <span className="text-sm sm:text-lg font-black font-heading whitespace-nowrap">
+                  بعد سيستم الويبسايت
                 </span>
               </div>
-              <span className="text-xs font-mono font-bold bg-[#0F0F0F] text-white px-2 py-0.5 sketch-border-pill">
-                0 دقيقة وقت ضائع
+              <span className="text-[10px] sm:text-xs font-mono font-bold bg-[#0F0F0F] text-white px-2 py-0.5 sketch-border-pill">
+                0 دقيقة وقت ضائع ⚡
               </span>
             </div>
 
             {/* Clean Wireframe Store Flow Mockup */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-auto min-w-[320px]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 my-auto">
               
               {/* Feature 1: Clean Interactive Cart */}
               <div className="border-2 border-[#0F0F0F] p-4 sketch-border-1 bg-neutral-50 sketch-shadow-sm space-y-2">

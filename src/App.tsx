@@ -4,11 +4,11 @@ import { HeroSection } from './components/HeroSection';
 import { FullPageStoreStudio } from './components/FullPageStoreStudio';
 import { SplitSimulator } from './components/SplitSimulator';
 import { PricingPackages } from './components/PricingPackages';
-import { FeatureChecklist } from './components/FeatureChecklist';
 import { StorePlayground } from './components/StorePlayground';
 import { FaqSection } from './components/FaqSection';
 import { Footer } from './components/Footer';
 import { OrderModal } from './components/OrderModal';
+import { AdminOrdersDashboard } from './components/AdminOrdersDashboard';
 import { Hammer, ArrowLeft } from 'lucide-react';
 import type { CustomStoreConfig } from './types';
 import { playClick } from './utils/soundEffects';
@@ -20,11 +20,7 @@ export const App: React.FC = () => {
   const [selectedPlan, setSelectedPlan] = useState<'standard' | 'pro' | 'custom'>('pro');
   const [preselectedFeatures, setPreselectedFeatures] = useState<string[]>([]);
   const [activeCustomStore, setActiveCustomStore] = useState<CustomStoreConfig | null>(null);
-
-  const handleOpenOrderWithFeatures = (features: string[]) => {
-    setPreselectedFeatures(features);
-    setOrderModalOpen(true);
-  };
+  const [adminDashboardOpen, setAdminDashboardOpen] = useState<boolean>(false);
 
   const handleOpenOrderWithPlan = (plan: 'standard' | 'pro' | 'custom') => {
     setSelectedPlan(plan);
@@ -54,7 +50,7 @@ export const App: React.FC = () => {
   // IF STUDIO MODE IS ACTIVE: Render the Full-Page Store Studio view!
   if (viewMode === 'studio') {
     return (
-      <div className="min-h-screen bg-[#0A0E17] font-sans text-slate-100 antialiased">
+      <div className="min-h-screen bg-slate-100 font-sans text-slate-900 antialiased selection:bg-orange-500 selection:text-white">
         <FullPageStoreStudio
           onBackToHome={() => {
             playClick();
@@ -87,6 +83,7 @@ export const App: React.FC = () => {
           setOrderModalOpen(true);
         }}
         onOpenStudio={openFullStudio}
+        onOpenAdminDashboard={() => setAdminDashboardOpen(true)}
       />
 
       {/* Main Content Sections */}
@@ -198,9 +195,6 @@ export const App: React.FC = () => {
         {/* Section: Official 3 Pricing Packages */}
         <PricingPackages onSelectPlan={handleOpenOrderWithPlan} />
 
-        {/* Section: Interactive Feature Checklist & Customizer */}
-        <FeatureChecklist onSelectPlanAndOrder={handleOpenOrderWithFeatures} />
-
         {/* Section: Live Mini Store Simulator */}
         <StorePlayground />
 
@@ -226,6 +220,12 @@ export const App: React.FC = () => {
         preselectedFeatures={preselectedFeatures}
         initialStoreConfig={activeCustomStore}
         initialPlan={selectedPlan}
+      />
+
+      {/* Owner Admin Orders & Sales Dashboard */}
+      <AdminOrdersDashboard
+        isOpen={adminDashboardOpen}
+        onClose={() => setAdminDashboardOpen(false)}
       />
     </div>
   );

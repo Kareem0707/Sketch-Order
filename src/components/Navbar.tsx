@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Volume2, VolumeX, ShoppingBag, Menu, X, Hammer } from 'lucide-react';
+import { Volume2, VolumeX, ShoppingBag, Menu, X, Hammer, ShieldCheck } from 'lucide-react';
 import { HandDrawnDivider } from './common/HandDrawnDivider';
 import { playClick, playPencilScratch, setSoundEnabled, getSoundEnabled } from '../utils/soundEffects';
 import logoImg from '../assets/sketch-order-logo.png';
@@ -8,11 +8,13 @@ import mascotImg from '../assets/sketch-mascot.png';
 interface NavbarProps {
   onOpenOrderModal: () => void;
   onOpenStudio: () => void;
+  onOpenAdminDashboard: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   onOpenOrderModal,
   onOpenStudio,
+  onOpenAdminDashboard,
 }) => {
   const [soundOn, setSoundOn] = useState(getSoundEnabled());
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -124,6 +126,19 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>الاستوديو</span>
             </button>
 
+            {/* Owner Admin Orders Dashboard Button (Desktop) */}
+            <button
+              onClick={() => {
+                playClick();
+                onOpenAdminDashboard();
+              }}
+              className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 border border-dashed border-[#0F0F0F] bg-amber-50 hover:bg-amber-100 text-xs font-black text-[#0F0F0F] sketch-border-tag transition-all"
+              title="لوحة تحكم إدارة الطلبات وقبول التحويلات"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-amber-600" />
+              <span>لوحة الإدارة (Admin)</span>
+            </button>
+
             {/* Order CTA Button */}
             <button
               onClick={() => {
@@ -201,9 +216,24 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <button
               onClick={() => handleNavClick('store-playground')}
-              className="w-full text-right p-2 text-xs font-bold hover:bg-neutral-100"
+              className="w-full text-right p-2 text-xs font-bold hover:bg-neutral-100 border-b border-[#0F0F0F]/15"
             >
               🛍️ المتجر التجريبي
+            </button>
+
+            <button
+              onClick={() => {
+                playClick();
+                setMobileMenuOpen(false);
+                onOpenAdminDashboard();
+              }}
+              className="w-full text-right p-2.5 text-xs font-black bg-amber-50 text-amber-900 border border-amber-300 rounded-sm flex items-center justify-between"
+            >
+              <span className="flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4 text-amber-600" />
+                <span>لوحة إدارة المنصة والطلبات (Admin)</span>
+              </span>
+              <span className="text-[10px] bg-amber-200 px-1.5 py-0.5 rounded-sm">تحكم كامل</span>
             </button>
           </div>
         )}

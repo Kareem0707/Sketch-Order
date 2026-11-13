@@ -138,4 +138,27 @@ export interface BlueprintFormData {
   selectedFeatures?: string[];
   themeId?: string;
   customStoreConfig?: CustomStoreConfig;
+  subdomain?: string;
+  receiptImageUrl?: string;
+  transactionRef?: string;
+}
+
+export interface ClientOrderRequest {
+  id: string;
+  createdAt: string;
+  clientName: string;
+  whatsappNumber: string;
+  brandName: string;
+  subdomain: string;
+  selectedPlan: 'standard' | 'pro' | 'custom';
+  planName: string;
+  amount: number | string;
+  templateId: TemplateId;
+  templateName: string;
+  paymentMethod: 'instapay' | 'vodafone_cash' | 'card';
+  transactionRef?: string;
+  receiptImageUrl?: string;
+  notes?: string;
+  status: 'pending_review' | 'approved_building' | 'deployed_live' | 'cancelled';
+  approvedAt?: string;
 }

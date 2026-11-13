@@ -64,7 +64,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
           {/* New User-Specified Copy */}
           <p className="text-lg sm:text-2xl font-bold text-[#0F0F0F]/85 max-w-3xl mx-auto leading-relaxed">
-            حوّل فوضى رسايل الواتس وإنستجرام ومشاكل فودافون كاش وتأخير الردود لمتجر تفاعلي شيك وسريع بأسلوب <span className="font-comic text-xl sm:text-3xl font-black px-1.5 border-b-2 border-[#0F0F0F]">الستيك مان الكوميدي</span> اللي يدخل قلب زبونك من أول ثانية!
+            حوّل فوضى رسايل الواتس وإنستجرام ومشاكل فودافون كاش وتأخير الردود لمتجر تفاعلي شيك وسريع بأسلوب <span className="font-comic text-xl sm:text-3xl font-black px-1.5 border-b-2 border-[#0F0F0F]">سكتش أوردر الحصري</span> اللي يدخل قلب زبونك من أول ثانية!
           </p>
 
           {/* Call to Action Studio Buttons */}
