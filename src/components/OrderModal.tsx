@@ -1,8 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { X, Send, CheckCircle2, ShieldCheck, Zap, Upload } from 'lucide-react';
+import {
+  X,
+  Send,
+  CheckCircle2,
+  ShieldCheck,
+  Zap,
+  Upload,
+  Copy,
+  Check,
+  ArrowRight,
+  ArrowLeft,
+  Sparkles,
+  Phone,
+  Store,
+  MapPin,
+  AlertCircle,
+} from 'lucide-react';
 import confetti from 'canvas-confetti';
 import type { BlueprintFormData, CustomStoreConfig, ClientOrderRequest } from '../types';
-import { playStampSlam, playClick } from '../utils/soundEffects';
+import { playStampSlam, playClick, playCashSound } from '../utils/soundEffects';
 import logoImg from '../assets/sketch-order-logo.png';
 import mascotImg from '../assets/sketch-mascot.png';
 
@@ -20,18 +36,21 @@ const PLAN_INFO = {
     price: 1250,
     priceDisplay: '1,250 ج.م',
     badge: 'استقبال أوردرات + DataBase (حد أقصى 4 أقسام)',
+    features: ['ربط داتابيز واستقبال أوردرات', 'لوحة تحكم لإضافة المنتجات', 'حد أقصى 4 أقسام داخل المتجر', 'دفع مرة واحدة ومدى الحياة'],
   },
   pro: {
     name: 'باقة المحترفين والنمو',
     price: 2400,
     priceDisplay: '2,400 ج.م',
     badge: 'أقسام لا نهائية + سيستم ذكي للأرباح والمبيعات ⭐',
+    features: ['عدد لا نهائي من الأقسام والصور', 'سيستم ذكي لتحليل الأرباح وصافي الدخل', 'تقارير أعلى المنتجات مبيعاً', 'دعم فني سريع ومباشر'],
   },
   custom: {
-    name: 'الباقة المخصصة 3D',
+    name: 'الباقة المخصصة (Custom 3D)',
     price: 'custom',
     priceDisplay: 'سعر مخصص حسب المطلوب',
     badge: 'تصميم واجهة مخصصة بالكامل + عناصر ثلاثية الأبعاد 🚀',
+    features: ['واجهة تفاعلية ثلاثية الأبعاد 3D', 'أنيميشن سينمائي ومؤثرات صوتية فريدة', 'إمكانية دوران المنتج 360 درجة', 'أولوية قصوى ودعم VIP على مدار الساعة'],
   },
 };
 
@@ -42,6 +61,9 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   initialStoreConfig = null,
   initialPlan = 'pro',
 }) => {
+  // Wizard Step state: 1, 2, or 3
+  const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
+
   const [formData, setFormData] = useState<BlueprintFormData>({
     fullName: '',
     storeName: initialStoreConfig ? initialStoreConfig.storeName : '',
@@ -53,7 +75,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
         : 'مطاعم وأكل'
       : 'كوتشيات وموضة كاجوال',
     whatsapp: initialStoreConfig ? initialStoreConfig.whatsappNumber : '',
-    governorate: initialStoreConfig ? initialStoreConfig.governorate : 'القاهرة والجيزة',
+    governorate: initialStoreConfig ? initialStoreConfig.governorate : 'القاهرة',
     paymentMethod: 'إنستاباي (InstaPay)',
     selectedPlan: initialPlan,
     notes: initialStoreConfig
@@ -68,6 +90,8 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   const [receiptBase64, setReceiptBase64] = useState<string | null>(null);
   const [desiredSubdomain, setDesiredSubdomain] = useState<string>('');
   const [generatedOrderId, setGeneratedOrderId] = useState<string>('');
+  const [copiedField, setCopiedField] = useState<'instapay' | 'vodafone' | null>(null);
+  const [stepErrors, setStepErrors] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     if (initialStoreConfig) {
@@ -91,6 +115,25 @@ export const OrderModal: React.FC<OrderModalProps> = ({
     }
   }, [initialPlan]);
 
+  if (!isOpen) return null;
+
+  const currentPlan = PLAN_INFO[formData.selectedPlan];
+
+  // Subdomain sanitization
+  const cleanSubdomain = desiredSubdomain.trim()
+    ? desiredSubdomain.trim().toLowerCase().replace(/[^a-z0-9-]/g, '')
+    : formData.storeName.trim().toLowerCase().replace(/[^a-z0-9]/g, '') || 'mybrand';
+
+  // Copy helper with feedback
+  const handleCopyText = (text: string, type: 'instapay' | 'vodafone') => {
+    navigator.clipboard.writeText(text);
+    playCashSound();
+    setCopiedField(type);
+    setTimeout(() => {
+      setCopiedField(null);
+    }, 2500);
+  };
+
   const handleReceiptUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -103,9 +146,51 @@ export const OrderModal: React.FC<OrderModalProps> = ({
     }
   };
 
-  if (!isOpen) return null;
+  // Step 1 Validation
+  const validateStep1 = () => {
+    const errors: { [key: string]: string } = {};
+    if (!formData.storeName.trim()) {
+      errors.storeName = 'يرجى كتابة اسم المتجر أو البراند';
+    }
+    if (!cleanSubdomain.trim()) {
+      errors.subdomain = 'يرجى إدخال الساب دومين المطلوب';
+    }
+    setStepErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
-  const currentPlan = PLAN_INFO[formData.selectedPlan];
+  // Step 2 Validation (WhatsApp regex for Egypt)
+  const validateStep2 = () => {
+    const errors: { [key: string]: string } = {};
+    if (!formData.fullName.trim()) {
+      errors.fullName = 'يرجى إدخال اسم صاحب المتجر بالكامل';
+    }
+    const cleanPhone = formData.whatsapp.replace(/\D/g, '');
+    const isEgyptianPhone = /^(010|011|012|015)[0-9]{8}$/.test(cleanPhone) || /^201[0-9]{9}$/.test(cleanPhone);
+    if (!formData.whatsapp.trim()) {
+      errors.whatsapp = 'يرجى إدخال رقم الواتساب للتواصل';
+    } else if (!isEgyptianPhone && cleanPhone.length < 10) {
+      errors.whatsapp = 'يرجى إدخال رقم واتساب مصري صحيح (مثال: 01012345678)';
+    }
+    setStepErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleGoToStep2 = () => {
+    playClick();
+    if (validateStep1()) {
+      setCurrentStep(2);
+      setStepErrors({});
+    }
+  };
+
+  const handleGoToStep3 = () => {
+    playClick();
+    if (validateStep2()) {
+      setCurrentStep(3);
+      setStepErrors({});
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -114,10 +199,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
     const orderId = `SK-${Math.floor(1000 + Math.random() * 9000)}`;
     setGeneratedOrderId(orderId);
 
-    // Build subDomain name
-    const cleanSubdomain = desiredSubdomain.trim()
-      ? `${desiredSubdomain.trim().toLowerCase().replace(/[^a-z0-9-]/g, '')}.sketchorder.com`
-      : `${formData.storeName.trim().toLowerCase().replace(/[^a-z0-9]/g, '') || 'mybrand'}.sketchorder.com`;
+    const fullSubdomain = `${cleanSubdomain}.sketchorder.com`;
 
     // Save order in localStorage so it appears in the Owner Admin Dashboard
     const newOrder: ClientOrderRequest = {
@@ -126,7 +208,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
       clientName: formData.fullName,
       whatsappNumber: formData.whatsapp,
       brandName: formData.storeName,
-      subdomain: cleanSubdomain,
+      subdomain: fullSubdomain,
       selectedPlan: formData.selectedPlan,
       planName: currentPlan.name,
       amount: currentPlan.price,
@@ -153,10 +235,10 @@ export const OrderModal: React.FC<OrderModalProps> = ({
     }
 
     confetti({
-      particleCount: 80,
-      spread: 70,
+      particleCount: 90,
+      spread: 75,
       origin: { y: 0.6 },
-      colors: ['#0F0F0F', '#10B981', '#4F46E5', '#F59E0B'],
+      colors: ['#EA580C', '#10B981', '#FFBD24', '#0F172A'],
       shapes: ['square', 'circle'],
     });
 
@@ -166,13 +248,13 @@ export const OrderModal: React.FC<OrderModalProps> = ({
 
   const handleSendToWhatsApp = () => {
     playClick();
-    const domainPart = `\n- الساب دومين المطلوب: ${desiredSubdomain || formData.storeName}.sketchorder.com`;
+    const domainPart = `\n- الساب دومين المطلوب: ${cleanSubdomain}.sketchorder.com`;
     const templatePart = initialStoreConfig ? `\n- التيمبليت المختار: ${initialStoreConfig.templateId}` : '';
     const receiptPart = receiptBase64 ? '\n- سكرين شوت التحويل: تم إرفاقها ومحفوظة بالسيستم ✓' : '';
     const message = `أهلاً فريق سكتش أوردر! 🇪🇬✏️
-تم إرسال طلب جديد عبر الموقع برقم (${generatedOrderId}):
+تم إرسال طلب متجر جديد برقم (${generatedOrderId}):
 - الباقة المختارة: ${currentPlan.name} (${currentPlan.priceDisplay})
-- الاسم: ${formData.fullName}
+- اسم المالك: ${formData.fullName}
 - اسم المتجر: ${formData.storeName}
 - النشاط: ${formData.storeType}
 - المحافظة: ${formData.governorate}${domainPart}${templatePart}
@@ -187,8 +269,8 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs overflow-y-auto">
-      <div className="relative max-w-xl w-full my-8 bg-white dark:bg-[#111827] border-3 md:border-4 border-[#0F0F0F] dark:border-slate-700 text-[#0F0F0F] dark:text-white p-5 sm:p-7 sketch-shadow-xl paper-pattern max-h-[92vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-sm overflow-y-auto">
+      <div className="relative max-w-xl w-full my-6 bg-white dark:bg-[#0F172A] border-3 md:border-4 border-[#0F0F0F] dark:border-slate-700 text-[#0F0F0F] dark:text-white p-5 sm:p-7 sketch-shadow-xl paper-pattern max-h-[94vh] overflow-y-auto">
         
         {/* Close Button */}
         <button
@@ -196,14 +278,14 @@ export const OrderModal: React.FC<OrderModalProps> = ({
             playClick();
             onClose();
           }}
-          className="absolute top-4 left-4 p-2 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-circle bg-white dark:bg-slate-800 text-[#0F0F0F] dark:text-white hover:bg-neutral-100 dark:hover:bg-slate-700 sketch-shadow-sm"
+          className="absolute top-4 left-4 p-2 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-circle bg-white dark:bg-slate-800 text-[#0F0F0F] dark:text-white hover:bg-neutral-100 dark:hover:bg-slate-700 sketch-shadow-sm transition-transform active:scale-95"
           aria-label="إغلاق"
         >
           <X className="w-5 h-5" />
         </button>
 
-        {/* Modal Header with Logo & Mascot */}
-        <div className="text-center border-b-2 border-[#0F0F0F] dark:border-slate-700 pb-4 mb-5">
+        {/* Modal Header */}
+        <div className="text-center border-b-2 border-[#0F0F0F] dark:border-slate-700 pb-4 mb-4">
           <div className="flex items-center justify-center gap-3 mb-2">
             <img src={mascotImg} alt="سكتش مان" className="w-10 h-10 object-contain rounded-full border border-[#0F0F0F] dark:border-slate-600 bg-white dark:bg-slate-800" />
             <img src={logoImg} alt="SKETCH ORDER" className="h-7 object-contain dark:invert" />
@@ -215,321 +297,632 @@ export const OrderModal: React.FC<OrderModalProps> = ({
 
           {/* 3 Guarantees */}
           <div className="flex flex-wrap items-center justify-center gap-2 mt-2 text-xs font-bold text-slate-700 dark:text-slate-300">
-            <span className="flex items-center gap-1 text-emerald-800 dark:text-emerald-400">
+            <span className="flex items-center gap-1 text-emerald-700 dark:text-emerald-400">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
               <span>الدفع مرة واحدة</span>
             </span>
             <span className="text-slate-400 dark:text-slate-600">•</span>
-            <span className="flex items-center gap-1 text-indigo-800 dark:text-indigo-400">
+            <span className="flex items-center gap-1 text-indigo-700 dark:text-indigo-400">
               <ShieldCheck className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
               <span>الضمان مدى الحياة</span>
             </span>
             <span className="text-slate-400 dark:text-slate-600">•</span>
-            <span className="flex items-center gap-1 text-orange-800 dark:text-orange-400">
+            <span className="flex items-center gap-1 text-orange-600 dark:text-orange-400">
               <Zap className="w-3.5 h-3.5 text-orange-500" />
-              <span>تسليم في خلال دقايق</span>
+              <span>تسليم في خلال دقائق</span>
             </span>
           </div>
 
           {initialStoreConfig && (
-            <div className="mt-3 p-2 border border-dashed border-[#0F0F0F] dark:border-emerald-500/50 sketch-border-tag bg-emerald-50 dark:bg-emerald-950/40 text-xs font-bold text-emerald-800 dark:text-emerald-300 flex items-center justify-center gap-1.5">
+            <div className="mt-2.5 p-2 border border-dashed border-[#0F0F0F] dark:border-emerald-500/50 sketch-border-tag bg-emerald-50 dark:bg-emerald-950/40 text-xs font-bold text-emerald-800 dark:text-emerald-300 flex items-center justify-center gap-1.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-              <span>تم اختيار متجر "{initialStoreConfig.storeName}" بنجاح من الاستوديو</span>
+              <span>تم اختيار تيمبليت متجر "{initialStoreConfig.storeName}" بنجاح</span>
             </div>
           )}
         </div>
 
-        {/* VIEW 1: THE INPUT FORM */}
-        {!isSubmitted ? (
-          <form onSubmit={handleSubmit} className="space-y-4 text-right">
-            
-            {/* Plan Selector */}
-            <div>
-              <label className="block text-xs font-black mb-1.5 text-[#0F0F0F] dark:text-white">
-                اختر الباقة المطلوبة:
-              </label>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                {(['standard', 'pro', 'custom'] as const).map((planKey) => {
-                  const plan = PLAN_INFO[planKey];
-                  const isSelected = formData.selectedPlan === planKey;
-                  return (
-                    <button
-                      key={planKey}
-                      type="button"
-                      onClick={() => {
-                        playClick();
-                        setFormData({ ...formData, selectedPlan: planKey });
-                      }}
-                      className={`p-2.5 text-right border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-tag transition-all ${
-                        isSelected
-                          ? 'bg-[#0F0F0F] text-white dark:bg-orange-500 dark:text-slate-950 sketch-shadow-sm -translate-y-0.5'
-                          : 'bg-white dark:bg-slate-800 hover:bg-neutral-50 dark:hover:bg-slate-700 text-[#0F0F0F] dark:text-slate-200'
-                      }`}
-                    >
-                      <div className="text-xs font-black">{plan.name}</div>
-                      <div className="text-sm font-black mt-1">
-                        {plan.priceDisplay}
-                      </div>
-                      <div className={`text-[10px] mt-1 line-clamp-1 ${isSelected ? 'text-slate-300 dark:text-slate-900 font-bold' : 'text-[#0F0F0F]/60 dark:text-slate-400'}`}>
-                        {planKey === 'standard' ? '4 أقسام فقط' : planKey === 'pro' ? 'أقسام + سيستم الأرباح' : 'حسب المطلوب (مش ثابت)'}
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Full Name */}
-            <div>
-              <label className="block text-xs font-black mb-1 text-[#0F0F0F] dark:text-slate-200">
-                الاسم الكريم / صاحب المتجر *
-              </label>
-              <input
-                type="text"
-                required
-                placeholder="مثال: أحمد عبد الرحمن"
-                value={formData.fullName}
-                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                className="w-full p-2.5 text-sm font-bold border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-2 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white focus:outline-hidden"
-              />
-            </div>
-
-            {/* Store Name & Subdomain */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label className="block text-xs font-black mb-1 text-[#0F0F0F] dark:text-slate-200">
-                  اسم المتجر أو البراند *
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="مثال: سبورتك، فاسكو ستريت، برجر كلوب..."
-                  value={formData.storeName}
-                  onChange={(e) => {
-                    setFormData({ ...formData, storeName: e.target.value });
-                    if (!desiredSubdomain) {
-                      setDesiredSubdomain(e.target.value.toLowerCase().replace(/[^a-z0-9]/g, ''));
-                    }
-                  }}
-                  className="w-full p-2.5 text-sm font-bold border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-3 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white focus:outline-hidden"
+        {/* ======================================================== */}
+        {/* MULTI-STEP WIZARD PROGRESS BAR (3 STEPS) */}
+        {/* ======================================================== */}
+        {!isSubmitted && (
+          <div className="mb-5 pb-3 border-b border-dashed border-slate-300 dark:border-slate-800">
+            <div className="flex items-center justify-between relative px-2 sm:px-6">
+              
+              {/* Connector line */}
+              <div className="absolute top-1/2 left-6 right-6 -translate-y-1/2 h-1 bg-slate-200 dark:bg-slate-800 -z-0">
+                <div
+                  className="h-full bg-orange-500 transition-all duration-300"
+                  style={{ width: currentStep === 1 ? '0%' : currentStep === 2 ? '50%' : '100%' }}
                 />
               </div>
 
-              <div>
-                <label className="block text-xs font-black mb-1 text-[#0F0F0F] dark:text-slate-200">
-                  الساب دومين المطلوب (Subdomain) *
-                </label>
-                <div className="flex items-center" dir="ltr">
+              {/* Step 1 Pill */}
+              <button
+                type="button"
+                onClick={() => {
+                  playClick();
+                  setCurrentStep(1);
+                }}
+                className={`relative z-10 flex flex-col items-center gap-1 group transition-all ${
+                  currentStep >= 1 ? 'opacity-100' : 'opacity-60'
+                }`}
+              >
+                <div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-xs border-2 transition-all ${
+                    currentStep === 1
+                      ? 'bg-orange-500 text-slate-950 border-[#0F0F0F] dark:border-orange-400 scale-110 shadow-md'
+                      : currentStep > 1
+                      ? 'bg-emerald-500 text-white border-[#0F0F0F] dark:border-emerald-400'
+                      : 'bg-white dark:bg-slate-800 text-slate-500 border-slate-300 dark:border-slate-700'
+                  }`}
+                >
+                  {currentStep > 1 ? <Check className="w-4 h-4" /> : '1'}
+                </div>
+                <span className={`text-[11px] font-black ${currentStep === 1 ? 'text-orange-600 dark:text-orange-400' : 'text-slate-600 dark:text-slate-400'}`}>
+                  الباقة والدومين
+                </span>
+              </button>
+
+              {/* Step 2 Pill */}
+              <button
+                type="button"
+                onClick={() => {
+                  if (validateStep1()) {
+                    playClick();
+                    setCurrentStep(2);
+                  }
+                }}
+                className={`relative z-10 flex flex-col items-center gap-1 group transition-all ${
+                  currentStep >= 2 ? 'opacity-100' : 'opacity-60'
+                }`}
+              >
+                <div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-xs border-2 transition-all ${
+                    currentStep === 2
+                      ? 'bg-orange-500 text-slate-950 border-[#0F0F0F] dark:border-orange-400 scale-110 shadow-md'
+                      : currentStep > 2
+                      ? 'bg-emerald-500 text-white border-[#0F0F0F] dark:border-emerald-400'
+                      : 'bg-white dark:bg-slate-800 text-slate-500 border-slate-300 dark:border-slate-700'
+                  }`}
+                >
+                  {currentStep > 2 ? <Check className="w-4 h-4" /> : '2'}
+                </div>
+                <span className={`text-[11px] font-black ${currentStep === 2 ? 'text-orange-600 dark:text-orange-400' : 'text-slate-600 dark:text-slate-400'}`}>
+                  بيانات المالك
+                </span>
+              </button>
+
+              {/* Step 3 Pill */}
+              <button
+                type="button"
+                onClick={() => {
+                  if (validateStep1() && validateStep2()) {
+                    playClick();
+                    setCurrentStep(3);
+                  }
+                }}
+                className={`relative z-10 flex flex-col items-center gap-1 group transition-all ${
+                  currentStep === 3 ? 'opacity-100' : 'opacity-60'
+                }`}
+              >
+                <div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-xs border-2 transition-all ${
+                    currentStep === 3
+                      ? 'bg-orange-500 text-slate-950 border-[#0F0F0F] dark:border-orange-400 scale-110 shadow-md'
+                      : 'bg-white dark:bg-slate-800 text-slate-500 border-slate-300 dark:border-slate-700'
+                  }`}
+                >
+                  3
+                </div>
+                <span className={`text-[11px] font-black ${currentStep === 3 ? 'text-orange-600 dark:text-orange-400' : 'text-slate-600 dark:text-slate-400'}`}>
+                  الدفع والتأكيد
+                </span>
+              </button>
+
+            </div>
+          </div>
+        )}
+
+        {/* ======================================================== */}
+        {/* VIEW 1: MULTI-STEP FORM */}
+        {/* ======================================================== */}
+        {!isSubmitted ? (
+          <form onSubmit={handleSubmit} className="text-right">
+            
+            {/* ---------------------------------------------------- */}
+            {/* STEP 1: PLAN & SUBDOMAIN */}
+            {/* ---------------------------------------------------- */}
+            {currentStep === 1 && (
+              <div className="space-y-4 animate-in fade-in duration-200">
+                
+                {/* Plan Selection */}
+                <div>
+                  <label className="block text-xs font-black mb-1.5 text-[#0F0F0F] dark:text-white">
+                    1. اختر الباقة المناسبة لحجم شغلك:
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    {(['standard', 'pro', 'custom'] as const).map((planKey) => {
+                      const plan = PLAN_INFO[planKey];
+                      const isSelected = formData.selectedPlan === planKey;
+                      return (
+                        <button
+                          key={planKey}
+                          type="button"
+                          onClick={() => {
+                            playClick();
+                            setFormData({ ...formData, selectedPlan: planKey });
+                          }}
+                          className={`p-3 text-right border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-tag transition-all ${
+                            isSelected
+                              ? 'bg-[#0F0F0F] text-white dark:bg-orange-500 dark:text-slate-950 sketch-shadow-sm -translate-y-0.5 ring-2 ring-orange-500/50'
+                              : 'bg-white dark:bg-slate-800 hover:bg-neutral-50 dark:hover:bg-slate-700 text-[#0F0F0F] dark:text-slate-200'
+                          }`}
+                        >
+                          <div className="text-xs font-black">{plan.name}</div>
+                          <div className="text-base font-black mt-1 font-heading">
+                            {plan.priceDisplay}
+                          </div>
+                          <div className={`text-[10px] mt-1.5 line-clamp-2 leading-tight ${isSelected ? 'text-slate-300 dark:text-slate-950 font-bold' : 'text-[#0F0F0F]/65 dark:text-slate-400'}`}>
+                            {plan.badge}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Store Name & Subdomain */}
+                <div className="space-y-3 pt-1">
+                  <div>
+                    <label className="block text-xs font-black mb-1 text-[#0F0F0F] dark:text-slate-200">
+                      اسم المتجر أو البراند بالكامل *
+                    </label>
+                    <div className="relative">
+                      <Store className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                      <input
+                        type="text"
+                        required
+                        placeholder="مثال: سبورتك ستور، فاسكو للأزياء، برجر كلوب..."
+                        value={formData.storeName}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setFormData({ ...formData, storeName: val });
+                          if (!desiredSubdomain || desiredSubdomain === formData.storeName.toLowerCase().replace(/[^a-z0-9]/g, '')) {
+                            setDesiredSubdomain(val.toLowerCase().replace(/[^a-z0-9]/g, ''));
+                          }
+                          if (stepErrors.storeName) {
+                            setStepErrors((prev) => ({ ...prev, storeName: '' }));
+                          }
+                        }}
+                        className={`w-full pr-9 pl-3 py-2.5 text-sm font-bold border-2 ${
+                          stepErrors.storeName ? 'border-red-500' : 'border-[#0F0F0F] dark:border-slate-700'
+                        } sketch-border-3 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white focus:outline-hidden`}
+                      />
+                    </div>
+                    {stepErrors.storeName && (
+                      <p className="text-xs text-red-500 font-bold mt-1 flex items-center gap-1">
+                        <AlertCircle className="w-3.5 h-3.5" /> {stepErrors.storeName}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-xs font-black text-[#0F0F0F] dark:text-slate-200">
+                        الساب دومين المطلوب (رابط موقعك) *
+                      </label>
+                      <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
+                        <Sparkles className="w-3 h-3" /> متاح مجاناً مع الباقة
+                      </span>
+                    </div>
+
+                    <div className="flex items-center" dir="ltr">
+                      <input
+                        type="text"
+                        required
+                        placeholder="mybrand"
+                        value={desiredSubdomain}
+                        onChange={(e) => {
+                          setDesiredSubdomain(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''));
+                          if (stepErrors.subdomain) {
+                            setStepErrors((prev) => ({ ...prev, subdomain: '' }));
+                          }
+                        }}
+                        className="w-full p-2.5 text-xs font-bold font-mono border-2 border-r-0 border-[#0F0F0F] dark:border-slate-700 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white text-left focus:outline-hidden"
+                      />
+                      <span className="p-2.5 bg-neutral-100 dark:bg-slate-800 border-2 border-[#0F0F0F] dark:border-slate-700 text-[11px] font-mono font-bold text-slate-700 dark:text-slate-300 whitespace-nowrap">
+                        .sketchorder.com
+                      </span>
+                    </div>
+
+                    {/* LIVE SUBDOMAIN AVAILABILITY BADGE */}
+                    <div className="mt-2 p-2 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800 rounded-lg flex items-center justify-between text-xs font-bold text-emerald-800 dark:text-emerald-300">
+                      <div className="flex items-center gap-1.5">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                        <span>مبروك! الدومين ده متاح حالياً ✓</span>
+                      </div>
+                      <span className="font-mono text-[11px] text-emerald-700 dark:text-emerald-400" dir="ltr">
+                        {cleanSubdomain}.sketchorder.com
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Step 1 Actions */}
+                <div className="pt-3">
+                  <button
+                    type="button"
+                    onClick={handleGoToStep2}
+                    className="btn-sketch btn-sketch-primary w-full text-base py-3 font-heading flex items-center justify-center gap-2 -rotate-1"
+                  >
+                    <span>متابعة للخطوة 2: بيانات المالك</span>
+                    <ArrowLeft className="w-4 h-4" />
+                  </button>
+                </div>
+
+              </div>
+            )}
+
+            {/* ---------------------------------------------------- */}
+            {/* STEP 2: OWNER & BUSINESS DETAILS */}
+            {/* ---------------------------------------------------- */}
+            {currentStep === 2 && (
+              <div className="space-y-4 animate-in fade-in duration-200">
+                
+                {/* Full Name */}
+                <div>
+                  <label className="block text-xs font-black mb-1 text-[#0F0F0F] dark:text-slate-200">
+                    الاسم الكريم / صاحب المتجر بالكامل *
+                  </label>
                   <input
                     type="text"
                     required
-                    placeholder="mybrand"
-                    value={desiredSubdomain}
-                    onChange={(e) => setDesiredSubdomain(e.target.value)}
-                    className="w-full p-2.5 text-xs font-bold font-mono border-2 border-r-0 border-[#0F0F0F] dark:border-slate-700 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white text-left focus:outline-hidden"
+                    placeholder="مثال: كريم أحمد عبد الرحمن"
+                    value={formData.fullName}
+                    onChange={(e) => {
+                      setFormData({ ...formData, fullName: e.target.value });
+                      if (stepErrors.fullName) {
+                        setStepErrors((prev) => ({ ...prev, fullName: '' }));
+                      }
+                    }}
+                    className={`w-full p-2.5 text-sm font-bold border-2 ${
+                      stepErrors.fullName ? 'border-red-500' : 'border-[#0F0F0F] dark:border-slate-700'
+                    } sketch-border-2 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white focus:outline-hidden`}
                   />
-                  <span className="p-2.5 bg-neutral-100 dark:bg-slate-800 border-2 border-[#0F0F0F] dark:border-slate-700 text-[11px] font-mono font-bold text-slate-700 dark:text-slate-300 whitespace-nowrap">
-                    .sketchorder.com
+                  {stepErrors.fullName && (
+                    <p className="text-xs text-red-500 font-bold mt-1 flex items-center gap-1">
+                      <AlertCircle className="w-3.5 h-3.5" /> {stepErrors.fullName}
+                    </p>
+                  )}
+                </div>
+
+                {/* WhatsApp Phone with Live Validation */}
+                <div>
+                  <label className="block text-xs font-black mb-1 text-[#0F0F0F] dark:text-slate-200">
+                    رقم الواتساب للتواصل وتفعيل المتجر *
+                  </label>
+                  <div className="relative">
+                    <Phone className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <input
+                      type="tel"
+                      required
+                      dir="ltr"
+                      placeholder="01012345678"
+                      value={formData.whatsapp}
+                      onChange={(e) => {
+                        setFormData({ ...formData, whatsapp: e.target.value });
+                        if (stepErrors.whatsapp) {
+                          setStepErrors((prev) => ({ ...prev, whatsapp: '' }));
+                        }
+                      }}
+                      className={`w-full pr-9 pl-3 py-2.5 text-sm font-bold font-mono border-2 ${
+                        stepErrors.whatsapp ? 'border-red-500' : 'border-[#0F0F0F] dark:border-slate-700'
+                      } sketch-border-1 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white text-right focus:outline-hidden`}
+                    />
+                  </div>
+                  {stepErrors.whatsapp ? (
+                    <p className="text-xs text-red-500 font-bold mt-1 flex items-center gap-1">
+                      <AlertCircle className="w-3.5 h-3.5" /> {stepErrors.whatsapp}
+                    </p>
+                  ) : formData.whatsapp && (
+                    <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold mt-1 flex items-center gap-1">
+                      <CheckCircle2 className="w-3.5 h-3.5" /> رقم هاتف صالح للاستقبال عبر واتساب
+                    </p>
+                  )}
+                </div>
+
+                {/* Niche & Governorate */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-black mb-1 text-[#0F0F0F] dark:text-slate-200">
+                      مجال النشاط التجاري
+                    </label>
+                    <select
+                      value={formData.storeType}
+                      onChange={(e) => setFormData({ ...formData, storeType: e.target.value })}
+                      className="w-full p-2.5 text-xs sm:text-sm font-bold border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-2 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white focus:outline-hidden"
+                    >
+                      <option value="كوتشيات وسنيكرز ومستلزمات رياضية">👟 كوتشيات وسنيكرز رياضية</option>
+                      <option value="ملابس وستريت وير وأوفر سايز">👕 أزياء وستريت وير</option>
+                      <option value="مطاعم ومأكولات سريعة وحجز طاولات">🍔 مطاعم ومأكولات سريعة</option>
+                      <option value="عطور ومجوهرات ومستحضرات تجميل">💎 عطور ومجوهرات فاخرة</option>
+                      <option value="أثاث وديكور منزلي">🛋️ أثاث وديكور منزلي</option>
+                      <option value="أخرى">📦 نشاط تجاري آخر</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-black mb-1 text-[#0F0F0F] dark:text-slate-200">
+                      المحافظة الرئيسية
+                    </label>
+                    <div className="relative">
+                      <MapPin className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                      <select
+                        value={formData.governorate}
+                        onChange={(e) => setFormData({ ...formData, governorate: e.target.value })}
+                        className="w-full p-2.5 text-xs sm:text-sm font-bold border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-2 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white focus:outline-hidden"
+                      >
+                        <option value="القاهرة">القاهرة</option>
+                        <option value="الجيزة">الجيزة</option>
+                        <option value="الإسكندرية">الإسكندرية</option>
+                        <option value="القليوبية والدلتا">القليوبية والدلتا</option>
+                        <option value="المنصورة والشرقية">المنصورة والشرقية</option>
+                        <option value="مدن القناة والبحر الأحمر">مدن القناة والبحر الأحمر</option>
+                        <option value="محافظات الصعيد">محافظات الصعيد</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Step 2 Actions (Back & Next) */}
+                <div className="pt-3 flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      playClick();
+                      setCurrentStep(1);
+                    }}
+                    className="btn-sketch w-1/3 text-xs sm:text-sm py-3 font-heading flex items-center justify-center gap-1.5"
+                  >
+                    <ArrowRight className="w-4 h-4" />
+                    <span>رجوع</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleGoToStep3}
+                    className="btn-sketch btn-sketch-primary w-2/3 text-sm sm:text-base py-3 font-heading flex items-center justify-center gap-2 -rotate-1"
+                  >
+                    <span>متابعة للدفع (خطوة 3)</span>
+                    <ArrowLeft className="w-4 h-4" />
+                  </button>
+                </div>
+
+              </div>
+            )}
+
+            {/* ---------------------------------------------------- */}
+            {/* STEP 3: PAYMENT, RECEIPT & CONFIRMATION */}
+            {/* ---------------------------------------------------- */}
+            {currentStep === 3 && (
+              <div className="space-y-4 animate-in fade-in duration-200">
+                
+                {/* Payment Methods */}
+                <div>
+                  <label className="block text-xs font-black mb-1.5 text-[#0F0F0F] dark:text-white">
+                    اختر طريقة الدفع المناسبة لك:
+                  </label>
+                  <select
+                    value={formData.paymentMethod}
+                    onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}
+                    className="w-full p-2.5 text-xs sm:text-sm font-bold border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-2 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white focus:outline-hidden"
+                  >
+                    <option value="إنستاباي (InstaPay)">⚡ إنستاباي (InstaPay) - تحويل فوري لحظي</option>
+                    <option value="محفظة فودافون كاش">📱 محفظة فودافون كاش / أورنج كاش</option>
+                    <option value="كروت بنكية وفيزا وميزة">💳 بطاقة بنكية / فيزا / ميزة</option>
+                  </select>
+                </div>
+
+                {/* 1-Click Copy Accounts Box */}
+                <div className="p-3.5 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-2 bg-amber-50/60 dark:bg-amber-500/10 space-y-2.5">
+                  <span className="text-xs font-black text-[#0F0F0F] dark:text-amber-200 block">
+                    بيانات التحويل المباشر (اضغط للنسخ فوراً):
                   </span>
-                </div>
-              </div>
-            </div>
 
-            {/* Niche & Governorate */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label className="block text-xs font-black mb-1 text-[#0F0F0F] dark:text-slate-200">
-                  مجال النشاط
-                </label>
-                <select
-                  value={formData.storeType}
-                  onChange={(e) => setFormData({ ...formData, storeType: e.target.value })}
-                  className="w-full p-2.5 text-sm font-bold border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-2 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white focus:outline-hidden"
-                >
-                  <option value="كوتشيات وسنيكرز ومستلزمات رياضية">كوتشيات وسنيكرز ومستلزمات رياضية</option>
-                  <option value="ملابس وستريت وير وأوفر سايز">ملابس وستريت وير وأوفر سايز</option>
-                  <option value="مطاعم ومأكولات سريعة وحجز طاولات">مطاعم ومأكولات سريعة وحجز طاولات</option>
-                  <option value="عطور ومجوهرات ومستحضرات تجميل">عطور ومجوهرات ومستحضرات تجميل</option>
-                  <option value="أثاث وديكور منزلي">أثاث وديكور منزلي</option>
-                  <option value="أخرى">أخرى (سأوضحها في الملاحظات)</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-black mb-1 text-[#0F0F0F] dark:text-slate-200">
-                  المحافظة الرئيسية
-                </label>
-                <select
-                  value={formData.governorate}
-                  onChange={(e) => setFormData({ ...formData, governorate: e.target.value })}
-                  className="w-full p-2.5 text-sm font-bold border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-2 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white focus:outline-hidden"
-                >
-                  <option value="القاهرة">القاهرة</option>
-                  <option value="الجيزة">الجيزة</option>
-                  <option value="الإسكندرية">الإسكندرية</option>
-                  <option value="القليوبية والدلتا">القليوبية والدلتا</option>
-                  <option value="المنصورة والشرقية">المنصورة والشرقية</option>
-                  <option value="مدن القناة والبحر الأحمر">مدن القناة والبحر الأحمر</option>
-                  <option value="محافظات الصعيد">محافظات الصعيد</option>
-                </select>
-              </div>
-            </div>
-
-            {/* WhatsApp Phone */}
-            <div>
-              <label className="block text-xs font-black mb-1 text-[#0F0F0F] dark:text-slate-200">
-                رقم الواتساب للتواصل وتفعيل المتجر *
-              </label>
-              <input
-                type="tel"
-                required
-                dir="ltr"
-                placeholder="010XXXXXXXX or 011/012/015"
-                value={formData.whatsapp}
-                onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
-                className="w-full p-2.5 text-sm font-bold font-mono border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-1 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white text-right focus:outline-hidden"
-              />
-            </div>
-
-            {/* Payment Method & Receipt Upload Box */}
-            <div className="p-3.5 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-2 bg-amber-50/50 dark:bg-amber-500/10 space-y-2.5">
-              <label className="block text-xs font-black text-[#0F0F0F] dark:text-amber-200">
-                طريقة الدفع والتأكيد الفوري:
-              </label>
-
-              <select
-                value={formData.paymentMethod}
-                onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}
-                className="w-full p-2.5 text-xs font-bold border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-2 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white focus:outline-hidden"
-              >
-                <option value="إنستاباي (InstaPay)">⚡ إنستاباي (InstaPay) - تحويل فوري لحظي</option>
-                <option value="محفظة فودافون كاش">📱 محفظة فودافون كاش / أورنج كاش</option>
-                <option value="كروت بنكية وفيزا وميزة">💳 بطاقة بنكية / فيزا / ميزة</option>
-              </select>
-
-              <div className="text-xs font-bold space-y-1.5 pt-1">
-                <div className="flex items-center justify-between p-2 bg-white dark:bg-slate-900 border border-[#0F0F0F]/30 dark:border-slate-700 rounded-md">
-                  <span className="text-slate-800 dark:text-slate-300">⚡ عنوان إنستاباي (InstaPay IPA):</span>
-                  <span className="font-mono font-black text-indigo-700 dark:text-indigo-400 select-all">kareem07@instapay</span>
-                </div>
-                <div className="flex items-center justify-between p-2 bg-white dark:bg-slate-900 border border-[#0F0F0F]/30 dark:border-slate-700 rounded-md">
-                  <span className="text-slate-800 dark:text-slate-300">📱 رقم فودافون كاش:</span>
-                  <span className="font-mono font-black text-rose-700 dark:text-rose-400 select-all">01023456789</span>
-                </div>
-              </div>
-
-              {/* Receipt File Upload */}
-              <div className="pt-2 border-t border-dashed border-[#0F0F0F]/30 dark:border-slate-700">
-                <label className="block text-xs font-black mb-1.5 text-slate-900 dark:text-slate-200">
-                  إرفاق سكرين شوت التحويل لتسريع قبول وتفعيل الموقع:
-                </label>
-                {receiptBase64 ? (
-                  <div className="flex items-center justify-between p-2.5 bg-white dark:bg-slate-900 border-2 border-[#0F0F0F] dark:border-slate-700 rounded-xl shadow-xs">
-                    <div className="flex items-center gap-2.5">
-                      <img src={receiptBase64} alt="Receipt preview" className="w-12 h-12 object-cover rounded-lg border border-slate-300 dark:border-slate-700" />
-                      <div>
-                        <span className="text-xs font-black text-emerald-700 dark:text-emerald-400 flex items-center gap-1">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" /> تم إرفاق السكرين شوت
-                        </span>
-                        <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">سيظهر مباشرة في لوحة إدارة صاحب الموقع</span>
+                  {/* InstaPay Copy Row */}
+                  <div className="flex items-center justify-between p-2.5 bg-white dark:bg-slate-900 border border-[#0F0F0F]/30 dark:border-slate-700 rounded-xl">
+                    <div className="text-right">
+                      <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400">⚡ عنوان إنستاباي (InstaPay IPA):</div>
+                      <div className="font-mono font-black text-sm text-indigo-700 dark:text-indigo-400">
+                        kareem07@instapay
                       </div>
                     </div>
+
                     <button
                       type="button"
-                      onClick={() => setReceiptBase64(null)}
-                      className="text-xs text-red-600 dark:text-red-400 font-bold hover:underline px-2 py-1"
+                      onClick={() => handleCopyText('kareem07@instapay', 'instapay')}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-black flex items-center gap-1.5 transition-all ${
+                        copiedField === 'instapay'
+                          ? 'bg-emerald-600 text-white'
+                          : 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 hover:bg-indigo-100'
+                      }`}
                     >
-                      حذف واستبدال
+                      {copiedField === 'instapay' ? (
+                        <>
+                          <Check className="w-3.5 h-3.5" />
+                          <span>تم النسخ ✓</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3.5 h-3.5" />
+                          <span>نسخ بضغطة واحدة</span>
+                        </>
+                      )}
                     </button>
                   </div>
-                ) : (
-                  <label className="flex items-center justify-center gap-2 p-3 border-2 border-dashed border-[#0F0F0F] dark:border-slate-700 sketch-border-tag bg-white dark:bg-slate-900 hover:bg-neutral-50 dark:hover:bg-slate-800 cursor-pointer text-xs font-black transition-colors">
-                    <Upload className="w-4 h-4 text-[#0F0F0F] dark:text-slate-200" />
-                    <span>اضغط هنا لرفع سكرين شوت التحويل (PNG / JPG) 📎</span>
-                    <input type="file" accept="image/*" onChange={handleReceiptUpload} className="hidden" />
-                  </label>
-                )}
-              </div>
-            </div>
 
-            {/* Notes */}
-            <div>
-              <label className="block text-xs font-black mb-1 text-[#0F0F0F] dark:text-slate-200">
-                ملاحظات أو رغبات خاصة لمتجرك
-              </label>
-              <textarea
-                rows={2}
-                placeholder="مثال: محتاج دومين باسم mybrand.com ومعايا 15 منتج جاهزين للرفع..."
-                value={formData.notes}
-                onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                className="w-full p-2 text-xs font-bold border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-2 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white focus:outline-hidden resize-none"
-              ></textarea>
-            </div>
+                  {/* Vodafone Cash Copy Row */}
+                  <div className="flex items-center justify-between p-2.5 bg-white dark:bg-slate-900 border border-[#0F0F0F]/30 dark:border-slate-700 rounded-xl">
+                    <div className="text-right">
+                      <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400">📱 رقم فودافون كاش:</div>
+                      <div className="font-mono font-black text-sm text-rose-700 dark:text-rose-400" dir="ltr">
+                        01023456789
+                      </div>
+                    </div>
 
-            {/* Price Summary Box */}
-            <div className="p-3 border-2 border-[#0F0F0F] dark:border-slate-700 bg-[#FAF9F6] dark:bg-slate-900 sketch-border-1 flex items-center justify-between">
-              <div>
-                <span className="text-xs font-bold text-[#0F0F0F]/70 dark:text-slate-400">المطلوب دفعه:</span>
-                <div className="text-xl font-black font-heading text-[#0F0F0F] dark:text-white">
-                  {currentPlan.priceDisplay}
+                    <button
+                      type="button"
+                      onClick={() => handleCopyText('01023456789', 'vodafone')}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-black flex items-center gap-1.5 transition-all ${
+                        copiedField === 'vodafone'
+                          ? 'bg-emerald-600 text-white'
+                          : 'bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800 hover:bg-rose-100'
+                      }`}
+                    >
+                      {copiedField === 'vodafone' ? (
+                        <>
+                          <Check className="w-3.5 h-3.5" />
+                          <span>تم النسخ ✓</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3.5 h-3.5" />
+                          <span>نسخ بضغطة واحدة</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <div className="text-right">
-                <span className="text-xs font-black text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 px-2 py-0.5 rounded-sm border border-emerald-200 dark:border-emerald-800">
-                  دفع مرة واحدة • ملكك مدى الحياة
-                </span>
-              </div>
-            </div>
 
-            {/* Submit Button */}
-            <div className="pt-2">
-              <button
-                type="submit"
-                className="btn-sketch btn-sketch-primary w-full text-base py-3.5 -rotate-1 font-heading"
-              >
-                <Send className="w-4 h-4" />
-                <span>اعتماد طلب المتجر والتسليم في خلال دقايق</span>
-              </button>
-            </div>
+                {/* Receipt Upload Box */}
+                <div>
+                  <label className="block text-xs font-black mb-1.5 text-slate-900 dark:text-slate-200">
+                    إرفاق إيصال التحويل (لتسريع اعتماد وتفعيل المتجر):
+                  </label>
+                  {receiptBase64 ? (
+                    <div className="flex items-center justify-between p-2.5 bg-white dark:bg-slate-900 border-2 border-emerald-500 dark:border-emerald-600 rounded-xl shadow-xs">
+                      <div className="flex items-center gap-2.5">
+                        <img src={receiptBase64} alt="إيصال التحويل" className="w-12 h-12 object-cover rounded-lg border border-slate-300 dark:border-slate-700" />
+                        <div>
+                          <span className="text-xs font-black text-emerald-700 dark:text-emerald-400 flex items-center gap-1">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" /> تم إرفاق صورة الإيصال
+                          </span>
+                          <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">ستظهر فوراً في لوحة تحكم التاجر للإدارة</span>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setReceiptBase64(null)}
+                        className="text-xs text-red-600 dark:text-red-400 font-bold hover:underline px-2 py-1"
+                      >
+                        حذف واستبدال
+                      </button>
+                    </div>
+                  ) : (
+                    <label className="flex items-center justify-center gap-2 p-3 border-2 border-dashed border-[#0F0F0F] dark:border-slate-700 sketch-border-tag bg-white dark:bg-slate-900 hover:bg-neutral-50 dark:hover:bg-slate-800 cursor-pointer text-xs font-black transition-colors">
+                      <Upload className="w-4 h-4 text-[#0F0F0F] dark:text-slate-200" />
+                      <span>اضغط هنا لرفع سكرين شوت التحويل (PNG / JPG) 📎</span>
+                      <input type="file" accept="image/*" onChange={handleReceiptUpload} className="hidden" />
+                    </label>
+                  )}
+                </div>
 
-            <div className="text-[11px] text-center text-[#0F0F0F]/70 dark:text-slate-400 pt-1 font-bold">
-              * الدفع بعد المعاينة والتأكد من كل التفاصيل • سرعة التواصل عبر الدعم الفني
-            </div>
+                {/* Notes */}
+                <div>
+                  <label className="block text-xs font-black mb-1 text-[#0F0F0F] dark:text-slate-200">
+                    ملاحظات أو رغبات خاصة لمتجرك
+                  </label>
+                  <textarea
+                    rows={2}
+                    placeholder="أي تفاصيل تحب نضيفها في تصميم متجرك أو منتجاتك..."
+                    value={formData.notes}
+                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                    className="w-full p-2 text-xs font-bold border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-2 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white focus:outline-hidden resize-none"
+                  ></textarea>
+                </div>
+
+                {/* Price Summary Box */}
+                <div className="p-3 border-2 border-[#0F0F0F] dark:border-slate-700 bg-[#FAF9F6] dark:bg-slate-900 sketch-border-1 flex items-center justify-between">
+                  <div>
+                    <span className="text-xs font-bold text-[#0F0F0F]/70 dark:text-slate-400">إجمالي المطلوب دفعه:</span>
+                    <div className="text-xl font-black font-heading text-[#0F0F0F] dark:text-white">
+                      {currentPlan.priceDisplay}
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-xs font-black text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 px-2 py-0.5 rounded-sm border border-emerald-200 dark:border-emerald-800">
+                      دفع مرة واحدة • ملكك مدى الحياة
+                    </span>
+                  </div>
+                </div>
+
+                {/* Step 3 Actions (Back & Submit) */}
+                <div className="pt-2 flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      playClick();
+                      setCurrentStep(2);
+                    }}
+                    className="btn-sketch w-1/3 text-xs sm:text-sm py-3 font-heading flex items-center justify-center gap-1.5"
+                  >
+                    <ArrowRight className="w-4 h-4" />
+                    <span>رجوع</span>
+                  </button>
+
+                  <button
+                    type="submit"
+                    className="btn-sketch btn-sketch-primary w-2/3 text-sm sm:text-base py-3.5 -rotate-1 font-heading flex items-center justify-center gap-2"
+                  >
+                    <Send className="w-4 h-4" />
+                    <span>اعتماد طلب المتجر والتسليم في دقائق 🚀</span>
+                  </button>
+                </div>
+
+                <div className="text-[11px] text-center text-[#0F0F0F]/70 dark:text-slate-400 pt-1 font-bold">
+                  * الدفع بعد المعاينة والتأكد من كل التفاصيل • سرعة فائقة في التواصل عبر الدعم الفني
+                </div>
+
+              </div>
+            )}
 
           </form>
         ) : (
-          /* VIEW 2: SUCCESS WITH APPROVED RUBBER STAMP */
-          <div className="text-center py-4 space-y-6">
+          /* ======================================================== */
+          /* VIEW 2: SUCCESS WITH APPROVED RUBBER STAMP (5% REDUCED) */
+          /* ======================================================== */
+          <div className="text-center py-3 space-y-4 animate-in zoom-in-95 duration-300">
             
-            <div className="inline-block border-4 border-[#0F0F0F] dark:border-slate-600 p-4 sm:p-6 sketch-border-2 bg-white dark:bg-slate-900 animate-stamp sketch-shadow-lg rotate-[-3deg]">
-              <div className="flex items-center justify-center gap-2 mb-2 border-b-2 border-[#0F0F0F] dark:border-slate-700 pb-1">
+            {/* Rubber Stamp Card - Scaled to 0.95 for comfortable breathing room */}
+            <div className="inline-block border-4 border-[#0F0F0F] dark:border-slate-600 p-4 sm:p-5 sketch-border-2 bg-white dark:bg-slate-900 animate-stamp sketch-shadow-lg rotate-[-2.5deg] scale-[0.95] max-w-md mx-auto">
+              <div className="flex items-center justify-center gap-2 mb-2 border-b-2 border-[#0F0F0F] dark:border-slate-700 pb-1.5">
                 <img src={mascotImg} alt="سكتش مان" className="w-6 h-6 rounded-full" />
-                <span className="text-sm font-black text-[#0F0F0F] dark:text-white">سكتش أوردر • اعتماد رسمي</span>
+                <span className="text-xs font-black text-[#0F0F0F] dark:text-white">سكتش أوردر • اعتماد رسمي للمتجر</span>
               </div>
-              <div className="text-2xl sm:text-4xl font-black font-heading text-[#0F0F0F] dark:text-white tracking-tight">
+              <div className="text-2xl sm:text-3xl font-black font-heading text-[#0F0F0F] dark:text-white tracking-tight">
                 تم اعتماد الطلب #{generatedOrderId} ✓
               </div>
               <div className="text-xs font-bold mt-2 text-[#0F0F0F]/80 dark:text-slate-300">
-                التاريخ: {stampDate} • الباقة: {currentPlan.name} • {currentPlan.priceDisplay}
+                التاريخ: {stampDate} • {currentPlan.name} • {currentPlan.priceDisplay}
               </div>
-              <div className="text-xs font-mono font-bold mt-2 text-indigo-700 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 py-1 px-3 rounded-md border border-indigo-200 dark:border-indigo-800">
-                🌐 الساب دومين: {desiredSubdomain || formData.storeName}.sketchorder.com
+              <div className="text-xs font-mono font-bold mt-2 text-indigo-700 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 py-1 px-3 rounded-md border border-indigo-200 dark:border-indigo-800" dir="ltr">
+                🌐 https://{cleanSubdomain}.sketchorder.com
               </div>
             </div>
 
-            <div className="space-y-2">
-              <h3 className="text-xl font-black font-heading text-[#0F0F0F] dark:text-white">
-                ألف مبروك يا {formData.fullName}! ظهر طلبك في لوحة تحكم المنصة
+            <div className="space-y-1.5 px-2">
+              <h3 className="text-xl sm:text-2xl font-black font-heading text-[#0F0F0F] dark:text-white">
+                ألف مبروك يا {formData.fullName}! 🎉
               </h3>
-              <p className="text-sm font-bold text-[#0F0F0F]/80 dark:text-slate-300 max-w-md mx-auto leading-relaxed">
-                تم تسجيل إيصال التحويل وحجز الساب دومين لمتجر "{formData.storeName}". جاري المراجعة والتسليم فوراً في دقائق معدودة!
+              <p className="text-xs sm:text-sm font-bold text-[#0F0F0F]/80 dark:text-slate-300 max-w-md mx-auto leading-relaxed">
+                تم حفظ حجز الساب دومين لمتجر "{formData.storeName}" وتسجيل إيصال التحويل في لوحة تحكم المنصة. جاري تفعيل استضافتك وتسليم لوحة تحكم التاجر المستقلة في دقائق معدودة!
               </p>
             </div>
 
-            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-2.5">
               <button
                 onClick={handleSendToWhatsApp}
-                className="btn-sketch btn-sketch-primary w-full sm:w-auto text-sm py-3 px-6 -rotate-1"
+                className="btn-sketch btn-sketch-primary w-full sm:w-auto text-xs sm:text-sm py-2.5 px-6 -rotate-1 flex items-center justify-center gap-2"
               >
                 <span>متابعة فورية عبر الواتساب</span>
                 <Send className="w-4 h-4" />
@@ -540,7 +933,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                   playClick();
                   onClose();
                 }}
-                className="btn-sketch w-full sm:w-auto text-sm py-3 px-6 rotate-1"
+                className="btn-sketch w-full sm:w-auto text-xs sm:text-sm py-2.5 px-5 rotate-1"
               >
                 إغلاق والرجوع للموقع
               </button>

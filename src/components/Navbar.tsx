@@ -204,21 +204,21 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
             </button>
 
-            {/* 2. Platform Owner Admin Dashboard Button */}
+            {/* 2. Merchant Portal Demo Dashboard Button */}
             <button
               onClick={() => {
                 playClick();
-                onOpenOwnerAdmin();
+                onOpenMerchantPortal();
               }}
-              className={`hidden md:flex items-center gap-1 px-2.5 py-1.5 border rounded-xl text-xs font-black transition-all ${
+              className={`hidden md:flex items-center gap-1.5 px-3 py-1.5 border rounded-xl text-xs font-black transition-all ${
                 isDarkMode
                   ? 'bg-amber-500/10 text-amber-300 border-amber-500/30 hover:bg-amber-500/20'
                   : 'bg-amber-50 text-amber-900 border-amber-300 hover:bg-amber-100'
               }`}
-              title="لوحة تحكم إدارة الطلبات وقبول التحويلات"
+              title="تجربة لوحة تحكم التاجر لإدارة المنتجات والطلبات"
             >
-              <ShieldCheck className="w-3.5 h-3.5 text-amber-500" />
-              <span>لوحة الإدارة</span>
+              <Store className="w-3.5 h-3.5 text-amber-500" />
+              <span>جرب لوحة تحكم التاجر</span>
             </button>
 
             {/* 3. Dark Mode Toggle Button */}
@@ -250,13 +250,20 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="sm:hidden">اطلب</span>
             </button>
 
-            {/* Sound FX Toggle (Desktop only) */}
+            {/* Sound FX Toggle with helpful tooltip */}
             <button
               onClick={toggleSound}
-              title={soundOn ? 'كتم المؤثرات الصوتية' : 'تفعيل المؤثرات الصوتية'}
-              className="hidden lg:flex p-1.5 border-2 border-inherit/40 sketch-border-circle hover:bg-neutral-500/10 active:scale-95 transition-all"
+              title={soundOn ? 'المؤثرات الصوتية التفاعلية مفعلة 🔊 (اضغط للكتم)' : 'المؤثرات الصوتية مكتومة 🔇 (اضغط للتفعيل)'}
+              className={`hidden lg:flex items-center gap-1.5 p-1.5 px-2.5 border-2 rounded-xl transition-all ${
+                soundOn
+                  ? 'border-orange-500/40 text-orange-500 bg-orange-500/10'
+                  : 'border-inherit/30 text-slate-400 hover:text-slate-600'
+              }`}
             >
-              {soundOn ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5 opacity-50" />}
+              {soundOn ? <Volume2 className="w-3.5 h-3.5 text-orange-500" /> : <VolumeX className="w-3.5 h-3.5 opacity-50" />}
+              <span className="text-[11px] font-bold hidden xl:inline">
+                {soundOn ? 'صوت تفاعلي 🔊' : 'صامت 🔇'}
+              </span>
             </button>
 
             {/* Mobile Menu Hamburger Button */}

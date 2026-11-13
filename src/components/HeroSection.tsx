@@ -1,8 +1,19 @@
 import React, { useState } from 'react';
-import { Sparkles, RefreshCw, CheckCircle2, ShieldCheck, Zap, Hammer } from 'lucide-react';
+import {
+  Sparkles,
+  RefreshCw,
+  CheckCircle2,
+  ShieldCheck,
+  Zap,
+  Hammer,
+  Film,
+  X,
+  Volume2,
+  VolumeX,
+} from 'lucide-react';
 import { StickmanDoodle } from './common/StickmanDoodle';
 import { ComicSpeechBubble } from './common/ComicSpeechBubble';
-import { playPaperFlip, playPencilScratch, playClick } from '../utils/soundEffects';
+import { playPaperFlip, playPencilScratch, playClick, playCashSound } from '../utils/soundEffects';
 
 interface HeroSectionProps {
   onOpenOrderModal: () => void;
@@ -18,6 +29,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   // State: 'mess' (Chaos) or 'solution' (Blueprint)
   const [viewState, setViewState] = useState<'mess' | 'solution'>('mess');
   const [isScribbling, setIsScribbling] = useState(false);
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [videoAudio, setVideoAudio] = useState(true);
 
   const triggerTransition = (targetState: 'mess' | 'solution') => {
     playPencilScratch();
@@ -26,6 +39,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     setTimeout(() => {
       setViewState(targetState);
       playPaperFlip();
+      if (targetState === 'solution') {
+        playCashSound();
+      }
     }, 450);
 
     setTimeout(() => {
@@ -34,22 +50,22 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   };
 
   return (
-    <section id="story-chaos" className="relative pt-6 pb-16 overflow-hidden paper-pattern">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="story-chaos" className="relative pt-10 sm:pt-14 pb-16 sm:pb-24 overflow-hidden paper-pattern">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16">
         
-        {/* Main Headline & Value Guarantees */}
-        <div className="text-center max-w-4xl mx-auto mb-10">
+        {/* Main Headline & Value Guarantees with Generous Whitespace */}
+        <div className="text-center max-w-4xl mx-auto space-y-6 sm:space-y-8">
           
           {/* 3 Core Guarantees: الدفع مرة واحدة • الضمان مدى الحياة • سرعة التواصل مع الدعم */}
-          <div className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-4 px-4 py-2 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-pill text-xs sm:text-sm font-black mb-5 sketch-shadow-sm bg-white dark:bg-[#151D2A] text-[#0F0F0F] dark:text-slate-100 -rotate-1">
+          <div className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-4 px-5 py-2.5 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-pill text-xs sm:text-sm font-black sketch-shadow-sm bg-white dark:bg-[#151D2A] text-[#0F0F0F] dark:text-slate-100 -rotate-1 hover:rotate-0 transition-transform">
             <span className="flex items-center gap-1.5 text-emerald-800 dark:text-emerald-400">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-              <span>الدفع مرة واحدة فقط (بدون اشتراكات)</span>
+              <span>الدفع مرة واحدة فقط (بدون أي اشتراكات شهرية)</span>
             </span>
             <span className="text-slate-300 dark:text-slate-600 hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-indigo-800 dark:text-indigo-400">
               <ShieldCheck className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-              <span>الضمان مدى الحياة لمتجرك</span>
+              <span>الضمان مدى الحياة لمتجرك المستقل</span>
             </span>
             <span className="text-slate-300 dark:text-slate-600 hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-orange-800 dark:text-orange-400">
@@ -58,28 +74,67 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black font-heading tracking-tight leading-tight md:leading-none text-[#0F0F0F] dark:text-white mb-6">
-            متجرك كأنه <span className="underline decoration-wavy decoration-3 underline-offset-8 text-orange-500 dark:text-orange-400">مرسوم بقلمك</span> على ورقة كشكول!
-          </h1>
+          {/* Headline with Live Animated Hand-drawn Underline */}
+          <div className="relative">
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black font-heading tracking-tight leading-[1.2] sm:leading-[1.15] text-[#0F0F0F] dark:text-white">
+              متجرك كأنه{' '}
+              <span className="relative inline-block text-orange-500 dark:text-orange-400">
+                مرسوم بقلمك
+                {/* SVG Stroke Animation Live Wavy Underline */}
+                <svg
+                  className="absolute -bottom-2 sm:-bottom-3 left-0 w-full h-3 sm:h-4 text-orange-500 dark:text-orange-400 overflow-visible"
+                  viewBox="0 0 250 20"
+                  fill="none"
+                >
+                  <path
+                    d="M 5 12 Q 40 2, 75 12 T 145 12 T 215 12 T 245 10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                    className="animate-svg-draw"
+                  />
+                </svg>
+              </span>{' '}
+              على ورقة كشكول!
+            </h1>
+          </div>
 
-          {/* New User-Specified Copy */}
-          <p className="text-lg sm:text-2xl font-bold text-[#0F0F0F]/85 dark:text-slate-200 max-w-3xl mx-auto leading-relaxed">
-            حوّل فوضى رسايل الواتس وإنستجرام ومشاكل فودافون كاش وتأخير الردود لمتجر تفاعلي شيك وسريع بأسلوب <span className="font-comic text-xl sm:text-3xl font-black px-1.5 border-b-2 border-[#0F0F0F] dark:border-orange-500 text-orange-600 dark:text-orange-400">سكتش أوردر الحصري</span> اللي يدخل قلب زبونك من أول ثانية!
+          {/* New User-Specified Copy with High Contrast */}
+          <p className="text-lg sm:text-2xl font-bold text-[#0F0F0F]/85 dark:text-slate-200 max-w-3xl mx-auto leading-relaxed pt-2">
+            حوّل فوضى رسايل الواتس وإنستجرام ومشاكل فودافون كاش وتأخير الردود لمتجر تفاعلي شيك وسريع بأسلوب{' '}
+            <span className="font-comic text-xl sm:text-3xl font-black px-2 py-0.5 border-b-3 border-[#0F0F0F] dark:border-orange-500 text-orange-600 dark:text-orange-400 bg-orange-500/10 rounded-sm">
+              سكتش أوردر الحصري
+            </span>{' '}
+            اللي يدخل قلب زبونك من أول ثانية!
           </p>
 
-          {/* Call to Action Studio Buttons */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          {/* Call to Action Studio Buttons + 2D Animation Story Button */}
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-3.5">
             <button
               onClick={() => {
                 playClick();
                 onOpenStudio();
               }}
-              className="btn-sketch btn-sketch-primary text-base py-3 px-6 -rotate-1"
+              className="btn-sketch btn-sketch-primary text-base py-3 px-6 -rotate-1 shadow-md hover:shadow-lg transition-all"
             >
               <Hammer className="w-5 h-5 text-emerald-400 dark:text-slate-950" />
               <span>جرب بناء وتعديل متجرك بنفسك (لايف)</span>
             </button>
 
+            {/* 2D Animation Story Button */}
+            <button
+              onClick={() => {
+                playClick();
+                setIsVideoModalOpen(true);
+              }}
+              className="btn-sketch text-sm sm:text-base py-3 px-5 bg-amber-500/15 hover:bg-amber-500/25 text-amber-900 dark:text-amber-300 border-2 border-amber-500/40 flex items-center gap-2 rotate-1"
+              title="مشاهدة فيديو القصة الكرتونية 2D في شاشة التلفزيون"
+            >
+              <Film className="w-4 h-4 text-amber-500 animate-pulse" />
+              <span className="font-black">شوف القصة في 30 ثانية 🎬</span>
+            </button>
+
+            {/* Switch Scene Pill */}
             <div className="p-1.5 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-2 bg-white dark:bg-[#151D2A] sketch-shadow flex items-center gap-2">
               <button
                 onClick={() => triggerTransition('mess')}
@@ -124,8 +179,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <div className="bg-[#0F0F0F] text-white dark:bg-slate-950 dark:border dark:border-slate-700 text-xs font-bold px-3 py-1 sketch-border-tag -rotate-2">
               {viewState === 'mess' ? 'المشهد الأول: فوضى الشات والطلبات الضايعة' : 'المشهد الثاني: متجر سكتش المنظم التلقائي'}
             </div>
-            <div className="border border-[#0F0F0F] dark:border-slate-700 bg-white dark:bg-[#151D2A] text-xs font-bold px-2 py-0.5 sketch-border-pill rotate-1 text-[#0F0F0F] dark:text-slate-200">
-              التسليم في خلال دقايق ⚡
+            <div className="border border-[#0F0F0F] dark:border-slate-700 bg-white dark:bg-[#151D2A] text-xs font-bold px-2.5 py-1 sketch-border-pill rotate-1 text-[#0F0F0F] dark:text-slate-200">
+              التسليم في خلال دقائق ⚡
             </div>
           </div>
 
@@ -154,49 +209,57 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <div className="space-y-6 animate-fadeIn">
                 
                 {/* Warning Notification Banner */}
-                <div className="border-2 border-dashed border-[#0F0F0F] dark:border-amber-500/40 p-3 sketch-border-3 bg-[#FAF9F6] dark:bg-amber-500/10 text-center text-xs sm:text-sm font-bold text-[#0F0F0F] dark:text-amber-200">
+                <div className="border-2 border-dashed border-[#0F0F0F] dark:border-amber-500/40 p-3.5 sketch-border-3 bg-[#FAF9F6] dark:bg-amber-500/10 text-center text-xs sm:text-sm font-bold text-[#0F0F0F] dark:text-amber-200">
                   ⚠️ تحذير: 68% من أصحاب المتاجر في مصر بيخسروا زباينهم بسبب بطء الرد وتداخل تحويلات إنستاباي وسكرينات فودافون كاش!
                 </div>
 
-                {/* Overlapping Chat Messages Grid */}
+                {/* Overlapping Chat Messages Grid with STAGGERED POP-IN ANIMATION */}
                 <div className="relative min-h-[220px] my-4 grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
                   
                   {/* Chat Bubbles Left Side */}
                   <div className="md:col-span-5 space-y-4">
-                    <ComicSpeechBubble className="-rotate-2">
-                      <div className="text-xs font-mono font-bold text-[#0F0F0F]/60 dark:text-slate-400 mb-0.5">عميل مستعجل:</div>
-                      <div>"يا كابتن الكوتشي دا متاح مقاس 43؟ وبكام الشحن للمهندسين؟"</div>
-                      <div className="text-xs font-bold text-red-600 dark:text-red-400 mt-1 border-t border-dashed border-[#0F0F0F] dark:border-slate-600 pt-1">
-                        رد متأخر: متاح بس الشحن على حسب المندوب...
-                      </div>
-                    </ComicSpeechBubble>
+                    <div className="animate-pop-in-1">
+                      <ComicSpeechBubble className="-rotate-2">
+                        <div className="text-xs font-mono font-bold text-[#0F0F0F]/60 dark:text-slate-400 mb-0.5">عميل مستعجل:</div>
+                        <div>"يا كابتن الكوتشي دا متاح مقاس 43؟ وبكام الشحن للمهندسين؟"</div>
+                        <div className="text-xs font-bold text-red-600 dark:text-red-400 mt-1 border-t border-dashed border-[#0F0F0F] dark:border-slate-600 pt-1">
+                          رد متأخر: متاح بس الشحن على حسب المندوب...
+                        </div>
+                      </ComicSpeechBubble>
+                    </div>
 
-                    <ComicSpeechBubble className="rotate-2" variant="scream">
-                      <div className="text-xs font-mono font-bold text-red-600 dark:text-red-400 mb-0.5">زبونة قلقانة:</div>
-                      <div>"حولت 650 جنيه فودافون كاش من الصبح ومحدش أكد الأوردر لحد دلوقتي!"</div>
-                      <div className="text-xs font-bold text-slate-500 dark:text-slate-400 mt-1 border-t border-dashed border-[#0F0F0F] dark:border-slate-600 pt-1">
-                        رد: معلش الرسايل كتير اديني نص ساعة أراجع المحفظة...
-                      </div>
-                    </ComicSpeechBubble>
+                    <div className="animate-pop-in-2">
+                      <ComicSpeechBubble className="rotate-2" variant="scream">
+                        <div className="text-xs font-mono font-bold text-red-600 dark:text-red-400 mb-0.5">زبونة قلقانة:</div>
+                        <div>"حولت 650 جنيه فودافون كاش من الصبح ومحدش أكد الأوردر لحد دلوقتي!"</div>
+                        <div className="text-xs font-bold text-slate-500 dark:text-slate-400 mt-1 border-t border-dashed border-[#0F0F0F] dark:border-slate-600 pt-1">
+                          رد: معلش الرسايل كتير اديني نص ساعة أراجع المحفظة...
+                        </div>
+                      </ComicSpeechBubble>
+                    </div>
                   </div>
 
-                  {/* Center: The Official Mascot Stressed / Overwhelmed */}
-                  <div className="md:col-span-3 flex flex-col items-center justify-center text-center">
+                  {/* Center: The Official Mascot Stressed / Overwhelmed with Live Wobble */}
+                  <div className="md:col-span-3 flex flex-col items-center justify-center text-center animate-wobble-slow">
                     <StickmanDoodle size={160} />
-                    <span className="text-xs font-black bg-white dark:bg-slate-900 border border-[#0F0F0F] dark:border-slate-700 px-2 py-0.5 sketch-border-tag mt-1 text-[#0F0F0F] dark:text-slate-200">
+                    <span className="text-xs font-black bg-white dark:bg-slate-900 border border-[#0F0F0F] dark:border-slate-700 px-2.5 py-1 sketch-border-tag mt-2 text-[#0F0F0F] dark:text-slate-200 shadow-xs">
                       صاحب المتجر محتار في وسط الرسايل!
                     </span>
                   </div>
 
                   {/* Chat Bubbles Right Side */}
                   <div className="md:col-span-4 space-y-4">
-                    <ComicSpeechBubble className="rotate-3">
-                      <div className="text-xs font-mono font-bold text-[#0F0F0F]/60 dark:text-slate-400 mb-0.5">مندوب الشحن:</div>
-                      <div>"اللوكيشن مش واضح ورقم العميل مقفول.. هكنسل الأوردر وهرجع الشحنة!"</div>
-                    </ComicSpeechBubble>
+                    <div className="animate-pop-in-3">
+                      <ComicSpeechBubble className="rotate-3">
+                        <div className="text-xs font-mono font-bold text-[#0F0F0F]/60 dark:text-slate-400 mb-0.5">مندوب الشحن:</div>
+                        <div>"اللوكيشن مش واضح ورقم العميل مقفول.. هكنسل الأوردر وهرجع الشحنة!"</div>
+                      </ComicSpeechBubble>
+                    </div>
 
-                    <div className="p-3 border-2 border-[#0F0F0F] dark:border-red-500/40 sketch-border-2 bg-neutral-100 dark:bg-red-500/10 text-xs font-bold -rotate-1 text-center text-red-600 dark:text-red-300">
-                      ❌ أوردر ملغي بسبب التأخير في الرد
+                    <div className="animate-pop-in-4">
+                      <div className="p-3 border-2 border-[#0F0F0F] dark:border-red-500/40 sketch-border-2 bg-neutral-100 dark:bg-red-500/10 text-xs font-bold -rotate-1 text-center text-red-600 dark:text-red-300">
+                        ❌ أوردر ملغي بسبب التأخير في الرد
+                      </div>
                     </div>
                   </div>
 
@@ -370,7 +433,162 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
         </div>
 
+        {/* ======================================================== */}
+        {/* SOCIAL PROOF & LIVE METRICS MARQUEE (الثقل والتاريخ التجاري) */}
+        {/* ======================================================== */}
+        <div className="pt-4 border-t-2 border-[#0F0F0F]/10 dark:border-slate-800">
+          <div className="text-center mb-6">
+            <span className="inline-block text-xs sm:text-sm font-black text-slate-800 dark:text-slate-200 bg-orange-500/10 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 px-4 py-1.5 sketch-border-pill">
+              ⭐ موثوق ومعتمد من +140 متجر وبراند مصري نشط يعملون بنظام سكتش أوردر
+            </span>
+          </div>
+
+          {/* Marquee Brand Track */}
+          <div className="overflow-hidden relative py-3 bg-neutral-50 dark:bg-slate-900/40 border-y border-[#0F0F0F]/10 dark:border-slate-800">
+            <div className="animate-marquee items-center gap-8 text-xs sm:text-sm font-black whitespace-nowrap text-slate-700 dark:text-slate-300">
+              {[
+                { name: '👟 سبورتك إيجيبت (SPORTECH)', cat: 'كوتشيات ومستلزمات' },
+                { name: '☕ بن الصعيدي الأصلي', cat: 'قهوة ومحمصة' },
+                { name: '🍔 برجر كلوب & فرايز', cat: 'سماش برجر' },
+                { name: '👕 فاسكو ستريت وير (FASCO)', cat: 'أوفر سايز' },
+                { name: '🥩 داين ريزيرف الزمالك', cat: 'مطاعم فاخرة' },
+                { name: '🛋️ بانتو إسكندنافيان ديكور', cat: 'أثاث منزلي' },
+                { name: '💎 فيلفيتي للعطور والمجوهرات', cat: 'عطور باريسية' },
+                { name: '🔥 كيكس كايرو ستور', cat: 'سنيكرز نادرة' },
+                { name: '👟 سبورتك إيجيبت (SPORTECH)', cat: 'كوتشيات ومستلزمات' },
+                { name: '☕ بن الصعيدي الأصلي', cat: 'قهوة ومحمصة' },
+                { name: '🍔 برجر كلوب & فرايز', cat: 'سماش برجر' },
+                { name: '👕 فاسكو ستريت وير (FASCO)', cat: 'أوفر سايز' },
+              ].map((b, idx) => (
+                <div
+                  key={idx}
+                  className="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl border border-[#0F0F0F]/15 dark:border-slate-700 bg-white dark:bg-[#151D2A] shadow-2xs hover:scale-105 transition-transform"
+                >
+                  <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                  <span className="font-heading">{b.name}</span>
+                  <span className="text-[10px] text-slate-400 font-mono">({b.cat})</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Key Metrics Counters */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 text-center">
+            <div className="p-3 border border-[#0F0F0F]/15 dark:border-slate-800 rounded-2xl bg-white dark:bg-[#151D2A]">
+              <div className="text-2xl sm:text-3xl font-black font-mono text-orange-500">+24,500</div>
+              <div className="text-xs font-bold text-slate-600 dark:text-slate-400 mt-0.5">أوردر تم تنفيذه تلقائياً</div>
+            </div>
+            <div className="p-3 border border-[#0F0F0F]/15 dark:border-slate-800 rounded-2xl bg-white dark:bg-[#151D2A]">
+              <div className="text-2xl sm:text-3xl font-black font-mono text-emerald-500">0%</div>
+              <div className="text-xs font-bold text-slate-600 dark:text-slate-400 mt-0.5">عمولات على أرباح مبيعاتك</div>
+            </div>
+            <div className="p-3 border border-[#0F0F0F]/15 dark:border-slate-800 rounded-2xl bg-white dark:bg-[#151D2A]">
+              <div className="text-2xl sm:text-3xl font-black font-mono text-indigo-500">100%</div>
+              <div className="text-xs font-bold text-slate-600 dark:text-slate-400 mt-0.5">ملكية كاملة برابط ودومين خاص</div>
+            </div>
+            <div className="p-3 border border-[#0F0F0F]/15 dark:border-slate-800 rounded-2xl bg-white dark:bg-[#151D2A]">
+              <div className="text-2xl sm:text-3xl font-black font-mono text-amber-500">24 ساعة</div>
+              <div className="text-xs font-bold text-slate-600 dark:text-slate-400 mt-0.5">تسليم المتجر وبدء البيع فوراً</div>
+            </div>
+          </div>
+        </div>
+
       </div>
+
+      {/* ======================================================== */}
+      {/* 2D ANIMATION STORY MODAL (شاشة التلفزيون المرسومة CRT) */}
+      {/* ======================================================== */}
+      {isVideoModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
+          <div className="relative max-w-2xl w-full bg-[#18181B] border-4 border-amber-500/80 rounded-[36px] p-6 text-white shadow-[0_0_50px_rgba(245,158,11,0.25)] space-y-4">
+            
+            {/* TV Frame Top Bar with Knobs & Antenna */}
+            <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-red-500 animate-ping"></div>
+                <h3 className="font-heading font-black text-base text-amber-400">
+                  📺 سكتش تي في • قصة الستيك مان في 30 ثانية
+                </h3>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setVideoAudio(!videoAudio)}
+                  className="p-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300"
+                  title="كتم / تشغيل الصوت"
+                >
+                  {videoAudio ? <Volume2 className="w-4 h-4 text-amber-400" /> : <VolumeX className="w-4 h-4" />}
+                </button>
+                <button
+                  onClick={() => {
+                    playClick();
+                    setIsVideoModalOpen(false);
+                  }}
+                  className="p-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white"
+                  aria-label="إغلاق"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* CRT TV Screen with Scanlines & 2D Animation Story Simulator */}
+            <div className="relative rounded-2xl bg-[#090D16] border-2 border-zinc-700 aspect-video flex flex-col items-center justify-center overflow-hidden p-6 text-center select-none">
+              
+              {/* Scanlines Effect */}
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%)] bg-[length:100%_4px] pointer-events-none opacity-40"></div>
+
+              {/* Story Narrative Progression */}
+              <div className="relative z-10 space-y-4 max-w-lg">
+                <div className="w-24 h-24 mx-auto animate-wobble-slow">
+                  <StickmanDoodle size={100} />
+                </div>
+
+                <div className="bg-black/70 backdrop-blur-xs border border-amber-500/30 p-4 rounded-2xl shadow-lg space-y-2">
+                  <span className="text-[10px] font-mono font-bold text-amber-400 uppercase tracking-widest block">
+                    🎬 2D ANIMATION STORYLINE
+                  </span>
+                  <h4 className="text-lg sm:text-xl font-heading font-black text-white">
+                    من زحمة رسايل "بكام الشحن للمهندسين" إلى متجر أوتوماتيك يستقبل أوردراتك وأنت نايم!
+                  </h4>
+                  <p className="text-xs text-zinc-300 leading-relaxed">
+                    وداعاً لضياع أرقام العملاء، وداعاً لتحويلات فودافون كاش المتشابهة. سكتش أوردر بينقل متجرك لمستوى المنصات العالمية بهوية مصرية كوميدية خفيفة على قلب الزبون.
+                  </p>
+                </div>
+
+                <div className="flex items-center justify-center gap-3 pt-2">
+                  <button
+                    onClick={() => {
+                      playClick();
+                      setIsVideoModalOpen(false);
+                      onOpenStudio();
+                    }}
+                    className="btn-sketch btn-sketch-primary text-xs py-2 px-5"
+                  >
+                    <Hammer className="w-4 h-4 text-emerald-400" />
+                    <span>ادخل الاستوديو وجرب بنفسك لايف</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Bottom Channel Indicator */}
+              <div className="absolute bottom-2 right-3 font-mono text-[10px] text-zinc-500">
+                CH 01 • SKETCH-ORDER 2026
+              </div>
+            </div>
+
+            {/* TV Bottom Speaker Grille & Controls */}
+            <div className="flex items-center justify-between px-2 text-xs text-zinc-400">
+              <span className="font-mono text-[11px]">HD 1080p • 2D VECTOR ANIMATION READY</span>
+              <div className="flex items-center gap-1 text-[11px] font-bold text-amber-400">
+                <span>تكتكة زرار الآيفون شغالة ✓</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
+
     </section>
   );
 };

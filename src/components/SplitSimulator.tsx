@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback } from 'react';
-import { ShoppingCart, Check, ArrowLeftRight } from 'lucide-react';
+import { ShoppingCart, Check } from 'lucide-react';
 import { HandDrawnDivider } from './common/HandDrawnDivider';
 import { playPencilScratch, playClick } from '../utils/soundEffects';
 
@@ -223,20 +223,22 @@ export const SplitSimulator: React.FC = () => {
             </div>
           </div>
 
-          {/* DRAGGABLE SLIDER DIVIDER */}
+          {/* DRAGGABLE SLIDER DIVIDER WITH PENCIL / ERASER HANDLE */}
           <div
             className="absolute inset-y-0 z-30 flex items-center justify-center pointer-events-auto"
             style={{ left: `${sliderPos}%`, transform: 'translateX(-50%)' }}
             onPointerDown={handlePointerDown}
           >
-            <div className="w-[3px] sm:w-[4px] h-full bg-[#0F0F0F] dark:bg-orange-500"></div>
+            <div className="w-[3px] sm:w-[4px] h-full bg-[#0F0F0F] dark:bg-orange-500 shadow-sm"></div>
 
-            <div className="absolute top-1/2 -translate-y-1/2 w-11 h-11 border-2 border-[#0F0F0F] dark:border-white bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white sketch-border-circle flex items-center justify-center sketch-shadow cursor-ew-resize hover:scale-110 active:scale-95 transition-transform">
-              <ArrowLeftRight className="w-5 h-5" />
+            {/* Central Pencil/Eraser Handle with gentle pulse */}
+            <div className="absolute top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 border-2 sm:border-3 border-[#0F0F0F] dark:border-orange-500 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-orange-400 rounded-full flex flex-col items-center justify-center sketch-shadow-lg cursor-ew-resize hover:scale-110 active:scale-95 transition-transform animate-pulse shadow-xl">
+              <span className="text-xl sm:text-2xl select-none leading-none -rotate-45">✏️</span>
+              <span className="text-[8px] font-mono font-black uppercase text-orange-500 hidden sm:inline">سحب</span>
             </div>
 
-            <div className="absolute -top-1 bg-[#0F0F0F] dark:bg-orange-500 text-white dark:text-slate-950 text-[10px] font-mono font-bold px-2 py-0.5 sketch-border-pill -rotate-3 whitespace-nowrap">
-              ✏️ اسحب القلم (قارن قبل وبعد)
+            <div className="absolute top-3 bg-[#0F0F0F] dark:bg-orange-500 text-white dark:text-slate-950 text-[10px] sm:text-xs font-mono font-black px-3 py-1 sketch-border-pill -rotate-2 whitespace-nowrap shadow-md">
+              ✏️ اسحب القلم للمقارنة
             </div>
           </div>
         </div>

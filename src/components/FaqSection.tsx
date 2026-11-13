@@ -85,7 +85,7 @@ export const FaqSection: React.FC = () => {
               >
                 <button
                   onClick={() => toggleFaq(idx)}
-                  className="w-full p-4 sm:p-5 text-right flex items-center justify-between gap-4 font-black"
+                  className="w-full p-4 sm:p-5 text-right flex items-center justify-between gap-4 font-black hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors rounded-xl"
                 >
                   <span className="text-base sm:text-lg font-heading text-[#0F0F0F] dark:text-white">
                     {faq.question}
