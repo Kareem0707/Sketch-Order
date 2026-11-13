@@ -41,30 +41,30 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <div className="text-center max-w-4xl mx-auto mb-10">
           
           {/* 3 Core Guarantees: الدفع مرة واحدة • الضمان مدى الحياة • سرعة التواصل مع الدعم */}
-          <div className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-4 px-4 py-2 border-2 border-[#0F0F0F] sketch-border-pill text-xs sm:text-sm font-black mb-5 sketch-shadow-sm bg-white -rotate-1">
-            <span className="flex items-center gap-1.5 text-emerald-800">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+          <div className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-4 px-4 py-2 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-pill text-xs sm:text-sm font-black mb-5 sketch-shadow-sm bg-white dark:bg-[#151D2A] text-[#0F0F0F] dark:text-slate-100 -rotate-1">
+            <span className="flex items-center gap-1.5 text-emerald-800 dark:text-emerald-400">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
               <span>الدفع مرة واحدة فقط (بدون اشتراكات)</span>
             </span>
-            <span className="text-slate-300 hidden sm:inline">•</span>
-            <span className="flex items-center gap-1.5 text-indigo-800">
-              <ShieldCheck className="w-4 h-4 text-indigo-600" />
+            <span className="text-slate-300 dark:text-slate-600 hidden sm:inline">•</span>
+            <span className="flex items-center gap-1.5 text-indigo-800 dark:text-indigo-400">
+              <ShieldCheck className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
               <span>الضمان مدى الحياة لمتجرك</span>
             </span>
-            <span className="text-slate-300 hidden sm:inline">•</span>
-            <span className="flex items-center gap-1.5 text-orange-800">
+            <span className="text-slate-300 dark:text-slate-600 hidden sm:inline">•</span>
+            <span className="flex items-center gap-1.5 text-orange-800 dark:text-orange-400">
               <Zap className="w-4 h-4 text-orange-500" />
               <span>سرعة فائقة في التواصل مع الدعم</span>
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black font-heading tracking-tight leading-tight md:leading-none text-[#0F0F0F] mb-6">
-            متجرك كأنه <span className="underline decoration-wavy decoration-3 underline-offset-8">مرسوم بقلمك</span> على ورقة كشكول!
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black font-heading tracking-tight leading-tight md:leading-none text-[#0F0F0F] dark:text-white mb-6">
+            متجرك كأنه <span className="underline decoration-wavy decoration-3 underline-offset-8 text-orange-500 dark:text-orange-400">مرسوم بقلمك</span> على ورقة كشكول!
           </h1>
 
           {/* New User-Specified Copy */}
-          <p className="text-lg sm:text-2xl font-bold text-[#0F0F0F]/85 max-w-3xl mx-auto leading-relaxed">
-            حوّل فوضى رسايل الواتس وإنستجرام ومشاكل فودافون كاش وتأخير الردود لمتجر تفاعلي شيك وسريع بأسلوب <span className="font-comic text-xl sm:text-3xl font-black px-1.5 border-b-2 border-[#0F0F0F]">سكتش أوردر الحصري</span> اللي يدخل قلب زبونك من أول ثانية!
+          <p className="text-lg sm:text-2xl font-bold text-[#0F0F0F]/85 dark:text-slate-200 max-w-3xl mx-auto leading-relaxed">
+            حوّل فوضى رسايل الواتس وإنستجرام ومشاكل فودافون كاش وتأخير الردود لمتجر تفاعلي شيك وسريع بأسلوب <span className="font-comic text-xl sm:text-3xl font-black px-1.5 border-b-2 border-[#0F0F0F] dark:border-orange-500 text-orange-600 dark:text-orange-400">سكتش أوردر الحصري</span> اللي يدخل قلب زبونك من أول ثانية!
           </p>
 
           {/* Call to Action Studio Buttons */}
@@ -76,17 +76,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               }}
               className="btn-sketch btn-sketch-primary text-base py-3 px-6 -rotate-1"
             >
-              <Hammer className="w-5 h-5 text-emerald-400" />
+              <Hammer className="w-5 h-5 text-emerald-400 dark:text-slate-950" />
               <span>جرب بناء وتعديل متجرك بنفسك (لايف)</span>
             </button>
 
-            <div className="p-1.5 border-2 border-[#0F0F0F] sketch-border-2 bg-white sketch-shadow flex items-center gap-2">
+            <div className="p-1.5 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-2 bg-white dark:bg-[#151D2A] sketch-shadow flex items-center gap-2">
               <button
                 onClick={() => triggerTransition('mess')}
                 className={`px-3 py-1.5 text-xs sm:text-sm font-black transition-all ${
                   viewState === 'mess'
-                    ? 'bg-[#0F0F0F] text-white sketch-border-1'
-                    : 'hover:bg-neutral-100 text-[#0F0F0F]'
+                    ? 'bg-[#0F0F0F] text-white dark:bg-orange-500 dark:text-slate-950 sketch-border-1'
+                    : 'hover:bg-neutral-100 dark:hover:bg-slate-800 text-[#0F0F0F] dark:text-slate-300'
                 }`}
               >
                 <span className="inline-block ml-1">🤯</span>
@@ -97,8 +97,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 onClick={() => triggerTransition('solution')}
                 className={`px-3 py-1.5 text-xs sm:text-sm font-black transition-all ${
                   viewState === 'solution'
-                    ? 'bg-[#0F0F0F] text-white sketch-border-1'
-                    : 'hover:bg-neutral-100 text-[#0F0F0F]'
+                    ? 'bg-[#0F0F0F] text-white dark:bg-orange-500 dark:text-slate-950 sketch-border-1'
+                    : 'hover:bg-neutral-100 dark:hover:bg-slate-800 text-[#0F0F0F] dark:text-slate-300'
                 }`}
               >
                 <span className="inline-block ml-1">✨</span>
@@ -108,7 +108,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
             <button
               onClick={() => triggerTransition(viewState === 'mess' ? 'solution' : 'mess')}
-              className="p-2.5 border-2 border-[#0F0F0F] sketch-border-circle bg-white hover:bg-neutral-100 sketch-shadow-sm active:translate-x-0.5 active:translate-y-0.5 transition-all text-xs font-bold"
+              className="p-2.5 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-circle bg-white dark:bg-[#151D2A] text-[#0F0F0F] dark:text-slate-200 hover:bg-neutral-100 dark:hover:bg-slate-800 sketch-shadow-sm active:translate-x-0.5 active:translate-y-0.5 transition-all text-xs font-bold"
               title="اشطب الصفحة واقلب المشهد"
             >
               <RefreshCw className={`w-4 h-4 ${isScribbling ? 'animate-spin' : ''}`} />
@@ -121,24 +121,24 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           
           {/* Comic Panel Header Label */}
           <div className="flex items-center justify-between px-3 -mb-3 z-10 relative">
-            <div className="bg-[#0F0F0F] text-white text-xs font-bold px-3 py-1 sketch-border-tag -rotate-2">
+            <div className="bg-[#0F0F0F] text-white dark:bg-slate-950 dark:border dark:border-slate-700 text-xs font-bold px-3 py-1 sketch-border-tag -rotate-2">
               {viewState === 'mess' ? 'المشهد الأول: فوضى الشات والطلبات الضايعة' : 'المشهد الثاني: متجر سكتش المنظم التلقائي'}
             </div>
-            <div className="border border-[#0F0F0F] bg-white text-xs font-bold px-2 py-0.5 sketch-border-pill rotate-1">
+            <div className="border border-[#0F0F0F] dark:border-slate-700 bg-white dark:bg-[#151D2A] text-xs font-bold px-2 py-0.5 sketch-border-pill rotate-1 text-[#0F0F0F] dark:text-slate-200">
               التسليم في خلال دقايق ⚡
             </div>
           </div>
 
           {/* Main Comic Panel Box */}
-          <div className="relative border-3 md:border-4 border-[#0F0F0F] sketch-border-1 bg-white p-6 sm:p-10 sketch-shadow-xl min-h-[440px] flex flex-col justify-between overflow-hidden">
+          <div className="relative border-3 md:border-4 border-[#0F0F0F] dark:border-slate-600 sketch-border-1 bg-white dark:bg-[#111827] text-[#0F0F0F] dark:text-white p-6 sm:p-10 sketch-shadow-xl min-h-[440px] flex flex-col justify-between overflow-hidden">
             
             {/* Scribble Overlay Animation (Stop-motion transition effect) */}
             {isScribbling && (
-              <div className="absolute inset-0 z-50 pointer-events-none flex items-center justify-center bg-white/40 backdrop-blur-3xs">
-                <svg className="w-full h-full text-[#0F0F0F]" viewBox="0 0 800 500" fill="none">
+              <div className="absolute inset-0 z-50 pointer-events-none flex items-center justify-center bg-white/40 dark:bg-black/40 backdrop-blur-3xs">
+                <svg className="w-full h-full text-[#0F0F0F] dark:text-white" viewBox="0 0 800 500" fill="none">
                   <path
                     d="M 20 50 L 780 450 M 760 30 L 40 470 M 10 250 L 790 230 M 350 20 L 420 480 M 100 80 L 700 420 M 680 90 L 120 410"
-                    stroke="#0F0F0F"
+                    stroke="currentColor"
                     strokeWidth="10"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -154,7 +154,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <div className="space-y-6 animate-fadeIn">
                 
                 {/* Warning Notification Banner */}
-                <div className="border-2 border-dashed border-[#0F0F0F] p-3 sketch-border-3 bg-[#FAF9F6] text-center text-xs sm:text-sm font-bold">
+                <div className="border-2 border-dashed border-[#0F0F0F] dark:border-amber-500/40 p-3 sketch-border-3 bg-[#FAF9F6] dark:bg-amber-500/10 text-center text-xs sm:text-sm font-bold text-[#0F0F0F] dark:text-amber-200">
                   ⚠️ تحذير: 68% من أصحاب المتاجر في مصر بيخسروا زباينهم بسبب بطء الرد وتداخل تحويلات إنستاباي وسكرينات فودافون كاش!
                 </div>
 
@@ -164,17 +164,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   {/* Chat Bubbles Left Side */}
                   <div className="md:col-span-5 space-y-4">
                     <ComicSpeechBubble className="-rotate-2">
-                      <div className="text-xs font-mono font-bold text-[#0F0F0F]/60 mb-0.5">عميل مستعجل:</div>
+                      <div className="text-xs font-mono font-bold text-[#0F0F0F]/60 dark:text-slate-400 mb-0.5">عميل مستعجل:</div>
                       <div>"يا كابتن الكوتشي دا متاح مقاس 43؟ وبكام الشحن للمهندسين؟"</div>
-                      <div className="text-xs font-bold text-red-600 mt-1 border-t border-dashed border-[#0F0F0F] pt-1">
+                      <div className="text-xs font-bold text-red-600 dark:text-red-400 mt-1 border-t border-dashed border-[#0F0F0F] dark:border-slate-600 pt-1">
                         رد متأخر: متاح بس الشحن على حسب المندوب...
                       </div>
                     </ComicSpeechBubble>
 
                     <ComicSpeechBubble className="rotate-2" variant="scream">
-                      <div className="text-xs font-mono font-bold text-red-600 mb-0.5">زبونة قلقانة:</div>
+                      <div className="text-xs font-mono font-bold text-red-600 dark:text-red-400 mb-0.5">زبونة قلقانة:</div>
                       <div>"حولت 650 جنيه فودافون كاش من الصبح ومحدش أكد الأوردر لحد دلوقتي!"</div>
-                      <div className="text-xs font-bold text-slate-500 mt-1 border-t border-dashed border-[#0F0F0F] pt-1">
+                      <div className="text-xs font-bold text-slate-500 dark:text-slate-400 mt-1 border-t border-dashed border-[#0F0F0F] dark:border-slate-600 pt-1">
                         رد: معلش الرسايل كتير اديني نص ساعة أراجع المحفظة...
                       </div>
                     </ComicSpeechBubble>
@@ -183,7 +183,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   {/* Center: The Official Mascot Stressed / Overwhelmed */}
                   <div className="md:col-span-3 flex flex-col items-center justify-center text-center">
                     <StickmanDoodle size={160} />
-                    <span className="text-xs font-black bg-white border border-[#0F0F0F] px-2 py-0.5 sketch-border-tag mt-1">
+                    <span className="text-xs font-black bg-white dark:bg-slate-900 border border-[#0F0F0F] dark:border-slate-700 px-2 py-0.5 sketch-border-tag mt-1 text-[#0F0F0F] dark:text-slate-200">
                       صاحب المتجر محتار في وسط الرسايل!
                     </span>
                   </div>
@@ -191,11 +191,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   {/* Chat Bubbles Right Side */}
                   <div className="md:col-span-4 space-y-4">
                     <ComicSpeechBubble className="rotate-3">
-                      <div className="text-xs font-mono font-bold text-[#0F0F0F]/60 mb-0.5">مندوب الشحن:</div>
+                      <div className="text-xs font-mono font-bold text-[#0F0F0F]/60 dark:text-slate-400 mb-0.5">مندوب الشحن:</div>
                       <div>"اللوكيشن مش واضح ورقم العميل مقفول.. هكنسل الأوردر وهرجع الشحنة!"</div>
                     </ComicSpeechBubble>
 
-                    <div className="p-3 border-2 border-[#0F0F0F] sketch-border-2 bg-neutral-100 text-xs font-bold -rotate-1 text-center">
+                    <div className="p-3 border-2 border-[#0F0F0F] dark:border-red-500/40 sketch-border-2 bg-neutral-100 dark:bg-red-500/10 text-xs font-bold -rotate-1 text-center text-red-600 dark:text-red-300">
                       ❌ أوردر ملغي بسبب التأخير في الرد
                     </div>
                   </div>
@@ -203,8 +203,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 </div>
 
                 {/* Bottom Actions for Mess */}
-                <div className="pt-4 border-t-2 border-[#0F0F0F] flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <div className="text-xs sm:text-sm font-bold text-[#0F0F0F]/80">
+                <div className="pt-4 border-t-2 border-[#0F0F0F] dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="text-xs sm:text-sm font-bold text-[#0F0F0F]/80 dark:text-slate-300">
                     مستعد تخلص من الصداع دا؟ وفر 5 ساعات يومياً بنقرة واحدة:
                   </div>
 
@@ -227,14 +227,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <div className="space-y-6 animate-fadeIn">
                 
                 {/* Blueprint Header */}
-                <div className="border-2 border-[#0F0F0F] p-3 sketch-border-2 bg-white flex items-center justify-between text-xs sm:text-sm font-bold">
+                <div className="border-2 border-[#0F0F0F] dark:border-slate-700 p-3 sketch-border-2 bg-white dark:bg-[#151D2A] flex items-center justify-between text-xs sm:text-sm font-bold">
                   <div className="flex items-center gap-2">
-                    <span className="w-5 h-5 rounded-full bg-[#0F0F0F] text-white flex items-center justify-center text-xs">
+                    <span className="w-5 h-5 rounded-full bg-[#0F0F0F] dark:bg-emerald-500 text-white dark:text-slate-950 flex items-center justify-center text-xs">
                       ✓
                     </span>
-                    <span>متجرك المستقل جاهز: منظم، سريع، وبيستقبل الأوردرات في ثواني!</span>
+                    <span className="text-[#0F0F0F] dark:text-white">متجرك المستقل جاهز: منظم، سريع، وبيستقبل الأوردرات في ثواني!</span>
                   </div>
-                  <span className="text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-300 px-2.5 py-0.5 rounded-full">
+                  <span className="text-xs font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-500/30 px-2.5 py-0.5 rounded-full">
                     ضمان مدى الحياة
                   </span>
                 </div>
@@ -243,33 +243,33 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center my-2">
                   
                   {/* Left Column: Interactive Store Preview Mockup */}
-                  <div className="md:col-span-5 border-2 border-[#0F0F0F] p-4 sketch-border-1 bg-white sketch-shadow-sm space-y-3">
-                    <div className="flex items-center justify-between border-b-2 border-[#0F0F0F] pb-2">
+                  <div className="md:col-span-5 border-2 border-[#0F0F0F] dark:border-slate-700 p-4 sketch-border-1 bg-white dark:bg-[#151D2A] sketch-shadow-sm space-y-3">
+                    <div className="flex items-center justify-between border-b-2 border-[#0F0F0F] dark:border-slate-700 pb-2">
                       <div className="flex items-center gap-1.5">
-                        <span className="w-3 h-3 rounded-full border border-[#0F0F0F] bg-[#0F0F0F]"></span>
-                        <span className="w-3 h-3 rounded-full border border-[#0F0F0F] bg-white"></span>
-                        <span className="w-3 h-3 rounded-full border border-[#0F0F0F] bg-white"></span>
+                        <span className="w-3 h-3 rounded-full border border-[#0F0F0F] dark:border-slate-600 bg-[#0F0F0F] dark:bg-emerald-400"></span>
+                        <span className="w-3 h-3 rounded-full border border-[#0F0F0F] dark:border-slate-600 bg-white dark:bg-slate-700"></span>
+                        <span className="w-3 h-3 rounded-full border border-[#0F0F0F] dark:border-slate-600 bg-white dark:bg-slate-700"></span>
                       </div>
-                      <span className="text-xs font-mono font-bold">kicks-eg.store</span>
+                      <span className="text-xs font-mono font-bold text-orange-500">kicks-eg.store</span>
                     </div>
 
                     <div className="space-y-2">
-                      <div className="flex items-center justify-between p-2 border border-[#0F0F0F] sketch-border-pill bg-neutral-50 text-xs font-bold">
+                      <div className="flex items-center justify-between p-2 border border-[#0F0F0F] dark:border-slate-700 sketch-border-pill bg-neutral-50 dark:bg-slate-900 text-xs font-bold">
                         <span>👟 المنتج: كوتشي Cloud Runner مقاس 43</span>
-                        <span className="font-mono">1,290 ج.م</span>
+                        <span className="font-mono text-orange-500">1,290 ج.م</span>
                       </div>
 
-                      <div className="flex items-center justify-between p-2 border border-[#0F0F0F] sketch-border-pill bg-neutral-50 text-xs font-bold">
+                      <div className="flex items-center justify-between p-2 border border-[#0F0F0F] dark:border-slate-700 sketch-border-pill bg-neutral-50 dark:bg-slate-900 text-xs font-bold">
                         <span>📍 التوصيل: القاهرة - مدينة نصر</span>
-                        <span className="font-bold text-emerald-700">في خلال دقايق ✓</span>
+                        <span className="font-bold text-emerald-600 dark:text-emerald-400">في خلال دقايق ✓</span>
                       </div>
 
-                      <div className="p-2 border-2 border-[#0F0F0F] sketch-border-1 bg-[#0F0F0F] text-white text-center text-xs font-bold">
+                      <div className="p-2 border-2 border-[#0F0F0F] dark:border-emerald-500/40 sketch-border-1 bg-[#0F0F0F] dark:bg-emerald-950/60 text-white dark:text-emerald-200 text-center text-xs font-bold">
                         ✓ تم تحويل الأوردر بفاتورته ورابط اللوكيشن تلقائياً للواتساب
                       </div>
                     </div>
 
-                    <div className="text-[11px] font-bold text-[#0F0F0F]/70 pt-1 text-center">
+                    <div className="text-[11px] font-bold text-[#0F0F0F]/70 dark:text-slate-400 pt-1 text-center">
                       * بدون لوحات تحكم معقدة ولا اشتراكات شهرية مستنزفة
                     </div>
                   </div>
@@ -277,42 +277,42 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   {/* Center Column: Happy Official Mascot Pointing */}
                   <div className="md:col-span-4 flex flex-col items-center justify-center text-center">
                     <StickmanDoodle size={160} />
-                    <div className="mt-1 bg-white border-2 border-[#0F0F0F] text-xs font-black px-3 py-1 sketch-border-pill sketch-shadow-sm -rotate-2">
+                    <div className="mt-1 bg-white dark:bg-slate-900 border-2 border-[#0F0F0F] dark:border-slate-700 text-xs font-black px-3 py-1 sketch-border-pill sketch-shadow-sm -rotate-2 text-[#0F0F0F] dark:text-slate-100">
                       "الزبون يطلب وأنت مرتاح وبتشرب قهوتك!"
                     </div>
                   </div>
 
                   {/* Right Column: Hand-Drawn Growth Chart */}
-                  <div className="md:col-span-3 border-2 border-[#0F0F0F] p-4 sketch-border-3 bg-white sketch-shadow-sm space-y-2 text-center">
-                    <div className="text-xs font-bold text-[#0F0F0F]/80">
+                  <div className="md:col-span-3 border-2 border-[#0F0F0F] dark:border-slate-700 p-4 sketch-border-3 bg-white dark:bg-[#151D2A] sketch-shadow-sm space-y-2 text-center">
+                    <div className="text-xs font-bold text-[#0F0F0F]/80 dark:text-slate-300">
                       معدل إتمام الشراء 📈
                     </div>
 
-                    <svg viewBox="0 0 160 100" className="w-full h-24 text-[#0F0F0F]" fill="none">
-                      <line x1="10" y1="90" x2="150" y2="90" stroke="#0F0F0F" strokeWidth="2.5" strokeLinecap="round" />
-                      <line x1="10" y1="10" x2="10" y2="90" stroke="#0F0F0F" strokeWidth="2.5" strokeLinecap="round" />
+                    <svg viewBox="0 0 160 100" className="w-full h-24 text-[#0F0F0F] dark:text-white" fill="none">
+                      <line x1="10" y1="90" x2="150" y2="90" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+                      <line x1="10" y1="10" x2="10" y2="90" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
                       
                       <path
                         d="M 15 82 L 40 70 L 65 75 L 90 48 L 115 54 L 145 18"
-                        stroke="#0F0F0F"
+                        stroke="#F97316"
                         strokeWidth="3.2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       />
-                      <path d="M 132 18 L 145 18 L 145 32" stroke="#0F0F0F" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M 132 18 L 145 18 L 145 32" stroke="#F97316" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
                       
-                      <circle cx="15" cy="82" r="3" fill="#0F0F0F" />
-                      <circle cx="40" cy="70" r="3" fill="#0F0F0F" />
-                      <circle cx="65" cy="75" r="3" fill="#0F0F0F" />
-                      <circle cx="90" cy="48" r="3" fill="#0F0F0F" />
-                      <circle cx="115" cy="54" r="3" fill="#0F0F0F" />
-                      <circle cx="145" cy="18" r="4" fill="#0F0F0F" />
+                      <circle cx="15" cy="82" r="3" fill="#F97316" />
+                      <circle cx="40" cy="70" r="3" fill="#F97316" />
+                      <circle cx="65" cy="75" r="3" fill="#F97316" />
+                      <circle cx="90" cy="48" r="3" fill="#F97316" />
+                      <circle cx="115" cy="54" r="3" fill="#F97316" />
+                      <circle cx="145" cy="18" r="4" fill="#F97316" />
                     </svg>
 
-                    <div className="text-xl font-black font-heading leading-none">
+                    <div className="text-xl font-black font-heading leading-none text-emerald-600 dark:text-emerald-400">
                       +320% مبيعات
                     </div>
-                    <div className="text-[10px] font-bold text-[#0F0F0F]/70">
+                    <div className="text-[10px] font-bold text-[#0F0F0F]/70 dark:text-slate-400">
                       في سرعة تقفيل الأوردرات بدون أسئلة متكررة
                     </div>
                   </div>
@@ -320,8 +320,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 </div>
 
                 {/* Bottom Actions for Solution */}
-                <div className="pt-4 border-t-2 border-[#0F0F0F] flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
+                <div className="pt-4 border-t-2 border-[#0F0F0F] dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="flex flex-wrap items-center gap-3">
                     <button
                       onClick={() => {
                         playClick();
@@ -329,7 +329,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       }}
                       className="btn-sketch btn-sketch-primary text-base py-3 px-6 -rotate-1"
                     >
-                      <Hammer className="w-5 h-5 text-emerald-400" />
+                      <Hammer className="w-5 h-5 text-emerald-400 dark:text-slate-950" />
                       <span>ابنِ متجرك وجربه في الاستوديو</span>
                     </button>
 
@@ -349,7 +349,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                         playClick();
                         onExplorePlayground();
                       }}
-                      className="text-xs font-bold underline hover:opacity-75 transition-opacity"
+                      className="text-xs font-bold underline hover:opacity-75 transition-opacity text-[#0F0F0F] dark:text-slate-300"
                     >
                       <span>معاينة المتجر التجريبي</span>
                     </button>
@@ -357,7 +357,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
                   <button
                     onClick={() => triggerTransition('mess')}
-                    className="text-xs font-bold underline underline-offset-4 hover:opacity-70 transition-opacity"
+                    className="text-xs font-bold underline underline-offset-4 hover:opacity-70 transition-opacity text-[#0F0F0F] dark:text-slate-400"
                   >
                     ↺ رجوع لمشهد الفوضى للمقارنة
                   </button>

@@ -51,20 +51,20 @@ export const FaqSection: React.FC = () => {
   };
 
   return (
-    <section className="py-16 paper-pattern relative select-none">
+    <section className="py-16 paper-pattern relative select-none dark:bg-[#0B0F17] transition-colors">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center mb-10">
-          <div className="inline-block border-2 border-[#0F0F0F] bg-white px-3 py-1 sketch-border-tag text-xs font-black -rotate-1 mb-3 sketch-shadow-sm">
+          <div className="inline-block border-2 border-[#0F0F0F] dark:border-slate-700 bg-white dark:bg-[#151D2A] text-[#0F0F0F] dark:text-slate-100 px-3 py-1 sketch-border-tag text-xs font-black -rotate-1 mb-3 sketch-shadow-sm">
             💡 أسئلة شائعة وإجابات واضحة • بالبلدي كده
           </div>
 
-          <h2 className="text-3xl sm:text-5xl font-black font-heading tracking-tight mb-4 text-[#0F0F0F]">
+          <h2 className="text-3xl sm:text-5xl font-black font-heading tracking-tight mb-4 text-[#0F0F0F] dark:text-white">
             كل سؤال بيدور في بالك متجاوب عليه هنا
           </h2>
 
-          <p className="text-base sm:text-lg font-bold text-[#0F0F0F]/80">
+          <p className="text-base sm:text-lg font-bold text-[#0F0F0F]/80 dark:text-slate-300">
             إجابات واضحة وصريحة بدون أي لف ودوران أو مصطلحات تقنية معقدة.
           </p>
         </div>
@@ -77,32 +77,32 @@ export const FaqSection: React.FC = () => {
             return (
               <div
                 key={idx}
-                className={`border-2.5 border-[#0F0F0F] transition-all duration-150 ${
+                className={`border-2.5 border-[#0F0F0F] dark:border-slate-700 transition-all duration-150 ${
                   isOpen
-                    ? 'bg-white sketch-border-1 sketch-shadow'
-                    : 'bg-white/80 sketch-border-2 hover:bg-white sketch-shadow-sm'
+                    ? 'bg-white dark:bg-[#151D2A] sketch-border-1 sketch-shadow'
+                    : 'bg-white/90 dark:bg-[#151D2A]/80 sketch-border-2 hover:bg-white dark:hover:bg-[#151D2A] sketch-shadow-sm'
                 }`}
               >
                 <button
                   onClick={() => toggleFaq(idx)}
                   className="w-full p-4 sm:p-5 text-right flex items-center justify-between gap-4 font-black"
                 >
-                  <span className="text-base sm:text-lg font-heading text-[#0F0F0F]">
+                  <span className="text-base sm:text-lg font-heading text-[#0F0F0F] dark:text-white">
                     {faq.question}
                   </span>
 
-                  <div className="w-8 h-8 shrink-0 border-2 border-[#0F0F0F] sketch-border-circle flex items-center justify-center bg-[#FAF9F6]">
+                  <div className="w-8 h-8 shrink-0 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-circle flex items-center justify-center bg-[#FAF9F6] dark:bg-slate-800 text-[#0F0F0F] dark:text-white">
                     {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                   </div>
                 </button>
 
                 {isOpen && (
-                  <div className="px-4 pb-5 sm:px-5 sm:pb-6 border-t border-[#0F0F0F]/20 pt-3 space-y-3">
-                    <p className="text-sm sm:text-base font-bold text-[#0F0F0F]/85 leading-relaxed">
+                  <div className="px-4 pb-5 sm:px-5 sm:pb-6 border-t border-[#0F0F0F]/20 dark:border-slate-700 pt-3 space-y-3">
+                    <p className="text-sm sm:text-base font-bold text-[#0F0F0F]/85 dark:text-slate-300 leading-relaxed">
                       {faq.answer}
                     </p>
 
-                    <div className="p-2 border border-dashed border-[#0F0F0F] bg-[#FAF9F6] sketch-border-tag text-xs font-bold text-[#0F0F0F]">
+                    <div className="p-2 border border-dashed border-[#0F0F0F] dark:border-amber-500/40 bg-[#FAF9F6] dark:bg-amber-500/10 sketch-border-tag text-xs font-bold text-[#0F0F0F] dark:text-amber-200">
                       {faq.doodleTip}
                     </div>
                   </div>

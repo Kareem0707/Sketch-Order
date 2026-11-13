@@ -16,7 +16,7 @@ export const ComicSpeechBubble: React.FC<ComicSpeechBubbleProps> = ({
   return (
     <div className={`relative inline-block ${className}`}>
       <div
-        className={`bg-white text-[#0F0F0F] border-[2.5px] border-[#0F0F0F] p-3 md:p-4 font-bold text-sm md:text-base sketch-shadow-sm transition-all duration-150 ${
+        className={`bg-white dark:bg-[#1E293B] text-[#0F0F0F] dark:text-white border-[2.5px] border-[#0F0F0F] dark:border-slate-600 p-3 md:p-4 font-bold text-sm md:text-base sketch-shadow-sm transition-all duration-150 ${
           variant === 'scream'
             ? 'sketch-border-2 border-[3px]'
             : variant === 'thought'
@@ -30,74 +30,73 @@ export const ComicSpeechBubble: React.FC<ComicSpeechBubbleProps> = ({
       {/* Speech Tail */}
       {tailDirection === 'bottom-right' && (
         <svg
-          className="absolute -bottom-3 right-6 w-5 h-4 text-[#0F0F0F]"
+          className="absolute -bottom-3 right-6 w-5 h-4 text-[#0F0F0F] dark:text-slate-600"
           viewBox="0 0 20 16"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
             d="M0 0 L 12 14 L 18 0"
-            stroke="#0F0F0F"
+            stroke="currentColor"
             strokeWidth="2.5"
-            fill="#FFFFFF"
+            className="fill-white dark:fill-[#1E293B]"
             strokeLinejoin="round"
           />
-          {/* White cover to hide inner border */}
-          <line x1="2" y1="0" x2="16" y2="0" stroke="#FFFFFF" strokeWidth="3" />
+          <line x1="2" y1="0" x2="16" y2="0" className="stroke-white dark:stroke-[#1E293B]" strokeWidth="3" />
         </svg>
       )}
 
       {tailDirection === 'bottom-left' && (
         <svg
-          className="absolute -bottom-3 left-6 w-5 h-4 text-[#0F0F0F]"
+          className="absolute -bottom-3 left-6 w-5 h-4 text-[#0F0F0F] dark:text-slate-600"
           viewBox="0 0 20 16"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
             d="M18 0 L 6 14 L 0 0"
-            stroke="#0F0F0F"
+            stroke="currentColor"
             strokeWidth="2.5"
-            fill="#FFFFFF"
+            className="fill-white dark:fill-[#1E293B]"
             strokeLinejoin="round"
           />
-          <line x1="2" y1="0" x2="16" y2="0" stroke="#FFFFFF" strokeWidth="3" />
+          <line x1="2" y1="0" x2="16" y2="0" className="stroke-white dark:stroke-[#1E293B]" strokeWidth="3" />
         </svg>
       )}
 
       {tailDirection === 'left' && (
         <svg
-          className="absolute top-1/2 -left-3 -translate-y-1/2 w-4 h-5 text-[#0F0F0F]"
+          className="absolute top-1/2 -left-3 -translate-y-1/2 w-4 h-5 text-[#0F0F0F] dark:text-slate-600"
           viewBox="0 0 16 20"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
             d="M16 2 L 2 10 L 16 18"
-            stroke="#0F0F0F"
+            stroke="currentColor"
             strokeWidth="2.5"
-            fill="#FFFFFF"
+            className="fill-white dark:fill-[#1E293B]"
             strokeLinejoin="round"
           />
-          <line x1="16" y1="3" x2="16" y2="17" stroke="#FFFFFF" strokeWidth="3" />
+          <line x1="16" y1="3" x2="16" y2="17" className="stroke-white dark:stroke-[#1E293B]" strokeWidth="3" />
         </svg>
       )}
 
       {tailDirection === 'right' && (
         <svg
-          className="absolute top-1/2 -right-3 -translate-y-1/2 w-4 h-5 text-[#0F0F0F]"
+          className="absolute top-1/2 -right-3 -translate-y-1/2 w-4 h-5 text-[#0F0F0F] dark:text-slate-600"
           viewBox="0 0 16 20"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
             d="M0 2 L 14 10 L 0 18"
-            stroke="#0F0F0F"
+            stroke="currentColor"
             strokeWidth="2.5"
-            fill="#FFFFFF"
+            className="fill-white dark:fill-[#1E293B]"
             strokeLinejoin="round"
           />
-          <line x1="0" y1="3" x2="0" y2="17" stroke="#FFFFFF" strokeWidth="3" />
+          <line x1="0" y1="3" x2="0" y2="17" className="stroke-white dark:stroke-[#1E293B]" strokeWidth="3" />
         </svg>
       )}
     </div>

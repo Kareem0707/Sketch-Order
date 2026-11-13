@@ -131,7 +131,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 playClick();
                 onOpenTemplates();
               }}
-              className="px-3 py-1.5 rounded-xl border border-inherit/30 hover:border-orange-500 hover:text-orange-500 transition-colors flex items-center gap-1.5"
+              className="px-3 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700 hover:border-orange-500 dark:hover:border-orange-400 text-slate-800 dark:text-slate-200 hover:text-orange-500 dark:hover:text-orange-400 transition-colors flex items-center gap-1.5"
             >
               <Grid className="w-3.5 h-3.5 text-orange-500" />
               <span>كتالوج القوالب (8 تيمبليتس)</span>
@@ -143,22 +143,22 @@ export const Navbar: React.FC<NavbarProps> = ({
                 playClick();
                 onOpenStudio();
               }}
-              className="font-black px-3 py-1.5 border-2 border-[#0F0F0F] sketch-border-tag bg-[#0F0F0F] text-white hover:bg-neutral-800 transition-all flex items-center gap-1.5 sketch-shadow-sm -rotate-1"
+              className="font-black px-3 py-1.5 border-2 border-[#0F0F0F] dark:border-orange-500 sketch-border-tag bg-[#0F0F0F] dark:bg-orange-500 text-white dark:text-slate-950 hover:bg-neutral-800 dark:hover:bg-orange-400 transition-all flex items-center gap-1.5 sketch-shadow-sm -rotate-1"
             >
-              <Hammer className="w-3.5 h-3.5 text-emerald-400" />
+              <Hammer className="w-3.5 h-3.5 text-emerald-400 dark:text-slate-950" />
               <span>استوديو الآيفون</span>
             </button>
 
             <button
               onClick={() => handleNavClick('story-chaos')}
-              className="hover:underline underline-offset-4 transition-all opacity-80 hover:opacity-100"
+              className="hover:underline underline-offset-4 transition-all text-slate-700 dark:text-slate-200 hover:text-orange-500 dark:hover:text-orange-400 opacity-90 hover:opacity-100"
             >
               قبل وبعد سيستم الويبسايت
             </button>
 
             <button
               onClick={() => handleNavClick('split-simulator')}
-              className="hover:underline underline-offset-4 transition-all opacity-80 hover:opacity-100"
+              className="hover:underline underline-offset-4 transition-all text-slate-700 dark:text-slate-200 hover:text-orange-500 dark:hover:text-orange-400 opacity-90 hover:opacity-100"
             >
               المقارنة الحية (Before & After)
             </button>
@@ -172,7 +172,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <button
               onClick={() => handleNavClick('store-playground')}
-              className="hover:underline underline-offset-4 transition-all opacity-80 hover:opacity-100"
+              className="hover:underline underline-offset-4 transition-all text-slate-700 dark:text-slate-200 hover:text-orange-500 dark:hover:text-orange-400 opacity-90 hover:opacity-100"
             >
               المتجر التجريبي
             </button>

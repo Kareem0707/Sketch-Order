@@ -321,6 +321,20 @@ export const DEFAULT_PRODUCTS_MAP: Record<TemplateId, CustomProduct[]> = {
       reviewsCount: 390,
       soldCount: 'التجمع الخامس • 1.5 كم',
     },
+    {
+      id: 'dr-4',
+      name: 'Molten Belgian Chocolate • كيك شوكولاتة بلجيكية دافئة مع آيس كريم',
+      price: 190,
+      originalPrice: 240,
+      costPrice: 85,
+      category: 'كافيه وحلويات',
+      badge: 'شيف سبيشال 🍫',
+      imageUrl: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=600&auto=format&fit=crop&q=80',
+      rating: 4.9,
+      reviewsCount: 480,
+      soldCount: 'الزمالك • 0.3 كم',
+      description: 'كيكة شوكولاتة بلجيكية ساخنة بقلب يذوب فوراً، تقدم مع بولة آيس كريم فانيليا مدغشقر وتوت طازج.',
+    },
   ],
 
   'fasco-fashion': [
@@ -351,7 +365,7 @@ export const DEFAULT_PRODUCTS_MAP: Record<TemplateId, CustomProduct[]> = {
       costPrice: 380,
       category: 'بناطيل كارجو',
       badge: 'تريند الموسم',
-      imageUrl: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=600&auto=format&fit=crop&q=80',
+      imageUrl: 'https://images.unsplash.com/photo-1517445312882-bc9910d016b7?w=600&auto=format&fit=crop&q=80',
       rating: 4.8,
       reviewsCount: 190,
       sizes: ['M', 'L', 'XL'],
@@ -370,6 +384,19 @@ export const DEFAULT_PRODUCTS_MAP: Record<TemplateId, CustomProduct[]> = {
       reviewsCount: 260,
       sizes: ['L', 'XL', '2XL'],
       description: 'هودي شتوي مغسول معالجة آسيد واش مع بطانة داخلية صوفية دافئة وجيب كنغر أمامي واسع.',
+    },
+    {
+      id: 'fa-4',
+      name: 'FASCO Vintage Washed Cap - كاب ستريت قطني مطرز',
+      price: 290,
+      originalPrice: 380,
+      costPrice: 130,
+      category: 'إكسسوارات وكابات',
+      badge: 'إصدار محدود',
+      imageUrl: 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=600&auto=format&fit=crop&q=80',
+      rating: 4.8,
+      reviewsCount: 145,
+      description: 'كاب قطني مغسول بتطريز FASCO البارز مع إبزيم معدني خلفي قابل للتعديل.',
     },
   ],
 
@@ -1080,19 +1107,22 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
                 {phoneScreen === 'home' && (
                   <>
                     {/* -------------------------------------------------- */}
-                    {/* TEMPLATE A: CLOUD RUNNER 2 (Single Product Showcase - Image 1 & 3) */}
+                    {/* TEMPLATE A: CLOUD RUNNER 2 (Single Product Showcase - Image 1 & 2 "After" Design) */}
                     {/* -------------------------------------------------- */}
                     {selectedTemplateId === 'cloudrunner-product' ? (
-                      <div className="flex-1 flex flex-col justify-between bg-white text-slate-900 animate-fadeIn">
+                      <div className="flex-1 flex flex-col justify-between bg-white text-slate-900 animate-fadeIn" dir="ltr">
                         <div className="p-4 space-y-3.5">
                           {/* Top Navigation */}
                           <div className="flex items-center justify-between">
                             <button
-                              onClick={() => setTemplateCatalogOpen(true)}
+                              onClick={() => {
+                                if (onOpenTemplatesPage) onOpenTemplatesPage();
+                                else setTemplateCatalogOpen(true);
+                              }}
                               className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors shadow-xs"
-                              title="كتالوج التيمبليتس"
+                              title="Catalog"
                             >
-                              <ChevronLeft className="w-5 h-5 text-slate-800 -scale-x-100" />
+                              <ChevronLeft className="w-5 h-5 text-slate-800" />
                             </button>
 
                             <button
@@ -1107,17 +1137,20 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
                             </button>
                           </div>
 
-                          {/* Crimson Red Hero Card Container */}
+                          {/* Crimson Red Hero Card Container (Exact Match to User Image 1/2 "After") */}
                           <div className="rounded-[28px] bg-[#B91C1C] p-6 shadow-md relative flex flex-col items-center justify-center min-h-[250px] overflow-hidden">
                             <img
                               src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&auto=format&fit=crop&q=80"
                               alt="Cloud Runner 2"
                               className="w-60 h-44 object-contain drop-shadow-[0_20px_20px_rgba(0,0,0,0.45)] hover:scale-105 transition-transform duration-300"
+                              onError={(e) => {
+                                e.currentTarget.src = 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=600&auto=format&fit=crop&q=80';
+                              }}
                             />
 
-                            {/* Carousel Dot Indicators */}
-                            <div className="flex items-center gap-1.5 mt-2">
-                              <span className="w-4 h-1.5 rounded-full bg-slate-950"></span>
+                            {/* Carousel Dot Indicators: 1 Black Pill + 3 Light Pink/Red Dots */}
+                            <div className="flex items-center gap-1.5 mt-3">
+                              <span className="w-5 h-1.5 rounded-full bg-slate-950"></span>
                               <span className="w-1.5 h-1.5 rounded-full bg-red-300"></span>
                               <span className="w-1.5 h-1.5 rounded-full bg-red-300"></span>
                               <span className="w-1.5 h-1.5 rounded-full bg-red-300"></span>
@@ -1125,7 +1158,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
                           </div>
 
                           {/* Product Details Section */}
-                          <div className="space-y-3 px-1">
+                          <div className="space-y-3 px-1 text-left">
                             <div>
                               <h2 className="text-xl font-black font-heading text-slate-950 tracking-tight">
                                 Cloud Runner 2
@@ -1135,7 +1168,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
                               </p>
                             </div>
 
-                            {/* Price Row */}
+                            {/* Price Row: $129 $159 19% off */}
                             <div className="flex items-baseline gap-2">
                               <span className="text-2xl font-black font-mono text-slate-950">$129</span>
                               <span className="text-xs text-slate-400 line-through font-mono">$159</span>
@@ -1144,7 +1177,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
                               </span>
                             </div>
 
-                            {/* Social Proof */}
+                            {/* Social Proof: Star 4.8 • 2,341 reviews • 1.2k sold */}
                             <div className="flex items-center gap-1.5 text-xs text-slate-600 font-medium">
                               <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
                               <span className="font-bold text-slate-900">4.8</span>
@@ -1154,39 +1187,44 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
                               <span>1.2k sold</span>
                             </div>
 
-                            {/* Color Selector */}
+                            {/* Color Selector with Text Labels underneath (Exact Match to User Reference) */}
                             <div className="space-y-1.5 pt-1">
                               <div className="text-xs font-bold text-slate-800">
                                 Color: <span className="font-semibold text-slate-600">{selectedColor}</span>
                               </div>
-                              <div className="flex items-center gap-2.5">
+                              <div className="flex items-center gap-4">
                                 {[
-                                  { name: 'Crimson / Ember', hex: '#DC2626' },
-                                  { name: 'Black', hex: '#18181B' },
-                                  { name: 'Volt', hex: '#84CC16' },
+                                  { label: 'Crimson', name: 'Crimson / Ember', hex: '#DC2626' },
+                                  { label: 'Black', name: 'Black', hex: '#18181B' },
+                                  { label: 'Volt', name: 'Volt', hex: '#A3E635' },
                                 ].map((c) => {
-                                  const isColSelected = selectedColor === c.name || (selectedColor === 'Red Crimson' && c.name === 'Crimson / Ember');
+                                  const isColSelected = selectedColor === c.name || (selectedColor === 'Red Crimson' && c.label === 'Crimson');
                                   return (
-                                    <button
-                                      key={c.name}
-                                      onClick={() => {
-                                        playClick();
-                                        setSelectedColor(c.name);
-                                      }}
-                                      className={`w-7 h-7 rounded-full transition-all relative ${
-                                        isColSelected
-                                          ? 'ring-2 ring-offset-2 ring-slate-900 scale-105'
-                                          : 'hover:scale-105'
-                                      }`}
-                                      style={{ backgroundColor: c.hex }}
-                                      title={c.name}
-                                    />
+                                    <div key={c.label} className="flex flex-col items-center gap-1">
+                                      <button
+                                        key={c.label}
+                                        onClick={() => {
+                                          playClick();
+                                          setSelectedColor(c.name);
+                                        }}
+                                        className={`w-7 h-7 rounded-full transition-all relative ${
+                                          isColSelected
+                                            ? 'ring-2 ring-offset-2 ring-slate-900 scale-105'
+                                            : 'hover:scale-105'
+                                        }`}
+                                        style={{ backgroundColor: c.hex }}
+                                        title={c.name}
+                                      />
+                                      <span className={`text-[10px] ${isColSelected ? 'font-bold text-slate-900' : 'text-slate-500'}`}>
+                                        {c.label}
+                                      </span>
+                                    </div>
                                   );
                                 })}
                               </div>
                             </div>
 
-                            {/* Size Selector */}
+                            {/* Size Selector with 8 pills in 2 rows (8.5 selected, 9.5 disabled with strikethrough) */}
                             <div className="space-y-1.5 pt-1">
                               <div className="flex items-center justify-between text-xs font-bold text-slate-800">
                                 <span>Size (US)</span>
@@ -1226,7 +1264,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
                           </div>
                         </div>
 
-                        {/* Sticky Bottom Bar for Cloud Runner 2 */}
+                        {/* Sticky Bottom Bar for Cloud Runner 2: $129 Free shipping + [Add to Bag] */}
                         <div className="p-4 border-t border-slate-100 bg-white sticky bottom-0 z-30 flex items-center justify-between">
                           <div>
                             <div className="text-lg font-black font-mono text-slate-950 leading-tight">$129</div>
@@ -1545,7 +1583,11 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
                                 </h2>
                                 <div className="flex items-center gap-2 pt-1">
                                   <button
-                                    onClick={() => handleOpenProductInsidePhone(storeConfig.products[0])}
+                                    onClick={() => {
+                                      if (storeConfig.products?.[0]) {
+                                        handleOpenProductInsidePhone(storeConfig.products[0]);
+                                      }
+                                    }}
                                     className="px-3.5 py-1.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-xs shadow-md transition-transform active:scale-95 flex items-center gap-1.5"
                                   >
                                     <span>{selectedTemplateId === 'dinereserve-food' ? 'قائمة الطعام' : 'اكتشف العروض'}</span>
@@ -1563,11 +1605,15 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
                                 </div>
                               </div>
 
-                              <div className="w-28 h-28 rounded-2xl overflow-hidden shrink-0 border border-white/20 shadow-xl">
+                              <div className="w-28 h-28 rounded-2xl overflow-hidden shrink-0 border border-white/20 shadow-xl bg-slate-800">
                                 <img
-                                  src={storeConfig.products[0].imageUrl}
+                                  src={storeConfig.products?.[0]?.imageUrl || activeTmplMeta.previewImage}
                                   alt={storeConfig.storeName}
                                   className="w-full h-full object-cover"
+                                  onError={(e) => {
+                                    e.currentTarget.onerror = null;
+                                    e.currentTarget.src = activeTmplMeta.previewImage;
+                                  }}
                                 />
                               </div>
                             </div>
@@ -1754,6 +1800,10 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
                                         src={prod.imageUrl}
                                         alt={prod.name}
                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                        onError={(e) => {
+                                          e.currentTarget.onerror = null;
+                                          e.currentTarget.src = activeTmplMeta.previewImage;
+                                        }}
                                       />
                                     </div>
 

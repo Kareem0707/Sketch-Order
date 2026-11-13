@@ -187,8 +187,8 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-2xs overflow-y-auto">
-      <div className="relative max-w-xl w-full my-8 bg-white border-3 md:border-4 border-[#0F0F0F] sketch-border-1 p-5 sm:p-7 sketch-shadow-xl paper-pattern max-h-[92vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs overflow-y-auto">
+      <div className="relative max-w-xl w-full my-8 bg-white dark:bg-[#111827] border-3 md:border-4 border-[#0F0F0F] dark:border-slate-700 text-[#0F0F0F] dark:text-white p-5 sm:p-7 sketch-shadow-xl paper-pattern max-h-[92vh] overflow-y-auto">
         
         {/* Close Button */}
         <button
@@ -196,44 +196,44 @@ export const OrderModal: React.FC<OrderModalProps> = ({
             playClick();
             onClose();
           }}
-          className="absolute top-4 left-4 p-2 border-2 border-[#0F0F0F] sketch-border-circle bg-white hover:bg-neutral-100 sketch-shadow-sm"
+          className="absolute top-4 left-4 p-2 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-circle bg-white dark:bg-slate-800 text-[#0F0F0F] dark:text-white hover:bg-neutral-100 dark:hover:bg-slate-700 sketch-shadow-sm"
           aria-label="إغلاق"
         >
           <X className="w-5 h-5" />
         </button>
 
         {/* Modal Header with Logo & Mascot */}
-        <div className="text-center border-b-2 border-[#0F0F0F] pb-4 mb-5">
+        <div className="text-center border-b-2 border-[#0F0F0F] dark:border-slate-700 pb-4 mb-5">
           <div className="flex items-center justify-center gap-3 mb-2">
-            <img src={mascotImg} alt="سكتش مان" className="w-10 h-10 object-contain rounded-full border border-[#0F0F0F]" />
-            <img src={logoImg} alt="SKETCH ORDER" className="h-7 object-contain" />
+            <img src={mascotImg} alt="سكتش مان" className="w-10 h-10 object-contain rounded-full border border-[#0F0F0F] dark:border-slate-600 bg-white dark:bg-slate-800" />
+            <img src={logoImg} alt="SKETCH ORDER" className="h-7 object-contain dark:invert" />
           </div>
 
-          <h2 className="text-2xl sm:text-3xl font-black font-heading text-[#0F0F0F]">
+          <h2 className="text-2xl sm:text-3xl font-black font-heading text-[#0F0F0F] dark:text-white">
             امتلك موقعك بدومينك الخاص
           </h2>
 
           {/* 3 Guarantees */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mt-2 text-xs font-bold text-slate-700">
-            <span className="flex items-center gap-1 text-emerald-800">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+          <div className="flex flex-wrap items-center justify-center gap-2 mt-2 text-xs font-bold text-slate-700 dark:text-slate-300">
+            <span className="flex items-center gap-1 text-emerald-800 dark:text-emerald-400">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
               <span>الدفع مرة واحدة</span>
             </span>
-            <span>•</span>
-            <span className="flex items-center gap-1 text-indigo-800">
-              <ShieldCheck className="w-3.5 h-3.5 text-indigo-600" />
+            <span className="text-slate-400 dark:text-slate-600">•</span>
+            <span className="flex items-center gap-1 text-indigo-800 dark:text-indigo-400">
+              <ShieldCheck className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
               <span>الضمان مدى الحياة</span>
             </span>
-            <span>•</span>
-            <span className="flex items-center gap-1 text-orange-800">
+            <span className="text-slate-400 dark:text-slate-600">•</span>
+            <span className="flex items-center gap-1 text-orange-800 dark:text-orange-400">
               <Zap className="w-3.5 h-3.5 text-orange-500" />
               <span>تسليم في خلال دقايق</span>
             </span>
           </div>
 
           {initialStoreConfig && (
-            <div className="mt-3 p-2 border border-dashed border-[#0F0F0F] sketch-border-tag bg-emerald-50 text-xs font-bold text-emerald-800 flex items-center justify-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+            <div className="mt-3 p-2 border border-dashed border-[#0F0F0F] dark:border-emerald-500/50 sketch-border-tag bg-emerald-50 dark:bg-emerald-950/40 text-xs font-bold text-emerald-800 dark:text-emerald-300 flex items-center justify-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
               <span>تم اختيار متجر "{initialStoreConfig.storeName}" بنجاح من الاستوديو</span>
             </div>
           )}
@@ -245,7 +245,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
             
             {/* Plan Selector */}
             <div>
-              <label className="block text-xs font-black mb-1.5 text-[#0F0F0F]">
+              <label className="block text-xs font-black mb-1.5 text-[#0F0F0F] dark:text-white">
                 اختر الباقة المطلوبة:
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -260,17 +260,17 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                         playClick();
                         setFormData({ ...formData, selectedPlan: planKey });
                       }}
-                      className={`p-2.5 text-right border-2 border-[#0F0F0F] sketch-border-tag transition-all ${
+                      className={`p-2.5 text-right border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-tag transition-all ${
                         isSelected
-                          ? 'bg-[#0F0F0F] text-white sketch-shadow-sm -translate-y-0.5'
-                          : 'bg-white hover:bg-neutral-50 text-[#0F0F0F]'
+                          ? 'bg-[#0F0F0F] text-white dark:bg-orange-500 dark:text-slate-950 sketch-shadow-sm -translate-y-0.5'
+                          : 'bg-white dark:bg-slate-800 hover:bg-neutral-50 dark:hover:bg-slate-700 text-[#0F0F0F] dark:text-slate-200'
                       }`}
                     >
                       <div className="text-xs font-black">{plan.name}</div>
                       <div className="text-sm font-black mt-1">
                         {plan.priceDisplay}
                       </div>
-                      <div className={`text-[10px] mt-1 line-clamp-1 ${isSelected ? 'text-slate-300' : 'text-[#0F0F0F]/60'}`}>
+                      <div className={`text-[10px] mt-1 line-clamp-1 ${isSelected ? 'text-slate-300 dark:text-slate-900 font-bold' : 'text-[#0F0F0F]/60 dark:text-slate-400'}`}>
                         {planKey === 'standard' ? '4 أقسام فقط' : planKey === 'pro' ? 'أقسام + سيستم الأرباح' : 'حسب المطلوب (مش ثابت)'}
                       </div>
                     </button>
@@ -281,7 +281,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
 
             {/* Full Name */}
             <div>
-              <label className="block text-xs font-black mb-1">
+              <label className="block text-xs font-black mb-1 text-[#0F0F0F] dark:text-slate-200">
                 الاسم الكريم / صاحب المتجر *
               </label>
               <input
@@ -290,14 +290,14 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                 placeholder="مثال: أحمد عبد الرحمن"
                 value={formData.fullName}
                 onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                className="w-full p-2.5 text-sm font-bold border-2 border-[#0F0F0F] sketch-border-2 bg-white focus:outline-hidden"
+                className="w-full p-2.5 text-sm font-bold border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-2 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white focus:outline-hidden"
               />
             </div>
 
             {/* Store Name & Subdomain */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-black mb-1">
+                <label className="block text-xs font-black mb-1 text-[#0F0F0F] dark:text-slate-200">
                   اسم المتجر أو البراند *
                 </label>
                 <input
@@ -311,12 +311,12 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                       setDesiredSubdomain(e.target.value.toLowerCase().replace(/[^a-z0-9]/g, ''));
                     }
                   }}
-                  className="w-full p-2.5 text-sm font-bold border-2 border-[#0F0F0F] sketch-border-3 bg-white focus:outline-hidden"
+                  className="w-full p-2.5 text-sm font-bold border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-3 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white focus:outline-hidden"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-black mb-1">
+                <label className="block text-xs font-black mb-1 text-[#0F0F0F] dark:text-slate-200">
                   الساب دومين المطلوب (Subdomain) *
                 </label>
                 <div className="flex items-center" dir="ltr">
@@ -326,9 +326,9 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                     placeholder="mybrand"
                     value={desiredSubdomain}
                     onChange={(e) => setDesiredSubdomain(e.target.value)}
-                    className="w-full p-2.5 text-xs font-bold font-mono border-2 border-r-0 border-[#0F0F0F] bg-white text-left focus:outline-hidden"
+                    className="w-full p-2.5 text-xs font-bold font-mono border-2 border-r-0 border-[#0F0F0F] dark:border-slate-700 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white text-left focus:outline-hidden"
                   />
-                  <span className="p-2.5 bg-neutral-100 border-2 border-[#0F0F0F] text-[11px] font-mono font-bold text-slate-700 whitespace-nowrap">
+                  <span className="p-2.5 bg-neutral-100 dark:bg-slate-800 border-2 border-[#0F0F0F] dark:border-slate-700 text-[11px] font-mono font-bold text-slate-700 dark:text-slate-300 whitespace-nowrap">
                     .sketchorder.com
                   </span>
                 </div>
@@ -338,13 +338,13 @@ export const OrderModal: React.FC<OrderModalProps> = ({
             {/* Niche & Governorate */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-black mb-1">
+                <label className="block text-xs font-black mb-1 text-[#0F0F0F] dark:text-slate-200">
                   مجال النشاط
                 </label>
                 <select
                   value={formData.storeType}
                   onChange={(e) => setFormData({ ...formData, storeType: e.target.value })}
-                  className="w-full p-2.5 text-sm font-bold border-2 border-[#0F0F0F] sketch-border-2 bg-white focus:outline-hidden"
+                  className="w-full p-2.5 text-sm font-bold border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-2 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white focus:outline-hidden"
                 >
                   <option value="كوتشيات وسنيكرز ومستلزمات رياضية">كوتشيات وسنيكرز ومستلزمات رياضية</option>
                   <option value="ملابس وستريت وير وأوفر سايز">ملابس وستريت وير وأوفر سايز</option>
@@ -356,13 +356,13 @@ export const OrderModal: React.FC<OrderModalProps> = ({
               </div>
 
               <div>
-                <label className="block text-xs font-black mb-1">
+                <label className="block text-xs font-black mb-1 text-[#0F0F0F] dark:text-slate-200">
                   المحافظة الرئيسية
                 </label>
                 <select
                   value={formData.governorate}
                   onChange={(e) => setFormData({ ...formData, governorate: e.target.value })}
-                  className="w-full p-2.5 text-sm font-bold border-2 border-[#0F0F0F] sketch-border-2 bg-white focus:outline-hidden"
+                  className="w-full p-2.5 text-sm font-bold border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-2 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white focus:outline-hidden"
                 >
                   <option value="القاهرة">القاهرة</option>
                   <option value="الجيزة">الجيزة</option>
@@ -377,7 +377,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
 
             {/* WhatsApp Phone */}
             <div>
-              <label className="block text-xs font-black mb-1">
+              <label className="block text-xs font-black mb-1 text-[#0F0F0F] dark:text-slate-200">
                 رقم الواتساب للتواصل وتفعيل المتجر *
               </label>
               <input
@@ -387,20 +387,20 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                 placeholder="010XXXXXXXX or 011/012/015"
                 value={formData.whatsapp}
                 onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
-                className="w-full p-2.5 text-sm font-bold font-mono border-2 border-[#0F0F0F] sketch-border-1 bg-white text-right focus:outline-hidden"
+                className="w-full p-2.5 text-sm font-bold font-mono border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-1 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white text-right focus:outline-hidden"
               />
             </div>
 
             {/* Payment Method & Receipt Upload Box */}
-            <div className="p-3.5 border-2 border-[#0F0F0F] sketch-border-2 bg-amber-50/50 space-y-2.5">
-              <label className="block text-xs font-black text-[#0F0F0F]">
+            <div className="p-3.5 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-2 bg-amber-50/50 dark:bg-amber-500/10 space-y-2.5">
+              <label className="block text-xs font-black text-[#0F0F0F] dark:text-amber-200">
                 طريقة الدفع والتأكيد الفوري:
               </label>
 
               <select
                 value={formData.paymentMethod}
                 onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}
-                className="w-full p-2.5 text-xs font-bold border-2 border-[#0F0F0F] sketch-border-2 bg-white focus:outline-hidden"
+                className="w-full p-2.5 text-xs font-bold border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-2 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white focus:outline-hidden"
               >
                 <option value="إنستاباي (InstaPay)">⚡ إنستاباي (InstaPay) - تحويل فوري لحظي</option>
                 <option value="محفظة فودافون كاش">📱 محفظة فودافون كاش / أورنج كاش</option>
@@ -408,43 +408,43 @@ export const OrderModal: React.FC<OrderModalProps> = ({
               </select>
 
               <div className="text-xs font-bold space-y-1.5 pt-1">
-                <div className="flex items-center justify-between p-2 bg-white border border-[#0F0F0F]/30 rounded-md">
-                  <span className="text-slate-800">⚡ عنوان إنستاباي (InstaPay IPA):</span>
-                  <span className="font-mono font-black text-indigo-700 select-all">kareem07@instapay</span>
+                <div className="flex items-center justify-between p-2 bg-white dark:bg-slate-900 border border-[#0F0F0F]/30 dark:border-slate-700 rounded-md">
+                  <span className="text-slate-800 dark:text-slate-300">⚡ عنوان إنستاباي (InstaPay IPA):</span>
+                  <span className="font-mono font-black text-indigo-700 dark:text-indigo-400 select-all">kareem07@instapay</span>
                 </div>
-                <div className="flex items-center justify-between p-2 bg-white border border-[#0F0F0F]/30 rounded-md">
-                  <span className="text-slate-800">📱 رقم فودافون كاش:</span>
-                  <span className="font-mono font-black text-rose-700 select-all">01023456789</span>
+                <div className="flex items-center justify-between p-2 bg-white dark:bg-slate-900 border border-[#0F0F0F]/30 dark:border-slate-700 rounded-md">
+                  <span className="text-slate-800 dark:text-slate-300">📱 رقم فودافون كاش:</span>
+                  <span className="font-mono font-black text-rose-700 dark:text-rose-400 select-all">01023456789</span>
                 </div>
               </div>
 
               {/* Receipt File Upload */}
-              <div className="pt-2 border-t border-dashed border-[#0F0F0F]/30">
-                <label className="block text-xs font-black mb-1.5 text-slate-900">
+              <div className="pt-2 border-t border-dashed border-[#0F0F0F]/30 dark:border-slate-700">
+                <label className="block text-xs font-black mb-1.5 text-slate-900 dark:text-slate-200">
                   إرفاق سكرين شوت التحويل لتسريع قبول وتفعيل الموقع:
                 </label>
                 {receiptBase64 ? (
-                  <div className="flex items-center justify-between p-2.5 bg-white border-2 border-[#0F0F0F] rounded-xl shadow-xs">
+                  <div className="flex items-center justify-between p-2.5 bg-white dark:bg-slate-900 border-2 border-[#0F0F0F] dark:border-slate-700 rounded-xl shadow-xs">
                     <div className="flex items-center gap-2.5">
-                      <img src={receiptBase64} alt="Receipt preview" className="w-12 h-12 object-cover rounded-lg border border-slate-300" />
+                      <img src={receiptBase64} alt="Receipt preview" className="w-12 h-12 object-cover rounded-lg border border-slate-300 dark:border-slate-700" />
                       <div>
-                        <span className="text-xs font-black text-emerald-700 flex items-center gap-1">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-600" /> تم إرفاق السكرين شوت
+                        <span className="text-xs font-black text-emerald-700 dark:text-emerald-400 flex items-center gap-1">
+                          <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" /> تم إرفاق السكرين شوت
                         </span>
-                        <span className="text-[10px] text-slate-500 font-mono">سيظهر مباشرة في لوحة إدارة صاحب الموقع</span>
+                        <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">سيظهر مباشرة في لوحة إدارة صاحب الموقع</span>
                       </div>
                     </div>
                     <button
                       type="button"
                       onClick={() => setReceiptBase64(null)}
-                      className="text-xs text-red-600 font-bold hover:underline px-2 py-1"
+                      className="text-xs text-red-600 dark:text-red-400 font-bold hover:underline px-2 py-1"
                     >
                       حذف واستبدال
                     </button>
                   </div>
                 ) : (
-                  <label className="flex items-center justify-center gap-2 p-3 border-2 border-dashed border-[#0F0F0F] sketch-border-tag bg-white hover:bg-neutral-50 cursor-pointer text-xs font-black transition-colors">
-                    <Upload className="w-4 h-4 text-[#0F0F0F]" />
+                  <label className="flex items-center justify-center gap-2 p-3 border-2 border-dashed border-[#0F0F0F] dark:border-slate-700 sketch-border-tag bg-white dark:bg-slate-900 hover:bg-neutral-50 dark:hover:bg-slate-800 cursor-pointer text-xs font-black transition-colors">
+                    <Upload className="w-4 h-4 text-[#0F0F0F] dark:text-slate-200" />
                     <span>اضغط هنا لرفع سكرين شوت التحويل (PNG / JPG) 📎</span>
                     <input type="file" accept="image/*" onChange={handleReceiptUpload} className="hidden" />
                   </label>
@@ -454,7 +454,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
 
             {/* Notes */}
             <div>
-              <label className="block text-xs font-black mb-1">
+              <label className="block text-xs font-black mb-1 text-[#0F0F0F] dark:text-slate-200">
                 ملاحظات أو رغبات خاصة لمتجرك
               </label>
               <textarea
@@ -462,20 +462,20 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                 placeholder="مثال: محتاج دومين باسم mybrand.com ومعايا 15 منتج جاهزين للرفع..."
                 value={formData.notes}
                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                className="w-full p-2 text-xs font-bold border-2 border-[#0F0F0F] sketch-border-2 bg-white focus:outline-hidden resize-none"
+                className="w-full p-2 text-xs font-bold border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-2 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white focus:outline-hidden resize-none"
               ></textarea>
             </div>
 
             {/* Price Summary Box */}
-            <div className="p-3 border-2 border-[#0F0F0F] bg-[#FAF9F6] sketch-border-1 flex items-center justify-between">
+            <div className="p-3 border-2 border-[#0F0F0F] dark:border-slate-700 bg-[#FAF9F6] dark:bg-slate-900 sketch-border-1 flex items-center justify-between">
               <div>
-                <span className="text-xs font-bold text-[#0F0F0F]/70">المطلوب دفعه:</span>
-                <div className="text-xl font-black font-heading text-[#0F0F0F]">
+                <span className="text-xs font-bold text-[#0F0F0F]/70 dark:text-slate-400">المطلوب دفعه:</span>
+                <div className="text-xl font-black font-heading text-[#0F0F0F] dark:text-white">
                   {currentPlan.priceDisplay}
                 </div>
               </div>
               <div className="text-right">
-                <span className="text-xs font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-sm border border-emerald-200">
+                <span className="text-xs font-black text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 px-2 py-0.5 rounded-sm border border-emerald-200 dark:border-emerald-800">
                   دفع مرة واحدة • ملكك مدى الحياة
                 </span>
               </div>
@@ -492,7 +492,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
               </button>
             </div>
 
-            <div className="text-[11px] text-center text-[#0F0F0F]/70 pt-1 font-bold">
+            <div className="text-[11px] text-center text-[#0F0F0F]/70 dark:text-slate-400 pt-1 font-bold">
               * الدفع بعد المعاينة والتأكد من كل التفاصيل • سرعة التواصل عبر الدعم الفني
             </div>
 
@@ -501,27 +501,27 @@ export const OrderModal: React.FC<OrderModalProps> = ({
           /* VIEW 2: SUCCESS WITH APPROVED RUBBER STAMP */
           <div className="text-center py-4 space-y-6">
             
-            <div className="inline-block border-4 border-[#0F0F0F] p-4 sm:p-6 sketch-border-2 bg-white animate-stamp sketch-shadow-lg rotate-[-3deg]">
-              <div className="flex items-center justify-center gap-2 mb-2 border-b-2 border-[#0F0F0F] pb-1">
+            <div className="inline-block border-4 border-[#0F0F0F] dark:border-slate-600 p-4 sm:p-6 sketch-border-2 bg-white dark:bg-slate-900 animate-stamp sketch-shadow-lg rotate-[-3deg]">
+              <div className="flex items-center justify-center gap-2 mb-2 border-b-2 border-[#0F0F0F] dark:border-slate-700 pb-1">
                 <img src={mascotImg} alt="سكتش مان" className="w-6 h-6 rounded-full" />
-                <span className="text-sm font-black">سكتش أوردر • اعتماد رسمي</span>
+                <span className="text-sm font-black text-[#0F0F0F] dark:text-white">سكتش أوردر • اعتماد رسمي</span>
               </div>
-              <div className="text-2xl sm:text-4xl font-black font-heading text-[#0F0F0F] tracking-tight">
+              <div className="text-2xl sm:text-4xl font-black font-heading text-[#0F0F0F] dark:text-white tracking-tight">
                 تم اعتماد الطلب #{generatedOrderId} ✓
               </div>
-              <div className="text-xs font-bold mt-2 text-[#0F0F0F]/80">
+              <div className="text-xs font-bold mt-2 text-[#0F0F0F]/80 dark:text-slate-300">
                 التاريخ: {stampDate} • الباقة: {currentPlan.name} • {currentPlan.priceDisplay}
               </div>
-              <div className="text-xs font-mono font-bold mt-2 text-indigo-700 bg-indigo-50 py-1 px-3 rounded-md border border-indigo-200">
+              <div className="text-xs font-mono font-bold mt-2 text-indigo-700 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 py-1 px-3 rounded-md border border-indigo-200 dark:border-indigo-800">
                 🌐 الساب دومين: {desiredSubdomain || formData.storeName}.sketchorder.com
               </div>
             </div>
 
             <div className="space-y-2">
-              <h3 className="text-xl font-black font-heading">
+              <h3 className="text-xl font-black font-heading text-[#0F0F0F] dark:text-white">
                 ألف مبروك يا {formData.fullName}! ظهر طلبك في لوحة تحكم المنصة
               </h3>
-              <p className="text-sm font-bold text-[#0F0F0F]/80 max-w-md mx-auto leading-relaxed">
+              <p className="text-sm font-bold text-[#0F0F0F]/80 dark:text-slate-300 max-w-md mx-auto leading-relaxed">
                 تم تسجيل إيصال التحويل وحجز الساب دومين لمتجر "{formData.storeName}". جاري المراجعة والتسليم فوراً في دقائق معدودة!
               </p>
             </div>
