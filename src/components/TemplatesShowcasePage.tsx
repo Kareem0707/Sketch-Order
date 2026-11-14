@@ -19,7 +19,6 @@ import { STUDIO_TEMPLATES } from './FullPageStoreStudio';
 import { playClick, playPaperFlip } from '../utils/soundEffects';
 import brushLogoWhite from '../assets/sketch-brush-logo-white.png';
 import brushLogoBlack from '../assets/sketch-brush-logo-black.png';
-import mascotPng from '../assets/sketch-mascot.png';
 
 interface TemplatesShowcasePageProps {
  onBackToHome: () => void;
@@ -107,7 +106,6 @@ export const TemplatesShowcasePage: React.FC<TemplatesShowcasePageProps> = ({
 
  <div className="flex items-center gap-2 border-r border-slate-300 dark:border-slate-800 pr-3">
             <img src={isDarkMode ? brushLogoWhite : brushLogoBlack} alt="سكتش أوردر" className="h-8 object-contain" />
- <img src={mascotPng} alt="Mascot" className="w-7 h-7 object-contain hidden sm:block" />
  <div>
  <span className="font-heading font-black text-base sm:text-lg tracking-tight block leading-none">
  سكتش أوردر
@@ -154,7 +152,7 @@ export const TemplatesShowcasePage: React.FC<TemplatesShowcasePageProps> = ({
  playClick();
  onBuyTemplate('sportech-sneakers');
  }}
- className="px-3.5 sm:px-4 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-white font-black text-xs sm:text-sm flex items-center gap-1.5 shadow-md transition-transform active:scale-95"
+ className="px-3.5 sm:px-4 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-xs sm:text-sm flex items-center gap-1.5 shadow-md transition-transform active:scale-95"
  >
  <Rocket className="w-4 h-4" />
  <span>امتلك متجرك الآن</span>

@@ -268,6 +268,7 @@ export const App: React.FC = () => {
           }}
           onExplorePlayground={scrollToPlayground}
           onOpenStudio={openFullStudio}
+          onOpenTemplates={openTemplatesShowcase}
         />
 
         {/* Practical 3-Step Process Callout */}
@@ -372,7 +373,7 @@ export const App: React.FC = () => {
                 className="btn-sketch btn-sketch-primary text-sm sm:text-base py-3 px-6 -rotate-1 font-heading inline-flex items-center gap-2"
               >
                 <Grid className="w-5 h-5 text-orange-400" />
-                <span>كتالوج التيمبليتس الجاهزة (8 تيمبليتس حصرية)</span>
+                <span>معرض قوالب المتاجر (Figma Showcase)</span>
                 <ArrowLeft className="w-4 h-4 mr-1" />
               </button>
 
@@ -384,8 +385,8 @@ export const App: React.FC = () => {
                     : 'bg-white border-[#0F0F0F] text-[#0F0F0F] hover:bg-slate-100'
                 }`}
               >
-                <Hammer className="w-5 h-5 text-emerald-500" />
-                <span>استوديو الآيفون 13 برو</span>
+                <Hammer className="w-5 h-5 text-orange-500" />
+                <span>استوديو تخصيص المتجر (لايف)</span>
               </button>
             </div>
           </div>

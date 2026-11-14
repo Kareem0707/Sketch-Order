@@ -28,7 +28,7 @@ export const StickmanDoodle: React.FC<StickmanProps> = ({
   return (
     <div
       className={`relative inline-flex items-center justify-center select-none ${animClass} ${className}`}
-      style={{ width: `${size}px`, height: `${size * 1.25}px` }}
+      style={{ height: `${size}px`, width: `${Math.round(size * 0.45)}px` }}
     >
       <img
         src={mascotPng}

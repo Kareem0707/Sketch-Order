@@ -579,7 +579,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  {activeProduct.name}
  </h2>
  <p className="text-xs opacity-60 font-medium">
- {activeProduct.category} • كولكشن حصري 2026
+ {activeProduct.category} • كولكشن أصلي 2026
  </p>
  </div>
 

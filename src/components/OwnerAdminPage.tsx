@@ -17,6 +17,8 @@ import {
  Sun,
  Moon,
  KeyRound,
+  Globe,
+  Power,
 } from 'lucide-react';
 import type { ClientOrderRequest, TenantStoreAccount } from '../types';
 import { playClick, playCashSound } from '../utils/soundEffects';
@@ -96,10 +98,148 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  onToggleDarkMode,
 }) => {
  const [orders, setOrders] = useState<ClientOrderRequest[]>([]);
+  const [tenantStores, setTenantStores] = useState<Record<string, TenantStoreAccount>>({});
+  const [adminViewTab, setAdminViewTab] = useState<'orders' | 'tenants'>('orders');
+  const [tenantSearchQuery, setTenantSearchQuery] = useState<string>('');
  const [filterStatus, setFilterStatus] = useState<'all' | 'pending' | 'approved'>('all');
  const [searchQuery, setSearchQuery] = useState<string>('');
  const [selectedReceiptUrl, setSelectedReceiptUrl] = useState<string | null>(null);
  const [actionSuccessMessage, setActionSuccessMessage] = useState<string | null>(null);
+
+  // Load tenant stores from localStorage
+  const loadTenantStores = () => {
+    try {
+      const raw = localStorage.getItem('sketch_tenant_stores');
+      if (raw) {
+        setTenantStores(JSON.parse(raw));
+      } else {
+        const initialSeed: Record<string, TenantStoreAccount> = {
+          sportech: {
+            tenantId: 'tenant_sportech',
+            subdomain: 'sportech',
+            brandName: 'سبورتك إيجيبت (SPORTECH)',
+            ownerName: 'كريم الأحمدي',
+            ownerPhone: '01012345678',
+            planTier: 'pro',
+            status: 'active',
+            templateId: 'sportech-sneakers',
+            createdAt: '2026-03-01T10:00:00.000Z',
+            salesTotal: 48900,
+            ordersCount: 42,
+            storeConfig: {
+              storeName: 'سبورتك إيجيبت (SPORTECH)',
+              tagline: 'تسوق أفضل كوتشيات سنيكرز أصلية وضمان استبدال فوري',
+              niche: 'sneakers',
+              templateId: 'sportech-sneakers',
+              accentColor: '#F97316',
+              customDomain: 'sportech.sketchorder.com',
+              currency: 'ج.م',
+              whatsappNumber: '01012345678',
+              governorate: 'القاهرة',
+              sections: {
+                heroBanner: true,
+                categoriesBar: true,
+                sizeGuide: true,
+                bestSellers: true,
+                flashSale: true,
+                reviewsSection: true,
+                instantWhatsappCart: true,
+                analyticsDashboard: true,
+              },
+              categories: ['الكل', 'كوتشيات جري', 'سنيكرز خروج', 'كاجوال سلايدز', 'شرابات واكسسوارات'],
+              products: [],
+            },
+          },
+          fasco: {
+            tenantId: 'tenant_fasco',
+            subdomain: 'fasco',
+            brandName: 'فاسكو ستريت وير (FASCO)',
+            ownerName: 'ياسين البدري',
+            ownerPhone: '01122334455',
+            planTier: 'pro',
+            status: 'active',
+            templateId: 'fasco-fashion',
+            createdAt: '2026-03-02T12:00:00.000Z',
+            salesTotal: 32400,
+            ordersCount: 28,
+            storeConfig: {
+              storeName: 'فاسكو ستريت وير (FASCO)',
+              tagline: 'ملابس أوفر سايز وتصميمات ستريت وير حصرية',
+              niche: 'streetwear',
+              templateId: 'fasco-fashion',
+              accentColor: '#F97316',
+              customDomain: 'fasco.sketchorder.com',
+              currency: 'ج.م',
+              whatsappNumber: '01122334455',
+              governorate: 'الجيزة',
+              sections: {
+                heroBanner: true,
+                categoriesBar: true,
+                sizeGuide: true,
+                bestSellers: true,
+                flashSale: true,
+                reviewsSection: true,
+                instantWhatsappCart: true,
+                analyticsDashboard: true,
+              },
+              categories: ['الكل', 'هوديز قطن', 'تيشيرتات بوكسي', 'بناطيل كارجو'],
+              products: [],
+            },
+          },
+        };
+        localStorage.setItem('sketch_tenant_stores', JSON.stringify(initialSeed));
+        setTenantStores(initialSeed);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    loadTenantStores();
+  }, []);
+
+  // Toggle store active / suspended
+  const handleToggleTenantStatus = (subdomain: string) => {
+    playClick();
+    const current = tenantStores[subdomain];
+    if (!current) return;
+    const newStatus: 'active' | 'suspended' = current.status === 'active' ? 'suspended' : 'active';
+    const updated: Record<string, TenantStoreAccount> = {
+      ...tenantStores,
+      [subdomain]: {
+        ...current,
+        status: newStatus,
+      },
+    };
+    setTenantStores(updated);
+    localStorage.setItem('sketch_tenant_stores', JSON.stringify(updated));
+    setActionSuccessMessage(
+      newStatus === 'active'
+        ? `تم تفعيل وتشغيل متجر "${current.brandName}" لايف بنجاح!`
+        : `تم تعطيل متجر "${current.brandName}" مؤقتاً!`
+    );
+    setTimeout(() => setActionSuccessMessage(null), 4000);
+  };
+
+  // Permanently delete store & subdomain
+  const handleDeleteTenantStore = (subdomain: string) => {
+    playClick();
+    const current = tenantStores[subdomain];
+    const name = current ? current.brandName : subdomain;
+    if (
+      confirm(
+        `هل أنت متأكد تماماً من حذف متجر "${name}" والدومين (${subdomain}.sketchorder.com) نهائياً؟\nلن يتمكن العميل أو زبائنه من الدخول إليه مجدداً.`
+      )
+    ) {
+      const updated = { ...tenantStores };
+      delete updated[subdomain];
+      setTenantStores(updated);
+      localStorage.setItem('sketch_tenant_stores', JSON.stringify(updated));
+      setActionSuccessMessage(`تم حذف متجر "${name}" والدومين الفرعي نهائياً.`);
+      setTimeout(() => setActionSuccessMessage(null), 4000);
+    }
+  };
 
  // Load orders from localStorage or defaults
  useEffect(() => {
@@ -194,6 +334,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
 
  stores[order.subdomain] = newTenant;
  localStorage.setItem('sketch_tenant_stores', JSON.stringify(stores));
+      setTenantStores(stores);
 
  // Dispatch storage event to alert other tabs/components
  window.dispatchEvent(
@@ -544,10 +685,47 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  </div>
  </section>
 
- {/* ======================================================== */}
- {/* 4. ORDERS & STORES TABLE / CARDS */}
- {/* ======================================================== */}
- <section className="space-y-4">
+
+      {/* ======================================================== */}
+      {/* 4. MAIN VIEW TABS: ORDERS vs TENANT SUBDOMAINS */}
+      {/* ======================================================== */}
+      <div className="flex flex-wrap items-center gap-3 border-b-2 border-inherit pb-3">
+        <button
+          onClick={() => {
+            playClick();
+            setAdminViewTab('orders');
+          }}
+          className={`px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm transition-all border-2 flex items-center gap-2 ${
+            adminViewTab === 'orders'
+              ? 'bg-orange-500 text-slate-950 border-orange-600 shadow-sm -rotate-1'
+              : 'bg-transparent border-inherit opacity-75 hover:opacity-100'
+          }`}
+        >
+          <Clock className="w-4 h-4" />
+          <span>طلبات الشراء وفحص التحويلات ({orders.length})</span>
+        </button>
+
+        <button
+          onClick={() => {
+            playClick();
+            setAdminViewTab('tenants');
+          }}
+          className={`px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm transition-all border-2 flex items-center gap-2 ${
+            adminViewTab === 'tenants'
+              ? 'bg-orange-500 text-slate-950 border-orange-600 shadow-sm rotate-1'
+              : 'bg-transparent border-inherit opacity-75 hover:opacity-100'
+          }`}
+        >
+          <Globe className="w-4 h-4" />
+          <span>إدارة المتاجر والدومينات الفرعية ({Object.keys(tenantStores).length})</span>
+        </button>
+      </div>
+
+      {/* ======================================================== */}
+      {/* TAB 1: ORDERS & STORES TABLE / CARDS */}
+      {/* ======================================================== */}
+      {adminViewTab === 'orders' && (
+      <section className="space-y-4">
  <div className="flex items-center justify-between">
  <h2 className="font-heading font-black text-xl">
  طلبات المتاجر وعمليات الدفع ({filteredOrders.length})
@@ -757,7 +935,194 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  })}
  </div>
  )}
- </section>
+      </section>
+      )}
+
+      {/* ======================================================== */}
+      {/* TAB 2: TENANT SUBDOMAINS MANAGEMENT (تفعيل ومسح المتاجر) */}
+      {/* ======================================================== */}
+      {adminViewTab === 'tenants' && (
+        <section className="space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h2 className="font-heading font-black text-xl flex items-center gap-2">
+                <Globe className="w-5 h-5 text-orange-500" />
+                <span>المتاجر المستقلة والدومينات الفرعية المنشأة ({Object.keys(tenantStores).length})</span>
+              </h2>
+              <p className="text-xs opacity-70 mt-1">
+                تحكم كامل في تفعيل أو إيقاف مؤقت أو حذف أي موقع فرعي تم شراؤه بواسطة عميل
+              </p>
+            </div>
+
+            <div className="relative w-full sm:w-72">
+              <Search className="w-4 h-4 absolute right-3.5 top-1/2 -translate-y-1/2 opacity-50" />
+              <input
+                type="text"
+                placeholder="ابحث بالدومين أو اسم المتجر..."
+                value={tenantSearchQuery}
+                onChange={(e) => setTenantSearchQuery(e.target.value)}
+                className={`w-full pr-10 pl-3 py-2 rounded-xl text-xs font-bold border-2 transition-all outline-none ${
+                  isDarkMode
+                    ? 'bg-slate-900 border-slate-700 text-white focus:border-orange-500'
+                    : 'bg-[#FAF8F5] border-[#0F0F0F] text-[#0F0F0F] focus:border-orange-500'
+                }`}
+              />
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            {(Object.entries(tenantStores) as [string, TenantStoreAccount][])
+              .filter(([sub, st]) => {
+                if (!tenantSearchQuery) return true;
+                const q = tenantSearchQuery.toLowerCase();
+                return (
+                  sub.toLowerCase().includes(q) ||
+                  st.brandName.toLowerCase().includes(q) ||
+                  st.ownerName.toLowerCase().includes(q)
+                );
+              })
+              .map(([subdomain, store]) => {
+                const isActive = store.status === 'active';
+                return (
+                  <div
+                    key={subdomain}
+                    className={`p-5 rounded-2xl border-2 transition-all ${
+                      isDarkMode
+                        ? 'bg-[#111827] border-slate-700 shadow-[4px_4px_0px_#1F2937]'
+                        : 'bg-white border-[#0F0F0F] shadow-[4px_4px_0px_#0F0F0F]'
+                    } sketch-border-1 space-y-4`}
+                  >
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b-2 border-inherit pb-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-500 border border-orange-500/30 flex items-center justify-center font-heading font-black text-sm">
+                          <Store className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-heading font-black text-base">{store.brandName}</h3>
+                            <span className="font-mono text-xs px-2 py-0.5 rounded-md bg-neutral-100 dark:bg-slate-800 text-orange-600 dark:text-orange-400 font-bold">
+                              {subdomain}.sketchorder.com
+                            </span>
+                          </div>
+                          <div className="text-xs opacity-60 mt-0.5">
+                            صاحب المتجر: {store.ownerName} • {store.ownerPhone}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div>
+                        {isActive ? (
+                          <span className="px-3 py-1 sketch-border-tag border-2 border-dashed border-[#0F0F0F] dark:border-white text-xs font-black bg-neutral-100 dark:bg-slate-800 text-[#0F0F0F] dark:text-white flex items-center gap-1.5 -rotate-1">
+                            <span className="w-2 h-2 rounded-full bg-orange-500 animate-ping"></span>
+                            <span>شغال لايف ومفعل ✓</span>
+                          </span>
+                        ) : (
+                          <span className="px-3 py-1 sketch-border-tag border-2 border-dashed border-red-500 text-xs font-black bg-red-500/10 text-red-500 flex items-center gap-1.5 rotate-1">
+                            <Power className="w-3.5 h-3.5" />
+                            <span>معطل مؤقتاً من الإدارة</span>
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                      <div className="p-2.5 rounded-xl bg-neutral-50 dark:bg-slate-900 border border-inherit">
+                        <span className="opacity-60 block">قالب المتجر:</span>
+                        <span className="font-black mt-0.5 block">{store.templateId}</span>
+                      </div>
+                      <div className="p-2.5 rounded-xl bg-neutral-50 dark:bg-slate-900 border border-inherit">
+                        <span className="opacity-60 block">تاريخ الإنشاء:</span>
+                        <span className="font-bold mt-0.5 block font-mono">
+                          {new Date(store.createdAt).toLocaleDateString('ar-EG')}
+                        </span>
+                      </div>
+                      <div className="p-2.5 rounded-xl bg-neutral-50 dark:bg-slate-900 border border-inherit">
+                        <span className="opacity-60 block">إجمالي المبيعات:</span>
+                        <span className="font-mono font-black text-orange-500 mt-0.5 block">
+                          {(store.salesTotal || 0).toLocaleString()} ج.م
+                        </span>
+                      </div>
+                      <div className="p-2.5 rounded-xl bg-neutral-50 dark:bg-slate-900 border border-inherit">
+                        <span className="opacity-60 block">عدد الأوردرات:</span>
+                        <span className="font-mono font-black mt-0.5 block">
+                          {store.ordersCount || 0} أوردر
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <button
+                          onClick={() => {
+                            playClick();
+                            onOpenStoreLive(subdomain);
+                          }}
+                          className="px-3.5 py-1.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-xs flex items-center gap-1.5 transition-transform active:scale-95 shadow-2xs"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                          <span>معاينة المتجر المباشر</span>
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            playClick();
+                            onOpenMerchantPortal(subdomain);
+                          }}
+                          className={`px-3.5 py-1.5 rounded-xl text-xs font-black flex items-center gap-1.5 border transition-all ${
+                            isDarkMode
+                              ? 'bg-slate-800 hover:bg-slate-700 text-white border-slate-600'
+                              : 'bg-slate-100 hover:bg-slate-200 text-slate-900 border-slate-300'
+                          }`}
+                        >
+                          <KeyRound className="w-3.5 h-3.5" />
+                          <span>دخول لوحة التاجر</span>
+                        </button>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => handleToggleTenantStatus(subdomain)}
+                          className={`px-3.5 py-1.5 rounded-xl text-xs font-black flex items-center gap-1.5 border transition-all ${
+                            isActive
+                              ? 'bg-orange-500/10 hover:bg-orange-500/20 text-orange-500 border-orange-500/30'
+                              : 'bg-slate-800 text-white border-slate-600'
+                          }`}
+                          title={isActive ? 'تعطيل المتجر مؤقتاً' : 'إعادة تفعيل المتجر'}
+                        >
+                          <Power className="w-3.5 h-3.5" />
+                          <span>{isActive ? 'تعطيل المتجر مؤقتاً' : 'إعادة التفعيل لايف'}</span>
+                        </button>
+
+                        <button
+                          onClick={() => handleDeleteTenantStore(subdomain)}
+                          className="px-3.5 py-1.5 rounded-xl text-xs font-black flex items-center gap-1.5 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/30 transition-all"
+                          title="حذف المتجر والدومين نهائياً"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          <span>حذف نهائي</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+
+            {Object.keys(tenantStores).length === 0 && (
+              <div
+                className={`p-12 text-center rounded-3xl border-2 border-dashed ${
+                  isDarkMode ? 'border-slate-800 bg-slate-900/50' : 'border-slate-300 bg-white'
+                } space-y-3`}
+              >
+                <Globe className="w-10 h-10 mx-auto opacity-30 text-orange-500" />
+                <p className="font-heading font-black text-lg">لا توجد متاجر فرعية منشأة حالياً</p>
+                <p className="text-xs opacity-60 max-w-md mx-auto">
+                  عندما يقوم أي عميل بشراء متجر وتوافق على طلبه، سيظهر موقعه الفرعي ودومينه المستقل هنا فوراً لإدارته.
+                </p>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
  </main>
 
  {/* Lightbox for Receipt Screenshot */}

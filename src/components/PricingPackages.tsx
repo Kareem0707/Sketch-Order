@@ -150,7 +150,7 @@ export const PricingPackages: React.FC<PricingPackagesProps> = ({ onSelectPlan }
  </>
  ) : (
  <div className="space-y-0.5">
- <span className="text-2xl font-black font-heading text-indigo-700 dark:text-indigo-400">
+ <span className="text-2xl font-black font-heading text-orange-500">
  سعر مخصص حسب المطلوب
  </span>
  <span className="block text-[11px] font-bold text-[#0F0F0F]/65 dark:text-slate-400">
@@ -175,12 +175,12 @@ export const PricingPackages: React.FC<PricingPackagesProps> = ({ onSelectPlan }
  <div className="flex items-center gap-1.5 p-1.5 border border-dashed border-[#0F0F0F] dark:border-slate-700 sketch-border-tag bg-neutral-50 dark:bg-slate-900/60">
  {isCustom ? (
  <>
- <Box className="w-3.5 h-3.5 text-indigo-500" />
+ <Box className="w-3.5 h-3.5 text-orange-500" />
  <span>3D تفاعلي مخصص</span>
  </>
  ) : (
  <>
- <BarChart3 className="w-3.5 h-3.5 text-emerald-500" />
+ <BarChart3 className="w-3.5 h-3.5 text-orange-500" />
  <span>{isPro ? 'سيستم الأرباح' : 'لوحة تحكم'}</span>
  </>
  )}
@@ -191,7 +191,7 @@ export const PricingPackages: React.FC<PricingPackagesProps> = ({ onSelectPlan }
  <ul className="space-y-2.5 my-4 text-xs font-bold text-[#0F0F0F]/90 dark:text-slate-200">
  {plan.features.map((feat, i) => (
  <li key={i} className="flex items-start gap-2">
- <span className="w-4 h-4 rounded-full border border-[#0F0F0F] dark:border-emerald-500 bg-[#0F0F0F] dark:bg-emerald-500 text-white dark:text-slate-950 flex items-center justify-center shrink-0 mt-0.5 text-[10px] font-black">
+ <span className="w-4 h-4 rounded-full border border-[#0F0F0F] dark:border-orange-500 bg-[#0F0F0F] dark:bg-orange-500 text-white dark:text-slate-950 flex items-center justify-center shrink-0 mt-0.5 text-[10px] font-black">
  ✓
  </span>
  <span className="leading-snug">{feat}</span>
@@ -201,7 +201,7 @@ export const PricingPackages: React.FC<PricingPackagesProps> = ({ onSelectPlan }
 
  {/* Limitation warning if any */}
  {plan.limitations && (
- <div className="p-2 border border-[#0F0F0F] dark:border-amber-500/40 bg-neutral-100 dark:bg-amber-500/10 sketch-border-tag text-[11px] font-bold text-[#0F0F0F]/70 dark:text-amber-200 text-center my-2">
+ <div className="p-2 border border-[#0F0F0F] dark:border-slate-700 bg-neutral-100 dark:bg-slate-900 sketch-border-tag text-[11px] font-bold text-[#0F0F0F]/70 dark:text-slate-300 text-center my-2">
  ملاحظة: {plan.limitations}
  </div>
  )}
@@ -218,7 +218,7 @@ export const PricingPackages: React.FC<PricingPackagesProps> = ({ onSelectPlan }
  isPro
  ? 'btn-sketch-primary -rotate-1'
  : isCustom
- ? 'bg-[#0F0F0F] dark:bg-indigo-600 text-white rotate-1 hover:bg-neutral-800 dark:hover:bg-indigo-500'
+ ? 'bg-[#0F0F0F] bg-[#0F0F0F] dark:bg-slate-800 text-white rotate-1 hover:bg-neutral-800 dark:hover:bg-slate-700'
  : 'bg-white dark:bg-slate-800 text-[#0F0F0F] dark:text-white hover:bg-neutral-100 dark:hover:bg-slate-700'
  }`}
  >

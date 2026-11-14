@@ -1067,16 +1067,16 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  </div>
 
  <div className="flex items-center gap-2 shrink-0">
- <button
-                onClick={() => {
-                  if (onOpenTemplatesPage) onOpenTemplatesPage();
-                }}
- className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 border border-orange-500/30 transition-colors whitespace-nowrap text-xs font-bold"
- >
- <Grid className="w-3.5 h-3.5" />
- <span className="hidden sm:inline">كتالوج القوالب (8 تيمبليتس)</span>
- <span className="sm:hidden">الكتالوج (8)</span>
- </button>
+            <button
+              onClick={() => {
+                playClick();
+                if (onOpenTemplatesPage) onOpenTemplatesPage();
+              }}
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black transition-all whitespace-nowrap text-xs shadow-sm active:scale-95"
+            >
+              <Grid className="w-3.5 h-3.5" />
+              <span>تصفح كل القوالب (Figma Showcase)</span>
+            </button>
  </div>
  </div>
  )}
