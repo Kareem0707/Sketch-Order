@@ -1,3 +1,4 @@
+import { CtrlYzStorefront, CTRL_YZ_ALL_PRODUCTS } from './templates/CtrlYzStorefront';
 import React, { useState } from 'react';
 import {
  ArrowRight,
@@ -517,72 +518,7 @@ export const DEFAULT_PRODUCTS_MAP: Record<TemplateId, CustomProduct[]> = {
  },
  ],
 
-  'ctrl-yz': [
-    {
-      id: 'cyz-1',
-      name: 'CYBER-PUNK 3D OVERSIZED HOODIE - VINTAGE BLACK',
-      price: 850,
-      originalPrice: 1100,
-      costPrice: 420,
-      category: 'هوديز أوفر سايز 3D',
-      tag: 'Trend 2026',
-      badge: 'الأكثر طلباً 🔥',
-      imageUrl: '/assets/products/ctrl-yz/product-1.webp',
-      rating: 4.9,
-      reviewsCount: 284,
-      sizes: ['M', 'L', 'XL', '2XL', '3XL'],
-      colors: [
-        { name: 'Vintage Black', hex: '#111827' },
-        { name: 'Washed Grey', hex: '#4B5563' },
-      ],
-      description: 'هودي أوفر سايز فاخر 100% قطن ميلتون مع طباعة 3D ثلاثية الأبعاد بارزة ومقاومة للغسيل المتكرر.',
-    },
-    {
-      id: 'cyz-2',
-      name: 'FUTURE ACID WASH GRAPHIC TEE',
-      price: 520,
-      originalPrice: 690,
-      costPrice: 260,
-      category: 'تيشرتات ستريت وير',
-      tag: 'New Drop',
-      badge: 'دروب جديد',
-      imageUrl: '/assets/products/ctrl-yz/product-2.webp',
-      rating: 4.8,
-      reviewsCount: 162,
-      sizes: ['M', 'L', 'XL', '2XL'],
-      description: 'تيشيرت بقصة أوفر سايز معالجة بتقنية Acid Wash مع جرافيك مستقبلي بارز وخياطة دبل مدعمة.',
-    },
-    {
-      id: 'cyz-3',
-      name: 'TACTICAL CARGO SWEATPANTS - DEEP CHARCOAL',
-      price: 690,
-      originalPrice: 890,
-      costPrice: 340,
-      category: 'بناطيل كارجو',
-      tag: 'Limited Edition',
-      badge: 'كمية محدودة',
-      imageUrl: '/assets/products/ctrl-yz/product-3.webp',
-      rating: 4.9,
-      reviewsCount: 195,
-      sizes: ['M', 'L', 'XL', '2XL'],
-      description: 'بنطلون كارجو تكتيكي بجيوب متعددة وحلقات معدنية بريميوم، مريح وعملي للارتداء اليومي.',
-    },
-    {
-      id: 'cyz-4',
-      name: 'CHROME REFLECTIVE ZIP HOODIE',
-      price: 890,
-      originalPrice: 1150,
-      costPrice: 450,
-      category: 'هوديز أوفر سايز 3D',
-      tag: 'Reflective',
-      badge: 'عاكس للإضاءة ✨',
-      imageUrl: '/assets/products/ctrl-yz/product-4.webp',
-      rating: 5.0,
-      reviewsCount: 98,
-      sizes: ['L', 'XL', '2XL'],
-      description: 'سويت شيرت بسحاب معدني وطباعة عاكسة للفلاش والإضاءة الليلية بستايل السايبر بانك.',
-    },
-  ],
+  'ctrl-yz': CTRL_YZ_ALL_PRODUCTS,
 
   'sketch-comic': [
  {
@@ -1504,7 +1440,15 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  {/* -------------------------------------------------- */}
  {/* TEMPLATE A: CLOUD RUNNER 2 (Single Product Showcase - Image 1 & 2 "After" Design) */}
  {/* -------------------------------------------------- */}
- {selectedTemplateId === 'cloudrunner-product' ? (
+ {selectedTemplateId === 'ctrl-yz' ? (
+              <CtrlYzStorefront
+                products={storeConfig.products}
+                onAddToCart={(p, sz) => handleAddToCart(p, sz)}
+                cartItems={simulatedCart}
+                onCheckoutClick={() => setPhoneScreen('cart')}
+                isMockup={!isFullScreenStorefront && viewportMode === 'mobile'}
+              />
+            ) : selectedTemplateId === 'cloudrunner-product' ? (
  <div className="flex-1 flex flex-col justify-between bg-white text-slate-900 animate-fadeIn" dir="ltr">
  <div className="p-4 space-y-3.5">
  {/* Top Navigation */}
@@ -1826,7 +1770,11 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  className="bg-white rounded-2xl p-3 border border-slate-200/80 shadow-xs flex flex-col justify-between hover:shadow-md transition-all cursor-pointer group"
  >
  {/* Image Box */}
- <div className="relative rounded-xl h-32 flex items-center justify-center mb-2 overflow-hidden bg-slate-50">
+ <div className={`relative rounded-2xl overflow-hidden mb-2 bg-slate-50 flex items-center justify-center ${
+                isFullScreenStorefront || viewportMode === 'desktop'
+                  ? 'h-60 sm:h-64 w-full'
+                  : 'aspect-square w-full'
+              }`}>
  {prod.badge && (
  <span className={`absolute top-2 right-2 text-[9px] font-black px-2 py-0.5 rounded-full z-10 shadow-xs ${
  prod.badge === 'Best Seller' ? 'bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white' : 'bg-slate-900 text-white'
@@ -2173,7 +2121,11 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  className="rounded-2xl p-3 border shadow-xs flex flex-col justify-between hover:shadow-md transition-all cursor-pointer group border-slate-500/20 bg-inherit"
  >
  {/* Image Box */}
- <div className="relative rounded-xl h-36 flex items-center justify-center mb-2 overflow-hidden bg-slate-100/10">
+ <div className={`relative rounded-2xl overflow-hidden mb-3 bg-slate-900/40 flex items-center justify-center ${
+                        isFullScreenStorefront || viewportMode === 'desktop'
+                          ? 'h-64 sm:h-72 w-full'
+                          : 'aspect-square w-full'
+                      }`}>
  {prod.badge && (
  <span className="absolute top-2 right-2 text-[10px] font-black bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white px-2 py-0.5 rounded-full z-10 shadow-xs">
  {prod.badge}

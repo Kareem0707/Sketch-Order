@@ -1,3 +1,4 @@
+import { CtrlYzStorefront } from './templates/CtrlYzStorefront';
 import React, { useState, useEffect } from 'react';
 import {
  ShoppingBag,
@@ -244,6 +245,105 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  p.category.toLowerCase().includes(searchQuery.toLowerCase());
  return matchesCategory && matchesSearch;
  });
+  if (store.templateId === 'ctrl-yz') {
+    return (
+      <div className="min-h-screen bg-[#0B0E14] text-white">
+        {/* Simulator Bar */}
+        <div className="bg-slate-950 text-white border-b border-slate-800 text-xs py-2 px-4 flex items-center justify-between select-none sticky top-0 z-50">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#38BDF8] animate-ping"></span>
+            <span className="font-bold">المتجر المباشر الحقيقي للزبائن (CTRL YZ):</span>
+            <span className="font-mono text-[#38BDF8] font-black">
+              https://{subdomain}.sketchorder.com
+            </span>
+          </div>
+          <button
+            onClick={() => {
+              playClick();
+              onBackToHome();
+            }}
+            className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs"
+          >
+            الرئيسية
+          </button>
+        </div>
+
+        <CtrlYzStorefront
+          products={storeConfig.products}
+          onAddToCart={(p, sz) => handleAddToCart(p, sz)}
+          cartItems={cart}
+          onCheckoutClick={() => setIsCheckoutOpen(true)}
+          isMockup={false}
+        />
+
+        {/* Checkout Modal */}
+        {isCheckoutOpen && (
+          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md p-4 flex items-center justify-center animate-fadeIn">
+            <div className="w-full max-w-lg bg-[#0F141F] border border-white/20 rounded-3xl p-6 text-white space-y-4 shadow-2xl">
+              <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                <h3 className="font-heading font-black text-lg">إتمام الطلب • الدفع عند الاستلام</h3>
+                <button onClick={() => setIsCheckoutOpen(false)}>
+                  <X className="w-5 h-5 text-slate-400 hover:text-white" />
+                </button>
+              </div>
+
+              <form onSubmit={handleCompleteOrder} className="space-y-3 text-xs">
+                <div>
+                  <label className="block text-slate-300 mb-1 font-bold">الاسم ثلاثي:</label>
+                  <input
+                    type="text"
+                    required
+                    value={customerName}
+                    onChange={(e) => setCustomerName(e.target.value)}
+                    placeholder="مثال: كريم أحمد محمود"
+                    className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-300 mb-1 font-bold">رقم الهاتف (واتساب):</label>
+                  <input
+                    type="tel"
+                    required
+                    value={customerPhone}
+                    onChange={(e) => setCustomerPhone(e.target.value)}
+                    placeholder="مثال: 01012345678"
+                    className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-300 mb-1 font-bold">عنوان التوصيل بالتفصيل:</label>
+                  <input
+                    type="text"
+                    required
+                    value={customerAddress}
+                    onChange={(e) => setCustomerAddress(e.target.value)}
+                    placeholder="المدينة، الشارع، رقم العمارة والشقة"
+                    className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white"
+                  />
+                </div>
+
+                <div className="p-3 rounded-xl bg-[#38BDF8]/10 border border-[#38BDF8]/30 flex items-center justify-between text-xs">
+                  <span className="font-bold text-slate-200">إجمالي الأوردر:</span>
+                  <span className="font-mono font-black text-sm text-[#38BDF8]">
+                    {cart.reduce((sum, item) => sum + item.price * item.quantity, 0)} {storeConfig.currency}
+                  </span>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full py-3 rounded-xl bg-[#38BDF8] hover:bg-[#0EA5E9] text-black font-black text-xs shadow-lg transition-transform active:scale-95"
+                >
+                  تأكيد وإرسال الأوردر فورا 🚀
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+
 
  return (
  <div
@@ -462,7 +562,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  }`}
  >
  {/* Image Container */}
- <div className="relative h-44 sm:h-56 bg-slate-100 dark:bg-slate-900 overflow-hidden flex items-center justify-center p-3">
+ <div className="relative aspect-square sm:h-64 md:h-72 bg-slate-100 dark:bg-slate-900 overflow-hidden flex items-center justify-center">
  {prod.badge && (
  <span className="absolute top-3 right-3 text-[10px] font-black bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white px-2.5 py-0.5 rounded-full z-10 shadow-xs">
  {prod.badge}
@@ -489,7 +589,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  <img
  src={prod.imageUrl}
  alt={prod.name}
- className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+ className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
  />
  </div>
 
