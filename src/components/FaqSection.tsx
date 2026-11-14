@@ -102,7 +102,7 @@ export const FaqSection: React.FC = () => {
  {faq.answer}
  </p>
 
- <div className="p-2 border border-dashed border-[#0F0F0F] dark:border-orange-500/40 bg-[#FAF9F6] dark:bg-orange-500/10 sketch-border-tag text-xs font-bold text-[#0F0F0F] dark:text-orange-300">
+ <div className="p-2 border border-dashed border-[#0F0F0F] dark:border-zinc-400/40 dark:border-zinc-600/40 bg-[#FAF9F6] dark:bg-zinc-500/10 sketch-border-tag text-xs font-bold text-[#0F0F0F] dark:text-zinc-300">
  {faq.doodleTip}
  </div>
  </div>

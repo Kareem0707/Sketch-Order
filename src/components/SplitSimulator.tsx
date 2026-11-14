@@ -56,7 +56,7 @@ export const SplitSimulator: React.FC = () => {
  onClick={() => setPreset(15)}
  className={`px-3 py-1.5 text-xs font-black border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-pill transition-all ${
  sliderPos < 25
- ? 'bg-[#0F0F0F] text-white dark:bg-orange-500 dark:text-slate-950'
+ ? 'bg-[#0F0F0F] text-white dark:bg-zinc-700 dark:bg-zinc-300 dark:text-slate-950'
  : 'bg-white dark:bg-[#151D2A] text-[#0F0F0F] dark:text-slate-300 hover:bg-neutral-100 dark:hover:bg-slate-800'
  }`}
  >
@@ -66,7 +66,7 @@ export const SplitSimulator: React.FC = () => {
  onClick={() => setPreset(50)}
  className={`px-3 py-1.5 text-xs font-black border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-pill transition-all ${
  sliderPos >= 25 && sliderPos <= 75
- ? 'bg-[#0F0F0F] text-white dark:bg-orange-500 dark:text-slate-950'
+ ? 'bg-[#0F0F0F] text-white dark:bg-zinc-700 dark:bg-zinc-300 dark:text-slate-950'
  : 'bg-white dark:bg-[#151D2A] text-[#0F0F0F] dark:text-slate-300 hover:bg-neutral-100 dark:hover:bg-slate-800'
  }`}
  >
@@ -76,7 +76,7 @@ export const SplitSimulator: React.FC = () => {
  onClick={() => setPreset(85)}
  className={`px-3 py-1.5 text-xs font-black border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-pill transition-all ${
  sliderPos > 75
- ? 'bg-[#0F0F0F] text-white dark:bg-orange-500 dark:text-slate-950'
+ ? 'bg-[#0F0F0F] text-white dark:bg-zinc-700 dark:bg-zinc-300 dark:text-slate-950'
  : 'bg-white dark:bg-[#151D2A] text-[#0F0F0F] dark:text-slate-300 hover:bg-neutral-100 dark:hover:bg-slate-800'
  }`}
  >
@@ -142,7 +142,7 @@ export const SplitSimulator: React.FC = () => {
  </div>
 
  {/* Note 3 */}
- <div className="border-2 border-dashed border-[#0F0F0F] dark:border-orange-500/40 p-3 sketch-border-1 bg-white dark:bg-orange-500/10 text-[#0F0F0F] dark:text-orange-300 rotate-2 sm:col-span-2 text-center text-xs font-bold">
+ <div className="border-2 border-dashed border-[#0F0F0F] dark:border-zinc-400/40 dark:border-zinc-600/40 p-3 sketch-border-1 bg-white dark:bg-zinc-500/10 text-[#0F0F0F] dark:text-zinc-300 rotate-2 sm:col-span-2 text-center text-xs font-bold">
  أزمة المخزون: بيع مقاسات خلصانة من المخزن بسبب تأخير التحديث في الشات!
  </div>
  </div>
@@ -156,20 +156,20 @@ export const SplitSimulator: React.FC = () => {
 
  {/* LAYER 2: LEFT SIDE (AFTER - مع سكتش أوردر) */}
  <div
- className="absolute inset-y-0 left-0 bg-white dark:bg-[#111827] text-[#0F0F0F] dark:text-white p-3.5 sm:p-8 flex flex-col justify-between overflow-hidden border-r-3 border-[#0F0F0F] dark:border-orange-500"
+ className="absolute inset-y-0 left-0 bg-white dark:bg-[#111827] text-[#0F0F0F] dark:text-white p-3.5 sm:p-8 flex flex-col justify-between overflow-hidden border-r-3 border-[#0F0F0F] dark:border-zinc-600 dark:border-zinc-400"
  style={{ width: `${sliderPos}%` }}
  >
  {/* Header Badge */}
  <div className="flex flex-wrap items-center justify-between border-b-2 border-[#0F0F0F] dark:border-slate-700 pb-2 sm:pb-3 gap-1">
  <div className="flex items-center gap-1.5 sm:gap-2">
- <span className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-[#0F0F0F] dark:border-orange-500 rounded-full flex items-center justify-center font-bold text-xs bg-[#0F0F0F] dark:bg-orange-500 text-white dark:text-slate-950">
+ <span className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-[#0F0F0F] dark:border-zinc-600 dark:border-zinc-400 rounded-full flex items-center justify-center font-bold text-xs bg-[#0F0F0F] dark:bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 dark:text-slate-950">
  ✓
  </span>
  <span className="text-sm sm:text-lg font-black font-heading whitespace-nowrap text-[#0F0F0F] dark:text-white">
  بعد سيستم الويبسايت
  </span>
  </div>
- <span className="text-[10px] sm:text-xs font-mono font-bold bg-[#0F0F0F] dark:bg-orange-500 text-white dark:text-slate-950 px-2 py-0.5 sketch-border-pill">
+ <span className="text-[10px] sm:text-xs font-mono font-bold bg-[#0F0F0F] dark:bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 dark:text-slate-950 px-2 py-0.5 sketch-border-pill">
  0 دقيقة وقت ضائع 
  </span>
  </div>
@@ -179,15 +179,15 @@ export const SplitSimulator: React.FC = () => {
  {/* Feature 1 */}
  <div className="border-2 border-[#0F0F0F] dark:border-slate-700 p-4 sketch-border-1 bg-neutral-50 dark:bg-[#1E293B] sketch-shadow-sm space-y-2">
  <div className="flex items-center justify-between border-b border-[#0F0F0F] dark:border-slate-700 pb-1">
- <span className="text-xs font-bold flex items-center gap-1 text-orange-500">
+ <span className="text-xs font-bold flex items-center gap-1 text-zinc-700 dark:text-zinc-300">
  <ShoppingCart className="w-3.5 h-3.5" /> سلة واختيار مقاس فوري
  </span>
- <span className="text-xs font-mono font-bold text-orange-500">1,350 ج.م</span>
+ <span className="text-xs font-mono font-bold text-zinc-700 dark:text-zinc-300">1,350 ج.م</span>
  </div>
  <p className="text-xs font-bold text-[#0F0F0F]/80 dark:text-slate-300">
  الزبون بيختار المقاس (42، 43، 44) واللون بوضوح تام، وبدون ما يسأل ولا سؤال مكرر!
  </p>
- <div className="text-[10px] font-mono font-bold text-right border-t border-dashed border-[#0F0F0F] dark:border-slate-700 pt-1 text-orange-500">
+ <div className="text-[10px] font-mono font-bold text-right border-t border-dashed border-[#0F0F0F] dark:border-slate-700 pt-1 text-zinc-700 dark:text-zinc-300">
  المخزون: بيقل تلقائياً مع كل أوردر ✓
  </div>
  </div>
@@ -195,7 +195,7 @@ export const SplitSimulator: React.FC = () => {
  {/* Feature 2 */}
  <div className="border-2 border-[#0F0F0F] dark:border-slate-700 p-4 sketch-border-2 bg-white dark:bg-[#1E293B] sketch-shadow-sm space-y-2">
  <div className="flex items-center justify-between border-b border-[#0F0F0F] dark:border-slate-700 pb-1">
- <span className="text-xs font-bold flex items-center gap-1 text-orange-500">
+ <span className="text-xs font-bold flex items-center gap-1 text-zinc-700 dark:text-zinc-300">
  <Check className="w-3.5 h-3.5" /> إشعار واتساب مفصص
  </span>
  <span className="text-[10px] bg-[#0F0F0F] dark:bg-slate-900 text-white px-1.5 py-0.5 sketch-border-pill font-mono border dark:border-slate-700">
@@ -205,13 +205,13 @@ export const SplitSimulator: React.FC = () => {
  <p className="text-xs font-bold text-[#0F0F0F]/80 dark:text-slate-300">
  بيوصلك إشعار بالاسم، المحافظة، ورابط اللوكيشن وطريقة الدفع بضغطة زر!
  </p>
- <div className="text-[10px] font-mono font-bold border-t border-dashed border-[#0F0F0F] dark:border-slate-700 pt-1 text-orange-400">
+ <div className="text-[10px] font-mono font-bold border-t border-dashed border-[#0F0F0F] dark:border-slate-700 pt-1 text-zinc-400">
  إيصال وفاتورة سكتش جاهزة للمندوب فوراً ✓
  </div>
  </div>
 
  {/* Feature 3 */}
- <div className="border-2 border-[#0F0F0F] dark:border-orange-500/50 p-3 sketch-border-3 bg-[#0F0F0F] dark:bg-orange-500 text-white dark:text-slate-950 sm:col-span-2 text-center text-xs font-bold flex items-center justify-center gap-2">
+ <div className="border-2 border-[#0F0F0F] dark:border-zinc-600 dark:border-zinc-400/50 p-3 sketch-border-3 bg-[#0F0F0F] dark:bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 dark:text-slate-950 sm:col-span-2 text-center text-xs font-bold flex items-center justify-center gap-2">
  <span> وفّر 25 ساعة أسبوعياً وركز في تسويق منتجاتك وتكبير شغلك</span>
  </div>
  </div>
@@ -229,15 +229,15 @@ export const SplitSimulator: React.FC = () => {
  style={{ left: `${sliderPos}%`, transform: 'translateX(-50%)' }}
  onPointerDown={handlePointerDown}
  >
- <div className="w-[3px] sm:w-[4px] h-full bg-[#0F0F0F] dark:bg-orange-500 shadow-sm"></div>
+ <div className="w-[3px] sm:w-[4px] h-full bg-[#0F0F0F] dark:bg-zinc-700 dark:bg-zinc-300 shadow-sm"></div>
 
  {/* Central Pencil/Eraser Handle with gentle pulse */}
- <div className="absolute top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 border-2 sm:border-3 border-[#0F0F0F] dark:border-orange-500 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-orange-400 rounded-full flex flex-col items-center justify-center sketch-shadow-lg cursor-ew-resize hover:scale-110 active:scale-95 transition-transform animate-pulse shadow-xl">
+ <div className="absolute top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 border-2 sm:border-3 border-[#0F0F0F] dark:border-zinc-600 dark:border-zinc-400 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-zinc-400 rounded-full flex flex-col items-center justify-center sketch-shadow-lg cursor-ew-resize hover:scale-110 active:scale-95 transition-transform animate-pulse shadow-xl">
  <span className="text-xl sm:text-2xl select-none leading-none -rotate-45"></span>
- <span className="text-[8px] font-mono font-black uppercase text-orange-500 hidden sm:inline">سحب</span>
+ <span className="text-[8px] font-mono font-black uppercase text-zinc-700 dark:text-zinc-300 hidden sm:inline">سحب</span>
  </div>
 
- <div className="absolute top-3 bg-[#0F0F0F] dark:bg-orange-500 text-white dark:text-slate-950 text-[10px] sm:text-xs font-mono font-black px-3 py-1 sketch-border-pill -rotate-2 whitespace-nowrap shadow-md">
+ <div className="absolute top-3 bg-[#0F0F0F] dark:bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 dark:text-slate-950 text-[10px] sm:text-xs font-mono font-black px-3 py-1 sketch-border-pill -rotate-2 whitespace-nowrap shadow-md">
  اسحب القلم للمقارنة
  </div>
  </div>

@@ -101,7 +101,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
         tagline: tmplMeta.tagline,
         niche: tmplMeta.niche,
         templateId: validTmplId,
-        accentColor: '#F97316',
+        accentColor: '#52525B',
         customDomain: `${subdomain}.sketchorder.com`,
         currency: 'ج.م',
         whatsappNumber: '01012345678',
@@ -127,7 +127,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  return (
  <div className="min-h-screen flex items-center justify-center bg-slate-950 text-white font-sans">
  <div className="text-center space-y-3">
- <div className="w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+ <div className="w-8 h-8 border-4 border-zinc-600 dark:border-zinc-400 border-t-transparent rounded-full animate-spin mx-auto"></div>
  <p className="font-bold">جاري تحميل المتجر المستقل...</p>
  </div>
  </div>
@@ -246,7 +246,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
 
  return (
  <div
- className={`min-h-screen font-body antialiased selection:bg-orange-500 selection:text-white ${
+ className={`min-h-screen font-body antialiased selection:bg-zinc-700 selection:text-white ${
  isDarkTemplate ? 'bg-[#090D16] text-white' : 'bg-[#FAFAFA] text-slate-900'
  }`}
  >
@@ -254,15 +254,15 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  {/* 0. SIMULATOR CONTROLS BAR (Top of Page) */}
  {/* ======================================================== */}
  {store?.status === 'suspended' && (
-        <div className="bg-orange-500 text-slate-950 px-4 py-2 text-center text-xs font-black flex items-center justify-center gap-2">
+        <div className="bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 px-4 py-2 text-center text-xs font-black flex items-center justify-center gap-2">
           <span>تنبيه: هذا المتجر معطل مؤقتاً بواسطة الإدارة. يُرجى مراجعة إدارة منصة سكتش أوردر لإعادة تفعيله.</span>
         </div>
       )}
       <div className="bg-slate-950 text-white border-b border-slate-800 text-xs py-2 px-4 flex items-center justify-between select-none">
  <div className="flex items-center gap-2">
- <span className="w-2 h-2 rounded-full bg-orange-400 animate-ping"></span>
+ <span className="w-2 h-2 rounded-full bg-zinc-400 animate-ping"></span>
  <span className="font-bold">أنت الآن تتصفح المتجر المباشر الحقيقي للزبائن:</span>
- <span className="font-mono text-orange-400 font-black">
+ <span className="font-mono text-zinc-400 font-black">
  https://{subdomain}.sketchorder.com
  </span>
  </div>
@@ -278,7 +278,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
             )}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full py-3 rounded-2xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-xs shadow-md flex items-center justify-center gap-2 transition-transform active:scale-95"
+            className="w-full py-3 rounded-2xl bg-zinc-800 hover:bg-zinc-900 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 font-black text-xs shadow-md flex items-center justify-center gap-2 transition-transform active:scale-95"
           >
             <MessageCircle className="w-4 h-4" />
             <span>متابعة الشحن مع خدمة العملاء عبر واتساب</span>
@@ -306,7 +306,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  }`}
  >
  {/* Announcement Strip */}
- <div className="bg-orange-500 text-slate-950 text-[11px] font-black py-1.5 px-4 text-center">
+ <div className="bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 text-[11px] font-black py-1.5 px-4 text-center">
  شحن سريع لجميع المحافظات خلال 24-48 ساعة • الدفع عند الاستلام أو إنستاباي
  </div>
 
@@ -328,8 +328,8 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  onChange={(e) => setSearchQuery(e.target.value)}
  className={`w-full pr-10 pl-4 py-2 rounded-full text-xs font-bold border transition-colors outline-none ${
  isDarkTemplate
- ? 'bg-slate-900 border-slate-700 text-white focus:border-orange-500'
- : 'bg-slate-100 border-slate-300 text-slate-900 focus:border-orange-500'
+ ? 'bg-slate-900 border-slate-700 text-white focus:border-zinc-600 dark:border-zinc-400'
+ : 'bg-slate-100 border-slate-300 text-slate-900 focus:border-zinc-600 dark:border-zinc-400'
  }`}
  />
  </div>
@@ -341,7 +341,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  playClick();
  setIsCartOpen(true);
  }}
- className="relative p-2.5 rounded-2xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-xs flex items-center gap-2 shadow-sm transition-transform active:scale-95"
+ className="relative p-2.5 rounded-2xl bg-zinc-800 hover:bg-zinc-900 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 font-black text-xs flex items-center gap-2 shadow-sm transition-transform active:scale-95"
  >
  <ShoppingBag className="w-5 h-5" />
  <span className="hidden sm:inline">السلة</span>
@@ -366,7 +366,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  }}
  className={`px-4 py-1.5 rounded-full text-xs font-black whitespace-nowrap transition-all ${
  selectedCategory === cat
- ? 'bg-orange-500 text-slate-950 shadow-xs'
+ ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 shadow-xs'
  : 'bg-inherit hover:bg-slate-500/10 opacity-70 hover:opacity-100'
  }`}
  >
@@ -385,11 +385,11 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  className={`relative rounded-3xl p-6 sm:p-12 overflow-hidden shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 text-white ${
  isDarkTemplate
  ? 'bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border border-slate-800'
- : 'bg-gradient-to-r from-slate-950 via-slate-900 to-orange-950'
+ : 'bg-gradient-to-r from-slate-950 via-slate-900 to-zinc-900'
  }`}
  >
  <div className="max-w-xl space-y-4 text-right">
- <span className="text-xs font-mono font-bold bg-orange-500 text-slate-950 px-3 py-1 rounded-full uppercase inline-block">
+ <span className="text-xs font-mono font-bold bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 px-3 py-1 rounded-full uppercase inline-block">
  LIMITED COLLECTION 2026
  </span>
  <h1 className="text-3xl sm:text-5xl font-black font-heading leading-tight">
@@ -404,7 +404,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  const el = document.getElementById('products-section');
  if (el) el.scrollIntoView({ behavior: 'smooth' });
  }}
- className="px-6 py-3 rounded-2xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-sm shadow-lg transition-transform active:scale-95 inline-flex items-center gap-2"
+ className="px-6 py-3 rounded-2xl bg-zinc-800 hover:bg-zinc-900 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 font-black text-sm shadow-lg transition-transform active:scale-95 inline-flex items-center gap-2"
  >
  <span>تسوق المجموعة الآن</span>
  <ArrowRight className="w-4 h-4 -scale-x-100" />
@@ -438,7 +438,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  </p>
  </div>
 
- <span className="text-xs font-mono font-bold text-orange-500">
+ <span className="text-xs font-mono font-bold text-zinc-700 dark:text-zinc-300">
  {selectedCategory}
  </span>
  </div>
@@ -463,7 +463,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  {/* Image Container */}
  <div className="relative h-44 sm:h-56 bg-slate-100 dark:bg-slate-900 overflow-hidden flex items-center justify-center p-3">
  {prod.badge && (
- <span className="absolute top-3 right-3 text-[10px] font-black bg-orange-500 text-slate-950 px-2.5 py-0.5 rounded-full z-10 shadow-xs">
+ <span className="absolute top-3 right-3 text-[10px] font-black bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 px-2.5 py-0.5 rounded-full z-10 shadow-xs">
  {prod.badge}
  </span>
  )}
@@ -495,8 +495,8 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  {/* Details */}
  <div className="p-4 space-y-2 flex-1 flex flex-col justify-between">
  <div>
- <div className="flex items-center gap-1 text-[11px] text-orange-500 font-bold mb-1">
- <Star className="w-3.5 h-3.5 fill-orange-400" />
+ <div className="flex items-center gap-1 text-[11px] text-zinc-700 dark:text-zinc-300 font-bold mb-1">
+ <Star className="w-3.5 h-3.5 fill-zinc-400" />
  <span>{prod.rating || 4.8}</span>
  <span className="opacity-60 font-normal">({prod.reviewsCount || 84})</span>
  </div>
@@ -512,7 +512,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  {/* Price & Add to Cart button */}
  <div className="pt-2 border-t border-inherit/20 flex items-baseline justify-between">
  <div>
- <span className="text-base sm:text-lg font-black font-mono text-orange-500">
+ <span className="text-base sm:text-lg font-black font-mono text-zinc-700 dark:text-zinc-300">
  {prod.price} {storeConfig.currency}
  </span>
  {prod.originalPrice && (
@@ -527,7 +527,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  e.stopPropagation();
  handleAddToCart(prod);
  }}
- className="p-2 sm:px-3 sm:py-1.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-950 font-black text-xs hover:bg-orange-500 dark:hover:bg-orange-500 hover:text-slate-950 transition-colors shadow-xs"
+ className="p-2 sm:px-3 sm:py-1.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-950 font-black text-xs hover:bg-zinc-800 dark:hover:bg-zinc-200 dark:hover:bg-zinc-800 dark:hover:bg-zinc-200 hover:text-slate-950 transition-colors shadow-xs"
  >
  <span className="hidden sm:inline">أضف للسلة</span>
  <Plus className="w-4 h-4 sm:hidden" />
@@ -609,7 +609,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
 
  {/* Price Row */}
  <div className="flex items-baseline gap-2">
- <span className="text-2xl font-black font-mono text-orange-500">
+ <span className="text-2xl font-black font-mono text-zinc-700 dark:text-zinc-300">
  {activeProduct.price} {storeConfig.currency}
  </span>
  {activeProduct.originalPrice && (
@@ -624,7 +624,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
 
  {/* Social Proof */}
  <div className="flex items-center gap-2 text-xs opacity-75 font-medium">
- <Star className="w-4 h-4 fill-orange-400 text-orange-500" />
+ <Star className="w-4 h-4 fill-zinc-400 text-zinc-700 dark:text-zinc-300" />
  <span className="font-bold">4.8</span>
  <span>•</span>
  <span>2,341 تقييم</span>
@@ -661,7 +661,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  <div className="space-y-1.5 pt-2">
  <div className="flex items-center justify-between text-xs font-bold">
  <span>المقاس (Size):</span>
- <span className="text-orange-500 cursor-pointer underline text-[11px]">دليل المقاسات</span>
+ <span className="text-zinc-700 dark:text-zinc-300 cursor-pointer underline text-[11px]">دليل المقاسات</span>
  </div>
  <div className="flex flex-wrap items-center gap-2">
  {['38', '39', '40', '41', '42', '43', '44'].map((size) => (
@@ -671,7 +671,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  className={`px-3.5 py-1.5 rounded-xl text-xs font-mono font-black border transition-all ${
  selectedSize === size
  ? 'bg-slate-950 text-white border-slate-950 dark:bg-white dark:text-slate-950 shadow-xs'
- : 'bg-inherit border-inherit/30 hover:border-orange-500'
+ : 'bg-inherit border-inherit/30 hover:border-zinc-600 dark:border-zinc-400'
  }`}
  >
  {size}
@@ -688,7 +688,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  setActiveProduct(null);
  setIsCartOpen(true);
  }}
- className="w-full py-4 rounded-2xl bg-slate-950 dark:bg-white text-white dark:text-slate-950 hover:bg-orange-500 dark:hover:bg-orange-500 hover:text-slate-950 font-black text-sm shadow-xl transition-transform active:scale-95 flex items-center justify-center gap-2"
+ className="w-full py-4 rounded-2xl bg-slate-950 dark:bg-white text-white dark:text-slate-950 hover:bg-zinc-800 dark:hover:bg-zinc-200 dark:hover:bg-zinc-800 dark:hover:bg-zinc-200 hover:text-slate-950 font-black text-sm shadow-xl transition-transform active:scale-95 flex items-center justify-center gap-2"
  >
  <ShoppingBag className="w-5 h-5" />
  <span>أضف إلى السلة • {activeProduct.price} {storeConfig.currency}</span>
@@ -712,7 +712,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  {/* Header */}
  <div className="flex items-center justify-between border-b pb-4 border-inherit/20">
  <div className="flex items-center gap-2">
- <ShoppingBag className="w-5 h-5 text-orange-500" />
+ <ShoppingBag className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />
  <h3 className="font-heading font-black text-lg">سلة مشترياتك ({cart.length})</h3>
  </div>
  <button
@@ -777,11 +777,11 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  </div>
  <div className="flex justify-between">
  <span className="opacity-70">مصاريف الشحن:</span>
- <span className="font-mono text-orange-500">50 {storeConfig.currency}</span>
+ <span className="font-mono text-zinc-700 dark:text-zinc-300">50 {storeConfig.currency}</span>
  </div>
  <div className="flex justify-between text-base font-black pt-2 border-t border-inherit/15">
  <span>الإجمالي الكلي:</span>
- <span className="font-mono text-orange-500">{grandTotal} {storeConfig.currency}</span>
+ <span className="font-mono text-zinc-700 dark:text-zinc-300">{grandTotal} {storeConfig.currency}</span>
  </div>
  </div>
 
@@ -790,7 +790,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  setIsCartOpen(false);
  setIsCheckoutOpen(true);
  }}
- className="w-full py-4 rounded-2xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-sm shadow-xl transition-transform active:scale-95"
+ className="w-full py-4 rounded-2xl bg-zinc-800 hover:bg-zinc-900 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 font-black text-sm shadow-xl transition-transform active:scale-95"
  >
  متابعة إلى إتمام الشراء 
  </button>
@@ -906,16 +906,16 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  />
  </div>
 
- <div className="p-3 rounded-xl bg-orange-500/10 border border-orange-500/30 font-bold flex justify-between items-center text-xs">
+ <div className="p-3 rounded-xl bg-zinc-500/10 border border-zinc-400/30 dark:border-zinc-600/30 font-bold flex justify-between items-center text-xs">
  <span>المبلغ المطلوب تسليمه:</span>
- <span className="text-base font-black font-mono text-orange-500">
+ <span className="text-base font-black font-mono text-zinc-700 dark:text-zinc-300">
  {grandTotal} {storeConfig.currency}
  </span>
  </div>
 
  <button
  type="submit"
- className="w-full py-3.5 rounded-2xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-sm shadow-xl transition-transform active:scale-95 flex items-center justify-center gap-2"
+ className="w-full py-3.5 rounded-2xl bg-zinc-800 hover:bg-zinc-900 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 font-black text-sm shadow-xl transition-transform active:scale-95 flex items-center justify-center gap-2"
  >
  <Send className="w-4 h-4" />
  <span>تأكيد وإرسال الطلب الآن </span>
@@ -930,13 +930,13 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  {/* ======================================================== */}
  {orderConfirmed && (
  <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md p-4 flex items-center justify-center animate-fadeIn">
- <div className="max-w-md w-full bg-slate-900 border-2 border-orange-500 rounded-3xl p-6 text-white text-center space-y-4 shadow-2xl">
- <div className="w-16 h-16 rounded-full bg-orange-500/20 text-orange-400 mx-auto flex items-center justify-center">
+ <div className="max-w-md w-full bg-slate-900 border-2 border-zinc-600 dark:border-zinc-400 rounded-3xl p-6 text-white text-center space-y-4 shadow-2xl">
+ <div className="w-16 h-16 rounded-full bg-zinc-500/20 text-zinc-400 mx-auto flex items-center justify-center">
  <CheckCircle2 className="w-10 h-10" />
  </div>
 
  <h3 className="font-heading font-black text-2xl">تم تأكيد طلبك بنجاح! </h3>
- <div className="font-mono text-sm font-bold bg-slate-800 p-2 rounded-xl text-orange-400">
+ <div className="font-mono text-sm font-bold bg-slate-800 p-2 rounded-xl text-zinc-400">
  رقم الطلب: #{orderConfirmed?.id}
  </div>
 
@@ -956,7 +956,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
             )}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full py-3 rounded-2xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-xs shadow-md flex items-center justify-center gap-2 transition-transform active:scale-95"
+            className="w-full py-3 rounded-2xl bg-zinc-800 hover:bg-zinc-900 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 font-black text-xs shadow-md flex items-center justify-center gap-2 transition-transform active:scale-95"
           >
             <MessageCircle className="w-4 h-4" />
             <span>متابعة الشحن مع خدمة العملاء عبر واتساب</span>

@@ -81,7 +81,7 @@ export const STUDIO_TEMPLATES: StudioTemplateMeta[] = [
  nameEn: 'Sports & Athletic Gear',
  categoryBadge: 'كوتشيات ومستلزمات رياضية',
  themeStyle: 'modern',
- accentColor: '#F97316',
+ accentColor: '#52525B',
  bgPage: '#F8FAFC',
  cardBg: '#FFFFFF',
  description: 'واجهة متجر سبورتك بتصميم رياضي جريء، بنر تفاعلي، أقسام بالأيقونات وبادجات Best Seller.',
@@ -107,7 +107,7 @@ export const STUDIO_TEMPLATES: StudioTemplateMeta[] = [
  nameEn: 'Dark Luxury Dining & Gourmet',
  categoryBadge: 'مطاعم وأكلات فاخرة',
  themeStyle: 'luxury-dark',
- accentColor: '#EA580C',
+ accentColor: '#3F3F46',
  bgPage: '#090D16',
  cardBg: '#131A29',
  description: 'واجهة داكنة فاخرة للمطاعم والكافيهات، حجز طاولات فوري، وأقسام السوشي والستيك والبيتزا الإيطالية.',
@@ -221,7 +221,7 @@ export const DEFAULT_PRODUCTS_MAP: Record<TemplateId, CustomProduct[]> = {
  reviewsCount: 210,
  sizes: ['41', '42', '43', '44'],
  colors: [
- { name: 'Solar Orange', hex: '#F97316' },
+ { name: 'Graphite Gray', hex: '#52525B' },
  { name: 'Core Black', hex: '#18181B' },
  ],
  description: 'حذاء كرة قدم أديداس بريداتور المحترف لنجوم الملاعب العشبية. مزود بزعانف تحكم مطاطية Strikeskin لدقة تسديد لا تضاهى.',
@@ -899,7 +899,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  {/* Official Brush Typography Logo */}
  <div className="hidden md:flex items-center gap-2 border-r border-slate-800 pr-3">
  <img src={brushLogoWhite} alt="SKETCH ORDER" className="h-7 object-contain" />
- <span className="text-[10px] font-mono font-bold bg-orange-500/20 text-orange-400 border border-orange-500/30 px-2 py-0.5 rounded-full">
+ <span className="text-[10px] font-mono font-bold bg-zinc-500/20 text-zinc-400 border border-zinc-400/30 dark:border-zinc-600/30 px-2 py-0.5 rounded-full">
  LIVE STUDIO
  </span>
  </div>
@@ -915,7 +915,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  }}
  className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 sm:gap-1.5 transition-all ${
  activeView === 'preview'
- ? 'bg-orange-500 text-slate-950 font-black shadow-xs'
+ ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 font-black shadow-xs'
  : 'text-slate-400 hover:text-white'
  }`}
  >
@@ -931,7 +931,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  }}
  className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 sm:gap-1.5 transition-all ${
  activeView === 'admin'
- ? 'bg-orange-500 text-slate-950 font-black shadow-xs'
+ ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 font-black shadow-xs'
  : 'text-slate-400 hover:text-white'
  }`}
  >
@@ -952,7 +952,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  }}
  className={`px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 transition-all ${
  viewportMode === 'mobile'
- ? 'bg-orange-500 text-slate-950 shadow-xs'
+ ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 shadow-xs'
  : 'text-slate-400 hover:text-white'
  }`}
  title="معاينة شاشة الهاتف (390px)"
@@ -968,7 +968,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  }}
  className={`px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 transition-all ${
  viewportMode === 'tablet'
- ? 'bg-orange-500 text-slate-950 shadow-xs'
+ ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 shadow-xs'
  : 'text-slate-400 hover:text-white'
  }`}
  title="معاينة تابلت (768px)"
@@ -984,7 +984,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  }}
  className={`px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 transition-all ${
  viewportMode === 'desktop'
- ? 'bg-orange-500 text-slate-950 shadow-xs'
+ ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 shadow-xs'
  : 'text-slate-400 hover:text-white'
  }`}
  title="معاينة كمبيوتر (100%)"
@@ -1008,7 +1008,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  className="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition-all border border-slate-700"
  title="تصفح المتجر بشاشة كاملة كأنك عميل حقيقي"
  >
- <Maximize2 className="w-3.5 h-3.5 text-orange-400" />
+ <Maximize2 className="w-3.5 h-3.5 text-zinc-400" />
  <span className="hidden md:inline">عرض الموقع كعميل حقيقي</span>
  <span className="hidden sm:inline md:hidden">ملء الشاشة</span>
  </button>
@@ -1033,7 +1033,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  playClick();
  onToggleDarkMode();
  }}
- className="p-1.5 rounded-lg border border-slate-700 bg-slate-900 text-orange-400 hover:bg-slate-800"
+ className="p-1.5 rounded-lg border border-slate-700 bg-slate-900 text-zinc-400 hover:bg-slate-800"
  title="تبديل الثيم"
  >
  {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -1046,7 +1046,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  playClick();
  onBuyAndDeploy(storeConfig);
  }}
- className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-xs transition-all shadow-sm shadow-orange-500/20 active:scale-95 shrink-0"
+ className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-900 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 font-black text-xs transition-all shadow-sm shadow-zinc-700/20 active:scale-95 shrink-0"
  >
  <Rocket className="w-3.5 h-3.5" />
  <span className="hidden sm:inline">امتلك موقعك الآن</span>
@@ -1060,7 +1060,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  {isFullScreenStorefront && (
  <div className="fixed top-3 inset-x-0 mx-auto max-w-xl z-50 bg-slate-900/90 backdrop-blur-md border border-slate-700 p-2 rounded-2xl shadow-2xl flex items-center justify-between text-xs font-bold px-4">
  <div className="flex items-center gap-2">
- <span className="w-2.5 h-2.5 rounded-full bg-orange-500 animate-pulse"></span>
+ <span className="w-2.5 h-2.5 rounded-full bg-zinc-700 dark:bg-zinc-300 animate-pulse"></span>
  <span className="text-white">أنت تتصفح متجر "{storeConfig.storeName}" كعميل حقيقي</span>
  </div>
 
@@ -1075,7 +1075,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
 
  <button
  onClick={() => onBuyAndDeploy(storeConfig)}
- className="px-3 py-1.5 rounded-lg bg-orange-500 hover:bg-orange-600 text-slate-950 font-black"
+ className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-900 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 font-black"
  >
  امتلك هذا المتجر
  </button>
@@ -1093,7 +1093,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <select
  value={selectedTemplateId}
  onChange={(e) => handleSelectTemplate(e.target.value as TemplateId)}
- className="bg-slate-950 border border-slate-700 text-white font-bold text-xs rounded-xl px-2.5 py-1.5 outline-none hover:border-orange-500 transition-colors cursor-pointer max-w-full truncate"
+ className="bg-slate-950 border border-slate-700 text-white font-bold text-xs rounded-xl px-2.5 py-1.5 outline-none hover:border-zinc-600 dark:border-zinc-400 transition-colors cursor-pointer max-w-full truncate"
  >
  {STUDIO_TEMPLATES.map((tmpl) => (
  <option key={tmpl.id} value={tmpl.id}>
@@ -1109,7 +1109,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
                 playClick();
                 if (onOpenTemplatesPage) onOpenTemplatesPage();
               }}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black transition-all whitespace-nowrap text-xs shadow-sm active:scale-95"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-900 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 font-black transition-all whitespace-nowrap text-xs shadow-sm active:scale-95"
             >
               <Grid className="w-3.5 h-3.5" />
               <span>قوالب المتاجر</span>
@@ -1164,13 +1164,13 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <div className="flex items-center gap-2">
  <span className="w-3 h-3 rounded-full bg-red-500/80 inline-block"></span>
  <span className="w-3 h-3 rounded-full bg-yellow-500/80 inline-block"></span>
- <span className="w-3 h-3 rounded-full bg-orange-500 inline-block"></span>
+ <span className="w-3 h-3 rounded-full bg-zinc-700 dark:bg-zinc-300 inline-block"></span>
  </div>
  <div className="flex-1 max-w-md mx-auto flex items-center justify-center gap-2 bg-slate-950 px-4 py-1 rounded-full border border-slate-800 text-xs font-mono text-slate-300" dir="ltr">
- <span className="text-orange-400"> https://</span>
+ <span className="text-zinc-400"> https://</span>
  <span>{storeConfig.customDomain || 'mybrand.sketchorder.com'}</span>
  </div>
- <div className="text-[11px] text-orange-400 font-bold hidden sm:block font-mono">
+ <div className="text-[11px] text-zinc-400 font-bold hidden sm:block font-mono">
  DESKTOP VIEW (100%)
  </div>
  </div>
@@ -1241,7 +1241,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
 
  {/* Cart Success Notification Pill inside Phone */}
  {cartSuccessPill && (
- <div className="absolute top-12 inset-x-3 z-50 bg-orange-500 text-white text-xs font-bold py-2.5 px-3 rounded-2xl shadow-xl flex items-center justify-between animate-fadeIn border border-orange-400">
+ <div className="absolute top-12 inset-x-3 z-50 bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 text-xs font-bold py-2.5 px-3 rounded-2xl shadow-xl flex items-center justify-between animate-fadeIn border border-zinc-400">
  <div className="flex items-center gap-1.5">
  <CheckCircle2 className="w-4 h-4 text-slate-200 shrink-0" />
  <span>تمت إضافة المنتج للسلة بنجاح!</span>
@@ -1335,7 +1335,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
 
  {/* Social Proof: Star 4.8 • 2,341 reviews • 1.2k sold */}
  <div className="flex items-center gap-1.5 text-xs text-slate-600 font-medium">
- <Star className="w-3.5 h-3.5 fill-orange-400 text-orange-500" />
+ <Star className="w-3.5 h-3.5 fill-zinc-400 text-zinc-700 dark:text-zinc-300" />
  <span className="font-bold text-slate-900">4.8</span>
  <span className="text-slate-400">•</span>
  <span>2,341 reviews</span>
@@ -1487,20 +1487,20 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  </div>
  </div>
 
- {/* Hero Banner (Black Card + Dynamic Orange/Red Slashes) */}
+ {/* Hero Banner (Black Card + Dynamic Graphite Slashes) */}
  <div className="p-4">
  <div className="relative rounded-2xl bg-gradient-to-r from-[#0B0F19] via-[#111827] to-[#1F2937] p-4 text-white overflow-hidden shadow-lg flex items-center justify-between">
  <div className="max-w-[175px] space-y-1.5 z-10">
  <h2 className="text-xl font-black font-heading leading-tight tracking-tight uppercase">
  FUEL YOUR <br />
- <span className="text-orange-500">PASSION</span>
+ <span className="text-zinc-700 dark:text-zinc-300">PASSION</span>
  </h2>
  <p className="text-[11px] text-slate-300 leading-snug">
  Premium gear for a stronger, healthier you
  </p>
  <button
  onClick={() => handleOpenProductInsidePhone(storeConfig.products[0])}
- className="mt-1 px-3 py-1.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-black text-xs shadow-md flex items-center gap-1 transition-transform active:scale-95"
+ className="mt-1 px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-900 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 font-black text-xs shadow-md flex items-center gap-1 transition-transform active:scale-95"
  >
  <span>Shop Now</span>
  <ArrowRight className="w-3 h-3 -scale-x-100" />
@@ -1518,7 +1518,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
 
  {/* Carousel Dots */}
  <div className="flex items-center justify-center gap-1.5 mt-2">
- <span className="w-3.5 h-1.5 rounded-full bg-orange-500"></span>
+ <span className="w-3.5 h-1.5 rounded-full bg-zinc-700 dark:bg-zinc-300"></span>
  <span className="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
  <span className="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
  <span className="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
@@ -1528,7 +1528,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  {/* Categories Row (Circular Icons) */}
  <div className="px-4 py-1 flex items-center justify-between gap-2 overflow-x-auto scrollbar-none">
  {[
- { name: 'Sneakers', icon: '', filter: 'سنيكرز', color: 'bg-orange-100 text-orange-600' },
+ { name: 'Sneakers', icon: '', filter: 'سنيكرز', color: 'bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200' },
  { name: 'Football', icon: '', filter: 'كرة قدم', color: 'bg-slate-100 text-slate-800' },
  { name: 'Basketball', icon: '', filter: 'كرة سلة', color: 'bg-slate-100 text-slate-800' },
  { name: 'Gym', icon: '', filter: 'جيم وتدريب', color: 'bg-slate-100 text-slate-800' },
@@ -1543,7 +1543,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  className="flex flex-col items-center gap-1 shrink-0 group"
  >
  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-lg shadow-2xs transition-transform group-hover:scale-105 ${
- selectedCategory === item.filter ? 'bg-orange-500 text-white shadow-xs' : item.color
+ selectedCategory === item.filter ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 shadow-xs' : item.color
  }`}>
  {item.icon}
  </div>
@@ -1566,7 +1566,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  }}
  className={`px-3 py-1 rounded-full transition-all ${
  selectedSubTab === tab
- ? 'bg-orange-500 text-white font-black shadow-xs'
+ ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 font-black shadow-xs'
  : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-300'
  }`}
  >
@@ -1591,7 +1591,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <div className="relative rounded-xl h-32 flex items-center justify-center mb-2 overflow-hidden bg-slate-50">
  {prod.badge && (
  <span className={`absolute top-2 right-2 text-[9px] font-black px-2 py-0.5 rounded-full z-10 shadow-xs ${
- prod.badge === 'Best Seller' ? 'bg-orange-500 text-white' : 'bg-slate-900 text-white'
+ prod.badge === 'Best Seller' ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950' : 'bg-slate-900 text-white'
  }`}>
  {prod.badge}
  </span>
@@ -1622,8 +1622,8 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  {prod.tag || prod.category}
  </p>
 
- <div className="flex items-center gap-1 text-[10px] text-orange-500 font-bold mt-1">
- <Star className="w-3 h-3 fill-orange-400" />
+ <div className="flex items-center gap-1 text-[10px] text-zinc-700 dark:text-zinc-300 font-bold mt-1">
+ <Star className="w-3 h-3 fill-zinc-400" />
  <span>{prod.rating || 4.8}</span>
  <span className="text-slate-400">({prod.reviewsCount || 120})</span>
  </div>
@@ -1653,7 +1653,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <p className="text-xs text-slate-500 font-bold">لا توجد منتجات مطابقة لهذا القسم</p>
  <button
  onClick={() => setSelectedCategory('الكل')}
- className="px-3 py-1 rounded-xl bg-orange-500 text-white font-black text-xs"
+ className="px-3 py-1 rounded-xl bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 font-black text-xs"
  >
  عرض كل المنتجات
  </button>
@@ -1664,7 +1664,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
 
  {/* SPORTECH Bottom Bar */}
  <div className="border-t border-slate-100 px-6 py-2 bg-white flex items-center justify-between text-[11px] font-bold sticky bottom-0 z-30">
- <button onClick={() => setPhoneScreen('home')} className="flex flex-col items-center text-orange-500">
+ <button onClick={() => setPhoneScreen('home')} className="flex flex-col items-center text-zinc-700 dark:text-zinc-300">
  <Footprints className="w-4 h-4" />
  <span className="text-[10px]">Home</span>
  </button>
@@ -1707,9 +1707,9 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  onClick={() => setPhoneScreen('cart')}
  className="relative p-1.5"
  >
- <ShoppingBag className="w-5 h-5 text-orange-500" />
+ <ShoppingBag className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />
  {simulatedCart.length > 0 && (
- <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-orange-600 text-white text-[10px] font-bold flex items-center justify-center">
+ <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 text-[10px] font-bold flex items-center justify-center">
  {simulatedCart.reduce((sum, i) => sum + i.quantity, 0)}
  </span>
  )}
@@ -1727,11 +1727,11 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  ? 'linear-gradient(135deg, #0F172A, #1E1B4B)'
  : activeTmplMeta.themeStyle === 'retro'
  ? 'linear-gradient(135deg, #022C22, #064E3B)'
- : 'linear-gradient(135deg, #0F172A, #C2410C)',
+ : 'linear-gradient(135deg, #0F172A, #27272A)',
  }}
  >
  <div className="max-w-[200px] space-y-2 z-10">
- <span className="text-[10px] font-mono tracking-wider font-bold text-orange-400 uppercase">
+ <span className="text-[10px] font-mono tracking-wider font-bold text-zinc-400 uppercase">
  COLLECTION 2026
  </span>
  <h2 className="text-2xl font-black font-heading leading-tight">
@@ -1744,7 +1744,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  handleOpenProductInsidePhone(storeConfig.products[0]);
  }
  }}
- className="px-3.5 py-1.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-xs shadow-md transition-transform active:scale-95 flex items-center gap-1.5"
+ className="px-3.5 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-900 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 font-black text-xs shadow-md transition-transform active:scale-95 flex items-center gap-1.5"
  >
  <span>{selectedTemplateId === 'dinereserve-food' ? 'قائمة الطعام' : 'اكتشف العروض'}</span>
  <ArrowRight className="w-3.5 h-3.5 -scale-x-100" />
@@ -1781,7 +1781,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <div className="w-full bg-slate-900 border border-slate-700 rounded-3xl p-5 text-white space-y-4 shadow-2xl">
  <div className="flex items-center justify-between border-b border-slate-800 pb-2">
  <div className="flex items-center gap-2">
- <Utensils className="w-5 h-5 text-orange-500" />
+ <Utensils className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />
  <h3 className="font-heading font-black text-base">حجز طاولة VIP فاخرة</h3>
  </div>
  <button
@@ -1795,7 +1795,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <div className="space-y-3 text-xs">
  <div>
  <label className="block text-slate-400 mb-1 flex items-center gap-1 font-bold">
- <Calendar className="w-3.5 h-3.5 text-orange-400" />
+ <Calendar className="w-3.5 h-3.5 text-zinc-400" />
  <span>تاريخ الحجز:</span>
  </label>
  <input
@@ -1809,7 +1809,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <div className="grid grid-cols-2 gap-2">
  <div>
  <label className="block text-slate-400 mb-1 flex items-center gap-1 font-bold">
- <Clock className="w-3.5 h-3.5 text-orange-400" />
+ <Clock className="w-3.5 h-3.5 text-zinc-400" />
  <span>الوقت:</span>
  </label>
  <select
@@ -1825,7 +1825,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
 
  <div>
  <label className="block text-slate-400 mb-1 flex items-center gap-1 font-bold">
- <Users className="w-3.5 h-3.5 text-orange-400" />
+ <Users className="w-3.5 h-3.5 text-zinc-400" />
  <span>عدد الأفراد:</span>
  </label>
  <select
@@ -1846,7 +1846,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  setIsReservationModalOpen(false);
  setTableBookingSuccess(true);
  }}
- className="w-full py-3 rounded-2xl bg-orange-600 hover:bg-orange-500 text-white font-black text-xs shadow-lg transition-transform active:scale-95 flex items-center justify-center gap-2"
+ className="w-full py-3 rounded-2xl bg-zinc-800 hover:bg-zinc-700 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 font-black text-xs shadow-lg transition-transform active:scale-95 flex items-center justify-center gap-2"
  >
  <Send className="w-4 h-4" />
  <span>تأكيد الحجز الفوري وإرسال التفاصيل</span>
@@ -1858,8 +1858,8 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  {/* Table Booking Success Modal */}
  {tableBookingSuccess && (
  <div className="absolute inset-0 z-50 bg-black/85 backdrop-blur-sm p-4 flex items-center justify-center animate-fadeIn">
- <div className="w-full bg-slate-900 border-2 border-orange-500 rounded-3xl p-5 text-center text-white space-y-3 shadow-2xl">
- <div className="w-12 h-12 rounded-full bg-orange-500/20 text-orange-400 mx-auto flex items-center justify-center">
+ <div className="w-full bg-slate-900 border-2 border-zinc-600 dark:border-zinc-400 rounded-3xl p-5 text-center text-white space-y-3 shadow-2xl">
+ <div className="w-12 h-12 rounded-full bg-zinc-500/20 text-zinc-400 mx-auto flex items-center justify-center">
  <CheckCircle2 className="w-7 h-7" />
  </div>
  <h3 className="text-base font-black font-heading">تم تسجيل طلب الحجز بنجاح! </h3>
@@ -1869,7 +1869,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  </p>
  <button
  onClick={() => setTableBookingSuccess(false)}
- className="w-full py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-xs"
+ className="w-full py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-900 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 font-black text-xs"
  >
  حسناً، عودة للتصفح
  </button>
@@ -1888,7 +1888,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  }}
  className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
  selectedCategory === cat
- ? 'bg-orange-600 text-white shadow-xs'
+ ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 shadow-xs'
  : 'bg-slate-800/10 hover:bg-slate-800/20 border border-slate-500/20'
  }`}
  >
@@ -1909,7 +1909,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  }}
  className={`px-2.5 py-1 rounded-lg transition-all ${
  selectedSubTab === tab
- ? 'bg-orange-500 text-white font-black shadow-xs'
+ ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 font-black shadow-xs'
  : 'opacity-70 hover:opacity-100'
  }`}
  >
@@ -1918,7 +1918,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  ))}
  </div>
 
- <span className="text-[11px] font-bold text-orange-500 cursor-pointer">
+ <span className="text-[11px] font-bold text-zinc-700 dark:text-zinc-300 cursor-pointer">
  {filteredProducts.length} منتجات
  </span>
  </div>
@@ -1937,7 +1937,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  {/* Image Box */}
  <div className="relative rounded-xl h-36 flex items-center justify-center mb-2 overflow-hidden bg-slate-100/10">
  {prod.badge && (
- <span className="absolute top-2 right-2 text-[10px] font-black bg-orange-600 text-white px-2 py-0.5 rounded-full z-10 shadow-xs">
+ <span className="absolute top-2 right-2 text-[10px] font-black bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 px-2 py-0.5 rounded-full z-10 shadow-xs">
  {prod.badge}
  </span>
  )}
@@ -1965,8 +1965,8 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
 
  {/* Info */}
  <div>
- <div className="flex items-center gap-1 text-[10px] text-orange-500 font-bold mb-0.5">
- <Star className="w-3 h-3 fill-orange-400" />
+ <div className="flex items-center gap-1 text-[10px] text-zinc-700 dark:text-zinc-300 font-bold mb-0.5">
+ <Star className="w-3 h-3 fill-zinc-400" />
  <span>{prod.rating || 4.8}</span>
  <span className="opacity-60">({prod.reviewsCount || 120})</span>
  </div>
@@ -1992,7 +1992,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  e.stopPropagation();
  handleAddToCart(prod);
  }}
- className="w-7 h-7 rounded-lg bg-orange-600 hover:bg-orange-500 text-white flex items-center justify-center transition-colors shadow-xs"
+ className="w-7 h-7 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 flex items-center justify-center transition-colors shadow-xs"
  title="إضافة للسلة"
  >
  <Plus className="w-3.5 h-3.5" />
@@ -2007,7 +2007,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <p className="text-xs opacity-60 font-bold">لا توجد منتجات مطابقة لهذا القسم</p>
  <button
  onClick={() => setSelectedCategory('الكل')}
- className="px-3 py-1 rounded-xl bg-orange-600 text-white font-black text-xs"
+ className="px-3 py-1 rounded-xl bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 font-black text-xs"
  >
  عرض كل المنتجات
  </button>
@@ -2021,7 +2021,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <div className="border-t px-6 py-2.5 flex items-center justify-between text-[11px] font-bold border-inherit/20 bg-inherit/95 sticky bottom-0 z-30">
  <button
  onClick={() => setPhoneScreen('home')}
- className="flex flex-col items-center text-orange-500"
+ className="flex flex-col items-center text-zinc-700 dark:text-zinc-300"
  >
  <Footprints className="w-4 h-4" />
  <span>الرئيسية</span>
@@ -2042,7 +2042,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <ShoppingBag className="w-4 h-4" />
  <span>السلة</span>
  {simulatedCart.length > 0 && (
- <span className="absolute -top-1 -right-2 w-2 h-2 rounded-full bg-orange-600 animate-ping"></span>
+ <span className="absolute -top-1 -right-2 w-2 h-2 rounded-full bg-zinc-800 animate-ping"></span>
  )}
  </button>
 
@@ -2106,7 +2106,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  className="w-full h-full object-cover"
  />
  {activeProductInPhone.badge && (
- <span className="absolute top-3 right-3 text-xs font-black bg-orange-600 text-white px-3 py-1 rounded-full shadow-md">
+ <span className="absolute top-3 right-3 text-xs font-black bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 px-3 py-1 rounded-full shadow-md">
  {activeProductInPhone.badge}
  </span>
  )}
@@ -2117,10 +2117,10 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <div className="p-4 space-y-4">
  <div>
  <div className="flex items-center justify-between">
- <span className="text-xs font-mono text-orange-500 font-bold">
+ <span className="text-xs font-mono text-zinc-700 dark:text-zinc-300 font-bold">
  {activeProductInPhone.category}
  </span>
- <span className="text-xs font-bold flex items-center text-orange-500">
+ <span className="text-xs font-bold flex items-center text-zinc-700 dark:text-zinc-300">
  {activeProductInPhone.rating || 4.9} ({activeProductInPhone.reviewsCount || 230} تقييم)
  </span>
  </div>
@@ -2130,7 +2130,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  </h2>
 
  <div className="mt-2 flex items-baseline gap-2">
- <span className="text-2xl font-black font-mono text-orange-500">
+ <span className="text-2xl font-black font-mono text-zinc-700 dark:text-zinc-300">
  {activeProductInPhone.price} {storeConfig.currency}
  </span>
  {activeProductInPhone.originalPrice && (
@@ -2138,7 +2138,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  {activeProductInPhone.originalPrice} {storeConfig.currency}
  </span>
  )}
- <span className="text-[10px] font-bold text-orange-600 bg-orange-500/10 px-2 py-0.5 rounded-full">
+ <span className="text-[10px] font-bold text-zinc-800 dark:text-zinc-200 bg-zinc-500/10 px-2 py-0.5 rounded-full">
  متاح للتسليم في خلال دقايق
  </span>
  </div>
@@ -2155,7 +2155,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <div>
  <div className="flex items-center justify-between text-xs font-bold mb-2">
  <span>اللون المختار:</span>
- <span className="text-orange-500 font-black">{selectedColor}</span>
+ <span className="text-zinc-700 dark:text-zinc-300 font-black">{selectedColor}</span>
  </div>
  <div className="flex items-center gap-3">
  {activeProductInPhone.colors.map((c) => (
@@ -2164,7 +2164,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  onClick={() => setSelectedColor(c.name)}
  className={`w-7 h-7 rounded-full p-0.5 border-2 transition-transform ${
  selectedColor === c.name
- ? 'border-orange-500 scale-110 shadow-sm'
+ ? 'border-zinc-600 dark:border-zinc-400 scale-110 shadow-sm'
  : 'border-transparent'
  }`}
  >
@@ -2185,7 +2185,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <span>اختر المقاس المطلوب:</span>
  <button
  onClick={() => setSizeGuideModalOpen(true)}
- className="text-orange-500 underline underline-offset-2"
+ className="text-zinc-700 dark:text-zinc-300 underline underline-offset-2"
  >
  جدول المقاسات
  </button>
@@ -2197,8 +2197,8 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  onClick={() => setSelectedSize(sz)}
  className={`py-2 rounded-xl text-xs font-mono font-black border transition-all ${
  selectedSize === sz
- ? 'bg-orange-600 text-white border-orange-600 shadow-sm'
- : 'border-slate-500/30 hover:border-orange-500'
+ ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 border-zinc-700 shadow-sm'
+ : 'border-slate-500/30 hover:border-zinc-600 dark:border-zinc-400'
  }`}
  >
  {sz}
@@ -2216,14 +2216,14 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <div className="text-lg font-black font-mono">
  {activeProductInPhone.price} {storeConfig.currency}
  </div>
- <span className="text-[10px] text-orange-600 font-bold">
+ <span className="text-[10px] text-zinc-800 dark:text-zinc-200 font-bold">
  شحن سريع لجميع محافظات مصر
  </span>
  </div>
 
  <button
  onClick={() => handleAddToCart(activeProductInPhone)}
- className="px-6 py-3 rounded-2xl bg-orange-600 hover:bg-orange-500 text-white font-black text-xs flex items-center gap-2 shadow-lg transition-transform active:scale-95"
+ className="px-6 py-3 rounded-2xl bg-zinc-800 hover:bg-zinc-700 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 font-black text-xs flex items-center gap-2 shadow-lg transition-transform active:scale-95"
  >
  <ShoppingBag className="w-4 h-4" />
  <span>أضف للحقيبة</span>
@@ -2260,7 +2260,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <p>حقيبة التسوق فارغة حالياً</p>
  <button
  onClick={() => setPhoneScreen('home')}
- className="px-4 py-2 rounded-xl bg-orange-600 text-white font-black mt-2 text-xs"
+ className="px-4 py-2 rounded-xl bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 font-black mt-2 text-xs"
  >
  تصفح المنتجات الآن
  </button>
@@ -2281,7 +2281,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  {item.selectedSize && `مقاس: ${item.selectedSize}`}{' '}
  {item.selectedColor && `• ${item.selectedColor}`}
  </div>
- <div className="text-xs font-black font-mono text-orange-500 mt-1">
+ <div className="text-xs font-black font-mono text-zinc-700 dark:text-zinc-300 mt-1">
  {item.price} {storeConfig.currency}
  </div>
  </div>
@@ -2313,7 +2313,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <div className="p-4 border-t border-inherit/15 bg-inherit space-y-3">
  <div className="flex items-center justify-between text-sm">
  <span className="font-bold opacity-80">إجمالي الطلب:</span>
- <span className="font-black font-mono text-xl text-orange-500">
+ <span className="font-black font-mono text-xl text-zinc-700 dark:text-zinc-300">
  {cartTotal.toLocaleString()} {storeConfig.currency}
  </span>
  </div>
@@ -2323,7 +2323,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  playPaperFlip();
  alert(`✓ تم إرسال الأوردر التجريبي للواتساب برقم #${Math.floor(1000 + Math.random()*9000)}!\n\nهكذا يستلم التاجر تفاصيل الطلب والمقاسات والعنوان في ثانية واحدة.`);
  }}
- className="w-full py-3.5 rounded-2xl bg-orange-500 hover:bg-orange-500 text-white font-black text-xs flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-95"
+ className="w-full py-3.5 rounded-2xl bg-zinc-700 dark:bg-zinc-300 hover:bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 font-black text-xs flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-95"
  >
  <Send className="w-4 h-4" />
  <span>تأكيد الأوردر عبر الواتساب أوتوماتيك</span>
@@ -2345,7 +2345,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  value={searchQuery}
  onChange={(e) => setSearchQuery(e.target.value)}
  placeholder="ابحث عن كوتشي، تيشيرت، مقاس..."
- className="w-full p-2.5 rounded-xl border border-slate-500/30 bg-inherit text-xs font-bold focus:border-orange-500 focus:outline-hidden"
+ className="w-full p-2.5 rounded-xl border border-slate-500/30 bg-inherit text-xs font-bold focus:border-zinc-600 dark:border-zinc-400 focus:outline-hidden"
  />
  <button
  onClick={() => {
@@ -2367,13 +2367,13 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <div
  key={p.id}
  onClick={() => handleOpenProductInsidePhone(p)}
- className="p-2.5 rounded-xl border border-slate-500/20 flex items-center justify-between cursor-pointer hover:border-orange-500"
+ className="p-2.5 rounded-xl border border-slate-500/20 flex items-center justify-between cursor-pointer hover:border-zinc-600 dark:border-zinc-400"
  >
  <div className="flex items-center gap-2">
  <img src={p.imageUrl} alt={p.name} className="w-10 h-10 rounded-lg object-cover" />
  <span className="text-xs font-bold">{p.name}</span>
  </div>
- <span className="text-xs font-mono font-black text-orange-500">{p.price} ج.م</span>
+ <span className="text-xs font-mono font-black text-zinc-700 dark:text-zinc-300">{p.price} ج.م</span>
  </div>
  ))}
  </div>
@@ -2419,7 +2419,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <img src={p.imageUrl} alt={p.name} className="w-14 h-14 rounded-xl object-cover" />
  <div>
  <h4 className="text-xs font-black">{p.name}</h4>
- <span className="text-xs font-mono font-black text-orange-500 mt-1 block">
+ <span className="text-xs font-mono font-black text-zinc-700 dark:text-zinc-300 mt-1 block">
  {p.price} {storeConfig.currency}
  </span>
  </div>
@@ -2465,13 +2465,13 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  setSelectedCategory(cat);
  setPhoneScreen('home');
  }}
- className="p-4 rounded-2xl border border-slate-500/20 bg-slate-500/5 hover:bg-orange-500/10 hover:border-orange-500 transition-all text-center space-y-2 group"
+ className="p-4 rounded-2xl border border-slate-500/20 bg-slate-500/5 hover:bg-zinc-800 dark:hover:bg-zinc-200/10 hover:border-zinc-600 dark:border-zinc-400 transition-all text-center space-y-2 group"
  >
- <div className="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-500 mx-auto flex items-center justify-center font-bold text-lg group-hover:scale-110 transition-transform">
+ <div className="w-10 h-10 rounded-xl bg-zinc-500/10 text-zinc-700 dark:text-zinc-300 mx-auto flex items-center justify-center font-bold text-lg group-hover:scale-110 transition-transform">
  
  </div>
  <h4 className="font-heading font-black text-xs">{cat}</h4>
- <span className="text-[10px] text-orange-500 font-bold block">
+ <span className="text-[10px] text-zinc-700 dark:text-zinc-300 font-bold block">
  تصفح المنتجات
  </span>
  </button>
@@ -2508,7 +2508,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <h2 className="text-xl sm:text-2xl font-black font-heading text-white leading-normal">
  لوحة تحكم وإدارة المتجر (Merchant Admin)
  </h2>
- <span className="text-[11px] font-mono font-bold bg-orange-500/20 text-slate-300 border border-orange-500/30 px-2 py-0.5 rounded-full whitespace-nowrap">
+ <span className="text-[11px] font-mono font-bold bg-zinc-500/20 text-slate-300 border border-zinc-400/30 dark:border-zinc-600/30 px-2 py-0.5 rounded-full whitespace-nowrap">
  نظام إدارة فوري
  </span>
  </div>
@@ -2526,7 +2526,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  }}
  className={`px-2.5 py-1 rounded-lg font-bold transition-all ${
  simulatedPlan === 'standard'
- ? 'bg-orange-500 text-white'
+ ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950'
  : 'text-slate-400 hover:text-white'
  }`}
  >
@@ -2539,7 +2539,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  }}
  className={`px-2.5 py-1 rounded-lg font-bold transition-all ${
  simulatedPlan === 'pro'
- ? 'bg-orange-500 text-white'
+ ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950'
  : 'text-slate-400 hover:text-white'
  }`}
  >
@@ -2557,7 +2557,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  }}
  className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-all shrink-0 whitespace-nowrap ${
  adminTab === 'products'
- ? 'bg-orange-500 text-slate-950 font-black shadow-xs'
+ ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 font-black shadow-xs'
  : 'text-slate-300 hover:text-white hover:bg-slate-900 border border-slate-800'
  }`}
  >
@@ -2572,7 +2572,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  }}
  className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-all shrink-0 whitespace-nowrap ${
  adminTab === 'categories'
- ? 'bg-orange-500 text-slate-950 font-black shadow-xs'
+ ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 font-black shadow-xs'
  : 'text-slate-300 hover:text-white hover:bg-slate-900 border border-slate-800'
  }`}
  >
@@ -2587,7 +2587,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  }}
  className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-all shrink-0 whitespace-nowrap ${
  adminTab === 'analytics'
- ? 'bg-orange-500 text-slate-950 font-black shadow-xs'
+ ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 font-black shadow-xs'
  : 'text-slate-300 hover:text-white hover:bg-slate-900 border border-slate-800'
  }`}
  >
@@ -2602,7 +2602,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  }}
  className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-all shrink-0 whitespace-nowrap ${
  adminTab === 'branding'
- ? 'bg-orange-500 text-slate-950 font-black shadow-xs'
+ ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 font-black shadow-xs'
  : 'text-slate-300 hover:text-white hover:bg-slate-900 border border-slate-800'
  }`}
  >
@@ -2620,7 +2620,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  >
  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
  <div className="flex items-center gap-2">
- <Plus className="w-4 h-4 text-orange-400" />
+ <Plus className="w-4 h-4 text-zinc-400" />
  <h3 className="font-heading font-black text-base text-white">
  إضافة منتج جديد يظهر فوراً في شاشة الهاتف
  </h3>
@@ -2680,7 +2680,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  type="number"
  value={newProdCostPrice}
  onChange={(e) => setNewProdCostPrice(Number(e.target.value))}
- className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-orange-400 text-xs font-mono font-bold"
+ className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-zinc-400 text-xs font-mono font-bold"
  />
  </div>
  <div>
@@ -2708,7 +2708,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <div className="pt-2 flex justify-end">
  <button
  type="submit"
- className="px-5 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-xs flex items-center gap-1.5"
+ className="px-5 py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-900 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 font-black text-xs flex items-center gap-1.5"
  >
  <Plus className="w-4 h-4" />
  <span>أضف المنتج للمتجر فوراً</span>
@@ -2724,7 +2724,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <img src={p.imageUrl} alt={p.name} className="w-12 h-12 rounded-lg object-cover" />
  <div>
  <h4 className="text-xs font-black text-white">{p.name}</h4>
- <span className="text-xs text-orange-400 font-mono font-bold">{p.price} ج.م</span>
+ <span className="text-xs text-zinc-400 font-mono font-bold">{p.price} ج.م</span>
  </div>
  </div>
  <button onClick={() => handleDeleteProduct(p.id)} className="p-1.5 text-slate-400 hover:text-red-400">
@@ -2749,7 +2749,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  />
  <button
  onClick={handleAddCategory}
- className="px-5 py-2.5 rounded-xl bg-orange-500 text-slate-950 font-black text-xs font-bold shrink-0"
+ className="px-5 py-2.5 rounded-xl bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 font-black text-xs font-bold shrink-0"
  >
  إضافة قسم
  </button>
@@ -2774,10 +2774,10 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-1">
  <div className="flex items-center justify-between text-slate-400 text-xs">
  <span>إجمالي المبيعات</span>
- <DollarSign className="w-4 h-4 text-orange-400" />
+ <DollarSign className="w-4 h-4 text-zinc-400" />
  </div>
  <div className="text-2xl font-black font-mono text-white">48,650 ج.م</div>
- <span className="text-[10px] text-orange-400 flex items-center gap-1 font-bold">
+ <span className="text-[10px] text-zinc-400 flex items-center gap-1 font-bold">
  <TrendingUp className="w-3 h-3" /> +18.4% نمو أسبوعي
  </span>
  </div>
@@ -2792,16 +2792,16 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  </div>
 
  <div className="p-4 rounded-2xl bg-slate-900 border border-slate-700 space-y-1 bg-slate-900">
- <div className="flex items-center justify-between text-orange-400 text-xs font-bold">
+ <div className="flex items-center justify-between text-zinc-400 text-xs font-bold">
  <span>صافي الربح الحقيقي </span>
  <TrendingUp className="w-4 h-4" />
  </div>
- <div className="text-2xl font-black font-mono text-orange-400">17,450 ج.م</div>
+ <div className="text-2xl font-black font-mono text-zinc-400">17,450 ج.م</div>
  <span className="text-[10px] text-slate-300 font-bold">هامش ربح صافي 35.8%</span>
  </div>
 
  <div className="p-4 rounded-2xl bg-slate-900 border border-slate-700 space-y-1 bg-slate-900">
- <div className="flex items-center justify-between text-orange-400 text-xs font-bold">
+ <div className="flex items-center justify-between text-zinc-400 text-xs font-bold">
  <span>المنتج الأكثر طلباً </span>
  <Flame className="w-4 h-4" />
  </div>
@@ -2832,7 +2832,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  type="text"
  value={storeConfig.customDomain}
  onChange={(e) => setStoreConfig({ ...storeConfig, customDomain: e.target.value })}
- className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-orange-400 text-xs font-mono font-bold"
+ className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-zinc-400 text-xs font-mono font-bold"
  />
  </div>
  </div>
@@ -2862,7 +2862,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  </div>
  <table className="w-full text-center text-xs font-mono">
  <thead>
- <tr className="border-b border-slate-800 text-orange-400">
+ <tr className="border-b border-slate-800 text-zinc-400">
  <th className="pb-1">US</th>
  <th className="pb-1">مصر / EU</th>
  <th className="pb-1">طول القدم (CM)</th>

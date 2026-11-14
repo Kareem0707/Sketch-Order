@@ -153,7 +153,7 @@ export const App: React.FC = () => {
   // ==========================================================
   if (viewMode === 'studio') {
     return (
-      <div className="min-h-screen bg-slate-950 font-sans text-slate-100 antialiased selection:bg-orange-500 selection:text-white">
+      <div className="min-h-screen bg-slate-950 font-sans text-slate-100 antialiased selection:bg-zinc-700 selection:text-white">
         <FullPageStoreStudio
           onBackToHome={() => {
             playClick();
@@ -239,7 +239,7 @@ export const App: React.FC = () => {
         isDarkMode
           ? 'bg-[#0B0F17] text-[#F8FAFC]'
           : 'bg-white text-[#0F0F0F]'
-      } font-body selection:bg-orange-500 selection:text-white antialiased`}
+      } font-body selection:bg-zinc-700 selection:text-white antialiased`}
     >
       {/* Navbar with Dark Mode & Portal links */}
       <Navbar
@@ -282,7 +282,7 @@ export const App: React.FC = () => {
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-10">
-              <span className="text-xs font-mono font-bold bg-orange-500 text-slate-950 px-3 py-1 sketch-border-pill -rotate-1 inline-block mb-2">
+              <span className="text-xs font-mono font-bold bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 px-3 py-1 sketch-border-pill -rotate-1 inline-block mb-2">
                 HOW IT WORKS • ببساطة وبدون تعقيد
               </span>
               <h2 className="text-2xl sm:text-4xl font-black font-heading">
@@ -300,7 +300,7 @@ export const App: React.FC = () => {
                 } sketch-border-2`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="w-9 h-9 rounded-full bg-orange-500 text-slate-950 flex items-center justify-center font-black font-mono text-sm">
+                  <span className="w-9 h-9 rounded-full bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 flex items-center justify-center font-black font-mono text-sm">
                     1
                   </span>
                   <span className="text-xs font-bold opacity-70">الخطوة الأولى</span>
@@ -311,7 +311,7 @@ export const App: React.FC = () => {
                 <p className="text-xs font-bold opacity-80 leading-relaxed">
                   اختار المظهر اللي يعجبك (متجر سبورتك الرياضي، صفحة كوتشيات نايكي تفصيلية، مطاعم دارك فاخر، أو ستايل كوميكس مرسوم). عدّل الاسم والدومين والأقسام فورياً.
                 </p>
-                <div className="text-[11px] font-mono font-bold text-orange-500 bg-orange-500/10 p-1.5 rounded-md border border-orange-500/30">
+                <div className="text-[11px] font-mono font-bold text-zinc-700 dark:text-zinc-300 bg-zinc-500/10 p-1.5 rounded-md border border-zinc-400/30 dark:border-zinc-600/30">
                   ✓ تجربة مجانية فورية في صفحة كاملة
                 </div>
               </div>
@@ -325,7 +325,7 @@ export const App: React.FC = () => {
                 } sketch-border-1`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="w-9 h-9 rounded-full bg-orange-500 text-slate-950 flex items-center justify-center font-black font-mono text-sm">
+                  <span className="w-9 h-9 rounded-full bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 flex items-center justify-center font-black font-mono text-sm">
                     2
                   </span>
                   <span className="text-xs font-bold opacity-70">الخطوة الثانية</span>
@@ -336,7 +336,7 @@ export const App: React.FC = () => {
                 <p className="text-xs font-bold opacity-80 leading-relaxed">
                   جرب تضيف منتجك الخاص وصورك، تتحكم في الأقسام، وتشوف سيستم تحليل المبيعات وصافي الربح الحقيقي شغال قدام عينك بالجنيه المصري.
                 </p>
-                <div className="text-[11px] font-mono font-bold text-orange-500 bg-orange-500/10 p-1.5 rounded-md border border-orange-500/30">
+                <div className="text-[11px] font-mono font-bold text-zinc-700 dark:text-zinc-300 bg-zinc-500/10 p-1.5 rounded-md border border-zinc-400/30 dark:border-zinc-600/30">
                   ✓ لوحة تحكم متكاملة + تحليلات الأرباح
                 </div>
               </div>
@@ -350,7 +350,7 @@ export const App: React.FC = () => {
                 } sketch-border-3`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="w-9 h-9 rounded-full bg-orange-500 text-slate-950 flex items-center justify-center font-black font-mono text-sm">
+                  <span className="w-9 h-9 rounded-full bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 flex items-center justify-center font-black font-mono text-sm">
                     3
                   </span>
                   <span className="text-xs font-bold opacity-70">الخطوة الثالثة</span>
@@ -361,7 +361,7 @@ export const App: React.FC = () => {
                 <p className="text-xs font-bold opacity-80 leading-relaxed">
                   دفع مرة واحدة بإنستاباي أو فودافون كاش أو فيزا. بنسلمك متجرك المستقل بدومينك الخاص (.store أو .com) ملكك مدى الحياة بدون أي اشتراكات أو نسب مبيعات.
                 </p>
-                <div className="text-[11px] font-mono font-bold text-orange-500 bg-orange-500/10 p-1.5 rounded-md border border-orange-500/30">
+                <div className="text-[11px] font-mono font-bold text-zinc-700 dark:text-zinc-300 bg-zinc-500/10 p-1.5 rounded-md border border-zinc-400/30 dark:border-zinc-600/30">
                   ✓ تملك كامل 100% بدون نسب مبيعات
                 </div>
               </div>
@@ -373,7 +373,7 @@ export const App: React.FC = () => {
                 onClick={openTemplatesShowcase}
                 className="btn-sketch btn-sketch-primary text-sm sm:text-base py-3 px-6 -rotate-1 font-heading inline-flex items-center gap-2"
               >
-                <Grid className="w-5 h-5 text-orange-400" />
+                <Grid className="w-5 h-5 text-zinc-400" />
                 <span>قوالب المتاجر</span>
                 <ArrowLeft className="w-4 h-4 mr-1" />
               </button>
@@ -386,7 +386,7 @@ export const App: React.FC = () => {
                     : 'bg-white border-[#0F0F0F] text-[#0F0F0F] hover:bg-slate-100'
                 }`}
               >
-                <Hammer className="w-5 h-5 text-orange-500" />
+                <Hammer className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />
                 <span>استوديو تخصيص المتجر (لايف)</span>
               </button>
             </div>

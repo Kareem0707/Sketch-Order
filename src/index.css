@@ -181,19 +181,19 @@
 .dark .btn-sketch:hover {
   background-color: #1E293B;
   color: #FFFFFF;
-  border-color: #F97316;
-  box-shadow: -6px 6px 0px #F97316;
+  border-color: #52525B;
+  box-shadow: -6px 6px 0px #52525B;
 }
 
 .dark .btn-sketch-primary {
-  background-color: #F97316;
-  border-color: #EA580C;
+  background-color: #52525B;
+  border-color: #3F3F46;
   color: #0B0F17;
   box-shadow: -4px 4px 0px #000000;
 }
 
 .dark .btn-sketch-primary:hover {
-  background-color: #EA580C;
+  background-color: #3F3F46;
   color: #FFFFFF;
   box-shadow: -6px 6px 0px #000000;
 }
@@ -389,7 +389,7 @@ html.dark .btn-sketch {
 html.dark .btn-sketch:hover {
   background-color: #FFFFFF !important;
   color: #0F0F0F !important;
-  box-shadow: -6px 6px 0px #F97316 !important;
+  box-shadow: -6px 6px 0px #52525B !important;
 }
 
 html.dark .btn-sketch:active {
@@ -398,11 +398,11 @@ html.dark .btn-sketch:active {
 }
 
 html.dark .btn-sketch-primary {
-  background-color: #F97316 !important;
-  border-color: #F97316 !important;
+  background-color: #52525B !important;
+  border-color: #52525B !important;
   color: #0B0F17 !important;
   font-weight: 900 !important;
-  box-shadow: -4px 4px 0px #000000, 0 0 0 1px rgba(249, 115, 22, 0.4) !important;
+  box-shadow: -4px 4px 0px #000000, 0 0 0 1px rgba(113, 113, 122, 0.35) !important;
 }
 
 html.dark .btn-sketch-primary:hover {
@@ -520,14 +520,14 @@ html.dark .comic-dots {
 html.dark body {
   background-color: #0B0F17;
   background-image: 
-    radial-gradient(ellipse 80% 40% at 50% -10%, rgba(249, 115, 22, 0.08), transparent 70%),
+    radial-gradient(ellipse 80% 40% at 50% -10%, rgba(113, 113, 122, 0.12), transparent 70%),
     radial-gradient(circle 1px at center, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
   background-size: 100% 100%, 28px 28px;
 }
 
 html body {
   background-image: 
-    radial-gradient(ellipse 80% 40% at 50% -10%, rgba(249, 115, 22, 0.04), transparent 70%),
+    radial-gradient(ellipse 80% 40% at 50% -10%, rgba(113, 113, 122, 0.06), transparent 70%),
     radial-gradient(circle 1px at center, rgba(15, 15, 15, 0.03) 1px, transparent 1px);
   background-size: 100% 100%, 28px 28px;
 }

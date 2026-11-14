@@ -131,7 +131,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
               tagline: 'تسوق أفضل كوتشيات سنيكرز أصلية وضمان استبدال فوري',
               niche: 'sneakers',
               templateId: 'sportech-sneakers',
-              accentColor: '#F97316',
+              accentColor: '#52525B',
               customDomain: 'sportech.sketchorder.com',
               currency: 'ج.م',
               whatsappNumber: '01012345678',
@@ -167,7 +167,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
               tagline: 'ملابس أوفر سايز وتصميمات ستريت وير حصرية',
               niche: 'streetwear',
               templateId: 'fasco-fashion',
-              accentColor: '#F97316',
+              accentColor: '#52525B',
               customDomain: 'fasco.sketchorder.com',
               currency: 'ج.م',
               whatsappNumber: '01122334455',
@@ -419,7 +419,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  <div
  className={`min-h-screen transition-colors duration-200 ${
  isDarkMode ? 'bg-[#0B0F17] text-[#F8FAFC]' : 'bg-[#FAF8F5] text-[#0F0F0F]'
- } font-body antialiased selection:bg-orange-500 selection:text-white pb-20`}
+ } font-body antialiased selection:bg-zinc-700 selection:text-white pb-20`}
  >
  {/* ======================================================== */}
  {/* 1. TOP HEADER IN STRICT SKETCH THEME */}
@@ -461,7 +461,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  <h1 className="font-heading font-black text-lg sm:text-xl leading-none">
  لوحة تحكم إدارة المنصة (Owner Admin)
  </h1>
- <span className="text-[10px] font-mono font-black bg-orange-500 text-slate-950 px-2 py-0.5 rounded-full border border-orange-600 shadow-xs">
+ <span className="text-[10px] font-mono font-black bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 px-2 py-0.5 rounded-full border border-zinc-700 shadow-xs">
  LIVE SAAS
  </span>
  </div>
@@ -476,7 +476,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  <div className="flex items-center gap-2 sm:gap-3">
  <button
  onClick={handleAddNewDemoOrder}
- className="px-3.5 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-xs flex items-center gap-1.5 shadow-sm transition-transform active:scale-95 -rotate-1"
+ className="px-3.5 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-900 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 font-black text-xs flex items-center gap-1.5 shadow-sm transition-transform active:scale-95 -rotate-1"
  >
  <Plus className="w-4 h-4" />
  <span className="hidden sm:inline">طلب تجريبي جديد</span>
@@ -490,12 +490,12 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  }}
  className={`p-2.5 rounded-xl border-2 font-bold text-xs flex items-center gap-1.5 transition-all ${
  isDarkMode
- ? 'bg-orange-500/10 border-orange-500 text-orange-400 hover:bg-orange-500/20'
+ ? 'bg-zinc-500/10 border-zinc-600 dark:border-zinc-400 text-zinc-400 hover:bg-zinc-800 dark:hover:bg-zinc-200/20'
  : 'bg-white border-[#0F0F0F] text-[#0F0F0F] hover:bg-slate-100'
  }`}
  title={isDarkMode ? 'تفعيل الوضع النهاري' : 'تفعيل الوضع الليلي (Dark)'}
  >
- {isDarkMode ? <Sun className="w-4 h-4 text-orange-400" /> : <Moon className="w-4 h-4 text-slate-800" />}
+ {isDarkMode ? <Sun className="w-4 h-4 text-zinc-400" /> : <Moon className="w-4 h-4 text-slate-800" />}
  </button>
  </div>
  </div>
@@ -504,7 +504,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  {/* Success Banner Alert */}
  {actionSuccessMessage && (
  <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-4 animate-fadeIn">
- <div className="p-3.5 rounded-2xl bg-orange-500 text-slate-950 font-black text-sm flex items-center justify-between border-2 border-orange-600 shadow-md">
+ <div className="p-3.5 rounded-2xl bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 font-black text-sm flex items-center justify-between border-2 border-zinc-700 shadow-md">
  <div className="flex items-center gap-2">
  <CheckCircle2 className="w-5 h-5 shrink-0" />
  <span>{actionSuccessMessage}</span>
@@ -532,11 +532,11 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  >
  <div className="flex items-center justify-between mb-2">
  <span className="text-xs font-mono font-black opacity-75">إجمالي الإيرادات المحصلة</span>
- <div className="w-8 h-8 rounded-full bg-orange-500/20 text-orange-500 flex items-center justify-center font-bold">
+ <div className="w-8 h-8 rounded-full bg-zinc-500/20 text-zinc-700 dark:text-zinc-300 flex items-center justify-center font-bold">
  <DollarSign className="w-4 h-4" />
  </div>
  </div>
- <div className="text-3xl font-black font-mono tracking-tight text-orange-500">
+ <div className="text-3xl font-black font-mono tracking-tight text-zinc-700 dark:text-zinc-300">
  {totalRevenue.toLocaleString()} <span className="text-sm font-heading">ج.م</span>
  </div>
  <p className="text-[11px] font-bold opacity-60 mt-1">دفع لمرة واحدة • أرباح المنصة صافية 100%</p>
@@ -552,11 +552,11 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  >
  <div className="flex items-center justify-between mb-2">
  <span className="text-xs font-mono font-black opacity-75">متاجر مفعلة ونشطة (Live)</span>
- <div className="w-8 h-8 rounded-full bg-orange-500/20 text-orange-500 flex items-center justify-center font-bold">
+ <div className="w-8 h-8 rounded-full bg-zinc-500/20 text-zinc-700 dark:text-zinc-300 flex items-center justify-center font-bold">
  <Store className="w-4 h-4" />
  </div>
  </div>
- <div className="text-3xl font-black font-mono tracking-tight text-orange-500">
+ <div className="text-3xl font-black font-mono tracking-tight text-zinc-700 dark:text-zinc-300">
  {liveCount} <span className="text-sm font-heading">متجر</span>
  </div>
  <p className="text-[11px] font-bold opacity-60 mt-1">شغالة بدومينات ساب مستقلة وقابلة للبيع</p>
@@ -572,11 +572,11 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  >
  <div className="flex items-center justify-between mb-2">
  <span className="text-xs font-mono font-black opacity-75">بانتظار المراجعة والتفعيل</span>
- <div className="w-8 h-8 rounded-full bg-orange-500/20 text-orange-500 flex items-center justify-center font-bold animate-pulse">
+ <div className="w-8 h-8 rounded-full bg-zinc-500/20 text-zinc-700 dark:text-zinc-300 flex items-center justify-center font-bold animate-pulse">
  <Clock className="w-4 h-4" />
  </div>
  </div>
- <div className="text-3xl font-black font-mono tracking-tight text-orange-500">
+ <div className="text-3xl font-black font-mono tracking-tight text-zinc-700 dark:text-zinc-300">
  {pendingCount} <span className="text-sm font-heading">طلب جديد</span>
  </div>
  <p className="text-[11px] font-bold opacity-60 mt-1">يحتاج فحص سكرين التحويل والضغط تفعيل</p>
@@ -592,11 +592,11 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  >
  <div className="flex items-center justify-between mb-2">
  <span className="text-xs font-mono font-black opacity-75">إجمالي الطلبات المسجلة</span>
- <div className="w-8 h-8 rounded-full bg-orange-500/20 text-orange-500 flex items-center justify-center font-bold">
+ <div className="w-8 h-8 rounded-full bg-zinc-500/20 text-zinc-700 dark:text-zinc-300 flex items-center justify-center font-bold">
  <Sparkles className="w-4 h-4" />
  </div>
  </div>
- <div className="text-3xl font-black font-mono tracking-tight text-orange-500">
+ <div className="text-3xl font-black font-mono tracking-tight text-zinc-700 dark:text-zinc-300">
  {orders.length} <span className="text-sm font-heading">طلب</span>
  </div>
  <p className="text-[11px] font-bold opacity-60 mt-1">نسبة التحويل والإغلاق 94%</p>
@@ -620,7 +620,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  }}
  className={`px-4 py-2 rounded-xl text-xs font-black transition-all border ${
  filterStatus === 'all'
- ? 'bg-orange-500 text-slate-950 border-orange-600 shadow-xs'
+ ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 border-zinc-700 shadow-xs'
  : 'bg-transparent border-inherit opacity-70 hover:opacity-100'
  }`}
  >
@@ -633,7 +633,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  }}
  className={`px-4 py-2 rounded-xl text-xs font-black transition-all border flex items-center gap-1.5 ${
  filterStatus === 'pending'
- ? 'bg-orange-500 text-slate-950 border-orange-600 shadow-xs'
+ ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 border-zinc-700 shadow-xs'
  : 'bg-transparent border-inherit opacity-70 hover:opacity-100'
  }`}
  >
@@ -647,7 +647,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  }}
  className={`px-4 py-2 rounded-xl text-xs font-black transition-all border flex items-center gap-1.5 ${
  filterStatus === 'approved'
- ? 'bg-orange-500 text-slate-950 border-orange-600 shadow-xs'
+ ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 border-zinc-700 shadow-xs'
  : 'bg-transparent border-inherit opacity-70 hover:opacity-100'
  }`}
  >
@@ -667,8 +667,8 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  onChange={(e) => setSearchQuery(e.target.value)}
  className={`w-full pr-10 pl-3 py-2 rounded-xl text-xs font-bold border-2 transition-all outline-none ${
  isDarkMode
- ? 'bg-slate-900 border-slate-700 text-white focus:border-orange-500'
- : 'bg-[#FAF8F5] border-[#0F0F0F] text-[#0F0F0F] focus:border-orange-500'
+ ? 'bg-slate-900 border-slate-700 text-white focus:border-zinc-600 dark:border-zinc-400'
+ : 'bg-[#FAF8F5] border-[#0F0F0F] text-[#0F0F0F] focus:border-zinc-600 dark:border-zinc-400'
  }`}
  />
  </div>
@@ -697,7 +697,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
           }}
           className={`px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm transition-all border-2 flex items-center gap-2 ${
             adminViewTab === 'orders'
-              ? 'bg-orange-500 text-slate-950 border-orange-600 shadow-sm -rotate-1'
+              ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 border-zinc-700 shadow-sm -rotate-1'
               : 'bg-transparent border-inherit opacity-75 hover:opacity-100'
           }`}
         >
@@ -712,7 +712,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
           }}
           className={`px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm transition-all border-2 flex items-center gap-2 ${
             adminViewTab === 'tenants'
-              ? 'bg-orange-500 text-slate-950 border-orange-600 shadow-sm rotate-1'
+              ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 border-zinc-700 shadow-sm rotate-1'
               : 'bg-transparent border-inherit opacity-75 hover:opacity-100'
           }`}
         >
@@ -748,7 +748,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  setSearchQuery('');
  setFilterStatus('all');
  }}
- className="text-xs font-bold text-orange-500 underline"
+ className="text-xs font-bold text-zinc-700 dark:text-zinc-300 underline"
  >
  إلغاء الفلاتر وعرض كل الطلبات
  </button>
@@ -763,13 +763,13 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  className={`p-5 rounded-2xl border-2 transition-all ${
  isDarkMode
  ? 'bg-[#111827] border-slate-700 hover:border-slate-500 shadow-[4px_4px_0px_#1E293B]'
- : 'bg-white border-[#0F0F0F] hover:border-orange-500 shadow-[4px_4px_0px_#0F0F0F]'
+ : 'bg-white border-[#0F0F0F] hover:border-zinc-600 dark:border-zinc-400 shadow-[4px_4px_0px_#0F0F0F]'
  } sketch-border-1 space-y-4`}
  >
  {/* Header Row: ID, Status, Date */}
  <div className="flex flex-wrap items-center justify-between gap-3 border-b pb-3 border-inherit/20">
  <div className="flex items-center gap-3">
- <span className="font-mono font-black text-sm px-2.5 py-1 rounded-lg bg-orange-500/10 text-orange-500 border border-orange-500/30">
+ <span className="font-mono font-black text-sm px-2.5 py-1 rounded-lg bg-zinc-500/10 text-zinc-700 dark:text-zinc-300 border border-zinc-400/30 dark:border-zinc-600/30">
  #{order.id}
  </span>
  <h3 className="font-heading font-black text-base sm:text-lg">
@@ -782,12 +782,12 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
 
  <div className="flex items-center gap-2">
  {isLive ? (
- <span className="px-3 py-1 rounded-full text-xs font-black bg-orange-500/15 text-orange-500 border border-orange-500/30 flex items-center gap-1.5">
- <span className="w-2 h-2 rounded-full bg-orange-400 animate-ping"></span>
+ <span className="px-3 py-1 rounded-full text-xs font-black bg-zinc-500/15 text-zinc-700 dark:text-zinc-300 border border-zinc-400/30 dark:border-zinc-600/30 flex items-center gap-1.5">
+ <span className="w-2 h-2 rounded-full bg-zinc-400 animate-ping"></span>
  <span>متجر مباشر وشغال </span>
  </span>
  ) : (
- <span className="px-3 py-1 rounded-full text-xs font-black bg-slate-200 dark:bg-slate-800 text-orange-400 border border-slate-700 flex items-center gap-1.5">
+ <span className="px-3 py-1 rounded-full text-xs font-black bg-slate-200 dark:bg-slate-800 text-zinc-400 border border-slate-700 flex items-center gap-1.5">
  <Clock className="w-3.5 h-3.5 animate-spin" />
  <span>بانتظار الموافقة والتفعيل </span>
  </span>
@@ -808,7 +808,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  )}`}
  target="_blank"
  rel="noreferrer"
- className="text-orange-500 font-bold flex items-center gap-1 mt-1 hover:underline"
+ className="text-zinc-700 dark:text-zinc-300 font-bold flex items-center gap-1 mt-1 hover:underline"
  >
  <MessageCircle className="w-3.5 h-3.5" />
  <span className="font-mono">{order.whatsappNumber}</span>
@@ -819,13 +819,13 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  <div>
  <span className="text-slate-400 block mb-1">الباقة والقالب المختار:</span>
  <div className="font-black text-sm">{order.planName}</div>
- <div className="text-orange-500 font-bold mt-1">{order.templateName}</div>
+ <div className="text-zinc-700 dark:text-zinc-300 font-bold mt-1">{order.templateName}</div>
  </div>
 
  {/* Payment & Amount */}
  <div>
  <span className="text-slate-400 block mb-1">طريقة الدفع والقيمة:</span>
- <div className="font-black text-base text-orange-500 font-mono">
+ <div className="font-black text-base text-zinc-700 dark:text-zinc-300 font-mono">
  {typeof order.amount === 'number' ? order.amount.toLocaleString() : order.amount} ج.م
  </div>
  <div className="font-bold opacity-80 mt-0.5">
@@ -848,7 +848,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  {order.receiptImageUrl ? (
  <button
  onClick={() => setSelectedReceiptUrl(order.receiptImageUrl || null)}
- className="flex items-center gap-2 p-1.5 rounded-xl border border-inherit/30 hover:border-orange-500 transition-all bg-inherit group text-right"
+ className="flex items-center gap-2 p-1.5 rounded-xl border border-inherit/30 hover:border-zinc-600 dark:border-zinc-400 transition-all bg-inherit group text-right"
  >
  <img
  src={order.receiptImageUrl}
@@ -856,7 +856,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  className="w-10 h-10 rounded-lg object-cover border"
  />
  <div>
- <span className="text-[11px] font-bold block group-hover:text-orange-500">
+ <span className="text-[11px] font-bold block group-hover:text-zinc-700 dark:text-zinc-300">
  معاينة السكرين
  </span>
  <span className="text-[10px] opacity-60">اضغط للتكبير </span>
@@ -869,7 +869,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  </div>
 
  {order.notes && (
- <div className="p-3 rounded-xl bg-orange-500/10 border border-slate-700 text-xs text-slate-300">
+ <div className="p-3 rounded-xl bg-zinc-500/10 border border-slate-700 text-xs text-slate-300">
  <span className="font-bold">ملاحظات العميل: </span>
  {order.notes}
  </div>
@@ -882,7 +882,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  {!isLive ? (
  <button
  onClick={() => handleApproveAndDeploy(order)}
- className="px-5 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-xs flex items-center gap-2 shadow-sm transition-transform active:scale-95"
+ className="px-5 py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-900 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 font-black text-xs flex items-center gap-2 shadow-sm transition-transform active:scale-95"
  >
  <Check className="w-4 h-4 stroke-[3]" />
  <span>الموافقة وتفعيل المتجر فوراً </span>
@@ -895,7 +895,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  playClick();
  onOpenStoreLive(order.subdomain);
  }}
- className="px-4 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-xs flex items-center gap-1.5 shadow-sm transition-transform active:scale-95"
+ className="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-900 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 font-black text-xs flex items-center gap-1.5 shadow-sm transition-transform active:scale-95"
  >
  <ExternalLink className="w-3.5 h-3.5" />
  <span>زيارة المتجر المباشر ({order.subdomain}.sketchorder.com)</span>
@@ -913,7 +913,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  : 'bg-slate-100 hover:bg-slate-200 text-slate-900 border-slate-300'
  }`}
  >
- <KeyRound className="w-3.5 h-3.5 text-orange-400" />
+ <KeyRound className="w-3.5 h-3.5 text-zinc-400" />
  <span>دخول لوحة التاجر كصاحب المتجر</span>
  </button>
  </div>
@@ -946,7 +946,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <h2 className="font-heading font-black text-xl flex items-center gap-2">
-                <Globe className="w-5 h-5 text-orange-500" />
+                <Globe className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />
                 <span>المتاجر المستقلة والدومينات الفرعية المنشأة ({Object.keys(tenantStores).length})</span>
               </h2>
               <p className="text-xs opacity-70 mt-1">
@@ -963,8 +963,8 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
                 onChange={(e) => setTenantSearchQuery(e.target.value)}
                 className={`w-full pr-10 pl-3 py-2 rounded-xl text-xs font-bold border-2 transition-all outline-none ${
                   isDarkMode
-                    ? 'bg-slate-900 border-slate-700 text-white focus:border-orange-500'
-                    : 'bg-[#FAF8F5] border-[#0F0F0F] text-[#0F0F0F] focus:border-orange-500'
+                    ? 'bg-slate-900 border-slate-700 text-white focus:border-zinc-600 dark:border-zinc-400'
+                    : 'bg-[#FAF8F5] border-[#0F0F0F] text-[#0F0F0F] focus:border-zinc-600 dark:border-zinc-400'
                 }`}
               />
             </div>
@@ -994,13 +994,13 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b-2 border-inherit pb-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-500 border border-orange-500/30 flex items-center justify-center font-heading font-black text-sm">
+                        <div className="w-10 h-10 rounded-xl bg-zinc-500/10 text-zinc-700 dark:text-zinc-300 border border-zinc-400/30 dark:border-zinc-600/30 flex items-center justify-center font-heading font-black text-sm">
                           <Store className="w-5 h-5" />
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
                             <h3 className="font-heading font-black text-base">{store.brandName}</h3>
-                            <span className="font-mono text-xs px-2 py-0.5 rounded-md bg-neutral-100 dark:bg-slate-800 text-orange-600 dark:text-orange-400 font-bold">
+                            <span className="font-mono text-xs px-2 py-0.5 rounded-md bg-neutral-100 dark:bg-slate-800 text-zinc-700 dark:text-zinc-300 font-bold">
                               {subdomain}.sketchorder.com
                             </span>
                           </div>
@@ -1013,7 +1013,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
                       <div>
                         {isActive ? (
                           <span className="px-3 py-1 sketch-border-tag border-2 border-dashed border-[#0F0F0F] dark:border-white text-xs font-black bg-neutral-100 dark:bg-slate-800 text-[#0F0F0F] dark:text-white flex items-center gap-1.5 -rotate-1">
-                            <span className="w-2 h-2 rounded-full bg-orange-500 animate-ping"></span>
+                            <span className="w-2 h-2 rounded-full bg-zinc-700 dark:bg-zinc-300 animate-ping"></span>
                             <span>شغال لايف ومفعل ✓</span>
                           </span>
                         ) : (
@@ -1038,7 +1038,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
                       </div>
                       <div className="p-2.5 rounded-xl bg-neutral-50 dark:bg-slate-900 border border-inherit">
                         <span className="opacity-60 block">إجمالي المبيعات:</span>
-                        <span className="font-mono font-black text-orange-500 mt-0.5 block">
+                        <span className="font-mono font-black text-zinc-700 dark:text-zinc-300 mt-0.5 block">
                           {(store.salesTotal || 0).toLocaleString()} ج.م
                         </span>
                       </div>
@@ -1057,7 +1057,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
                             playClick();
                             onOpenStoreLive(subdomain);
                           }}
-                          className="px-3.5 py-1.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-xs flex items-center gap-1.5 transition-transform active:scale-95 shadow-2xs"
+                          className="px-3.5 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-900 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 font-black text-xs flex items-center gap-1.5 transition-transform active:scale-95 shadow-2xs"
                         >
                           <ExternalLink className="w-3.5 h-3.5" />
                           <span>معاينة المتجر المباشر</span>
@@ -1084,7 +1084,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
                           onClick={() => handleToggleTenantStatus(subdomain)}
                           className={`px-3.5 py-1.5 rounded-xl text-xs font-black flex items-center gap-1.5 border transition-all ${
                             isActive
-                              ? 'bg-orange-500/10 hover:bg-orange-500/20 text-orange-500 border-orange-500/30'
+                              ? 'bg-zinc-500/10 hover:bg-zinc-800 dark:hover:bg-zinc-200/20 text-zinc-700 dark:text-zinc-300 border-zinc-400/30 dark:border-zinc-600/30'
                               : 'bg-slate-800 text-white border-slate-600'
                           }`}
                           title={isActive ? 'تعطيل المتجر مؤقتاً' : 'إعادة تفعيل المتجر'}
@@ -1113,7 +1113,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
                   isDarkMode ? 'border-slate-800 bg-slate-900/50' : 'border-slate-300 bg-white'
                 } space-y-3`}
               >
-                <Globe className="w-10 h-10 mx-auto opacity-30 text-orange-500" />
+                <Globe className="w-10 h-10 mx-auto opacity-30 text-zinc-700 dark:text-zinc-300" />
                 <p className="font-heading font-black text-lg">لا توجد متاجر فرعية منشأة حالياً</p>
                 <p className="text-xs opacity-60 max-w-md mx-auto">
                   عندما يقوم أي عميل بشراء متجر وتوافق على طلبه، سيظهر موقعه الفرعي ودومينه المستقل هنا فوراً لإدارته.
@@ -1159,7 +1159,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  <span>تأكد من مطابقة المبلغ ورقم العملية قبل الضغط على تفعيل</span>
  <button
  onClick={() => setSelectedReceiptUrl(null)}
- className="px-4 py-2 rounded-xl bg-orange-500 text-slate-950 font-bold hover:bg-orange-400"
+ className="px-4 py-2 rounded-xl bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 font-bold hover:bg-zinc-400"
  >
  إغلاق
  </button>

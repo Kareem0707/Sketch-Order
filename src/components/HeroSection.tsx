@@ -63,17 +63,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
  {/* 3 Core Guarantees: الدفع مرة واحدة • الضمان مدى الحياة • سرعة التواصل مع الدعم */}
  <div className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-4 px-5 py-2.5 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-pill text-xs sm:text-sm font-black sketch-shadow-sm bg-white dark:bg-[#151D2A] text-[#0F0F0F] dark:text-slate-100 -rotate-1 hover:rotate-0 transition-transform">
  <span className="flex items-center gap-1.5 text-[#0F0F0F] dark:text-slate-100">
- <CheckCircle2 className="w-4 h-4 text-orange-500 dark:text-orange-400" />
+ <CheckCircle2 className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
  <span>الدفع مرة واحدة فقط (بدون أي اشتراكات شهرية)</span>
  </span>
  <span className="text-slate-300 dark:text-slate-600 hidden sm:inline">•</span>
  <span className="flex items-center gap-1.5 text-[#0F0F0F] dark:text-slate-100">
- <ShieldCheck className="w-4 h-4 text-orange-500 dark:text-orange-400" />
+ <ShieldCheck className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
  <span>الضمان مدى الحياة لمتجرك المستقل</span>
  </span>
  <span className="text-slate-300 dark:text-slate-600 hidden sm:inline">•</span>
- <span className="flex items-center gap-1.5 text-orange-800 dark:text-orange-400">
- <Zap className="w-4 h-4 text-orange-500" />
+ <span className="flex items-center gap-1.5 text-zinc-800 dark:text-zinc-300">
+ <Zap className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
  <span>سرعة فائقة في التواصل مع الدعم</span>
  </span>
  </div>
@@ -82,11 +82,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
  <div className="relative">
  <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black font-heading tracking-tight leading-[1.2] sm:leading-[1.15] text-[#0F0F0F] dark:text-white">
  متجرك كأنه{' '}
- <span className="relative inline-block text-orange-500 dark:text-orange-400">
+ <span className="relative inline-block text-zinc-700 dark:text-zinc-300">
  مرسوم بقلمك
  {/* SVG Stroke Animation Live Wavy Underline */}
  <svg
- className="absolute -bottom-2 sm:-bottom-3 left-0 w-full h-3 sm:h-4 text-orange-500 dark:text-orange-400 overflow-visible"
+ className="absolute -bottom-2 sm:-bottom-3 left-0 w-full h-3 sm:h-4 text-zinc-700 dark:text-zinc-300 overflow-visible"
  viewBox="0 0 250 20"
  fill="none"
  >
@@ -106,7 +106,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
  {/* New User-Specified Copy with High Contrast */}
  <p className="text-lg sm:text-2xl font-bold text-[#0F0F0F]/85 dark:text-slate-200 max-w-3xl mx-auto leading-relaxed pt-2">
  حوّل فوضى رسايل الواتس وإنستجرام ومشاكل فودافون كاش وتأخير الردود لمتجر تفاعلي شيك وسريع بأسلوب{' '}
- <span className="font-comic text-xl sm:text-3xl font-black px-2 py-0.5 border-b-3 border-[#0F0F0F] dark:border-orange-500 text-orange-600 dark:text-orange-400 bg-orange-500/10 rounded-sm">
+ <span className="font-comic text-xl sm:text-3xl font-black px-2 py-0.5 border-b-3 border-[#0F0F0F] dark:border-zinc-600 dark:border-zinc-400 text-zinc-700 dark:text-zinc-300 bg-zinc-500/10 rounded-sm">
  سكتش أوردر
  </span>{' '}
  اللي يدخل قلب زبونك من أول ثانية!
@@ -134,7 +134,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               }}
               className="btn-sketch btn-sketch-secondary text-base py-3 px-6 rotate-1 shadow-md hover:shadow-lg transition-all"
             >
-              <Smartphone className="w-5 h-5 text-orange-500" />
+              <Smartphone className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />
               <span>جرب بناء وتعديل متجرك (لايف)</span>
             </button>
 
@@ -144,10 +144,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 playClick();
                 setIsVideoModalOpen(true);
               }}
-              className="btn-sketch text-sm sm:text-base py-3 px-5 border-2 border-orange-500/50 text-orange-500 flex items-center gap-2 -rotate-1"
+              className="btn-sketch text-sm sm:text-base py-3 px-5 border-2 border-zinc-600 dark:border-zinc-400/50 text-zinc-700 dark:text-zinc-300 flex items-center gap-2 -rotate-1"
               title="مشاهدة فيديو القصة الكرتونية 2D في شاشة التلفزيون"
             >
-              <Film className="w-4 h-4 text-orange-500 animate-pulse" />
+              <Film className="w-4 h-4 text-zinc-700 dark:text-zinc-300 animate-pulse" />
               <span className="font-black">شوف القصة في 30 ثانية</span>
             </button>
           </div>
@@ -159,7 +159,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
  onClick={() => triggerTransition('mess')}
  className={`px-3 py-1.5 text-xs sm:text-sm font-black transition-all ${
  viewState === 'mess'
- ? 'bg-[#0F0F0F] text-white dark:bg-orange-500 dark:text-slate-950 sketch-border-1'
+ ? 'bg-[#0F0F0F] text-white dark:bg-zinc-700 dark:bg-zinc-300 dark:text-slate-950 sketch-border-1'
  : 'hover:bg-neutral-100 dark:hover:bg-slate-800 text-[#0F0F0F] dark:text-slate-300'
  }`}
  >
@@ -171,7 +171,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
  onClick={() => triggerTransition('solution')}
  className={`px-3 py-1.5 text-xs sm:text-sm font-black transition-all ${
  viewState === 'solution'
- ? 'bg-[#0F0F0F] text-white dark:bg-orange-500 dark:text-slate-950 sketch-border-1'
+ ? 'bg-[#0F0F0F] text-white dark:bg-zinc-700 dark:bg-zinc-300 dark:text-slate-950 sketch-border-1'
  : 'hover:bg-neutral-100 dark:hover:bg-slate-800 text-[#0F0F0F] dark:text-slate-300'
  }`}
  >
@@ -228,7 +228,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
  <div className="space-y-6 animate-fadeIn">
  
  {/* Warning Notification Banner */}
- <div className="border-2 border-dashed border-[#0F0F0F] dark:border-orange-500/40 p-3.5 sketch-border-3 bg-[#FAF9F6] dark:bg-orange-500/10 text-center text-xs sm:text-sm font-bold text-[#0F0F0F] dark:text-orange-200">
+ <div className="border-2 border-dashed border-[#0F0F0F] dark:border-zinc-600/40 p-3.5 sketch-border-3 bg-[#FAF9F6] dark:bg-zinc-500/10 text-center text-xs sm:text-sm font-bold text-[#0F0F0F] dark:text-zinc-200">
  تحذير: 68% من أصحاب المتاجر في مصر بيخسروا زباينهم بسبب بطء الرد وتداخل تحويلات إنستاباي وسكرينات فودافون كاش!
  </div>
 
@@ -241,7 +241,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
  <ComicSpeechBubble className="-rotate-2">
  <div className="text-xs font-mono font-bold text-[#0F0F0F]/60 dark:text-slate-400 mb-0.5">عميل مستعجل:</div>
  <div>"يا كابتن الكوتشي دا متاح مقاس 43؟ وبكام الشحن للمهندسين؟"</div>
- <div className="text-xs font-bold text-orange-500 dark:text-orange-400 mt-1 border-t border-dashed border-[#0F0F0F] dark:border-slate-600 pt-1">
+ <div className="text-xs font-bold text-zinc-700 dark:text-zinc-300 mt-1 border-t border-dashed border-[#0F0F0F] dark:border-slate-600 pt-1">
  رد متأخر: متاح بس الشحن على حسب المندوب...
  </div>
  </ComicSpeechBubble>
@@ -249,7 +249,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
  <div className="animate-pop-in-2">
  <ComicSpeechBubble className="rotate-2" variant="scream">
- <div className="text-xs font-mono font-bold text-orange-500 dark:text-orange-400 mb-0.5">زبونة قلقانة:</div>
+ <div className="text-xs font-mono font-bold text-zinc-700 dark:text-zinc-300 mb-0.5">زبونة قلقانة:</div>
  <div>"حولت 650 جنيه فودافون كاش من الصبح ومحدش أكد الأوردر لحد دلوقتي!"</div>
  <div className="text-xs font-bold text-slate-500 dark:text-slate-400 mt-1 border-t border-dashed border-[#0F0F0F] dark:border-slate-600 pt-1">
  رد: معلش الرسايل كتير اديني نص ساعة أراجع المحفظة...
@@ -276,7 +276,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
  </div>
 
  <div className="animate-pop-in-4">
- <div className="p-3 border-2 border-[#0F0F0F] dark:border-orange-500/40 sketch-border-2 bg-neutral-100 dark:bg-orange-500/10 text-xs font-bold -rotate-1 text-center text-orange-500 dark:text-orange-300">
+ <div className="p-3 border-2 border-[#0F0F0F] dark:border-zinc-600/40 sketch-border-2 bg-neutral-100 dark:bg-zinc-500/10 text-xs font-bold -rotate-1 text-center text-zinc-700 dark:text-zinc-300 dark:text-zinc-300">
  أوردر ملغي بسبب التأخير في الرد
  </div>
  </div>
@@ -311,12 +311,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
  {/* Blueprint Header */}
  <div className="border-2 border-[#0F0F0F] dark:border-slate-700 p-3 sketch-border-2 bg-white dark:bg-[#151D2A] flex items-center justify-between text-xs sm:text-sm font-bold">
  <div className="flex items-center gap-2">
- <span className="w-5 h-5 rounded-full bg-[#0F0F0F] dark:bg-orange-500 text-white dark:text-slate-950 flex items-center justify-center text-xs">
+ <span className="w-5 h-5 rounded-full bg-[#0F0F0F] dark:bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 dark:text-slate-950 flex items-center justify-center text-xs">
  ✓
  </span>
  <span className="text-[#0F0F0F] dark:text-white">متجرك المستقل جاهز: منظم، سريع، وبيستقبل الأوردرات في ثواني!</span>
  </div>
- <span className="text-xs font-bold text-orange-400 bg-orange-500/10 border border-orange-500/30 text-orange-400 px-2.5 py-0.5 rounded-full">
+ <span className="text-xs font-bold text-zinc-400 bg-zinc-500/10 border border-zinc-400/30 dark:border-zinc-600/30 text-zinc-400 px-2.5 py-0.5 rounded-full">
  ضمان مدى الحياة
  </span>
  </div>
@@ -328,25 +328,25 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
  <div className="md:col-span-5 border-2 border-[#0F0F0F] dark:border-slate-700 p-4 sketch-border-1 bg-white dark:bg-[#151D2A] sketch-shadow-sm space-y-3">
  <div className="flex items-center justify-between border-b-2 border-[#0F0F0F] dark:border-slate-700 pb-2">
  <div className="flex items-center gap-1.5">
- <span className="w-3 h-3 rounded-full border border-[#0F0F0F] dark:border-slate-600 bg-[#0F0F0F] dark:bg-orange-400"></span>
+ <span className="w-3 h-3 rounded-full border border-[#0F0F0F] dark:border-slate-600 bg-[#0F0F0F] dark:bg-zinc-400"></span>
  <span className="w-3 h-3 rounded-full border border-[#0F0F0F] dark:border-slate-600 bg-white dark:bg-slate-700"></span>
  <span className="w-3 h-3 rounded-full border border-[#0F0F0F] dark:border-slate-600 bg-white dark:bg-slate-700"></span>
  </div>
- <span className="text-xs font-mono font-bold text-orange-500">kicks-eg.store</span>
+ <span className="text-xs font-mono font-bold text-zinc-700 dark:text-zinc-300">kicks-eg.store</span>
  </div>
 
  <div className="space-y-2">
  <div className="flex items-center justify-between p-2 border border-[#0F0F0F] dark:border-slate-700 sketch-border-pill bg-neutral-50 dark:bg-slate-900 text-xs font-bold">
  <span> المنتج: كوتشي Cloud Runner مقاس 43</span>
- <span className="font-mono text-orange-500">1,290 ج.م</span>
+ <span className="font-mono text-zinc-700 dark:text-zinc-300">1,290 ج.م</span>
  </div>
 
  <div className="flex items-center justify-between p-2 border border-[#0F0F0F] dark:border-slate-700 sketch-border-pill bg-neutral-50 dark:bg-slate-900 text-xs font-bold">
  <span> التوصيل: القاهرة - مدينة نصر</span>
- <span className="font-bold text-orange-500 dark:text-orange-400">في خلال دقايق ✓</span>
+ <span className="font-bold text-zinc-700 dark:text-zinc-300">في خلال دقايق ✓</span>
  </div>
 
- <div className="p-2 border-2 border-[#0F0F0F] dark:border-orange-500/40 sketch-border-1 bg-[#0F0F0F] dark:bg-slate-900 text-white dark:text-orange-200 text-center text-xs font-bold">
+ <div className="p-2 border-2 border-[#0F0F0F] dark:border-zinc-600/40 sketch-border-1 bg-[#0F0F0F] dark:bg-slate-900 text-white dark:text-zinc-200 text-center text-xs font-bold">
  ✓ تم تحويل الأوردر بفاتورته ورابط اللوكيشن تلقائياً للواتساب
  </div>
  </div>
@@ -376,22 +376,22 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
  
  <path
  d="M 15 82 L 40 70 L 65 75 L 90 48 L 115 54 L 145 18"
- stroke="#F97316"
+ stroke="#52525B"
  strokeWidth="3.2"
  strokeLinecap="round"
  strokeLinejoin="round"
  />
- <path d="M 132 18 L 145 18 L 145 32" stroke="#F97316" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+ <path d="M 132 18 L 145 18 L 145 32" stroke="#52525B" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
  
- <circle cx="15" cy="82" r="3" fill="#F97316" />
- <circle cx="40" cy="70" r="3" fill="#F97316" />
- <circle cx="65" cy="75" r="3" fill="#F97316" />
- <circle cx="90" cy="48" r="3" fill="#F97316" />
- <circle cx="115" cy="54" r="3" fill="#F97316" />
- <circle cx="145" cy="18" r="4" fill="#F97316" />
+ <circle cx="15" cy="82" r="3" fill="#52525B" />
+ <circle cx="40" cy="70" r="3" fill="#52525B" />
+ <circle cx="65" cy="75" r="3" fill="#52525B" />
+ <circle cx="90" cy="48" r="3" fill="#52525B" />
+ <circle cx="115" cy="54" r="3" fill="#52525B" />
+ <circle cx="145" cy="18" r="4" fill="#52525B" />
  </svg>
 
- <div className="text-xl font-black font-heading leading-none text-orange-500 dark:text-orange-400">
+ <div className="text-xl font-black font-heading leading-none text-zinc-700 dark:text-zinc-300">
  +320% مبيعات
  </div>
  <div className="text-[10px] font-bold text-[#0F0F0F]/70 dark:text-slate-400">
@@ -411,7 +411,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
  }}
  className="btn-sketch btn-sketch-primary text-base py-3 px-6 -rotate-1"
  >
- <Hammer className="w-5 h-5 text-orange-400 dark:text-slate-950" />
+ <Hammer className="w-5 h-5 text-zinc-400 dark:text-slate-950" />
  <span>ابنِ متجرك وجربه في الاستوديو</span>
  </button>
 
@@ -457,7 +457,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
  {/* ======================================================== */}
  <div className="pt-4 border-t-2 border-[#0F0F0F]/10 dark:border-slate-800">
  <div className="text-center mb-6">
- <span className="inline-block text-xs sm:text-sm font-black text-slate-800 dark:text-slate-200 bg-orange-500/10 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 px-4 py-1.5 sketch-border-pill">
+ <span className="inline-block text-xs sm:text-sm font-black text-slate-800 dark:text-slate-200 bg-zinc-500/10 dark:bg-zinc-500/20 text-zinc-700 dark:text-zinc-300 px-4 py-1.5 sketch-border-pill">
  موثوق ومعتمد من +140 متجر وبراند مصري نشط يعملون بنظام سكتش أوردر
  </span>
  </div>
@@ -483,7 +483,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
  key={idx}
  className="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl border border-[#0F0F0F]/15 dark:border-slate-700 bg-white dark:bg-[#151D2A] shadow-2xs hover:scale-105 transition-transform"
  >
- <span className="w-2 h-2 rounded-full bg-orange-500"></span>
+ <span className="w-2 h-2 rounded-full bg-zinc-700 dark:bg-zinc-300"></span>
  <span className="font-heading">{b.name}</span>
  <span className="text-[10px] text-slate-400 font-mono">({b.cat})</span>
  </div>
@@ -494,19 +494,19 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
  {/* Key Metrics Counters */}
  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 text-center">
  <div className="p-3 border border-[#0F0F0F]/15 dark:border-slate-800 rounded-2xl bg-white dark:bg-[#151D2A]">
- <div className="text-2xl sm:text-3xl font-black font-mono text-orange-500">+24,500</div>
+ <div className="text-2xl sm:text-3xl font-black font-mono text-zinc-700 dark:text-zinc-300">+24,500</div>
  <div className="text-xs font-bold text-slate-600 dark:text-slate-400 mt-0.5">أوردر تم تنفيذه تلقائياً</div>
  </div>
  <div className="p-3 border border-[#0F0F0F]/15 dark:border-slate-800 rounded-2xl bg-white dark:bg-[#151D2A]">
- <div className="text-2xl sm:text-3xl font-black font-mono text-orange-500">0%</div>
+ <div className="text-2xl sm:text-3xl font-black font-mono text-zinc-700 dark:text-zinc-300">0%</div>
  <div className="text-xs font-bold text-slate-600 dark:text-slate-400 mt-0.5">عمولات على أرباح مبيعاتك</div>
  </div>
  <div className="p-3 border border-[#0F0F0F]/15 dark:border-slate-800 rounded-2xl bg-white dark:bg-[#151D2A]">
- <div className="text-2xl sm:text-3xl font-black font-mono text-orange-500">100%</div>
+ <div className="text-2xl sm:text-3xl font-black font-mono text-zinc-700 dark:text-zinc-300">100%</div>
  <div className="text-xs font-bold text-slate-600 dark:text-slate-400 mt-0.5">ملكية كاملة برابط ودومين خاص</div>
  </div>
  <div className="p-3 border border-[#0F0F0F]/15 dark:border-slate-800 rounded-2xl bg-white dark:bg-[#151D2A]">
- <div className="text-2xl sm:text-3xl font-black font-mono text-orange-500">24 ساعة</div>
+ <div className="text-2xl sm:text-3xl font-black font-mono text-zinc-700 dark:text-zinc-300">24 ساعة</div>
  <div className="text-xs font-bold text-slate-600 dark:text-slate-400 mt-0.5">تسليم المتجر وبدء البيع فوراً</div>
  </div>
  </div>
@@ -519,13 +519,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
  {/* ======================================================== */}
  {isVideoModalOpen && (
  <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
- <div className="relative max-w-2xl w-full bg-[#18181B] border-4 border-orange-500/80 rounded-[36px] p-6 text-white shadow-[0_0_50px_rgba(245,158,11,0.25)] space-y-4">
+ <div className="relative max-w-2xl w-full bg-[#18181B] border-4 border-zinc-600 dark:border-zinc-400/80 rounded-[36px] p-6 text-white shadow-[0_0_50px_rgba(245,158,11,0.25)] space-y-4">
  
  {/* TV Frame Top Bar with Knobs & Antenna */}
  <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
  <div className="flex items-center gap-2">
  <div className="w-3 h-3 rounded-full bg-red-500 animate-ping"></div>
- <h3 className="font-heading font-black text-base text-orange-400">
+ <h3 className="font-heading font-black text-base text-zinc-400">
  سكتش تي في • قصة الستيك مان في 30 ثانية
  </h3>
  </div>
@@ -536,7 +536,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
  className="p-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300"
  title="كتم / تشغيل الصوت"
  >
- {videoAudio ? <Volume2 className="w-4 h-4 text-orange-400" /> : <VolumeX className="w-4 h-4" />}
+ {videoAudio ? <Volume2 className="w-4 h-4 text-zinc-400" /> : <VolumeX className="w-4 h-4" />}
  </button>
  <button
  onClick={() => {
@@ -563,8 +563,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
  <StickmanDoodle size={100} />
  </div>
 
- <div className="bg-black/70 backdrop-blur-xs border border-orange-500/30 p-4 rounded-2xl shadow-lg space-y-2">
- <span className="text-[10px] font-mono font-bold text-orange-400 uppercase tracking-widest block">
+ <div className="bg-black/70 backdrop-blur-xs border border-zinc-400/30 dark:border-zinc-600/30 p-4 rounded-2xl shadow-lg space-y-2">
+ <span className="text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-widest block">
  2D ANIMATION STORYLINE
  </span>
  <h4 className="text-lg sm:text-xl font-heading font-black text-white">
@@ -584,7 +584,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
  }}
  className="btn-sketch btn-sketch-primary text-xs py-2 px-5"
  >
- <Hammer className="w-4 h-4 text-orange-400" />
+ <Hammer className="w-4 h-4 text-zinc-400" />
  <span>ادخل الاستوديو وجرب بنفسك لايف</span>
  </button>
  </div>
@@ -599,7 +599,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
  {/* TV Bottom Speaker Grille & Controls */}
  <div className="flex items-center justify-between px-2 text-xs text-zinc-400">
  <span className="font-mono text-[11px]">HD 1080p • 2D VECTOR ANIMATION READY</span>
- <div className="flex items-center gap-1 text-[11px] font-bold text-orange-400">
+ <div className="flex items-center gap-1 text-[11px] font-bold text-zinc-400">
  <span>تكتكة زرار الموبايل شغالة ✓</span>
  </div>
  </div>

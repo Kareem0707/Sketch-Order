@@ -79,17 +79,17 @@ export const PricingPackages: React.FC<PricingPackagesProps> = ({ onSelectPlan }
  {/* Guarantees Tag */}
  <div className="inline-flex flex-wrap items-center justify-center gap-3 px-4 py-1.5 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-pill text-xs font-black mb-4 bg-[#FAF9F6] dark:bg-[#151D2A] text-[#0F0F0F] dark:text-slate-100 -rotate-1">
  <span className="flex items-center gap-1 text-[#0F0F0F] dark:text-slate-100">
- <CheckCircle2 className="w-3.5 h-3.5 text-orange-500 dark:text-orange-400" />
+ <CheckCircle2 className="w-3.5 h-3.5 text-zinc-700 dark:text-zinc-300" />
  <span>دفع مرة واحدة فقط</span>
  </span>
  <span className="text-slate-300 dark:text-slate-600">•</span>
  <span className="flex items-center gap-1 text-[#0F0F0F] dark:text-slate-100">
- <ShieldCheck className="w-3.5 h-3.5 text-orange-500 dark:text-orange-400" />
+ <ShieldCheck className="w-3.5 h-3.5 text-zinc-700 dark:text-zinc-300" />
  <span>الضمان مدى الحياة</span>
  </span>
  <span className="text-slate-300 dark:text-slate-600">•</span>
- <span className="flex items-center gap-1 text-orange-800 dark:text-orange-400">
- <Zap className="w-3.5 h-3.5 text-orange-500" />
+ <span className="flex items-center gap-1 text-zinc-800 dark:text-zinc-300">
+ <Zap className="w-3.5 h-3.5 text-zinc-700 dark:text-zinc-300" />
  <span>سرعة التواصل مع الدعم</span>
  </span>
  </div>
@@ -114,7 +114,7 @@ export const PricingPackages: React.FC<PricingPackagesProps> = ({ onSelectPlan }
  key={plan.id}
  className={`relative border-3 p-6 sm:p-7 flex flex-col justify-between transition-all ${
  isPro
- ? 'border-[#0F0F0F] dark:border-orange-500 bg-white dark:bg-[#1E293B] text-[#0F0F0F] dark:text-white sketch-border-1 sketch-shadow-xl scale-100 lg:-translate-y-2 ring-2 ring-[#0F0F0F] dark:ring-orange-500/40'
+ ? 'border-[#0F0F0F] dark:border-zinc-600 dark:border-zinc-400 bg-white dark:bg-[#1E293B] text-[#0F0F0F] dark:text-white sketch-border-1 sketch-shadow-xl scale-100 lg:-translate-y-2 ring-2 ring-[#0F0F0F] dark:ring-zinc-600/40'
  : isCustom
  ? 'border-[#0F0F0F] dark:border-slate-700 bg-[#FAF9F6] dark:bg-[#151D2A] text-[#0F0F0F] dark:text-white sketch-border-2 sketch-shadow-lg'
  : 'border-[#0F0F0F]/70 dark:border-slate-700 bg-white dark:bg-[#151D2A] text-[#0F0F0F] dark:text-white sketch-border-3 sketch-shadow-sm hover:border-[#0F0F0F] dark:hover:border-slate-500'
@@ -122,7 +122,7 @@ export const PricingPackages: React.FC<PricingPackagesProps> = ({ onSelectPlan }
  >
  {/* Popular / VIP Badge */}
  {plan.badge && (
- <div className="absolute -top-3.5 right-6 bg-[#0F0F0F] dark:bg-orange-500 text-white dark:text-slate-950 text-xs font-black px-3 py-1 sketch-border-pill -rotate-2 shadow-xs">
+ <div className="absolute -top-3.5 right-6 bg-[#0F0F0F] dark:bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 dark:text-slate-950 text-xs font-black px-3 py-1 sketch-border-pill -rotate-2 shadow-xs">
  {plan.badge}
  </div>
  )}
@@ -141,7 +141,7 @@ export const PricingPackages: React.FC<PricingPackagesProps> = ({ onSelectPlan }
  <div className="mt-3 flex items-baseline gap-1">
  {typeof plan.price === 'number' ? (
  <>
- <span className={`text-4xl font-black font-mono tracking-tight ${isPro ? 'text-orange-500' : 'text-[#0F0F0F] dark:text-white'}`}>
+ <span className={`text-4xl font-black font-mono tracking-tight ${isPro ? 'text-zinc-700 dark:text-zinc-300' : 'text-[#0F0F0F] dark:text-white'}`}>
  {plan.price.toLocaleString()}
  </span>
  <span className="text-sm font-bold text-[#0F0F0F]/80 dark:text-slate-300">
@@ -150,7 +150,7 @@ export const PricingPackages: React.FC<PricingPackagesProps> = ({ onSelectPlan }
  </>
  ) : (
  <div className="space-y-0.5">
- <span className="text-2xl font-black font-heading text-orange-500">
+ <span className="text-2xl font-black font-heading text-zinc-700 dark:text-zinc-300">
  سعر مخصص حسب المطلوب
  </span>
  <span className="block text-[11px] font-bold text-[#0F0F0F]/65 dark:text-slate-400">
@@ -168,19 +168,19 @@ export const PricingPackages: React.FC<PricingPackagesProps> = ({ onSelectPlan }
  {/* Feature Icons Highlights */}
  <div className="py-2 mb-3 grid grid-cols-2 gap-2 text-[11px] font-bold text-[#0F0F0F]/80 dark:text-slate-300">
  <div className="flex items-center gap-1.5 p-1.5 border border-dashed border-[#0F0F0F] dark:border-slate-700 sketch-border-tag bg-neutral-50 dark:bg-slate-900/60">
- <Database className="w-3.5 h-3.5 text-orange-500" />
+ <Database className="w-3.5 h-3.5 text-zinc-700 dark:text-zinc-300" />
  <span>داتابيز للطلبات</span>
  </div>
 
  <div className="flex items-center gap-1.5 p-1.5 border border-dashed border-[#0F0F0F] dark:border-slate-700 sketch-border-tag bg-neutral-50 dark:bg-slate-900/60">
  {isCustom ? (
  <>
- <Box className="w-3.5 h-3.5 text-orange-500" />
+ <Box className="w-3.5 h-3.5 text-zinc-700 dark:text-zinc-300" />
  <span>3D تفاعلي مخصص</span>
  </>
  ) : (
  <>
- <BarChart3 className="w-3.5 h-3.5 text-orange-500" />
+ <BarChart3 className="w-3.5 h-3.5 text-zinc-700 dark:text-zinc-300" />
  <span>{isPro ? 'سيستم الأرباح' : 'لوحة تحكم'}</span>
  </>
  )}
@@ -191,7 +191,7 @@ export const PricingPackages: React.FC<PricingPackagesProps> = ({ onSelectPlan }
  <ul className="space-y-2.5 my-4 text-xs font-bold text-[#0F0F0F]/90 dark:text-slate-200">
  {plan.features.map((feat, i) => (
  <li key={i} className="flex items-start gap-2">
- <span className="w-4 h-4 rounded-full border border-[#0F0F0F] dark:border-orange-500 bg-[#0F0F0F] dark:bg-orange-500 text-white dark:text-slate-950 flex items-center justify-center shrink-0 mt-0.5 text-[10px] font-black">
+ <span className="w-4 h-4 rounded-full border border-[#0F0F0F] dark:border-zinc-600 dark:border-zinc-400 bg-[#0F0F0F] dark:bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 dark:text-slate-950 flex items-center justify-center shrink-0 mt-0.5 text-[10px] font-black">
  ✓
  </span>
  <span className="leading-snug">{feat}</span>

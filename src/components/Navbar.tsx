@@ -106,7 +106,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 playClick();
                 if (onOpenTemplates) onOpenTemplates();
               }}
-              className="font-black px-4 py-2 border-2 border-orange-500 sketch-border-tag bg-orange-500/10 hover:bg-orange-500 text-orange-500 hover:text-slate-950 transition-all flex items-center gap-1.5 sketch-shadow-sm -rotate-1 active:scale-95"
+              className="font-black px-4 py-2 border-2 border-zinc-600 dark:border-zinc-400 sketch-border-tag bg-zinc-500/10 hover:bg-zinc-800 dark:hover:bg-zinc-200 text-zinc-700 dark:text-zinc-300 hover:text-slate-950 transition-all flex items-center gap-1.5 sketch-shadow-sm -rotate-1 active:scale-95"
               title="تصفح جميع قوالب المتاجر في صفحة كاملة"
             >
               <Grid className="w-4 h-4" />
@@ -115,28 +115,28 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <button
               onClick={() => handleNavClick('story-chaos')}
-              className="hover:underline underline-offset-4 transition-all text-slate-700 dark:text-slate-200 hover:text-orange-500 dark:hover:text-orange-400"
+              className="hover:underline underline-offset-4 transition-all text-slate-700 dark:text-slate-200 hover:text-zinc-700 dark:text-zinc-300 dark:hover:text-zinc-400"
             >
               قبل وبعد
             </button>
 
             <button
               onClick={() => handleNavClick('split-simulator')}
-              className="hover:underline underline-offset-4 transition-all text-slate-700 dark:text-slate-200 hover:text-orange-500 dark:hover:text-orange-400"
+              className="hover:underline underline-offset-4 transition-all text-slate-700 dark:text-slate-200 hover:text-zinc-700 dark:text-zinc-300 dark:hover:text-zinc-400"
             >
               المقارنة الحية
             </button>
 
             <button
               onClick={() => handleNavClick('pricing-plans')}
-              className="font-black hover:underline underline-offset-4 transition-all text-orange-500 dark:text-orange-400"
+              className="font-black hover:underline underline-offset-4 transition-all text-zinc-700 dark:text-zinc-300"
             >
               الباقات والأسعار
             </button>
 
             <button
               onClick={() => handleNavClick('store-playground')}
-              className="hover:underline underline-offset-4 transition-all text-slate-700 dark:text-slate-200 hover:text-orange-500 dark:hover:text-orange-400"
+              className="hover:underline underline-offset-4 transition-all text-slate-700 dark:text-slate-200 hover:text-zinc-700 dark:text-zinc-300 dark:hover:text-zinc-400"
             >
               المتجر التجريبي
             </button>
@@ -153,17 +153,17 @@ export const Navbar: React.FC<NavbarProps> = ({
               }}
               className={`relative p-2 sm:px-3 sm:py-1.5 border-2 sketch-border-2 flex items-center gap-1.5 text-xs font-black transition-all ${
                 isDarkMode
-                  ? 'border-slate-700 bg-slate-900 text-slate-200 hover:border-orange-500 hover:text-orange-400'
+                  ? 'border-slate-700 bg-slate-900 text-slate-200 hover:border-zinc-600 dark:border-zinc-400 hover:text-zinc-400'
                   : 'border-[#0F0F0F] bg-white text-[#0F0F0F] hover:bg-neutral-50 sketch-shadow-sm'
               }`}
               title="بوابة التاجر - لوحة تحكم المتجر"
             >
-              <Store className="w-4 h-4 text-orange-500" />
+              <Store className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
               <span className="hidden md:inline">بوابة التاجر</span>
               {hasActiveMerchantStore && (
                 <span className="absolute -top-1 -right-1 flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-700 dark:bg-zinc-300"></span>
                 </span>
               )}
             </button>
@@ -176,13 +176,13 @@ export const Navbar: React.FC<NavbarProps> = ({
               }}
               className={`p-2 border-2 sketch-border-circle flex items-center justify-center transition-all ${
                 isDarkMode
-                  ? 'border-slate-700 bg-slate-900 text-slate-300 hover:border-orange-500 hover:text-orange-400'
+                  ? 'border-slate-700 bg-slate-900 text-slate-300 hover:border-zinc-600 dark:border-zinc-400 hover:text-zinc-400'
                   : 'border-[#0F0F0F] bg-white text-[#0F0F0F] hover:bg-neutral-50 sketch-shadow-sm'
               }`}
               title="لوحة تحكم المنصة والطلبات"
               aria-label="لوحة تحكم المنصة"
             >
-              <ShieldCheck className="w-4 h-4 text-orange-500" />
+              <ShieldCheck className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
             </button>
 
             {/* Sketch-Styled Theme Toggle Button */}
@@ -193,13 +193,13 @@ export const Navbar: React.FC<NavbarProps> = ({
               }}
               className={`p-2 border-2 sketch-border-circle flex items-center justify-center transition-all hover:rotate-12 ${
                 isDarkMode
-                  ? 'border-orange-500/60 bg-slate-900 text-orange-400 hover:bg-slate-800'
+                  ? 'border-zinc-600 dark:border-zinc-400/60 bg-slate-900 text-zinc-400 hover:bg-slate-800'
                   : 'border-[#0F0F0F] bg-white text-[#0F0F0F] hover:bg-neutral-50 sketch-shadow-sm'
               }`}
               title={isDarkMode ? 'التبديل للوضع النهاري' : 'التبديل للوضع الليلي'}
               aria-label="تبديل الثيم"
             >
-              {isDarkMode ? <Sun className="w-4 h-4 text-orange-400" /> : <Moon className="w-4 h-4 text-[#0F0F0F]" />}
+              {isDarkMode ? <Sun className="w-4 h-4 text-zinc-400" /> : <Moon className="w-4 h-4 text-[#0F0F0F]" />}
             </button>
 
             {/* Sound FX Toggle Button */}
@@ -208,14 +208,14 @@ export const Navbar: React.FC<NavbarProps> = ({
               title={soundOn ? 'المؤثرات الصوتية مفعلة (اضغط للكتم)' : 'المؤثرات الصوتية مكتومة (اضغط للتفعيل)'}
               className={`hidden sm:flex items-center justify-center p-2 border-2 sketch-border-circle transition-all ${
                 soundOn
-                  ? 'border-orange-500/50 text-orange-500 bg-orange-500/10'
+                  ? 'border-zinc-600 dark:border-zinc-400/50 text-zinc-700 dark:text-zinc-300 bg-zinc-500/10'
                   : isDarkMode
                   ? 'border-slate-700 text-slate-500 hover:text-slate-300'
                   : 'border-[#0F0F0F]/30 text-slate-400 hover:text-slate-600'
               }`}
               aria-label="المؤثرات الصوتية"
             >
-              {soundOn ? <Volume2 className="w-4 h-4 text-orange-500" /> : <VolumeX className="w-4 h-4" />}
+              {soundOn ? <Volume2 className="w-4 h-4 text-zinc-700 dark:text-zinc-300" /> : <VolumeX className="w-4 h-4" />}
             </button>
 
             {/* Main Order CTA Button */}
@@ -260,7 +260,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 setMobileMenuOpen(false);
                 onOpenTemplates();
               }}
-              className="w-full text-right p-3 text-xs font-black bg-orange-500 text-slate-950 flex items-center justify-between rounded-xl shadow-sm"
+              className="w-full text-right p-3 text-xs font-black bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 flex items-center justify-between rounded-xl shadow-sm"
             >
               <span className="flex items-center gap-2">
                 <Grid className="w-4 h-4" />
@@ -278,10 +278,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="w-full text-right p-2.5 text-xs font-black bg-slate-800 text-slate-200 border border-slate-700 rounded-xl flex items-center justify-between"
             >
               <span className="flex items-center gap-2">
-                <Store className="w-4 h-4 text-orange-400" />
+                <Store className="w-4 h-4 text-zinc-400" />
                 <span>بوابة التاجر (لوحة تحكم المتجر)</span>
               </span>
-              <span className="text-[10px] bg-orange-500 text-slate-950 px-2 py-0.5 rounded-full font-bold">نشط</span>
+              <span className="text-[10px] bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 px-2 py-0.5 rounded-full font-bold">نشط</span>
             </button>
 
             <button
@@ -293,7 +293,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="w-full text-right p-2.5 text-xs font-black bg-slate-800 text-slate-200 border border-slate-700 rounded-xl flex items-center justify-between"
             >
               <span className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-orange-400" />
+                <ShieldCheck className="w-4 h-4 text-zinc-400" />
                 <span>لوحة تحكم المنصة والطلبات</span>
               </span>
             </button>
@@ -313,7 +313,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               </button>
               <button
                 onClick={() => handleNavClick('pricing-plans')}
-                className="w-full text-right p-2 text-xs font-black text-orange-500 hover:bg-neutral-500/10 rounded-lg"
+                className="w-full text-right p-2 text-xs font-black text-zinc-700 dark:text-zinc-300 hover:bg-neutral-500/10 rounded-lg"
               >
                 الباقات والأسعار الرسمية
               </button>

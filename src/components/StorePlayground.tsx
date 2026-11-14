@@ -121,18 +121,18 @@ export const StorePlayground: React.FC = () => {
  {/* Device Header Bar */}
  <div className="flex items-center justify-between px-4 sm:px-6 py-3 border-b-2 sm:border-b-3 border-[#0F0F0F] dark:border-slate-700 bg-neutral-50 dark:bg-slate-900">
  <div className="flex items-center gap-2">
- <span className="w-3.5 h-3.5 rounded-full border-2 border-[#0F0F0F] dark:border-slate-600 bg-[#0F0F0F] dark:bg-orange-500"></span>
+ <span className="w-3.5 h-3.5 rounded-full border-2 border-[#0F0F0F] dark:border-slate-600 bg-[#0F0F0F] dark:bg-zinc-700 dark:bg-zinc-300"></span>
  <span className="w-3.5 h-3.5 rounded-full border-2 border-[#0F0F0F] dark:border-slate-600 bg-white dark:bg-slate-700"></span>
  <span className="w-3.5 h-3.5 rounded-full border-2 border-[#0F0F0F] dark:border-slate-600 bg-white dark:bg-slate-700"></span>
  </div>
 
- <div className="border-2 border-[#0F0F0F] dark:border-slate-700 px-4 py-1 sketch-border-pill bg-white dark:bg-slate-800 text-xs font-mono font-bold text-[#0F0F0F] dark:text-orange-400">
+ <div className="border-2 border-[#0F0F0F] dark:border-slate-700 px-4 py-1 sketch-border-pill bg-white dark:bg-slate-800 text-xs font-mono font-bold text-[#0F0F0F] dark:text-zinc-400">
  https://demo.sketch-order.store/shop
  </div>
 
  <div className="flex items-center gap-2 font-mono text-xs font-bold text-[#0F0F0F] dark:text-slate-300">
  <span className="hidden sm:inline">LIVE SIMULATION • مصر</span>
- <span className="w-2.5 h-2.5 rounded-full bg-orange-500 animate-pulse"></span>
+ <span className="w-2.5 h-2.5 rounded-full bg-zinc-700 dark:bg-zinc-300 animate-pulse"></span>
  </div>
  </div>
 
@@ -207,7 +207,7 @@ export const StorePlayground: React.FC = () => {
  </div>
 
  {/* Tag & Title */}
- <span className="inline-block text-[10px] font-bold border border-[#0F0F0F] dark:border-slate-700 px-2 py-0.5 sketch-border-pill mb-1 text-orange-500">
+ <span className="inline-block text-[10px] font-bold border border-[#0F0F0F] dark:border-slate-700 px-2 py-0.5 sketch-border-pill mb-1 text-zinc-700 dark:text-zinc-300">
  {prod.tag}
  </span>
 
@@ -221,7 +221,7 @@ export const StorePlayground: React.FC = () => {
  </div>
 
  <div className="flex items-center justify-between border-t border-[#0F0F0F] dark:border-slate-700 pt-3">
- <span className="text-lg font-black font-mono text-orange-500">
+ <span className="text-lg font-black font-mono text-zinc-700 dark:text-zinc-300">
  {prod.price} <span className="text-xs">ج.م</span>
  </span>
 
@@ -245,12 +245,12 @@ export const StorePlayground: React.FC = () => {
  <div>
  <div className="flex items-center justify-between border-b-2 border-[#0F0F0F] dark:border-slate-700 pb-3 mb-4">
  <div className="flex items-center gap-2">
- <ShoppingCart className="w-5 h-5 text-orange-500" />
+ <ShoppingCart className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />
  <h3 className="text-lg font-black font-heading text-[#0F0F0F] dark:text-white">
  سلة التسوق ({totalItemsCount})
  </h3>
  </div>
- <span className="text-xs font-mono font-bold bg-[#0F0F0F] dark:bg-orange-500 text-white dark:text-slate-950 px-2 py-0.5 sketch-border-pill">
+ <span className="text-xs font-mono font-bold bg-[#0F0F0F] dark:bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 dark:text-slate-950 px-2 py-0.5 sketch-border-pill">
  INSTANT CART
  </span>
  </div>
@@ -269,7 +269,7 @@ export const StorePlayground: React.FC = () => {
  >
  <div className="flex-1 min-w-0">
  <div className="text-xs font-black truncate text-[#0F0F0F] dark:text-white">{item.name}</div>
- <div className="text-xs font-mono font-bold text-orange-500">
+ <div className="text-xs font-mono font-bold text-zinc-700 dark:text-zinc-300">
  {item.price * item.quantity} ج.م
  </div>
  </div>
@@ -313,14 +313,14 @@ export const StorePlayground: React.FC = () => {
 
  <div className="flex justify-between items-center text-sm font-bold">
  <span className="opacity-70">الشحن (القاهرة والجيزة):</span>
- <span className="font-mono font-black text-xs bg-white dark:bg-slate-800 border border-[#0F0F0F] dark:border-slate-700 px-1.5 py-0.5 sketch-border-pill text-orange-500">
+ <span className="font-mono font-black text-xs bg-white dark:bg-slate-800 border border-[#0F0F0F] dark:border-slate-700 px-1.5 py-0.5 sketch-border-pill text-zinc-700 dark:text-zinc-300">
  مجاني (عرض تجريبي)
  </span>
  </div>
 
  <div className="flex justify-between items-baseline text-lg font-black font-heading border-t border-dashed border-[#0F0F0F] dark:border-slate-700 pt-2">
  <span>الإجمالي:</span>
- <span className="font-mono text-2xl text-orange-500">{cartTotal} ج.م</span>
+ <span className="font-mono text-2xl text-zinc-700 dark:text-zinc-300">{cartTotal} ج.م</span>
  </div>
 
  <button
@@ -351,7 +351,7 @@ export const StorePlayground: React.FC = () => {
  <div className="relative max-w-md w-full bg-white dark:bg-[#111827] border-3 border-[#0F0F0F] dark:border-slate-600 sketch-border-1 p-6 sm:p-8 sketch-shadow-xl text-[#0F0F0F] dark:text-white">
  
  <div className="text-center border-b-2 border-dashed border-[#0F0F0F] dark:border-slate-700 pb-4 mb-4">
- <div className="w-10 h-10 border-2 border-[#0F0F0F] dark:border-orange-500 sketch-border-circle mx-auto mb-2 flex items-center justify-center font-bold text-lg text-orange-500 bg-white dark:bg-slate-800">
+ <div className="w-10 h-10 border-2 border-[#0F0F0F] dark:border-zinc-600 dark:border-zinc-400 sketch-border-circle mx-auto mb-2 flex items-center justify-center font-bold text-lg text-zinc-700 dark:text-zinc-300 bg-white dark:bg-slate-800">
  ✓
  </div>
  <h3 className="text-2xl font-black font-heading">
@@ -400,7 +400,7 @@ export const StorePlayground: React.FC = () => {
 
  <div className="flex justify-between text-base font-black font-heading pt-1">
  <span>المبلغ الإجمالي:</span>
- <span className="font-mono text-xl text-orange-500">{cartTotal} ج.م</span>
+ <span className="font-mono text-xl text-zinc-700 dark:text-zinc-300">{cartTotal} ج.م</span>
  </div>
  </div>
 
@@ -421,7 +421,7 @@ export const StorePlayground: React.FC = () => {
  </span>
  </div>
 
- <div className="border-2 border-[#0F0F0F] dark:border-orange-500/50 p-2 sketch-border-2 text-center text-xs font-black -rotate-3 bg-neutral-100 dark:bg-orange-500/10 text-[#0F0F0F] dark:text-orange-400">
+ <div className="border-2 border-[#0F0F0F] dark:border-zinc-600 dark:border-zinc-400/50 p-2 sketch-border-2 text-center text-xs font-black -rotate-3 bg-neutral-100 dark:bg-zinc-500/10 text-[#0F0F0F] dark:text-zinc-400">
  STAMP: معتمد لدى إدارة الشحن والمبيعات بمصر ✓
  </div>
 
