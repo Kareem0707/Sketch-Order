@@ -1,3 +1,4 @@
+import mascotScarfImg from '../assets/sketch-mascot-scarf.png';
 import { CtrlYzStorefront, CTRL_YZ_ALL_PRODUCTS } from './templates/CtrlYzStorefront';
 import React, { useState } from 'react';
 import {
@@ -44,7 +45,7 @@ import type {
  CartItem,
  CustomStoreConfig,
 } from '../types';
-import { playClick, playPencilScratch, playPaperFlip } from '../utils/soundEffects';
+import { playClick, playPencilScratch, playPaperFlip, playCashSound } from '../utils/soundEffects';
 import brushLogoWhite from '../assets/sketch-brush-logo-white.png';
 
 interface FullPageStoreStudioProps {
@@ -718,6 +719,45 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  const [newProdBadge, setNewProdBadge] = useState('خصم 20%');
  const [newProdImageUrl, setNewProdImageUrl] = useState('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&auto=format&fit=crop&q=80');
  const [newCategoryName, setNewCategoryName] = useState('');
+  const [selectedFont, setSelectedFont] = useState<'marhey' | 'cairo' | 'alex' | 'tajawal'>('marhey');
+  const [quickProdName, setQuickProdName] = useState('');
+  const [quickProdPrice, setQuickProdPrice] = useState(500);
+
+  const handleToggleSection = (key: keyof CustomStoreConfig['sections']) => {
+    playClick();
+    setStoreConfig((prev) => ({
+      ...prev,
+      sections: {
+        ...prev.sections,
+        [key]: !prev.sections[key],
+      },
+    }));
+  };
+
+  const handleQuickAddProduct = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!quickProdName.trim()) return;
+    playCashSound();
+    const newP: CustomProduct = {
+      id: `quick-${Date.now()}`,
+      name: quickProdName.trim(),
+      price: Number(quickProdPrice) || 500,
+      originalPrice: (Number(quickProdPrice) || 500) + 150,
+      costPrice: (Number(quickProdPrice) || 500) * 0.5,
+      category: storeConfig.categories[0] || 'الكل',
+      badge: 'جديد ⚡',
+      imageUrl: storeConfig.products[0]?.imageUrl || '/assets/products/ctrl-yz/product-39.jpeg',
+      rating: 5.0,
+      reviewsCount: 1,
+      sizes: ['M', 'L', 'XL'],
+      description: 'منتج مضاف حديثاً عبر لوحة استوديو سكتش أوردر الحية.',
+    };
+    setStoreConfig((prev) => ({
+      ...prev,
+      products: [newP, ...prev.products],
+    }));
+    setQuickProdName('');
+  };
  const [simulatedPlan, setSimulatedPlan] = useState<'standard' | 'pro' | 'custom'>('pro');
 
  // Change Template Handler
@@ -1155,29 +1195,40 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
     {/* RIGHT PANEL: Visual Brand & Design Studio (Sidebar) */}
     {/* ======================================================== */}
     {!isFullScreenStorefront && (
-      <aside className="hidden xl:flex w-80 2xl:w-88 flex-col bg-slate-950/95 border-l border-slate-800/80 overflow-y-auto p-4 space-y-5 text-xs text-slate-300 select-none z-20 shrink-0 shadow-2xl">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-          <div className="flex items-center gap-2">
-            <Sliders className="w-4 h-4 text-[#D9722B]" />
-            <h3 className="font-heading font-black text-sm text-white">استوديو التصميم والهوية</h3>
+      <aside className="hidden xl:flex w-84 2xl:w-92 flex-col bg-[#0F1420] text-slate-100 border-l-2 border-slate-700/80 overflow-y-auto p-4 space-y-4 text-xs select-none z-20 shrink-0 shadow-[-6px_0px_0px_rgba(0,0,0,0.6)] font-sans">
+        {/* Studio Header Card */}
+        <div className="sketch-border-1 border-2 border-slate-700 bg-slate-900/90 p-3 shadow-[-3px_3px_0px_#000] flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <img
+              src={mascotScarfImg}
+              alt="Sketch Mascot"
+              className="w-8 h-8 rounded-full border-2 border-[#D9722B] bg-[#1a202c] p-0.5 object-contain"
+            />
+            <div>
+              <h3 className="font-heading font-black text-sm text-white flex items-center gap-1.5">
+                <Sliders className="w-4 h-4 text-[#D9722B]" />
+                <span>استوديو الهوية</span>
+              </h3>
+              <span className="text-[10px] text-slate-400 font-bold">تعديل مباشر على المتجر</span>
+            </div>
           </div>
-          <span className="text-[10px] font-mono font-bold bg-[#D9722B]/20 text-[#D9722B] px-2 py-0.5 rounded-full">
-            تحكم مباشر
+          <span className="sketch-border-pill bg-[#D9722B] text-black font-black px-2.5 py-0.5 text-[10px] shadow-[-1px_1px_0px_#000]">
+            سكتش مود ✏️
           </span>
         </div>
 
         {/* 1. Color Palette Generator */}
-        <div className="space-y-2.5">
+        <div className="space-y-2.5 sketch-border-1 border-2 border-slate-700 bg-slate-900/80 p-3 shadow-[-2px_2px_0px_#000]">
           <label className="font-heading font-black text-xs text-white block">
             🎨 باليت الألوان واللون المميز (Accent):
           </label>
           <div className="grid grid-cols-6 gap-2">
             {[
               { name: 'وشاح الكاراكتر', hex: '#D9722B' },
+              { name: 'أزرق كهربائي', hex: '#38BDF8' },
               { name: 'كحلي ملكي', hex: '#0F172A' },
               { name: 'سايبر نيون', hex: '#10B981' },
               { name: 'بنفسجي رويال', hex: '#9333EA' },
-              { name: 'أزرق كهربائي', hex: '#2563EB' },
               { name: 'أحمر ناري', hex: '#DC2626' },
             ].map((col) => (
               <button
@@ -1186,31 +1237,31 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
                   playClick();
                   setStoreConfig((prev) => ({ ...prev, accentColor: col.hex }));
                 }}
-                className={`w-9 h-9 rounded-xl border-2 transition-all flex items-center justify-center ${
+                className={`w-9 h-9 sketch-border-1 border-2 transition-all flex items-center justify-center shadow-[-2px_2px_0px_#000] active:scale-95 ${
                   storeConfig.accentColor === col.hex
-                    ? 'border-white scale-110 shadow-md ring-2 ring-[#D9722B]'
-                    : 'border-slate-700 hover:scale-105'
+                    ? 'border-white scale-110 ring-2 ring-[#D9722B] ring-offset-2 ring-offset-slate-900 shadow-[-3px_3px_0px_#000]'
+                    : 'border-slate-700 hover:border-slate-400'
                 }`}
                 style={{ backgroundColor: col.hex }}
                 title={col.name}
               />
             ))}
           </div>
-          <div className="flex items-center gap-2 pt-1">
+          <div className="flex items-center gap-2 pt-1 border-t border-slate-800">
             <input
               type="color"
               value={storeConfig.accentColor}
               onChange={(e) => setStoreConfig((prev) => ({ ...prev, accentColor: e.target.value }))}
-              className="w-8 h-8 rounded-lg cursor-pointer bg-transparent border border-slate-700"
+              className="w-8 h-8 rounded-lg cursor-pointer bg-transparent border-2 border-slate-700"
             />
-            <span className="text-[11px] font-mono text-slate-400">
-              كود اللون النشط: <strong className="text-white">{storeConfig.accentColor}</strong>
-            </span>
+            <div className="sketch-border-pill border border-slate-700 bg-slate-950 px-2.5 py-1 text-[11px] font-mono text-slate-300 flex-1">
+              كود اللون: <strong className="text-[#D9722B]">{storeConfig.accentColor}</strong>
+            </div>
           </div>
         </div>
 
         {/* 2. Brand Identity Inputs */}
-        <div className="space-y-3 pt-2 border-t border-slate-800/80">
+        <div className="space-y-3 sketch-border-1 border-2 border-slate-700 bg-slate-900/80 p-3 shadow-[-2px_2px_0px_#000]">
           <label className="font-heading font-black text-xs text-white block">
             🏷️ بيانات المتجر والبراند:
           </label>
@@ -1221,7 +1272,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
               type="text"
               value={storeConfig.storeName}
               onChange={(e) => setStoreConfig((prev) => ({ ...prev, storeName: e.target.value }))}
-              className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white font-bold text-xs outline-none focus:border-[#D9722B]"
+              className="w-full p-2 rounded-xl bg-slate-950 border-2 border-slate-700 text-white font-heading font-black text-xs outline-none focus:border-[#D9722B] shadow-[-1px_1px_0px_#000]"
             />
           </div>
 
@@ -1231,7 +1282,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
               type="text"
               value={storeConfig.tagline}
               onChange={(e) => setStoreConfig((prev) => ({ ...prev, tagline: e.target.value }))}
-              className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white font-medium text-xs outline-none focus:border-[#D9722B]"
+              className="w-full p-2 rounded-xl bg-slate-950 border-2 border-slate-700 text-white font-medium text-xs outline-none focus:border-[#D9722B] shadow-[-1px_1px_0px_#000]"
             />
           </div>
 
@@ -1241,30 +1292,33 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
               type="text"
               value={storeConfig.whatsappNumber}
               onChange={(e) => setStoreConfig((prev) => ({ ...prev, whatsappNumber: e.target.value }))}
-              className="w-full p-2 rounded-xl bg-slate-900 border border-slate-700 text-white font-mono text-xs outline-none focus:border-[#D9722B]"
+              className="w-full p-2 rounded-xl bg-slate-950 border-2 border-slate-700 text-white font-mono text-xs outline-none focus:border-[#D9722B] shadow-[-1px_1px_0px_#000]"
             />
           </div>
 
           <div className="space-y-1">
-            <span className="text-[10px] text-slate-400 font-bold block">النطاق والصب دومين:</span>
-            <div className="flex items-center gap-1 p-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono">
-              <span className="text-[#D9722B]">https://</span>
+            <span className="text-[10px] text-slate-400 font-bold block">النطاق والساب دومين:</span>
+            <div className="flex items-center gap-1 p-2 rounded-xl bg-slate-950 border-2 border-slate-700 text-xs font-mono shadow-[-1px_1px_0px_#000]">
+              <span className="text-[#D9722B] font-bold">https://</span>
               <input
                 type="text"
                 value={storeConfig.customDomain.replace('.sketchorder.com', '')}
                 onChange={(e) => setStoreConfig((prev) => ({ ...prev, customDomain: `${e.target.value}.sketchorder.com` }))}
-                className="bg-transparent text-white font-bold outline-none flex-1"
+                className="bg-transparent text-white font-bold outline-none flex-1 font-mono"
               />
-              <span className="text-slate-500">.com</span>
+              <span className="text-slate-500 font-bold">.store</span>
             </div>
           </div>
         </div>
 
         {/* 3. Typography & Font Style */}
-        <div className="space-y-2 pt-2 border-t border-slate-800/80">
-          <label className="font-heading font-black text-xs text-white block">
-            🔤 نوع الخط والتايبوجرافي:
-          </label>
+        <div className="space-y-2 sketch-border-1 border-2 border-slate-700 bg-slate-900/80 p-3 shadow-[-2px_2px_0px_#000]">
+          <div className="flex items-center justify-between">
+            <label className="font-heading font-black text-xs text-white block">
+              🔤 نوع الخط والتايبوجرافي:
+            </label>
+            <span className="text-[10px] font-mono font-bold text-[#D9722B]">{selectedFont}</span>
+          </div>
           <div className="grid grid-cols-2 gap-2">
             {[
               { id: 'marhey', name: 'Marhey (سكتش)', cls: 'font-heading' },
@@ -1274,8 +1328,15 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
             ].map((f) => (
               <button
                 key={f.id}
-                onClick={() => playClick()}
-                className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-center font-bold text-[11px] text-slate-200 hover:border-slate-600 transition-colors"
+                onClick={() => {
+                  playClick();
+                  setSelectedFont(f.id as any);
+                }}
+                className={`p-2 sketch-border-1 border-2 text-center text-[11px] transition-all shadow-[-2px_2px_0px_#000] active:scale-95 ${
+                  selectedFont === f.id
+                    ? 'bg-[#D9722B] text-black font-black border-black shadow-[-3px_3px_0px_#000]'
+                    : 'bg-slate-950 hover:bg-slate-800 text-slate-300 border-slate-700'
+                }`}
               >
                 {f.name}
               </button>
@@ -1284,12 +1345,17 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
         </div>
 
         {/* Direct Action Card */}
-        <div className="p-3.5 rounded-2xl bg-gradient-to-br from-[#1E1B4B] to-slate-900 border border-slate-700 space-y-2 mt-auto">
-          <span className="text-[10px] font-mono text-[#D9722B] font-bold block">READY TO LAUNCH</span>
-          <p className="text-[11px] text-slate-200 font-medium">كل تعديلاتك هنا بتتحفظ تلقائياً في حساب متجرك فور التعميد.</p>
+        <div className="sketch-border-2 border-2 border-[#D9722B] bg-gradient-to-br from-[#1E140D] to-[#0F1420] p-4 shadow-[-4px_4px_0px_#000] space-y-2.5 mt-auto">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-mono text-[#D9722B] font-black">READY TO LAUNCH</span>
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          </div>
+          <p className="text-[11px] text-slate-200 font-medium leading-relaxed">
+            كل تعديلاتك هنا بتتحفظ تلقائياً في حساب متجرك المستقل فور التعميد.
+          </p>
           <button
             onClick={() => onBuyAndDeploy(storeConfig)}
-            className="w-full py-2.5 rounded-xl bg-[#D9722B] hover:bg-[#C25E1D] text-white font-black text-xs shadow-md transition-transform active:scale-95 flex items-center justify-center gap-1.5"
+            className="btn-sketch w-full py-2.5 bg-[#D9722B] hover:bg-[#C25E1D] text-white font-heading font-black text-xs sketch-border-1 border-2 border-black shadow-[-3px_3px_0px_#000] transition-transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
           >
             <Rocket className="w-4 h-4" />
             <span>نشر وحجز المتجر لايف 🚀</span>
@@ -1301,7 +1367,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
     {/* ======================================================== */}
     {/* CENTER STAGE: Device Mockup (iPhone 13 Pro / Tablet / Desktop) */}
     {/* ======================================================== */}
-    <div className={`flex-1 p-1 sm:p-6 flex items-center justify-center overflow-y-auto ${isFullScreenStorefront ? 'p-0 sm:p-0' : ''}`}>
+    <div className={`flex-1 p-0 sm:p-6 flex items-center justify-center overflow-y-auto ${isFullScreenStorefront ? 'p-0 sm:p-0' : ''}`}>
  
  {/* ==================================================== */}
  {/* Dynamic Viewport Chassis (iPhone 13 Pro / Tablet / Desktop) */}
@@ -1314,7 +1380,7 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  ? 'w-full max-w-[768px] rounded-[32px] border-[8px] border-[#1E293B] bg-slate-950 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8),0_0_0_2px_#334155] my-2 sm:my-4'
  : viewportMode === 'desktop'
  ? 'w-full max-w-5xl rounded-2xl border-4 border-slate-700 bg-slate-950 shadow-2xl my-2 sm:my-4 overflow-hidden'
- : 'w-full max-w-[390px] rounded-[36px] sm:rounded-[50px] border-[6px] sm:border-[10px] border-[#1E293B] bg-slate-950 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8),0_0_0_2px_#334155] my-1 sm:my-4'
+ : 'w-full max-w-[390px] rounded-none sm:rounded-[50px] border-0 sm:border-[10px] border-[#1E293B] bg-slate-950 shadow-none sm:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8),0_0_0_2px_#334155] my-0 sm:my-4'
  }`}
  >
  
@@ -1377,12 +1443,12 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
  : activeTmplMeta.themeStyle === 'sketch'
  ? 'bg-white text-[#0F0F0F]'
  : 'bg-white text-slate-900'
- }`}
+ } ${selectedFont === 'marhey' ? 'font-heading' : 'font-sans'}`}
  >
  
  {/* Realistic iPhone 13 Pro Notch & Status Bar */}
  {!isFullScreenStorefront && viewportMode === 'mobile' && (
- <div className="sticky top-0 z-40 bg-inherit/95 backdrop-blur-md px-7 pt-2.5 pb-2 text-[12px] font-semibold select-none border-b border-inherit/10">
+ <div className="hidden sm:block sticky top-0 z-40 bg-inherit/95 backdrop-blur-md px-7 pt-2.5 pb-2 text-[12px] font-semibold select-none border-b border-inherit/10">
  <div className="flex items-center justify-between">
  <span className="font-semibold text-xs tracking-tight">9:41</span>
 
@@ -2687,32 +2753,33 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
     {/* LEFT PANEL: Modular Blocks & Store Settings (Sidebar) */}
     {/* ======================================================== */}
     {!isFullScreenStorefront && (
-      <aside className="hidden xl:flex w-80 2xl:w-88 flex-col bg-slate-950/95 border-r border-slate-800/80 overflow-y-auto p-4 space-y-5 text-xs text-slate-300 select-none z-20 shrink-0 shadow-2xl">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+      <aside className="hidden xl:flex w-84 2xl:w-92 flex-col bg-[#0F1420] text-slate-100 border-r-2 border-slate-700/80 overflow-y-auto p-4 space-y-4 text-xs select-none z-20 shrink-0 shadow-[6px_0px_0px_rgba(0,0,0,0.6)] font-sans">
+        {/* Left Sidebar Header */}
+        <div className="sketch-border-1 border-2 border-slate-700 bg-slate-900/90 p-3 shadow-[3px_3px_0px_#000] flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Layers className="w-4 h-4 text-[#D9722B]" />
             <h3 className="font-heading font-black text-sm text-white">تخطيط وأقسام المتجر</h3>
           </div>
-          <span className="text-[10px] font-mono font-bold bg-[#D9722B]/20 text-[#D9722B] px-2 py-0.5 rounded-full">
-            Modular Blocks
+          <span className="sketch-border-pill bg-slate-800 text-[#D9722B] border border-[#D9722B]/40 font-mono font-bold px-2 py-0.5 text-[10px]">
+            Modular Blocks 📐
           </span>
         </div>
 
         {/* 1. Viewport / Device Switcher */}
-        <div className="space-y-2">
+        <div className="space-y-2 sketch-border-1 border-2 border-slate-700 bg-slate-900/80 p-3 shadow-[2px_2px_0px_#000]">
           <label className="font-heading font-black text-xs text-white block">
             📱 حجم المعاينة والشاشات:
           </label>
-          <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-900 rounded-xl border border-slate-800">
+          <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-950 rounded-xl border-2 border-slate-700">
             <button
               onClick={() => {
                 playClick();
                 setViewportMode('mobile');
               }}
-              className={`flex items-center justify-center gap-1 py-1.5 rounded-lg font-bold text-[11px] transition-all ${
+              className={`flex items-center justify-center gap-1 py-1.5 sketch-border-1 border-2 font-bold text-[11px] transition-all ${
                 viewportMode === 'mobile'
-                  ? 'bg-[#D9722B] text-white shadow-xs'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-[#D9722B] text-black font-black border-black shadow-[-2px_2px_0px_#000]'
+                  : 'text-slate-400 hover:text-white border-transparent'
               }`}
             >
               <Smartphone className="w-3.5 h-3.5" />
@@ -2723,10 +2790,10 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
                 playClick();
                 setViewportMode('tablet');
               }}
-              className={`flex items-center justify-center gap-1 py-1.5 rounded-lg font-bold text-[11px] transition-all ${
+              className={`flex items-center justify-center gap-1 py-1.5 sketch-border-1 border-2 font-bold text-[11px] transition-all ${
                 viewportMode === 'tablet'
-                  ? 'bg-[#D9722B] text-white shadow-xs'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-[#D9722B] text-black font-black border-black shadow-[-2px_2px_0px_#000]'
+                  : 'text-slate-400 hover:text-white border-transparent'
               }`}
             >
               <Tablet className="w-3.5 h-3.5" />
@@ -2737,10 +2804,10 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
                 playClick();
                 setViewportMode('desktop');
               }}
-              className={`flex items-center justify-center gap-1 py-1.5 rounded-lg font-bold text-[11px] transition-all ${
+              className={`flex items-center justify-center gap-1 py-1.5 sketch-border-1 border-2 font-bold text-[11px] transition-all ${
                 viewportMode === 'desktop'
-                  ? 'bg-[#D9722B] text-white shadow-xs'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-[#D9722B] text-black font-black border-black shadow-[-2px_2px_0px_#000]'
+                  : 'text-slate-400 hover:text-white border-transparent'
               }`}
             >
               <Monitor className="w-3.5 h-3.5" />
@@ -2749,70 +2816,117 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
           </div>
         </div>
 
-        {/* 2. Store Sections Activation */}
-        <div className="space-y-2 pt-2 border-t border-slate-800/80">
-          <label className="font-heading font-black text-xs text-white block">
-            🧩 أقسام الصفحة الرئيسية المفعّلة:
-          </label>
+        {/* 2. Store Sections Activation (Live & Interactive) */}
+        <div className="space-y-2 sketch-border-1 border-2 border-slate-700 bg-slate-900/80 p-3 shadow-[2px_2px_0px_#000]">
+          <div className="flex items-center justify-between">
+            <label className="font-heading font-black text-xs text-white block">
+              🧩 تفعيل أقسام المتجر (لايف):
+            </label>
+            <span className="text-[10px] font-mono text-[#D9722B] font-bold">تأثير فوري</span>
+          </div>
           <div className="space-y-1.5">
             {[
-              { label: 'شريط التنبيهات والعروض العلوية', tag: 'Header Alert' },
-              { label: 'بانر الهيرو التفاعلي والأزرار', tag: 'Hero Section' },
-              { label: 'شريط تصفح الأقسام السريع', tag: 'Categories' },
-              { label: 'شبكة المنتجات الذكية مع التقييمات', tag: 'Product Grid' },
-              { label: 'بار السلة السريع العائم (Sticky Bar)', tag: 'Floating Cart' },
-            ].map((section, idx) => (
-              <div
-                key={idx}
-                className="flex items-center justify-between p-2.5 rounded-xl bg-slate-900 border border-slate-800/80 text-[11px]"
-              >
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-[#D9722B]" />
-                  <span className="font-bold text-slate-200">{section.label}</span>
-                </div>
-                <span className="text-[9px] font-mono font-bold text-slate-500 bg-slate-950 px-1.5 py-0.5 rounded">
-                  {section.tag}
-                </span>
-              </div>
-            ))}
+              { key: 'heroBanner' as const, label: 'بانر الهيرو التفاعلي والأزرار', tag: 'Hero Section' },
+              { key: 'categoriesBar' as const, label: 'شريط تصفح الأقسام السريع', tag: 'Categories' },
+              { key: 'bestSellers' as const, label: 'شبكة المنتجات الذكية والتقييمات', tag: 'Product Grid' },
+              { key: 'flashSale' as const, label: 'سيكشن العروض الحصرية والخصومات', tag: 'Flash Sale' },
+              { key: 'instantWhatsappCart' as const, label: 'بار السلة السريع العائم (Sticky Bar)', tag: 'Sticky Bar' },
+            ].map((section) => {
+              const isEnabled = storeConfig.sections[section.key] ?? true;
+              return (
+                <button
+                  key={section.key}
+                  onClick={() => handleToggleSection(section.key)}
+                  className={`w-full flex items-center justify-between p-2.5 sketch-border-1 border-2 text-[11px] transition-all shadow-[-2px_2px_0px_#000] active:scale-98 ${
+                    isEnabled
+                      ? 'bg-slate-900 border-[#D9722B]/80 text-white'
+                      : 'bg-slate-950/60 border-slate-800 text-slate-500 opacity-60'
+                  }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className={`w-4 h-4 ${isEnabled ? 'text-[#D9722B]' : 'text-slate-600'}`} />
+                    <span className="font-bold">{section.label}</span>
+                  </div>
+                  <span className={`text-[9px] font-mono font-black px-1.5 py-0.5 rounded ${
+                    isEnabled ? 'bg-[#D9722B]/20 text-[#D9722B]' : 'bg-slate-900 text-slate-600'
+                  }`}>
+                    {isEnabled ? 'مفعّل ✓' : 'معطّل ✕'}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
         {/* 3. Profit & Store Economics */}
-        <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2.5">
+        <div className="sketch-border-2 border-2 border-slate-700 bg-slate-900/80 p-3.5 space-y-2.5 shadow-[2px_2px_0px_#000]">
           <div className="flex items-center justify-between">
             <span className="font-heading font-black text-xs text-white flex items-center gap-1.5">
               <TrendingUp className="w-3.5 h-3.5 text-[#D9722B]" />
               <span>مؤشرات أرباح المتجر</span>
             </span>
-            <span className="text-[10px] font-mono font-bold text-[#D9722B] bg-[#D9722B]/10 px-2 py-0.5 rounded-full">
+            <span className="sketch-border-pill text-[10px] font-mono font-black text-black bg-[#D9722B] px-2 py-0.5">
               Live Calc
             </span>
           </div>
           <div className="grid grid-cols-2 gap-2 text-[11px]">
-            <div className="p-2 rounded-xl bg-slate-950 border border-slate-800/80">
-              <span className="text-slate-400 block text-[10px]">عدد المنتجات:</span>
+            <div className="p-2 sketch-border-1 border-2 border-slate-700 bg-slate-950 shadow-[-1px_1px_0px_#000]">
+              <span className="text-slate-400 block text-[10px] font-bold">عدد المنتجات:</span>
               <span className="text-white font-mono font-black text-sm">{storeConfig.products.length} منتج</span>
             </div>
-            <div className="p-2 rounded-xl bg-slate-950 border border-slate-800/80">
-              <span className="text-slate-400 block text-[10px]">الأقسام النشطة:</span>
+            <div className="p-2 sketch-border-1 border-2 border-slate-700 bg-slate-950 shadow-[-1px_1px_0px_#000]">
+              <span className="text-slate-400 block text-[10px] font-bold">الأقسام النشطة:</span>
               <span className="text-white font-mono font-black text-sm">{storeConfig.categories.length} قسم</span>
             </div>
           </div>
-          <div className="p-2 rounded-xl bg-[#D9722B]/10 border border-[#D9722B]/30 flex items-center justify-between">
-            <span className="text-[11px] font-bold text-slate-300">متوسط هامش الربح:</span>
+          <div className="p-2 sketch-border-1 border border-[#D9722B]/40 bg-[#D9722B]/10 flex items-center justify-between">
+            <span className="text-[11px] font-bold text-slate-200">متوسط هامش الربح:</span>
             <span className="font-mono font-black text-xs text-[#D9722B]">~ 42.5% صافي</span>
           </div>
         </div>
 
-        {/* 4. Switch to Admin View */}
-        <div className="pt-2 border-t border-slate-800/80">
+        {/* 4. Quick Add Product for Live Preview */}
+        <form onSubmit={handleQuickAddProduct} className="sketch-border-1 border-2 border-slate-700 bg-slate-900/80 p-3 space-y-2 shadow-[2px_2px_0px_#000]">
+          <div className="flex items-center justify-between">
+            <label className="font-heading font-black text-xs text-white block">
+              ⚡ إضافة منتج سريع للمعاينة:
+            </label>
+            <span className="text-[9px] font-mono text-slate-400">فوري</span>
+          </div>
+          <div className="space-y-1.5">
+            <input
+              type="text"
+              placeholder="اسم المنتج (مثال: تيشرت أوفر سايز)"
+              value={quickProdName}
+              onChange={(e) => setQuickProdName(e.target.value)}
+              className="w-full p-2 sketch-border-1 border-2 border-slate-700 bg-slate-950 text-white text-xs outline-none focus:border-[#D9722B]"
+            />
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                placeholder="السعر (ج.م)"
+                value={quickProdPrice}
+                onChange={(e) => setQuickProdPrice(Number(e.target.value))}
+                className="w-1/2 p-2 sketch-border-1 border-2 border-slate-700 bg-slate-950 text-white font-mono text-xs outline-none focus:border-[#D9722B]"
+              />
+              <button
+                type="submit"
+                className="w-1/2 py-2 sketch-border-1 border-2 border-black bg-[#D9722B] hover:bg-[#C25E1D] text-white font-heading font-black text-xs shadow-[-2px_2px_0px_#000] active:scale-95 transition-all"
+              >
+                + أضف للمتجر
+              </button>
+            </div>
+          </div>
+        </form>
+
+        {/* 5. Switch to Admin View */}
+        <div className="pt-2">
           <button
             onClick={() => {
               playClick();
               setActiveView('admin');
             }}
-            className="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-sm active:scale-95"
+            className="btn-sketch w-full py-2.5 bg-slate-900 hover:bg-slate-800 border-2 border-slate-700 text-white font-heading font-black text-xs flex items-center justify-center gap-2 transition-all shadow-[-3px_3px_0px_#000] active:scale-95 cursor-pointer"
           >
             <Settings className="w-4 h-4 text-[#D9722B]" />
             <span>فتح لوحة تحكم التاجر الكاملة</span>
@@ -2823,355 +2937,376 @@ export const FullPageStoreStudio: React.FC<FullPageStoreStudioProps> = ({
   </div>
   )}
 
- {/* ======================================================== */}
- {/* VIEW 2: MERCHANT ADMIN CONTROL PANEL (لوحة تحكم التاجر) */}
- {/* ======================================================== */}
- {activeView === 'admin' && (
- <div className="flex-1 p-4 sm:p-8 bg-slate-950 overflow-y-auto">
- <div className="max-w-5xl mx-auto space-y-6">
- 
- {/* Admin Control Panel Header */}
- <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-800 pb-5">
- <div className="space-y-1">
- <div className="flex items-center gap-2 flex-wrap">
- <h2 className="text-xl sm:text-2xl font-black font-heading text-white leading-normal">
- لوحة تحكم وإدارة المتجر (Merchant Admin)
- </h2>
- <span className="text-[11px] font-mono font-bold bg-[#D9722B]/20 text-slate-300 border border-[#D9722B]/30 px-2 py-0.5 rounded-full whitespace-nowrap">
- نظام إدارة فوري
- </span>
- </div>
- <p className="text-xs sm:text-sm text-slate-400 font-medium leading-relaxed">
- تحكم في منتجاتك، الأقسام، وشاهد تحليلات الأرباح وصافي المبيعات كأنك تاجر حقيقي.
- </p>
- </div>
+  {/* ======================================================== */}
+  {/* VIEW 2: MERCHANT ADMIN CONTROL PANEL (لوحة تحكم التاجر) */}
+  {/* ======================================================== */}
+  {activeView === 'admin' && (
+    <div className="flex-1 p-3 sm:p-8 bg-[#0B0F19] overflow-y-auto text-slate-100 font-sans selection:bg-[#D9722B] selection:text-white">
+      <div className="max-w-5xl mx-auto space-y-6">
+        
+        {/* Admin Control Panel Header */}
+        <div className="sketch-border-2 border-2 border-slate-700 bg-[#0F1420] p-4 sm:p-6 shadow-[-4px_4px_0px_#000] flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <img
+              src={mascotScarfImg}
+              alt="Mascot"
+              className="w-12 h-12 rounded-full border-2 border-[#D9722B] bg-[#1a202c] p-1 object-contain shrink-0 shadow-[-2px_2px_0px_#000]"
+            />
+            <div className="space-y-1">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h2 className="text-lg sm:text-2xl font-black font-heading text-white leading-tight">
+                  لوحة تحكم وإدارة المتجر (Merchant Admin)
+                </h2>
+                <span className="sketch-border-pill bg-[#D9722B] text-black font-black px-2.5 py-0.5 text-[11px] shadow-[-1px_1px_0px_#000]">
+                  نظام إدارة سكتش ✏️
+                </span>
+              </div>
+              <p className="text-xs sm:text-sm text-slate-400 font-medium leading-relaxed">
+                تحكم كامل في منتجاتك، الأقسام، وشاهد تحليلات الأرباح وصافي المبيعات كأنك تاجر حقيقي.
+              </p>
+            </div>
+          </div>
 
- <div className="flex items-center gap-2 bg-slate-900 p-1.5 rounded-xl border border-slate-800 text-xs shrink-0 flex-wrap">
- <span className="text-slate-400 font-bold px-1">محاكاة الباقة:</span>
- <button
- onClick={() => {
- playClick();
- setSimulatedPlan('standard');
- }}
- className={`px-2.5 py-1 rounded-lg font-bold transition-all ${
- simulatedPlan === 'standard'
- ? 'bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white'
- : 'text-slate-400 hover:text-white'
- }`}
- >
- الاقتصادية (1,250 ج.م)
- </button>
- <button
- onClick={() => {
- playClick();
- setSimulatedPlan('pro');
- }}
- className={`px-2.5 py-1 rounded-lg font-bold transition-all ${
- simulatedPlan === 'pro'
- ? 'bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white'
- : 'text-slate-400 hover:text-white'
- }`}
- >
- المحترفين (2,400 ج.م)
- </button>
- </div>
- </div>
+          <div className="flex items-center gap-2 bg-slate-950 p-2 rounded-2xl border-2 border-slate-700 text-xs shrink-0 flex-wrap shadow-[-2px_2px_0px_#000]">
+            <span className="text-slate-400 font-bold px-1 font-heading">محاكاة الباقة:</span>
+            <button
+              onClick={() => {
+                playClick();
+                setSimulatedPlan('standard');
+              }}
+              className={`px-3 py-1.5 sketch-border-1 border-2 font-bold text-xs transition-all active:scale-95 ${
+                simulatedPlan === 'standard'
+                  ? 'bg-[#D9722B] text-black font-black border-black shadow-[-2px_2px_0px_#000]'
+                  : 'text-slate-400 hover:text-white border-transparent'
+              }`}
+            >
+              الاقتصادية (1,250 ج.م)
+            </button>
+            <button
+              onClick={() => {
+                playClick();
+                setSimulatedPlan('pro');
+              }}
+              className={`px-3 py-1.5 sketch-border-1 border-2 font-bold text-xs transition-all active:scale-95 ${
+                simulatedPlan === 'pro'
+                  ? 'bg-[#D9722B] text-black font-black border-black shadow-[-2px_2px_0px_#000]'
+                  : 'text-slate-400 hover:text-white border-transparent'
+              }`}
+            >
+              المحترفين (2,400 ج.م) 👑
+            </button>
+          </div>
+        </div>
 
- {/* Admin Tabs with shrink-0 and whitespace-nowrap */}
- <div className="flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto scrollbar-none">
- <button
- onClick={() => {
- playClick();
- setAdminTab('products');
- }}
- className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-all shrink-0 whitespace-nowrap ${
- adminTab === 'products'
- ? 'bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white font-black shadow-xs'
- : 'text-slate-300 hover:text-white hover:bg-slate-900 border border-slate-800'
- }`}
- >
- <Package className="w-4 h-4" />
- <span>إدارة المنتجات ({storeConfig.products.length})</span>
- </button>
+        {/* Admin Tabs */}
+        <div className="flex items-center gap-2 pb-2 overflow-x-auto scrollbar-none">
+          <button
+            onClick={() => {
+              playClick();
+              setAdminTab('products');
+            }}
+            className={`px-4 py-2 sketch-border-1 border-2 text-xs sm:text-sm font-heading font-black flex items-center gap-2 transition-all shrink-0 whitespace-nowrap active:scale-95 ${
+              adminTab === 'products'
+                ? 'bg-[#D9722B] text-black border-black shadow-[-3px_3px_0px_#000]'
+                : 'text-slate-300 hover:text-white bg-[#0F1420] border-slate-700 shadow-[-2px_2px_0px_#000]'
+            }`}
+          >
+            <Package className="w-4 h-4" />
+            <span>إدارة المنتجات ({storeConfig.products.length})</span>
+          </button>
 
- <button
- onClick={() => {
- playClick();
- setAdminTab('categories');
- }}
- className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-all shrink-0 whitespace-nowrap ${
- adminTab === 'categories'
- ? 'bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white font-black shadow-xs'
- : 'text-slate-300 hover:text-white hover:bg-slate-900 border border-slate-800'
- }`}
- >
- <Layers className="w-4 h-4" />
- <span>الأقسام ({storeConfig.categories.length})</span>
- </button>
+          <button
+            onClick={() => {
+              playClick();
+              setAdminTab('categories');
+            }}
+            className={`px-4 py-2 sketch-border-1 border-2 text-xs sm:text-sm font-heading font-black flex items-center gap-2 transition-all shrink-0 whitespace-nowrap active:scale-95 ${
+              adminTab === 'categories'
+                ? 'bg-[#D9722B] text-black border-black shadow-[-3px_3px_0px_#000]'
+                : 'text-slate-300 hover:text-white bg-[#0F1420] border-slate-700 shadow-[-2px_2px_0px_#000]'
+            }`}
+          >
+            <Layers className="w-4 h-4" />
+            <span>الأقسام ({storeConfig.categories.length})</span>
+          </button>
 
- <button
- onClick={() => {
- playClick();
- setAdminTab('analytics');
- }}
- className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-all shrink-0 whitespace-nowrap ${
- adminTab === 'analytics'
- ? 'bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white font-black shadow-xs'
- : 'text-slate-300 hover:text-white hover:bg-slate-900 border border-slate-800'
- }`}
- >
- <BarChart3 className="w-4 h-4" />
- <span>تحليل المبيعات وصافي الربح</span>
- </button>
+          <button
+            onClick={() => {
+              playClick();
+              setAdminTab('analytics');
+            }}
+            className={`px-4 py-2 sketch-border-1 border-2 text-xs sm:text-sm font-heading font-black flex items-center gap-2 transition-all shrink-0 whitespace-nowrap active:scale-95 ${
+              adminTab === 'analytics'
+                ? 'bg-[#D9722B] text-black border-black shadow-[-3px_3px_0px_#000]'
+                : 'text-slate-300 hover:text-white bg-[#0F1420] border-slate-700 shadow-[-2px_2px_0px_#000]'
+            }`}
+          >
+            <BarChart3 className="w-4 h-4" />
+            <span>تحليل المبيعات وصافي الربح</span>
+          </button>
 
- <button
- onClick={() => {
- playClick();
- setAdminTab('branding');
- }}
- className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-all shrink-0 whitespace-nowrap ${
- adminTab === 'branding'
- ? 'bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white font-black shadow-xs'
- : 'text-slate-300 hover:text-white hover:bg-slate-900 border border-slate-800'
- }`}
- >
- <Sliders className="w-4 h-4" />
- <span>الهوية والدومين</span>
- </button>
- </div>
+          <button
+            onClick={() => {
+              playClick();
+              setAdminTab('branding');
+            }}
+            className={`px-4 py-2 sketch-border-1 border-2 text-xs sm:text-sm font-heading font-black flex items-center gap-2 transition-all shrink-0 whitespace-nowrap active:scale-95 ${
+              adminTab === 'branding'
+                ? 'bg-[#D9722B] text-black border-black shadow-[-3px_3px_0px_#000]'
+                : 'text-slate-300 hover:text-white bg-[#0F1420] border-slate-700 shadow-[-2px_2px_0px_#000]'
+            }`}
+          >
+            <Sliders className="w-4 h-4" />
+            <span>الهوية والدومين</span>
+          </button>
+        </div>
 
- {/* Add Product Form */}
- {adminTab === 'products' && (
- <div className="space-y-6">
- <form
- onSubmit={handleAddProduct}
- className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-4"
- >
- <div className="flex items-center justify-between border-b border-slate-800 pb-3">
- <div className="flex items-center gap-2">
- <Plus className="w-4 h-4 text-zinc-400" />
- <h3 className="font-heading font-black text-base text-white">
- إضافة منتج جديد يظهر فوراً في شاشة الهاتف
- </h3>
- </div>
- </div>
+        {/* Tab 1: Products Management */}
+        {adminTab === 'products' && (
+          <div className="space-y-6">
+            <form
+              onSubmit={handleAddProduct}
+              className="p-5 sketch-border-2 border-2 border-slate-700 bg-[#0F1420] space-y-4 shadow-[-3px_3px_0px_#000]"
+            >
+              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div className="flex items-center gap-2">
+                  <Plus className="w-4 h-4 text-[#D9722B]" />
+                  <h3 className="font-heading font-black text-sm sm:text-base text-white">
+                    إضافة منتج جديد يظهر فوراً في شاشة الهاتف
+                  </h3>
+                </div>
+                <span className="sketch-border-pill text-[10px] bg-slate-900 border border-slate-700 px-2.5 py-0.5 text-slate-300 font-bold">
+                  تحديث مباشر
+                </span>
+              </div>
 
- <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
- <div className="sm:col-span-2">
- <label className="block text-xs font-bold text-slate-300 mb-1">اسم المنتج *</label>
- <input
- type="text"
- required
- value={newProdName}
- onChange={(e) => setNewProdName(e.target.value)}
- placeholder="مثال: كوتشي نايكي أصلي..."
- className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs font-bold"
- />
- </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-heading font-bold text-slate-300 mb-1">اسم المنتج *</label>
+                  <input
+                    type="text"
+                    required
+                    value={newProdName}
+                    onChange={(e) => setNewProdName(e.target.value)}
+                    placeholder="مثال: تيشرت أوفر سايز بطباعة بارزة..."
+                    className="w-full p-2.5 sketch-border-1 border-2 border-slate-700 bg-slate-950 text-white text-xs font-bold outline-none focus:border-[#D9722B] shadow-[-1px_1px_0px_#000]"
+                  />
+                </div>
 
- <div>
- <label className="block text-xs font-bold text-slate-300 mb-1">القسم</label>
- <select
- value={newProdCategory}
- onChange={(e) => setNewProdCategory(e.target.value)}
- className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs font-bold"
- >
- {storeConfig.categories.map((c, i) => (
- <option key={i} value={c}>{c}</option>
- ))}
- </select>
- </div>
- </div>
+                <div>
+                  <label className="block text-xs font-heading font-bold text-slate-300 mb-1">القسم</label>
+                  <select
+                    value={newProdCategory}
+                    onChange={(e) => setNewProdCategory(e.target.value)}
+                    className="w-full p-2.5 sketch-border-1 border-2 border-slate-700 bg-slate-950 text-white text-xs font-bold outline-none focus:border-[#D9722B] shadow-[-1px_1px_0px_#000]"
+                  >
+                    {storeConfig.categories.map((c, i) => (
+                      <option key={i} value={c}>{c}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
 
- <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
- <div>
- <label className="block text-xs font-bold text-slate-300 mb-1">سعر البيع (ج.م) *</label>
- <input
- type="number"
- required
- value={newProdPrice}
- onChange={(e) => setNewProdPrice(Number(e.target.value))}
- className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs font-mono font-bold"
- />
- </div>
- <div>
- <label className="block text-xs font-bold text-slate-300 mb-1">قبل الخصم (ج.م)</label>
- <input
- type="number"
- value={newProdOriginalPrice}
- onChange={(e) => setNewProdOriginalPrice(Number(e.target.value))}
- className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-400 text-xs font-mono font-bold"
- />
- </div>
- <div>
- <label className="block text-xs font-bold text-slate-300 mb-1">سعر التكلفة (ج.م)</label>
- <input
- type="number"
- value={newProdCostPrice}
- onChange={(e) => setNewProdCostPrice(Number(e.target.value))}
- className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-zinc-400 text-xs font-mono font-bold"
- />
- </div>
- <div>
- <label className="block text-xs font-bold text-slate-300 mb-1">الشارة الترويجية</label>
- <input
- type="text"
- value={newProdBadge}
- onChange={(e) => setNewProdBadge(e.target.value)}
- placeholder="مثال: الأكثر مبيعاً "
- className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs font-bold"
- />
- </div>
- </div>
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                <div>
+                  <label className="block text-xs font-heading font-bold text-slate-300 mb-1">سعر البيع (ج.م) *</label>
+                  <input
+                    type="number"
+                    required
+                    value={newProdPrice}
+                    onChange={(e) => setNewProdPrice(Number(e.target.value))}
+                    className="w-full p-2.5 sketch-border-1 border-2 border-slate-700 bg-slate-950 text-white text-xs font-mono font-bold outline-none focus:border-[#D9722B] shadow-[-1px_1px_0px_#000]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-heading font-bold text-slate-300 mb-1">قبل الخصم (ج.م)</label>
+                  <input
+                    type="number"
+                    value={newProdOriginalPrice}
+                    onChange={(e) => setNewProdOriginalPrice(Number(e.target.value))}
+                    className="w-full p-2.5 sketch-border-1 border-2 border-slate-700 bg-slate-950 text-slate-400 text-xs font-mono font-bold outline-none focus:border-[#D9722B] shadow-[-1px_1px_0px_#000]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-heading font-bold text-slate-300 mb-1">سعر التكلفة (ج.م)</label>
+                  <input
+                    type="number"
+                    value={newProdCostPrice}
+                    onChange={(e) => setNewProdCostPrice(Number(e.target.value))}
+                    className="w-full p-2.5 sketch-border-1 border-2 border-slate-700 bg-slate-950 text-slate-400 text-xs font-mono font-bold outline-none focus:border-[#D9722B] shadow-[-1px_1px_0px_#000]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-heading font-bold text-slate-300 mb-1">الشارة الترويجية</label>
+                  <input
+                    type="text"
+                    value={newProdBadge}
+                    onChange={(e) => setNewProdBadge(e.target.value)}
+                    placeholder="مثال: الأكثر مبيعاً 🔵"
+                    className="w-full p-2.5 sketch-border-1 border-2 border-slate-700 bg-slate-950 text-white text-xs font-bold outline-none focus:border-[#D9722B] shadow-[-1px_1px_0px_#000]"
+                  />
+                </div>
+              </div>
 
- <div>
- <label className="block text-xs font-bold text-slate-300 mb-1">رابط صورة المنتج (HD):</label>
- <input
- type="url"
- value={newProdImageUrl}
- onChange={(e) => setNewProdImageUrl(e.target.value)}
- className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-300 text-xs font-mono mb-2"
- />
- </div>
+              <div>
+                <label className="block text-xs font-heading font-bold text-slate-300 mb-1">رابط صورة المنتج (HD):</label>
+                <input
+                  type="url"
+                  value={newProdImageUrl}
+                  onChange={(e) => setNewProdImageUrl(e.target.value)}
+                  className="w-full p-2.5 sketch-border-1 border-2 border-slate-700 bg-slate-950 text-slate-300 text-xs font-mono mb-2 outline-none focus:border-[#D9722B] shadow-[-1px_1px_0px_#000]"
+                />
+              </div>
 
- <div className="pt-2 flex justify-end">
- <button
- type="submit"
- className="px-5 py-2.5 rounded-xl bg-[#D9722B] hover:bg-[#C25E1D] text-white dark:bg-[#D9722B] dark:hover:bg-[#C25E1D] dark:text-white font-black text-xs flex items-center gap-1.5"
- >
- <Plus className="w-4 h-4" />
- <span>أضف المنتج للمتجر فوراً</span>
- </button>
- </div>
- </form>
+              <div className="pt-2 flex justify-end">
+                <button
+                  type="submit"
+                  className="btn-sketch px-6 py-2.5 bg-[#D9722B] hover:bg-[#C25E1D] text-black font-heading font-black text-xs sketch-border-1 border-2 border-black shadow-[-3px_3px_0px_#000] flex items-center gap-2 active:scale-95 transition-all"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>أضف المنتج للمتجر فوراً 🚀</span>
+                </button>
+              </div>
+            </form>
 
- {/* Existing Products */}
- <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
- {storeConfig.products.map((p) => (
- <div key={p.id} className="p-3.5 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
- <div className="flex items-center gap-3">
- <img src={p.imageUrl} alt={p.name} className="w-12 h-12 rounded-lg object-cover" />
- <div>
- <h4 className="text-xs font-black text-white">{p.name}</h4>
- <span className="text-xs text-zinc-400 font-mono font-bold">{p.price} ج.م</span>
- </div>
- </div>
- <button onClick={() => handleDeleteProduct(p.id)} className="p-1.5 text-slate-400 hover:text-red-400">
- <Trash2 className="w-4 h-4" />
- </button>
- </div>
- ))}
- </div>
- </div>
- )}
+            {/* Existing Products */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {storeConfig.products.map((p) => (
+                <div key={p.id} className="p-3.5 sketch-border-1 border-2 border-slate-700 bg-[#0F1420] flex items-center justify-between shadow-[-2px_2px_0px_#000]">
+                  <div className="flex items-center gap-3">
+                    <img src={p.imageUrl} alt={p.name} className="w-12 h-12 rounded-xl object-cover border border-slate-700 shadow-xs" />
+                    <div>
+                      <h4 className="text-xs font-heading font-black text-white">{p.name}</h4>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-[#D9722B] font-mono font-bold">{p.price} ج.م</span>
+                        {p.badge && (
+                          <span className="text-[10px] bg-slate-950 text-slate-300 px-1.5 py-0.5 rounded border border-slate-800">
+                            {p.badge}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => handleDeleteProduct(p.id)}
+                    className="p-2 text-slate-400 hover:text-red-400 transition-colors rounded-lg hover:bg-slate-900"
+                    title="حذف المنتج"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
- {/* Categories Tab */}
- {adminTab === 'categories' && (
- <div className="space-y-4">
- <div className="flex items-center gap-3">
- <input
- type="text"
- value={newCategoryName}
- onChange={(e) => setNewCategoryName(e.target.value)}
- placeholder="اسم القسم الجديد..."
- className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs font-bold"
- />
- <button
- onClick={handleAddCategory}
- className="px-5 py-2.5 rounded-xl bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white font-black text-xs font-bold shrink-0"
- >
- إضافة قسم
- </button>
- </div>
- <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
- {storeConfig.categories.map((cat, i) => (
- <div key={i} className="p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
- <span className="text-xs font-bold text-white">{cat}</span>
- <button onClick={() => handleDeleteCategory(cat)} className="text-slate-400 hover:text-red-400">
- <Trash2 className="w-3.5 h-3.5" />
- </button>
- </div>
- ))}
- </div>
- </div>
- )}
+        {/* Tab 2: Categories Tab */}
+        {adminTab === 'categories' && (
+          <div className="space-y-4">
+            <div className="p-4 sketch-border-2 border-2 border-slate-700 bg-[#0F1420] shadow-[-3px_3px_0px_#000] flex items-center gap-3">
+              <input
+                type="text"
+                value={newCategoryName}
+                onChange={(e) => setNewCategoryName(e.target.value)}
+                placeholder="اسم القسم الجديد (مثال: كولكشن الصيف)..."
+                className="w-full p-2.5 sketch-border-1 border-2 border-slate-700 bg-slate-950 text-white text-xs font-bold outline-none focus:border-[#D9722B]"
+              />
+              <button
+                onClick={handleAddCategory}
+                className="btn-sketch px-5 py-2.5 bg-[#D9722B] text-black font-heading font-black text-xs sketch-border-1 border-2 border-black shadow-[-2px_2px_0px_#000] shrink-0"
+              >
+                إضافة قسم
+              </button>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {storeConfig.categories.map((cat, i) => (
+                <div key={i} className="p-3 sketch-border-1 border-2 border-slate-700 bg-[#0F1420] flex items-center justify-between shadow-[-2px_2px_0px_#000]">
+                  <span className="text-xs font-heading font-bold text-white">{cat}</span>
+                  <button onClick={() => handleDeleteCategory(cat)} className="text-slate-400 hover:text-red-400 p-1">
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
- {/* Analytics Tab */}
- {adminTab === 'analytics' && (
- <div className="space-y-4">
- <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
- <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-1">
- <div className="flex items-center justify-between text-slate-400 text-xs">
- <span>إجمالي المبيعات</span>
- <DollarSign className="w-4 h-4 text-zinc-400" />
- </div>
- <div className="text-2xl font-black font-mono text-white">48,650 ج.م</div>
- <span className="text-[10px] text-zinc-400 flex items-center gap-1 font-bold">
- <TrendingUp className="w-3 h-3" /> +18.4% نمو أسبوعي
- </span>
- </div>
+        {/* Tab 3: Analytics Tab */}
+        {adminTab === 'analytics' && (
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+              <div className="p-4 sketch-border-1 border-2 border-slate-700 bg-[#0F1420] space-y-1 shadow-[-3px_3px_0px_#000]">
+                <div className="flex items-center justify-between text-slate-400 text-xs">
+                  <span className="font-heading font-bold">إجمالي المبيعات</span>
+                  <DollarSign className="w-4 h-4 text-[#D9722B]" />
+                </div>
+                <div className="text-2xl font-black font-mono text-white">48,650 ج.م</div>
+                <span className="text-[10px] text-emerald-400 flex items-center gap-1 font-bold">
+                  <TrendingUp className="w-3 h-3" /> +18.4% نمو أسبوعي
+                </span>
+              </div>
 
- <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-1">
- <div className="flex items-center justify-between text-slate-400 text-xs">
- <span>تكلفة البضاعة</span>
- <Package className="w-4 h-4 text-slate-400" />
- </div>
- <div className="text-2xl font-black font-mono text-slate-300">31,200 ج.م</div>
- <span className="text-[10px] text-slate-400">حسب أسعار التكلفة</span>
- </div>
+              <div className="p-4 sketch-border-1 border-2 border-slate-700 bg-[#0F1420] space-y-1 shadow-[-3px_3px_0px_#000]">
+                <div className="flex items-center justify-between text-slate-400 text-xs">
+                  <span className="font-heading font-bold">تكلفة البضاعة</span>
+                  <Package className="w-4 h-4 text-slate-400" />
+                </div>
+                <div className="text-2xl font-black font-mono text-slate-300">31,200 ج.م</div>
+                <span className="text-[10px] text-slate-400">حسب أسعار التكلفة</span>
+              </div>
 
- <div className="p-4 rounded-2xl bg-slate-900 border border-slate-700 space-y-1 bg-slate-900">
- <div className="flex items-center justify-between text-zinc-400 text-xs font-bold">
- <span>صافي الربح الحقيقي </span>
- <TrendingUp className="w-4 h-4" />
- </div>
- <div className="text-2xl font-black font-mono text-zinc-400">17,450 ج.م</div>
- <span className="text-[10px] text-slate-300 font-bold">هامش ربح صافي 35.8%</span>
- </div>
+              <div className="p-4 sketch-border-1 border-2 border-[#D9722B]/60 bg-[#0F1420] space-y-1 shadow-[-3px_3px_0px_#000]">
+                <div className="flex items-center justify-between text-[#D9722B] text-xs font-heading font-bold">
+                  <span>صافي الربح الحقيقي </span>
+                  <TrendingUp className="w-4 h-4" />
+                </div>
+                <div className="text-2xl font-black font-mono text-[#D9722B]">17,450 ج.م</div>
+                <span className="text-[10px] text-slate-300 font-bold">هامش ربح صافي 35.8%</span>
+              </div>
 
- <div className="p-4 rounded-2xl bg-slate-900 border border-slate-700 space-y-1 bg-slate-900">
- <div className="flex items-center justify-between text-zinc-400 text-xs font-bold">
- <span>المنتج الأكثر طلباً </span>
- <Flame className="w-4 h-4" />
- </div>
- <div className="text-xs font-black text-slate-100 line-clamp-1">
- {storeConfig.products[0]?.name || 'كوتشي نايكي بيجاسوس'}
- </div>
- <span className="text-[10px] text-slate-300/80 font-bold">128 طلب ناجح هذا الشهر</span>
- </div>
- </div>
- </div>
- )}
+              <div className="p-4 sketch-border-1 border-2 border-slate-700 bg-[#0F1420] space-y-1 shadow-[-3px_3px_0px_#000]">
+                <div className="flex items-center justify-between text-slate-300 text-xs font-heading font-bold">
+                  <span>المنتج الأكثر طلباً </span>
+                  <Flame className="w-4 h-4 text-amber-500" />
+                </div>
+                <div className="text-xs font-black text-slate-100 line-clamp-1">
+                  {storeConfig.products[0]?.name || 'تيشرت ستريت وير'}
+                </div>
+                <span className="text-[10px] text-slate-400 font-bold">128 طلب ناجح هذا الشهر</span>
+              </div>
+            </div>
+          </div>
+        )}
 
- {/* Branding Tab */}
- {adminTab === 'branding' && (
- <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
- <div>
- <label className="block text-xs font-bold text-slate-300 mb-1">اسم المتجر</label>
- <input
- type="text"
- value={storeConfig.storeName}
- onChange={(e) => setStoreConfig({ ...storeConfig, storeName: e.target.value })}
- className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs font-bold"
- />
- </div>
- <div>
- <label className="block text-xs font-bold text-slate-300 mb-1">الدومين المطلوب</label>
- <input
- type="text"
- value={storeConfig.customDomain}
- onChange={(e) => setStoreConfig({ ...storeConfig, customDomain: e.target.value })}
- className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-zinc-400 text-xs font-mono font-bold"
- />
- </div>
- </div>
- )}
+        {/* Tab 4: Branding Tab */}
+        {adminTab === 'branding' && (
+          <div className="p-5 sketch-border-2 border-2 border-slate-700 bg-[#0F1420] space-y-4 shadow-[-3px_3px_0px_#000]">
+            <div>
+              <label className="block text-xs font-heading font-bold text-slate-300 mb-1">اسم المتجر</label>
+              <input
+                type="text"
+                value={storeConfig.storeName}
+                onChange={(e) => setStoreConfig({ ...storeConfig, storeName: e.target.value })}
+                className="w-full p-2.5 sketch-border-1 border-2 border-slate-700 bg-slate-950 text-white text-xs font-heading font-black outline-none focus:border-[#D9722B]"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-heading font-bold text-slate-300 mb-1">الدومين المطلوب</label>
+              <input
+                type="text"
+                value={storeConfig.customDomain}
+                onChange={(e) => setStoreConfig({ ...storeConfig, customDomain: e.target.value })}
+                className="w-full p-2.5 sketch-border-1 border-2 border-slate-700 bg-slate-950 text-slate-300 text-xs font-mono font-bold outline-none focus:border-[#D9722B]"
+              />
+            </div>
+          </div>
+        )}
 
- </div>
- </div>
- )}
+      </div>
+    </div>
+  )}
 
- </div>
+  </div>
 
  {/* ======================================================== */}
  {/* USER INSTRUCTION 1: FIGMA-STYLE TEMPLATES CATALOG MODAL */}

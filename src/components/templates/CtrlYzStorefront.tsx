@@ -9,14 +9,13 @@ import {
   ShieldCheck,
   Truck,
   RotateCcw,
-  Sparkles,
   ArrowRight,
   Menu,
 } from 'lucide-react';
 import type { CustomProduct, CartItem } from '../../types';
 import { playClick, playCashSound } from '../../utils/soundEffects';
 
-// All 39 Products from CTRL YZ (Reversed #39 to #1 matching production)
+// All 39 Products from CTRL YZ
 export const CTRL_YZ_ALL_PRODUCTS: CustomProduct[] = Array.from({ length: 39 }).map((_, idx) => {
   const num = 39 - idx;
   const ext = num > 24 ? 'jpeg' : 'webp';
@@ -27,8 +26,8 @@ export const CTRL_YZ_ALL_PRODUCTS: CustomProduct[] = Array.from({ length: 39 }).
     originalPrice: 650,
     costPrice: 240,
     category: num > 25 ? 'هوديز أوفر سايز 3D' : num > 12 ? 'تيشرتات ستريت وير' : 'كولكشن الشارع 2026',
-    tag: num >= 37 ? 'Best Seller' : 'New Drop',
-    badge: num >= 37 ? 'الأكثر مبيعاً 🔥' : undefined,
+    tag: num >= 37 || num <= 3 ? 'Best Seller' : 'New Drop',
+    badge: num >= 37 || num <= 3 ? 'الأكثر مبيعاً 🔵' : undefined,
     imageUrl: `/assets/products/ctrl-yz/product-${num}.${ext}`,
     rating: 4.9,
     reviewsCount: 120 + (num * 3),
@@ -123,11 +122,11 @@ export const CtrlYzStorefront: React.FC<CtrlYzStorefrontProps> = ({
     <div className={`min-h-screen bg-[#0B0E14] text-slate-100 font-sans selection:bg-[#38BDF8] selection:text-black relative ${isMockup ? 'pb-24' : 'pb-32'}`}>
       
       {/* ======================================================== */}
-      {/* 1. TOP NAVBAR (Authentic CTRL YZ Styling) */}
+      {/* 1. TOP NAVBAR (Identical to User Screenshot 2) */}
       {/* ======================================================== */}
       <header className={`sticky top-0 z-40 bg-[#0B0E14]/95 backdrop-blur-md border-b border-white/10 ${isMockup ? 'px-3 py-2.5' : 'px-4 sm:px-8 py-4'} transition-all`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
-          {/* Brand Logo */}
+          {/* Brand Logo on Left */}
           <div className="flex items-center gap-2">
             <button
               onClick={() => {
@@ -135,7 +134,7 @@ export const CtrlYzStorefront: React.FC<CtrlYzStorefrontProps> = ({
                 setSearchQuery('');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className={`font-mono font-black ${isMockup ? 'text-lg tracking-wider' : 'text-2xl sm:text-3xl tracking-widest'} text-[#38BDF8] hover:text-white transition-colors uppercase shrink-0`}
+              className={`font-mono font-black ${isMockup ? 'text-xl tracking-wider' : 'text-2xl sm:text-3xl tracking-widest'} text-[#38BDF8] hover:text-white transition-colors uppercase shrink-0`}
             >
               CTRL YZ
             </button>
@@ -146,7 +145,7 @@ export const CtrlYzStorefront: React.FC<CtrlYzStorefrontProps> = ({
             )}
           </div>
 
-          {/* Desktop Nav Links: STRICTLY HIDDEN IN MOCKUP/MOBILE VIEW */}
+          {/* Desktop Nav Links (Hidden in Phone Mode / Mockup) */}
           {!isMockup && (
             <nav className="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-wider text-slate-300">
               <a href="#collection" className="hover:text-[#38BDF8] transition-colors">
@@ -164,28 +163,28 @@ export const CtrlYzStorefront: React.FC<CtrlYzStorefrontProps> = ({
             </nav>
           )}
 
-          {/* Right Action Icons */}
+          {/* Right Action Icons (Identical to Screenshot 2) */}
           <div className="flex items-center gap-1.5 sm:gap-2">
-            {/* Track Order Pill (Text only shown in full desktop) */}
+            {/* Language Pill (Globe) AR */}
+            <div className={`flex items-center gap-1 ${isMockup ? 'px-2 py-1 text-[10px]' : 'px-2.5 py-1.5 text-xs'} rounded-full bg-white/5 border border-white/10 font-mono font-bold text-slate-300`}>
+              <Globe className="w-3 h-3 text-[#38BDF8]" />
+              <span>AR</span>
+            </div>
+
+            {/* Track Order Pill */}
             <button
               onClick={() => {
                 playClick();
                 setIsTrackingOpen(true);
               }}
-              className={`flex items-center gap-1 ${isMockup ? 'px-2 py-1 text-[10px]' : 'px-3 py-1.5 text-xs'} rounded-full bg-[#38BDF8]/10 hover:bg-[#38BDF8]/20 border border-[#38BDF8]/30 text-[#38BDF8] font-bold transition-all active:scale-95`}
+              className={`flex items-center gap-1 ${isMockup ? 'p-1.5 rounded-full' : 'px-3 py-1.5 rounded-full'} bg-[#38BDF8]/10 hover:bg-[#38BDF8]/20 border border-[#38BDF8]/30 text-[#38BDF8] font-bold text-xs transition-all active:scale-95`}
               title="تتبع الشحنة"
             >
               <PackageSearch className="w-3.5 h-3.5" />
               {!isMockup && <span className="hidden sm:inline">Track Order</span>}
             </button>
 
-            {/* Language Pill */}
-            <div className={`flex items-center gap-1 ${isMockup ? 'px-2 py-1 text-[10px]' : 'px-2.5 py-1.5 text-xs'} rounded-full bg-white/5 border border-white/10 font-mono font-bold text-slate-300`}>
-              <Globe className="w-3 h-3 text-[#38BDF8]" />
-              <span>AR</span>
-            </div>
-
-            {/* Mobile / Mockup Menu Button */}
+            {/* Mobile / Mockup Hamburger Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className={`p-1.5 rounded-lg text-slate-300 hover:text-white ${!isMockup ? 'md:hidden' : ''}`}
@@ -232,117 +231,66 @@ export const CtrlYzStorefront: React.FC<CtrlYzStorefrontProps> = ({
       </header>
 
       {/* ======================================================== */}
-      {/* 2. HERO SHOWCASE (WEAR YOUR IDEA) */}
+      {/* 2. HERO SHOWCASE (Exact Match to User Screenshot 2) */}
       {/* ======================================================== */}
-      <section className={`relative overflow-hidden ${isMockup ? 'py-6 px-3' : 'py-12 sm:py-20 px-4 sm:px-6'} bg-gradient-to-b from-[#0B0E14] via-[#0E131E] to-[#0B0E14] border-b border-white/5`}>
-        {isMockup ? (
-          /* PURE MOBILE HERO: Centered, clean, no overlapping cards */
-          <div className="text-center space-y-3 max-w-sm mx-auto">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#38BDF8]/10 border border-[#38BDF8]/30 text-[#38BDF8] text-[10px] font-mono font-bold">
-              <Sparkles className="w-3 h-3" />
-              <span>DROP 2026 • 3D OVERSIZED</span>
-            </div>
-            <h1 className="text-3xl font-black font-sans uppercase tracking-tight text-white leading-tight">
-              WEAR YOUR IDEA
-            </h1>
-            <p className="text-xs text-slate-300 font-medium leading-relaxed px-2">
-              ملابس أوفر سايز ستريت وير بريميوم • قطن مصري 100% ثقيل مع أحدث تقنيات الطباعة ثلاثية الأبعاد 3D.
-            </p>
-            <div className="pt-1 flex items-center justify-center gap-2">
-              <a
-                href="#collection"
-                className="px-4 py-2 rounded-xl bg-[#38BDF8] hover:bg-[#0EA5E9] text-black font-black text-xs transition-all shadow-md shadow-[#38BDF8]/20 flex items-center gap-1.5 active:scale-95"
-              >
-                <span>تسوق الكولكشن (39 منتج)</span>
-                <ArrowRight className="w-3.5 h-3.5 -scale-x-100" />
-              </a>
-              <button
-                onClick={() => setIsTrackingOpen(true)}
-                className="px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-white font-bold text-xs"
-              >
-                تتبع الشحنة
-              </button>
-            </div>
-          </div>
-        ) : (
-          /* FULL DESKTOP HERO */
-          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 sm:gap-12">
-            <div className="max-w-2xl space-y-4 text-center md:text-right">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#38BDF8]/10 border border-[#38BDF8]/30 text-[#38BDF8] text-xs font-mono font-bold">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>DROP 2026 • 3D OVERSIZED APPAREL</span>
-              </div>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-black font-sans uppercase tracking-tight text-white leading-tight">
-                WEAR YOUR IDEA
-              </h1>
-              <p className="text-sm sm:text-lg text-slate-300 font-medium leading-relaxed max-w-xl">
-                ملابس أوفر سايز ستريت وير بريميوم مصنعة من أثقل قطن مصري 100% مع أحدث تقنيات الطباعة ثلاثية الأبعاد 3D البارزة والمقاومة للغسيل المتكرر.
-              </p>
-              <div className="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-3">
-                <a
-                  href="#collection"
-                  className="px-6 py-3 rounded-2xl bg-[#38BDF8] hover:bg-[#0EA5E9] text-black font-black text-sm transition-all shadow-lg shadow-[#38BDF8]/20 flex items-center gap-2 active:scale-95"
-                >
-                  <span>استكشف الكولكشن الكامل (39 منتج)</span>
-                  <ArrowRight className="w-4 h-4 -scale-x-100" />
-                </a>
-                <button
-                  onClick={() => setIsTrackingOpen(true)}
-                  className="px-5 py-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/15 text-white font-bold text-sm transition-all"
-                >
-                  تتبع شحنتك
-                </button>
-              </div>
-            </div>
+      <section className={`relative overflow-hidden ${isMockup ? 'py-10 px-4' : 'py-16 sm:py-24 px-4 sm:px-6'} bg-gradient-to-b from-[#0B0E14] via-[#0D121D] to-[#0B0E14] border-b border-white/5`}>
+        {/* Subtle Watermark Apparel Texture */}
+        <div className="absolute inset-0 opacity-15 pointer-events-none flex items-center justify-center">
+          <img
+            src="/assets/products/ctrl-yz/product-2.webp"
+            alt=""
+            className="w-full h-full object-cover scale-125 filter grayscale blur-xs"
+          />
+        </div>
 
-            {/* Desktop Hero Showcase Cards */}
-            <div className="grid grid-cols-2 gap-4 shrink-0 max-w-md w-full">
-              {[39, 38].map((num) => (
-                <div
-                  key={num}
-                  onClick={() => {
-                    const p = products.find((x) => x.id === `cyz-${num}`);
-                    if (p) handleProductClick(p);
-                  }}
-                  className="rounded-3xl overflow-hidden border border-white/10 bg-[#12161F] p-3 shadow-2xl hover:border-[#38BDF8]/60 transition-all cursor-pointer group"
-                >
-                  <div className="relative aspect-square rounded-2xl overflow-hidden bg-slate-900/60 mb-2">
-                    <img
-                      src={`/assets/products/ctrl-yz/product-${num}.${num > 24 ? 'jpeg' : 'webp'}`}
-                      alt={`CTRL YZ #${num}`}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <span className="absolute top-2 right-2 text-[9px] font-black bg-[#38BDF8] text-black px-2 py-0.5 rounded-full font-mono">
-                      NEW 2026
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between text-xs font-bold px-1">
-                    <span className="text-white">CTRL YZ #{num}</span>
-                    <span className="text-[#38BDF8] font-mono">500 EGP</span>
-                  </div>
-                </div>
-              ))}
-            </div>
+        {/* Centered Glass Hero Box (Identical to Screenshot 2) */}
+        <div className={`relative z-10 flex flex-col items-center justify-center text-center ${isMockup ? 'px-4 py-8 rounded-[2rem]' : 'px-8 sm:px-16 py-12 sm:py-16 rounded-[3rem]'} bg-white/[0.04] backdrop-blur-md border border-white/10 shadow-2xl max-w-xl mx-auto space-y-4`}>
+          <div className="space-y-1">
+            <h1 className={`${isMockup ? 'text-4xl sm:text-5xl' : 'text-5xl sm:text-7xl md:text-8xl'} font-display font-black leading-tight uppercase tracking-tight text-white`}>
+              WEAR YOUR<br />IDEA
+            </h1>
           </div>
-        )}
+
+          <p className={`${isMockup ? 'text-xs leading-relaxed max-w-xs' : 'text-sm sm:text-lg max-w-md'} text-slate-300 font-light mx-auto`}>
+            Premium oversized apparel with ultra-luxury 3D printing. We don't just sell t-shirts, we craft identity.
+          </p>
+
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-xs sm:max-w-md mx-auto">
+            <a
+              href="#collection"
+              className="w-full py-3.5 rounded-full bg-[#38BDF8] hover:bg-[#0EA5E9] text-black font-black text-xs uppercase tracking-wider transition-all duration-300 hover:scale-105 shadow-lg shadow-[#38BDF8]/20 text-center"
+            >
+              EXPLORE COLLECTION
+            </a>
+            <button
+              onClick={() => {
+                playClick();
+                setIsTrackingOpen(true);
+              }}
+              className="w-full py-3.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold text-xs uppercase tracking-wider transition-all duration-300 hover:scale-105 text-center"
+            >
+              START DESIGNING
+            </button>
+          </div>
+        </div>
       </section>
 
       {/* ======================================================== */}
-      {/* 3. OUR COLLECTION (Identical to User Image 2) */}
+      {/* 3. OUR COLLECTION (1-Column on Phone as in Screenshot 3) */}
       {/* ======================================================== */}
-      <section id="collection" className={`${isMockup ? 'py-6 px-3' : 'py-14 sm:py-20 px-4 sm:px-6 max-w-7xl mx-auto'}`}>
-        {/* Giant Centered Title as seen in Screenshot 2 */}
-        <div className={`text-center space-y-1.5 ${isMockup ? 'mb-5' : 'mb-10 sm:mb-14'}`}>
-          <h2 className={`${isMockup ? 'text-2xl font-black tracking-wide' : 'text-4xl sm:text-6xl md:text-7xl font-black tracking-wider'} font-sans uppercase text-white`}>
+      <section id="collection" className={`${isMockup ? 'py-8 px-3' : 'py-16 sm:py-20 px-4 sm:px-6 max-w-7xl mx-auto'}`}>
+        {/* Giant Centered Title */}
+        <div className={`text-center space-y-1.5 ${isMockup ? 'mb-6' : 'mb-12'}`}>
+          <h2 className={`${isMockup ? 'text-3xl font-black' : 'text-5xl sm:text-7xl font-black'} font-sans uppercase tracking-wider text-white`}>
             OUR COLLECTION
           </h2>
           <p className="text-xs text-slate-400 font-medium">
-            كولكشن ستريت وير CTRL YZ الأصلي • طباعة 3D مجسمة متطورة
+            تصفح كولكشن ستريت وير CTRL YZ الأصلي • طباعة 3D مجسمة متطورة
           </p>
         </div>
 
-        {/* Categories Strip & Search Filter */}
-        <div className={`flex ${isMockup ? 'flex-col gap-2.5 mb-4' : 'flex-col sm:flex-row items-center justify-between gap-4 mb-8'}`}>
+        {/* Categories Filter Strip */}
+        <div className={`flex ${isMockup ? 'flex-col gap-2.5 mb-5' : 'flex-col sm:flex-row items-center justify-between gap-4 mb-8'}`}>
           <div className="flex items-center gap-1.5 overflow-x-auto w-full pb-1 scrollbar-none">
             {categories.map((cat) => (
               <button
@@ -351,7 +299,7 @@ export const CtrlYzStorefront: React.FC<CtrlYzStorefrontProps> = ({
                   playClick();
                   setSelectedCategory(cat);
                 }}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
                   selectedCategory === cat
                     ? 'bg-[#38BDF8] text-black shadow-md shadow-[#38BDF8]/20 font-black'
                     : 'bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10'
@@ -369,17 +317,17 @@ export const CtrlYzStorefront: React.FC<CtrlYzStorefrontProps> = ({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="ابحث بالاسم أو الرقم (#39)..."
-              className="w-full pr-8 pl-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-slate-500 outline-none focus:border-[#38BDF8] transition-colors"
+              className="w-full pr-8 pl-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-white placeholder-slate-500 outline-none focus:border-[#38BDF8] transition-colors"
             />
           </div>
         </div>
 
         {/* ======================================================== */}
-        {/* PRODUCT GRID: 2 COLUMNS IN MOCKUP / 4 COLUMNS IN DESKTOP */}
+        {/* PRODUCT GRID: 1 COLUMN ON PHONE (Screenshot 3) / 4 ON DESKTOP */}
         {/* ======================================================== */}
         <div className={`grid ${
           isMockup
-            ? 'grid-cols-2 gap-2.5'
+            ? 'grid-cols-1 gap-6 max-w-sm mx-auto'
             : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8'
         }`}>
           {filtered.map((product) => {
@@ -387,38 +335,50 @@ export const CtrlYzStorefront: React.FC<CtrlYzStorefrontProps> = ({
               <div
                 key={product.id}
                 onClick={() => handleProductClick(product)}
-                className={`bg-[#12161F] border border-white/10 ${isMockup ? 'rounded-2xl p-2' : 'rounded-3xl p-4'} overflow-hidden hover:border-[#38BDF8]/60 transition-all duration-300 flex flex-col justify-between group cursor-pointer shadow-lg hover:-translate-y-1 hover:shadow-xl hover:shadow-[#38BDF8]/10`}
+                className={`bg-[#12161F] border border-white/10 ${isMockup ? 'rounded-3xl p-4' : 'rounded-3xl p-5'} overflow-hidden hover:border-[#38BDF8]/60 transition-all duration-300 flex flex-col justify-between group cursor-pointer shadow-2xl hover:-translate-y-1 hover:shadow-cyan-500/10`}
               >
-                {/* Image Container: Clean aspect-square without squashing */}
-                <div className={`relative ${isMockup ? 'aspect-square mb-2 rounded-xl' : 'h-64 sm:h-72 mb-3 rounded-2xl'} w-full overflow-hidden bg-black/40`}>
+                {/* Large Product Image (Exact match to Screenshot 3) */}
+                <div className={`relative ${isMockup ? 'h-72 sm:h-80 rounded-2xl mb-3' : 'h-64 sm:h-72 rounded-2xl mb-4'} w-full overflow-hidden bg-black/50`}>
                   <img
                     src={product.imageUrl}
                     alt={product.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                   />
+
+                  {/* Watermark Script Logo on Top-Left */}
+                  <span className="absolute top-3 left-3 text-xs font-mono font-bold text-white/90 italic bg-black/40 backdrop-blur-xs px-2.5 py-1 rounded-lg">
+                    Ctrl yz
+                  </span>
+
+                  {/* Best Seller Blue Badge on Top-Right */}
                   {product.badge && (
-                    <div className={`absolute top-2 right-2 bg-[#38BDF8] text-black ${isMockup ? 'px-2 py-0.5 text-[8px]' : 'px-3 py-1 text-[10px]'} rounded-full font-black uppercase tracking-wider shadow-lg flex items-center gap-1`}>
+                    <div className="absolute top-3 right-3 bg-[#38BDF8] text-black px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider shadow-lg flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-black animate-ping"></span>
                       <span>{product.badge}</span>
                     </div>
                   )}
+
+                  {/* Bottom Brand Tag on Image */}
+                  <div className="absolute bottom-2.5 inset-x-0 mx-auto w-fit text-[10px] font-mono font-black text-white/80 bg-black/50 backdrop-blur-xs px-2.5 py-0.5 rounded-md border border-white/10">
+                    CTRL | Z
+                  </div>
                 </div>
 
-                {/* Card Content */}
+                {/* Card Content identical to Screenshot 3 */}
                 <div className="flex-1 flex flex-col justify-between">
                   <div>
-                    <h3 className={`${isMockup ? 'text-xs font-bold line-clamp-1 mb-0.5' : 'text-lg sm:text-xl font-bold mb-1.5'} text-white group-hover:text-[#38BDF8] transition-colors`}>
+                    <h3 className="text-lg sm:text-xl font-bold text-white mb-1 group-hover:text-[#38BDF8] transition-colors">
                       {product.name}
                     </h3>
-                    <p className={`${isMockup ? 'text-[10px] line-clamp-1 mb-2' : 'text-xs mb-3 line-clamp-1'} text-slate-400`}>
+                    <p className="text-xs sm:text-sm text-slate-400 mb-4 line-clamp-1">
                       {product.description}
                     </p>
                   </div>
 
                   {/* Bottom Row: Price on left, Cart button on right */}
-                  <div className="flex items-center justify-between pt-1.5 border-t border-white/5 mt-auto">
-                    <span className={`${isMockup ? 'text-xs sm:text-sm font-black' : 'text-xl sm:text-2xl font-black'} font-mono text-[#38BDF8]`}>
+                  <div className="flex items-center justify-between pt-2 border-t border-white/5 mt-auto">
+                    <span className="text-xl sm:text-2xl font-mono font-black text-[#38BDF8]">
                       {product.price} EGP
                     </span>
                     <button
@@ -426,10 +386,10 @@ export const CtrlYzStorefront: React.FC<CtrlYzStorefrontProps> = ({
                         e.stopPropagation();
                         handleProductClick(product);
                       }}
-                      className={`${isMockup ? 'p-1.5' : 'p-2.5'} bg-white/5 hover:bg-[#38BDF8] hover:text-black text-white rounded-full transition-colors active:scale-90`}
+                      className="p-3 bg-white/5 hover:bg-[#38BDF8] hover:text-black text-white rounded-full transition-colors active:scale-90"
                       title="معاينة واختيار المقاس"
                     >
-                      <ShoppingCart className={`${isMockup ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
+                      <ShoppingCart className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
@@ -440,7 +400,52 @@ export const CtrlYzStorefront: React.FC<CtrlYzStorefrontProps> = ({
       </section>
 
       {/* ======================================================== */}
-      {/* 4. PRODUCT DETAILS MODAL (Exact from CTRL YZ) */}
+      {/* 4. THE NUMBERS SPEAK (Exact Match to User Screenshot 4) */}
+      {/* ======================================================== */}
+      <section className={`${isMockup ? 'py-10 px-4' : 'py-20 px-6 max-w-5xl mx-auto'} border-t border-white/5 text-center relative overflow-hidden`}>
+        {/* Curved blue background line */}
+        <div className="absolute inset-0 pointer-events-none opacity-20 flex items-center justify-center">
+          <svg width="100%" height="100%" viewBox="0 0 800 200" fill="none">
+            <path
+              d="M 50 150 C 250 150, 400 50, 750 20"
+              stroke="#38BDF8"
+              strokeWidth="6"
+              strokeLinecap="round"
+            />
+          </svg>
+        </div>
+
+        <div className="relative z-10 space-y-6 max-w-md sm:max-w-xl mx-auto">
+          <h2 className="text-2xl sm:text-4xl font-display font-black uppercase text-white tracking-widest">
+            THE NUMBERS SPEAK
+          </h2>
+
+          <div className="space-y-4">
+            {/* Number Card 1 (Screenshot 4) */}
+            <div className="p-8 rounded-3xl bg-white/[0.04] backdrop-blur-md border border-white/10 shadow-2xl space-y-1">
+              <div className="text-5xl sm:text-7xl font-mono font-black text-[#38BDF8] drop-shadow-[0_0_20px_rgba(56,189,248,0.4)]">
+                +146
+              </div>
+              <div className="text-xs sm:text-sm font-bold uppercase tracking-widest text-slate-300">
+                CLIENTS NATIONWIDE
+              </div>
+            </div>
+
+            {/* Number Card 2 (Screenshot 4) */}
+            <div className="p-8 rounded-3xl bg-white/[0.04] backdrop-blur-md border border-white/10 shadow-2xl space-y-1">
+              <div className="text-5xl sm:text-7xl font-mono font-black text-[#38BDF8] drop-shadow-[0_0_20px_rgba(56,189,248,0.4)]">
+                94.7%
+              </div>
+              <div className="text-xs sm:text-sm font-bold uppercase tracking-widest text-slate-300">
+                PRINT SUCCESS RATE
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ======================================================== */}
+      {/* 5. PRODUCT DETAILS MODAL */}
       {/* ======================================================== */}
       {selectedProduct && (
         <div
@@ -456,11 +461,11 @@ export const CtrlYzStorefront: React.FC<CtrlYzStorefrontProps> = ({
               onClick={() => setSelectedProduct(null)}
               className="absolute top-3 right-3 z-20 bg-black/60 text-white p-2 rounded-full hover:bg-[#38BDF8] hover:text-black transition-colors"
             >
-              <X className="w-4 h-4 sm:w-5 sm:h-5" />
+              <X className="w-5 h-5" />
             </button>
 
             {/* Left Image Section */}
-            <div className="w-full md:w-1/2 h-56 sm:h-72 md:h-auto relative overflow-hidden bg-black/50 shrink-0">
+            <div className="w-full md:w-1/2 h-64 sm:h-80 md:h-auto relative overflow-hidden bg-black/50 shrink-0">
               <img
                 src={selectedProduct.imageUrl}
                 alt={selectedProduct.name}
@@ -475,12 +480,12 @@ export const CtrlYzStorefront: React.FC<CtrlYzStorefrontProps> = ({
 
             {/* Right Details Section */}
             <div className="w-full md:w-1/2 p-5 sm:p-8 flex flex-col justify-between overflow-y-auto">
-              <div className="space-y-3 sm:space-y-4">
+              <div className="space-y-4">
                 <div>
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-black uppercase text-white tracking-wide">
                     {selectedProduct.name}
                   </h2>
-                  <div className="text-xl sm:text-2xl md:text-3xl font-mono font-black text-[#38BDF8] mt-1">
+                  <div className="text-2xl sm:text-3xl font-mono font-black text-[#38BDF8] mt-1">
                     {selectedProduct.price} EGP
                   </div>
                 </div>
@@ -490,7 +495,7 @@ export const CtrlYzStorefront: React.FC<CtrlYzStorefrontProps> = ({
                   <label className="text-xs font-bold text-slate-400 block mb-2 uppercase tracking-wider">
                     اختر المقاس (SELECT SIZE):
                   </label>
-                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                  <div className="flex flex-wrap gap-2">
                     {['M', 'L', 'XL', 'XXL', 'XXXL'].map((sz) => (
                       <button
                         key={sz}
@@ -498,7 +503,7 @@ export const CtrlYzStorefront: React.FC<CtrlYzStorefrontProps> = ({
                           playClick();
                           setSelectedSize(sz);
                         }}
-                        className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl font-mono font-black text-xs sm:text-sm flex items-center justify-center border transition-all ${
+                        className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl font-mono font-black text-xs sm:text-sm flex items-center justify-center border transition-all ${
                           selectedSize === sz
                             ? 'border-[#38BDF8] bg-[#38BDF8] text-black shadow-md shadow-[#38BDF8]/30 scale-105'
                             : 'border-white/10 hover:border-white/30 text-white bg-white/5'
@@ -511,7 +516,7 @@ export const CtrlYzStorefront: React.FC<CtrlYzStorefrontProps> = ({
                 </div>
 
                 {/* Features Quality Checklist */}
-                <div className="space-y-1.5 sm:space-y-2 border-t border-white/10 pt-3 text-xs font-bold text-slate-200">
+                <div className="space-y-2 border-t border-white/10 pt-3 text-xs font-bold text-slate-200">
                   <div className="flex items-center gap-2 text-emerald-400">
                     <Check className="w-4 h-4 shrink-0" />
                     <span>خامة قطن مصري 100% ثقيل معالج ضد الانكماش.</span>
@@ -531,7 +536,7 @@ export const CtrlYzStorefront: React.FC<CtrlYzStorefrontProps> = ({
               <div className="pt-4 border-t border-white/10 mt-4 sm:mt-6">
                 <button
                   onClick={handleAddFromModal}
-                  className="w-full py-3 sm:py-3.5 rounded-2xl bg-[#38BDF8] hover:bg-[#0EA5E9] text-black font-black text-xs sm:text-sm transition-all shadow-lg shadow-[#38BDF8]/20 flex items-center justify-center gap-2 active:scale-95"
+                  className="w-full py-3.5 rounded-2xl bg-[#38BDF8] hover:bg-[#0EA5E9] text-black font-black text-xs sm:text-sm transition-all shadow-lg shadow-[#38BDF8]/20 flex items-center justify-center gap-2 active:scale-95"
                 >
                   <ShoppingCart className="w-4 h-4" />
                   <span>إضافة إلى حقيبة التسوق ({selectedSize})</span>
@@ -543,7 +548,7 @@ export const CtrlYzStorefront: React.FC<CtrlYzStorefrontProps> = ({
       )}
 
       {/* ======================================================== */}
-      {/* 5. ORDER TRACKING MODAL */}
+      {/* 6. ORDER TRACKING MODAL */}
       {/* ======================================================== */}
       {isTrackingOpen && (
         <div
@@ -598,72 +603,26 @@ export const CtrlYzStorefront: React.FC<CtrlYzStorefrontProps> = ({
       )}
 
       {/* ======================================================== */}
-      {/* 6. ABOUT SECTION */}
-      {/* ======================================================== */}
-      <section id="about" className={`${isMockup ? 'py-8 px-3' : 'py-16 sm:py-24 px-4 sm:px-6 max-w-7xl mx-auto'} border-t border-white/5`}>
-        <div className={`grid ${isMockup ? 'grid-cols-1 gap-6' : 'md:grid-cols-2 gap-10'} items-center`}>
-          <div className="space-y-3 sm:space-y-4">
-            <span className="text-xs font-mono font-bold text-[#38BDF8] uppercase tracking-wider block">
-              THE STORY • براند الشارع 2026
-            </span>
-            <h2 className={`${isMockup ? 'text-xl' : 'text-3xl sm:text-4xl'} font-black text-white uppercase`}>
-              انطلقنا لنغير مفهوم الملابس الأوفر سايز في مصر
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium">
-              بدأت رحلة CTRL YZ بهدف واضح: تقديم خامات قطنية مصرية 100% غير مسبوقة بوزن ثقيل، مع طباعة ثلاثية الأبعاد فائقة الدقة لا تتأثر بالحرارة أو الغسيل، لتمنحك الستايل العصري الأنيق مع أقصى درجات الراحة.
-            </p>
-            <div className="grid grid-cols-3 gap-2 sm:gap-3 pt-3 border-t border-white/10">
-              <div className="p-2 sm:p-3 rounded-2xl bg-white/5 border border-white/10 text-center">
-                <span className="font-mono font-black text-base sm:text-xl text-[#38BDF8] block">+24,500</span>
-                <span className="text-[9px] sm:text-[10px] text-slate-400 font-bold">أوردر تم تنفيذه</span>
-              </div>
-              <div className="p-2 sm:p-3 rounded-2xl bg-white/5 border border-white/10 text-center">
-                <span className="font-mono font-black text-base sm:text-xl text-[#38BDF8] block">100%</span>
-                <span className="text-[9px] sm:text-[10px] text-slate-400 font-bold">قطن مصري أصلي</span>
-              </div>
-              <div className="p-2 sm:p-3 rounded-2xl bg-white/5 border border-white/10 text-center">
-                <span className="font-mono font-black text-base sm:text-xl text-[#38BDF8] block">48 ساعة</span>
-                <span className="text-[9px] sm:text-[10px] text-slate-400 font-bold">شحن فوري</span>
-              </div>
-            </div>
-          </div>
-
-          <div className={`rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative ${isMockup ? 'h-52' : 'h-80 sm:h-96'}`}>
-            <img
-              src="/assets/products/ctrl-yz/product-39.jpeg"
-              alt="About CTRL YZ"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-4 sm:p-6">
-              <span className="font-mono text-xs font-bold text-[#38BDF8] tracking-widest uppercase">
-                CTRL YZ • WEAR YOUR IDEA
-              </span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ======================================================== */}
       {/* 7. SERVICES & GUARANTEES */}
       {/* ======================================================== */}
-      <section id="services" className={`${isMockup ? 'py-8 px-3' : 'py-14 px-4 sm:px-6'} bg-[#0E131E] border-y border-white/5`}>
+      <section id="services" className={`${isMockup ? 'py-8 px-4' : 'py-14 px-6'} bg-[#0E131E] border-y border-white/5`}>
         <div className={`max-w-7xl mx-auto grid ${isMockup ? 'grid-cols-1 gap-3' : 'grid-cols-1 sm:grid-cols-3 gap-6'}`}>
-          <div className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-white/5 border border-white/10 space-y-1.5">
-            <Truck className="w-5 h-5 sm:w-6 sm:h-6 text-[#38BDF8]" />
+          <div className="p-4 sm:p-6 rounded-2xl bg-white/5 border border-white/10 space-y-1.5">
+            <Truck className="w-5 h-5 text-[#38BDF8]" />
             <h4 className="font-bold text-sm sm:text-base text-white">شحن سريع 24-48 ساعة</h4>
             <p className="text-xs text-slate-400 leading-relaxed">
               توصيل لجميع محافظات جمهورية مصر العربية مع إمكانية التتبع المباشر لخط سير المندوب.
             </p>
           </div>
-          <div className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-white/5 border border-white/10 space-y-1.5">
-            <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6 text-[#38BDF8]" />
+          <div className="p-4 sm:p-6 rounded-2xl bg-white/5 border border-white/10 space-y-1.5">
+            <ShieldCheck className="w-5 h-5 text-[#38BDF8]" />
             <h4 className="font-bold text-sm sm:text-base text-white">معاينة قبل الاستلام والدفع</h4>
             <p className="text-xs text-slate-400 leading-relaxed">
               افتح أوردرك وعاين جودة الخامة والمقاس قبل دفع مليم واحد للمندوب، مع الدفع عند الاستلام أو إنستاباي.
             </p>
           </div>
-          <div className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-white/5 border border-white/10 space-y-1.5">
-            <RotateCcw className="w-5 h-5 sm:w-6 sm:h-6 text-[#38BDF8]" />
+          <div className="p-4 sm:p-6 rounded-2xl bg-white/5 border border-white/10 space-y-1.5">
+            <RotateCcw className="w-5 h-5 text-[#38BDF8]" />
             <h4 className="font-bold text-sm sm:text-base text-white">استبدال واسترجاع سهل</h4>
             <p className="text-xs text-slate-400 leading-relaxed">
               لو المقاس مش مظبوط بنستبدلهولك في نفس اليوم بدون أي تعقيدات وبأسرع وقت.
@@ -675,7 +634,7 @@ export const CtrlYzStorefront: React.FC<CtrlYzStorefrontProps> = ({
       {/* ======================================================== */}
       {/* 8. FOOTER */}
       {/* ======================================================== */}
-      <footer id="contact" className={`${isMockup ? 'py-8 px-3' : 'py-12 px-4 sm:px-6 max-w-7xl mx-auto'} border-t border-white/10 text-center space-y-3`}>
+      <footer id="contact" className={`${isMockup ? 'py-8 px-4' : 'py-12 px-6 max-w-7xl mx-auto'} border-t border-white/10 text-center space-y-3`}>
         <div className="font-mono font-black text-xl sm:text-2xl tracking-widest text-white uppercase">
           CTRL YZ
         </div>
@@ -685,7 +644,7 @@ export const CtrlYzStorefront: React.FC<CtrlYzStorefrontProps> = ({
         <div className="flex items-center justify-center gap-3 text-xs font-bold text-slate-400 flex-wrap">
           <span>خدمة العملاء: 01012345678</span>
           <span>•</span>
-          <span>دعم فوري على مدار 24 ساعة عبر واتساب</span>
+          <span>دعم فوري 24 ساعة عبر واتساب</span>
         </div>
       </footer>
 
@@ -694,7 +653,7 @@ export const CtrlYzStorefront: React.FC<CtrlYzStorefrontProps> = ({
       {/* ======================================================== */}
       {activeCart.length > 0 && (
         <div className={`fixed ${isMockup ? 'bottom-2 inset-x-2 max-w-sm' : 'bottom-6 inset-x-4 max-w-lg'} z-40 mx-auto animate-bounceIn`}>
-          <div className={`bg-slate-900/95 backdrop-blur-xl border border-white/20 ${isMockup ? 'rounded-2xl p-2.5' : 'rounded-3xl p-3 sm:p-4'} shadow-2xl flex items-center justify-between gap-2.5`}>
+          <div className={`bg-slate-900/95 backdrop-blur-xl border border-white/20 ${isMockup ? 'rounded-2xl p-2.5' : 'rounded-3xl p-4'} shadow-2xl flex items-center justify-between gap-2.5`}>
             {/* Thumbnails */}
             <div className="flex items-center -space-x-2.5 overflow-x-auto pr-1 scrollbar-none">
               {activeCart.map((item, idx) => (
@@ -724,7 +683,7 @@ export const CtrlYzStorefront: React.FC<CtrlYzStorefrontProps> = ({
                   alert(`جاري توجيهك لصفحة الدفع بإجمالي: ${cartTotal} ج.م`);
                 }
               }}
-              className={`${isMockup ? 'px-3.5 py-2 text-[11px]' : 'px-5 sm:px-6 py-3 text-xs'} rounded-xl bg-[#38BDF8] hover:bg-[#0EA5E9] text-black font-black uppercase tracking-wider transition-transform active:scale-95 shadow-md shadow-[#38BDF8]/20 shrink-0 flex items-center gap-1.5`}
+              className={`${isMockup ? 'px-3.5 py-2 text-[11px]' : 'px-6 py-3 text-xs'} rounded-xl bg-[#38BDF8] hover:bg-[#0EA5E9] text-black font-black uppercase tracking-wider transition-transform active:scale-95 shadow-md shadow-[#38BDF8]/20 shrink-0 flex items-center gap-1.5`}
             >
               <span>إتمام الطلب • {cartTotal} EGP</span>
               <ArrowRight className="w-3 h-3 -scale-x-100" />
