@@ -297,25 +297,25 @@ export const OrderModal: React.FC<OrderModalProps> = ({
 
  {/* 3 Guarantees */}
  <div className="flex flex-wrap items-center justify-center gap-2 mt-2 text-xs font-bold text-slate-700 dark:text-slate-300">
- <span className="flex items-center gap-1 text-zinc-700 dark:text-zinc-300">
- <CheckCircle2 className="w-3.5 h-3.5 text-zinc-700 dark:text-zinc-300" />
+ <span className="flex items-center gap-1 text-[#D9722B] dark:text-[#E88B4D]">
+ <CheckCircle2 className="w-3.5 h-3.5 text-[#D9722B] dark:text-[#E88B4D]" />
  <span>الدفع مرة واحدة</span>
  </span>
  <span className="text-slate-400 dark:text-slate-600">•</span>
- <span className="flex items-center gap-1 text-zinc-700 dark:text-zinc-300">
- <ShieldCheck className="w-3.5 h-3.5 text-zinc-700 dark:text-zinc-300" />
+ <span className="flex items-center gap-1 text-[#D9722B] dark:text-[#E88B4D]">
+ <ShieldCheck className="w-3.5 h-3.5 text-[#D9722B] dark:text-[#E88B4D]" />
  <span>الضمان مدى الحياة</span>
  </span>
  <span className="text-slate-400 dark:text-slate-600">•</span>
- <span className="flex items-center gap-1 text-zinc-700 dark:text-zinc-300">
- <Zap className="w-3.5 h-3.5 text-zinc-700 dark:text-zinc-300" />
+ <span className="flex items-center gap-1 text-[#D9722B] dark:text-[#E88B4D]">
+ <Zap className="w-3.5 h-3.5 text-[#D9722B] dark:text-[#E88B4D]" />
  <span>تسليم في خلال دقائق</span>
  </span>
  </div>
 
  {initialStoreConfig && (
- <div className="mt-2.5 p-2 border border-dashed border-[#0F0F0F] dark:border-zinc-600 dark:border-zinc-400/50 sketch-border-tag bg-zinc-100 dark:bg-zinc-800/60 text-xs font-bold text-zinc-900 dark:text-zinc-300 flex items-center justify-center gap-1.5">
- <CheckCircle2 className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
+ <div className="mt-2.5 p-2 border border-dashed border-[#0F0F0F] dark:border-[#D9722B] dark:border-[#D9722B]/60/50 sketch-border-tag bg-zinc-100 dark:bg-zinc-800/60 text-xs font-bold text-zinc-900 dark:text-zinc-300 flex items-center justify-center gap-1.5">
+ <CheckCircle2 className="w-4 h-4 text-[#D9722B] dark:text-[#E88B4D]" />
  <span>تم اختيار تيمبليت متجر "{initialStoreConfig.storeName}" بنجاح</span>
  </div>
  )}
@@ -331,7 +331,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  {/* Connector line */}
  <div className="absolute top-1/2 left-6 right-6 -translate-y-1/2 h-1 bg-slate-200 dark:bg-slate-800 -z-0">
  <div
- className="h-full bg-zinc-700 dark:bg-zinc-300 transition-all duration-300"
+ className="h-full bg-[#D9722B] transition-all duration-300"
  style={{ width: currentStep === 1 ? '0%' : currentStep === 2 ? '50%' : '100%' }}
  />
  </div>
@@ -350,15 +350,15 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  <div
  className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-xs border-2 transition-all ${
  currentStep === 1
- ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 border-[#0F0F0F] dark:border-zinc-400 scale-110 shadow-md'
+ ? 'bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white border-[#0F0F0F] dark:border-zinc-400 scale-110 shadow-md'
  : currentStep > 1
- ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 border-[#0F0F0F] dark:border-zinc-400'
+ ? 'bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white border-[#0F0F0F] dark:border-zinc-400'
  : 'bg-white dark:bg-slate-800 text-slate-500 border-slate-300 dark:border-slate-700'
  }`}
  >
  {currentStep > 1 ? <Check className="w-4 h-4" /> : '1'}
  </div>
- <span className={`text-[11px] font-black ${currentStep === 1 ? 'text-zinc-700 dark:text-zinc-300' : 'text-slate-600 dark:text-slate-400'}`}>
+ <span className={`text-[11px] font-black ${currentStep === 1 ? 'text-[#D9722B] dark:text-[#E88B4D]' : 'text-slate-600 dark:text-slate-400'}`}>
  الباقة والدومين
  </span>
  </button>
@@ -379,15 +379,15 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  <div
  className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-xs border-2 transition-all ${
  currentStep === 2
- ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 border-[#0F0F0F] dark:border-zinc-400 scale-110 shadow-md'
+ ? 'bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white border-[#0F0F0F] dark:border-zinc-400 scale-110 shadow-md'
  : currentStep > 2
- ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 border-[#0F0F0F] dark:border-zinc-400'
+ ? 'bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white border-[#0F0F0F] dark:border-zinc-400'
  : 'bg-white dark:bg-slate-800 text-slate-500 border-slate-300 dark:border-slate-700'
  }`}
  >
  {currentStep > 2 ? <Check className="w-4 h-4" /> : '2'}
  </div>
- <span className={`text-[11px] font-black ${currentStep === 2 ? 'text-zinc-700 dark:text-zinc-300' : 'text-slate-600 dark:text-slate-400'}`}>
+ <span className={`text-[11px] font-black ${currentStep === 2 ? 'text-[#D9722B] dark:text-[#E88B4D]' : 'text-slate-600 dark:text-slate-400'}`}>
  بيانات المالك
  </span>
  </button>
@@ -408,13 +408,13 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  <div
  className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-xs border-2 transition-all ${
  currentStep === 3
- ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 border-[#0F0F0F] dark:border-zinc-400 scale-110 shadow-md'
+ ? 'bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white border-[#0F0F0F] dark:border-zinc-400 scale-110 shadow-md'
  : 'bg-white dark:bg-slate-800 text-slate-500 border-slate-300 dark:border-slate-700'
  }`}
  >
  3
  </div>
- <span className={`text-[11px] font-black ${currentStep === 3 ? 'text-zinc-700 dark:text-zinc-300' : 'text-slate-600 dark:text-slate-400'}`}>
+ <span className={`text-[11px] font-black ${currentStep === 3 ? 'text-[#D9722B] dark:text-[#E88B4D]' : 'text-slate-600 dark:text-slate-400'}`}>
  الدفع والتأكيد
  </span>
  </button>
@@ -454,7 +454,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  }}
  className={`p-3 text-right border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-tag transition-all ${
  isSelected
- ? 'bg-[#0F0F0F] text-white dark:bg-zinc-700 dark:bg-zinc-300 dark:text-slate-950 sketch-shadow-sm -translate-y-0.5 ring-2 ring-zinc-600/50'
+ ? 'bg-[#0F0F0F] text-white dark:bg-[#D9722B] dark:text-slate-950 sketch-shadow-sm -translate-y-0.5 ring-2 ring-[#D9722B]/50'
  : 'bg-white dark:bg-slate-800 hover:bg-neutral-50 dark:hover:bg-slate-700 text-[#0F0F0F] dark:text-slate-200'
  }`}
  >
@@ -511,7 +511,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  <label className="text-xs font-black text-[#0F0F0F] dark:text-slate-200">
  الساب دومين المطلوب (رابط موقعك) *
  </label>
- <span className="text-[10px] text-zinc-700 dark:text-zinc-300 font-bold flex items-center gap-1">
+ <span className="text-[10px] text-[#D9722B] dark:text-[#E88B4D] font-bold flex items-center gap-1">
  <Sparkles className="w-3 h-3" /> متاح مجاناً مع الباقة
  </span>
  </div>
@@ -536,12 +536,12 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  </div>
 
  {/* LIVE SUBDOMAIN AVAILABILITY BADGE */}
- <div className="mt-2 p-2 bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-300 dark:border-zinc-700 rounded-lg flex items-center justify-between text-xs font-bold text-zinc-900 dark:text-zinc-300">
+ <div className="mt-2 p-2 bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-300 dark:border-[#D9722B] rounded-lg flex items-center justify-between text-xs font-bold text-zinc-900 dark:text-zinc-300">
  <div className="flex items-center gap-1.5">
- <CheckCircle2 className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
+ <CheckCircle2 className="w-4 h-4 text-[#D9722B] dark:text-[#E88B4D]" />
  <span>مبروك! الدومين ده متاح حالياً ✓</span>
  </div>
- <span className="font-mono text-[11px] text-zinc-700 dark:text-zinc-300" dir="ltr">
+ <span className="font-mono text-[11px] text-[#D9722B] dark:text-[#E88B4D]" dir="ltr">
  {cleanSubdomain}.sketchorder.com
  </span>
  </div>
@@ -625,7 +625,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  <AlertCircle className="w-3.5 h-3.5" /> {stepErrors.whatsapp}
  </p>
  ) : formData.whatsapp && (
- <p className="text-[11px] text-zinc-700 dark:text-zinc-300 font-bold mt-1 flex items-center gap-1">
+ <p className="text-[11px] text-[#D9722B] dark:text-[#E88B4D] font-bold mt-1 flex items-center gap-1">
  <CheckCircle2 className="w-3.5 h-3.5" /> رقم هاتف صالح للاستقبال عبر واتساب
  </p>
  )}
@@ -724,7 +724,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  </div>
 
  {/* 1-Click Copy Accounts Box */}
- <div className="p-3.5 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-2 bg-zinc-100/60 dark:bg-zinc-500/10 space-y-2.5">
+ <div className="p-3.5 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-2 bg-zinc-100/60 dark:bg-[#D9722B]/10 space-y-2.5">
  <span className="text-xs font-black text-[#0F0F0F] dark:text-zinc-200 block">
  بيانات التحويل المباشر (اضغط للنسخ فوراً):
  </span>
@@ -733,7 +733,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  <div className="flex items-center justify-between p-2.5 bg-white dark:bg-slate-900 border border-[#0F0F0F]/30 dark:border-slate-700 rounded-xl">
  <div className="text-right">
  <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400"> عنوان إنستاباي (InstaPay IPA):</div>
- <div className="font-mono font-black text-sm text-zinc-700 dark:text-zinc-300">
+ <div className="font-mono font-black text-sm text-[#D9722B] dark:text-[#E88B4D]">
  kareem07@instapay
  </div>
  </div>
@@ -743,8 +743,8 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  onClick={() => handleCopyText('kareem07@instapay', 'instapay')}
  className={`px-3 py-1.5 rounded-lg text-xs font-black flex items-center gap-1.5 transition-all ${
  copiedField === 'instapay'
- ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950'
- : 'bg-zinc-100 dark:bg-zinc-800/60 text-zinc-800 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-700'
+ ? 'bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white'
+ : 'bg-zinc-100 dark:bg-zinc-800/60 text-[#D9722B] dark:text-[#E88B4D] border border-zinc-200 dark:border-[#D9722B] hover:bg-zinc-200 dark:hover:bg-zinc-700'
  }`}
  >
  {copiedField === 'instapay' ? (
@@ -765,7 +765,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  <div className="flex items-center justify-between p-2.5 bg-white dark:bg-slate-900 border border-[#0F0F0F]/30 dark:border-slate-700 rounded-xl">
  <div className="text-right">
  <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400"> رقم فودافون كاش:</div>
- <div className="font-mono font-black text-sm text-zinc-700 dark:text-zinc-300" dir="ltr">
+ <div className="font-mono font-black text-sm text-[#D9722B] dark:text-[#E88B4D]" dir="ltr">
  01023456789
  </div>
  </div>
@@ -775,8 +775,8 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  onClick={() => handleCopyText('01023456789', 'vodafone')}
  className={`px-3 py-1.5 rounded-lg text-xs font-black flex items-center gap-1.5 transition-all ${
  copiedField === 'vodafone'
- ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950'
- : 'bg-zinc-100 dark:bg-zinc-800/60 text-zinc-800 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-700'
+ ? 'bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white'
+ : 'bg-zinc-100 dark:bg-zinc-800/60 text-[#D9722B] dark:text-[#E88B4D] border border-zinc-200 dark:border-[#D9722B] hover:bg-zinc-200 dark:hover:bg-zinc-700'
  }`}
  >
  {copiedField === 'vodafone' ? (
@@ -800,12 +800,12 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  إرفاق إيصال التحويل (لتسريع اعتماد وتفعيل المتجر):
  </label>
  {receiptBase64 ? (
- <div className="flex items-center justify-between p-2.5 bg-white dark:bg-slate-900 border-2 border-zinc-600 dark:border-zinc-400 dark:border-zinc-700 rounded-xl shadow-xs">
+ <div className="flex items-center justify-between p-2.5 bg-white dark:bg-slate-900 border-2 border-[#D9722B] dark:border-[#D9722B]/60 dark:border-[#D9722B] rounded-xl shadow-xs">
  <div className="flex items-center gap-2.5">
  <img src={receiptBase64} alt="إيصال التحويل" className="w-12 h-12 object-cover rounded-lg border border-slate-300 dark:border-slate-700" />
  <div>
- <span className="text-xs font-black text-zinc-700 dark:text-zinc-300 flex items-center gap-1">
- <CheckCircle2 className="w-4 h-4 text-zinc-700 dark:text-zinc-300" /> تم إرفاق صورة الإيصال
+ <span className="text-xs font-black text-[#D9722B] dark:text-[#E88B4D] flex items-center gap-1">
+ <CheckCircle2 className="w-4 h-4 text-[#D9722B] dark:text-[#E88B4D]" /> تم إرفاق صورة الإيصال
  </span>
  <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">ستظهر فوراً في لوحة تحكم التاجر للإدارة</span>
  </div>
@@ -850,7 +850,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  </div>
  </div>
  <div className="text-right">
- <span className="text-xs font-black text-zinc-800 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-800/60/50 px-2 py-0.5 rounded-sm border border-zinc-200 dark:border-zinc-700">
+ <span className="text-xs font-black text-[#D9722B] dark:text-[#E88B4D] bg-zinc-100 dark:bg-zinc-800/60/50 px-2 py-0.5 rounded-sm border border-zinc-200 dark:border-[#D9722B]">
  دفع مرة واحدة • ملكك مدى الحياة
  </span>
  </div>
@@ -905,7 +905,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  <div className="text-xs font-bold mt-2 text-[#0F0F0F]/80 dark:text-slate-300">
  التاريخ: {stampDate} • {currentPlan.name} • {currentPlan.priceDisplay}
  </div>
- <div className="text-xs font-mono font-bold mt-2 text-zinc-700 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-800/60/50 py-1 px-3 rounded-md border border-zinc-200 dark:border-zinc-700" dir="ltr">
+ <div className="text-xs font-mono font-bold mt-2 text-[#D9722B] dark:text-[#E88B4D] bg-zinc-100 dark:bg-zinc-800/60/50 py-1 px-3 rounded-md border border-zinc-200 dark:border-[#D9722B]" dir="ltr">
  https://{cleanSubdomain}.sketchorder.com
  </div>
  </div>

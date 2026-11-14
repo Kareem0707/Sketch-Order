@@ -40,17 +40,17 @@ export const Footer: React.FC<FooterProps> = ({
             </p>
 
             <div className="flex flex-wrap items-center gap-3 text-xs font-bold text-[#0F0F0F] dark:text-slate-300">
-              <span className="flex items-center gap-1 text-zinc-700 dark:text-zinc-300">
+              <span className="flex items-center gap-1 text-[#D9722B] dark:text-[#E88B4D]">
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 <span>دفع مرة واحدة</span>
               </span>
               <span>•</span>
-              <span className="flex items-center gap-1 text-zinc-700 dark:text-zinc-300">
+              <span className="flex items-center gap-1 text-[#D9722B] dark:text-[#E88B4D]">
                 <ShieldCheck className="w-3.5 h-3.5" />
                 <span>ضمان مدى الحياة</span>
               </span>
               <span>•</span>
-              <span className="flex items-center gap-1 text-zinc-700 dark:text-zinc-300">
+              <span className="flex items-center gap-1 text-[#D9722B] dark:text-[#E88B4D]">
                 <Zap className="w-3.5 h-3.5" />
                 <span>تواصل فوري مع الدعم</span>
               </span>
@@ -74,7 +74,7 @@ export const Footer: React.FC<FooterProps> = ({
                 </a>
               </li>
               <li>
-                <a href="#pricing-plans" className="hover:underline text-zinc-700 dark:text-zinc-300 font-black">
+                <a href="#pricing-plans" className="hover:underline text-[#D9722B] dark:text-[#E88B4D] font-black">
                   • الباقات الـ 3 والأسعار الرسمية
                 </a>
               </li>
@@ -89,9 +89,9 @@ export const Footer: React.FC<FooterProps> = ({
                     playClick();
                     onOpenStudio();
                   }}
-                  className="hover:underline text-right font-black flex items-center gap-1.5 mt-1 text-zinc-700 dark:text-zinc-300"
+                  className="hover:underline text-right font-black flex items-center gap-1.5 mt-1 text-[#D9722B] dark:text-[#E88B4D]"
                 >
-                  <Hammer className="w-3.5 h-3.5 text-zinc-700 dark:text-zinc-300" />
+                  <Hammer className="w-3.5 h-3.5 text-[#D9722B] dark:text-[#E88B4D]" />
                   <span>• استوديو بناء المتجر والتيمبليتس</span>
                 </button>
               </li>
@@ -101,7 +101,7 @@ export const Footer: React.FC<FooterProps> = ({
           {/* Ownership Guarantee & Callout */}
           <div className="md:col-span-4 border-2 border-[#0F0F0F] dark:border-slate-700 p-5 sketch-border-2 bg-white dark:bg-[#151D2A] text-[#0F0F0F] dark:text-white sketch-shadow-sm flex flex-col justify-between space-y-3">
             <div className="space-y-2">
-              <div className="text-xs font-bold text-zinc-700 dark:text-zinc-300 flex items-center gap-1">
+              <div className="text-xs font-bold text-[#D9722B] dark:text-[#E88B4D] flex items-center gap-1">
                 <ShieldCheck className="w-4 h-4" />
                 <span>ضمان الملكية والاستقلالية 100%</span>
               </div>

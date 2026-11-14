@@ -8,7 +8,6 @@ import { ClientMerchantPortal } from './components/ClientMerchantPortal';
 import { TenantLiveStore } from './components/TenantLiveStore';
 import { SplitSimulator } from './components/SplitSimulator';
 import { PricingPackages } from './components/PricingPackages';
-import { StorePlayground } from './components/StorePlayground';
 import { FaqSection } from './components/FaqSection';
 import { Footer } from './components/Footer';
 import { OrderModal } from './components/OrderModal';
@@ -110,13 +109,6 @@ export const App: React.FC = () => {
     setViewMode('tenant_live_store');
   };
 
-  const scrollToPlayground = () => {
-    const el = document.getElementById('store-playground');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   // ==========================================================
   // 1. FULL-PAGE TEMPLATES SHOWCASE VIEW (صفحة كاملة كواجهة)
   // ==========================================================
@@ -153,7 +145,7 @@ export const App: React.FC = () => {
   // ==========================================================
   if (viewMode === 'studio') {
     return (
-      <div className="min-h-screen bg-slate-950 font-sans text-slate-100 antialiased selection:bg-zinc-700 selection:text-white">
+      <div className="min-h-screen bg-slate-950 font-sans text-slate-100 antialiased selection:bg-[#D9722B] selection:text-white">
         <FullPageStoreStudio
           onBackToHome={() => {
             playClick();
@@ -239,7 +231,7 @@ export const App: React.FC = () => {
         isDarkMode
           ? 'bg-[#0B0F17] text-[#F8FAFC]'
           : 'bg-white text-[#0F0F0F]'
-      } font-body selection:bg-zinc-700 selection:text-white antialiased`}
+      } font-body selection:bg-[#D9722B] selection:text-white antialiased`}
     >
       {/* Navbar with Dark Mode & Portal links */}
       <Navbar
@@ -267,7 +259,7 @@ export const App: React.FC = () => {
             setSelectedPlan('pro');
             setOrderModalOpen(true);
           }}
-          onExplorePlayground={scrollToPlayground}
+          onExplorePlayground={openFullStudio}
           onOpenStudio={openFullStudio}
           onOpenTemplates={openTemplatesShowcase}
         />
@@ -282,7 +274,7 @@ export const App: React.FC = () => {
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-10">
-              <span className="text-xs font-mono font-bold bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 px-3 py-1 sketch-border-pill -rotate-1 inline-block mb-2">
+              <span className="text-xs font-mono font-bold bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white px-3 py-1 sketch-border-pill -rotate-1 inline-block mb-2">
                 HOW IT WORKS • ببساطة وبدون تعقيد
               </span>
               <h2 className="text-2xl sm:text-4xl font-black font-heading">
@@ -300,7 +292,7 @@ export const App: React.FC = () => {
                 } sketch-border-2`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="w-9 h-9 rounded-full bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 flex items-center justify-center font-black font-mono text-sm">
+                  <span className="w-9 h-9 rounded-full bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white flex items-center justify-center font-black font-mono text-sm">
                     1
                   </span>
                   <span className="text-xs font-bold opacity-70">الخطوة الأولى</span>
@@ -311,7 +303,7 @@ export const App: React.FC = () => {
                 <p className="text-xs font-bold opacity-80 leading-relaxed">
                   اختار المظهر اللي يعجبك (متجر سبورتك الرياضي، صفحة كوتشيات نايكي تفصيلية، مطاعم دارك فاخر، أو ستايل كوميكس مرسوم). عدّل الاسم والدومين والأقسام فورياً.
                 </p>
-                <div className="text-[11px] font-mono font-bold text-zinc-700 dark:text-zinc-300 bg-zinc-500/10 p-1.5 rounded-md border border-zinc-400/30 dark:border-zinc-600/30">
+                <div className="text-[11px] font-mono font-bold text-[#D9722B] dark:text-[#E88B4D] bg-[#D9722B]/10 p-1.5 rounded-md border border-[#D9722B]/30">
                   ✓ تجربة مجانية فورية في صفحة كاملة
                 </div>
               </div>
@@ -325,7 +317,7 @@ export const App: React.FC = () => {
                 } sketch-border-1`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="w-9 h-9 rounded-full bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 flex items-center justify-center font-black font-mono text-sm">
+                  <span className="w-9 h-9 rounded-full bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white flex items-center justify-center font-black font-mono text-sm">
                     2
                   </span>
                   <span className="text-xs font-bold opacity-70">الخطوة الثانية</span>
@@ -336,7 +328,7 @@ export const App: React.FC = () => {
                 <p className="text-xs font-bold opacity-80 leading-relaxed">
                   جرب تضيف منتجك الخاص وصورك، تتحكم في الأقسام، وتشوف سيستم تحليل المبيعات وصافي الربح الحقيقي شغال قدام عينك بالجنيه المصري.
                 </p>
-                <div className="text-[11px] font-mono font-bold text-zinc-700 dark:text-zinc-300 bg-zinc-500/10 p-1.5 rounded-md border border-zinc-400/30 dark:border-zinc-600/30">
+                <div className="text-[11px] font-mono font-bold text-[#D9722B] dark:text-[#E88B4D] bg-[#D9722B]/10 p-1.5 rounded-md border border-[#D9722B]/30">
                   ✓ لوحة تحكم متكاملة + تحليلات الأرباح
                 </div>
               </div>
@@ -350,7 +342,7 @@ export const App: React.FC = () => {
                 } sketch-border-3`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="w-9 h-9 rounded-full bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 flex items-center justify-center font-black font-mono text-sm">
+                  <span className="w-9 h-9 rounded-full bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white flex items-center justify-center font-black font-mono text-sm">
                     3
                   </span>
                   <span className="text-xs font-bold opacity-70">الخطوة الثالثة</span>
@@ -361,7 +353,7 @@ export const App: React.FC = () => {
                 <p className="text-xs font-bold opacity-80 leading-relaxed">
                   دفع مرة واحدة بإنستاباي أو فودافون كاش أو فيزا. بنسلمك متجرك المستقل بدومينك الخاص (.store أو .com) ملكك مدى الحياة بدون أي اشتراكات أو نسب مبيعات.
                 </p>
-                <div className="text-[11px] font-mono font-bold text-zinc-700 dark:text-zinc-300 bg-zinc-500/10 p-1.5 rounded-md border border-zinc-400/30 dark:border-zinc-600/30">
+                <div className="text-[11px] font-mono font-bold text-[#D9722B] dark:text-[#E88B4D] bg-[#D9722B]/10 p-1.5 rounded-md border border-[#D9722B]/30">
                   ✓ تملك كامل 100% بدون نسب مبيعات
                 </div>
               </div>
@@ -386,7 +378,7 @@ export const App: React.FC = () => {
                     : 'bg-white border-[#0F0F0F] text-[#0F0F0F] hover:bg-slate-100'
                 }`}
               >
-                <Hammer className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />
+                <Hammer className="w-5 h-5 text-[#D9722B] dark:text-[#E88B4D]" />
                 <span>استوديو تخصيص المتجر (لايف)</span>
               </button>
             </div>
@@ -400,7 +392,7 @@ export const App: React.FC = () => {
         <PricingPackages onSelectPlan={handleOpenOrderWithPlan} />
 
         {/* Section: Live Mini Store Simulator */}
-        <StorePlayground />
+        
 
         {/* FAQs */}
         <FaqSection />

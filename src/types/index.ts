@@ -6,6 +6,7 @@ export type TemplateId =
   | 'burger-club'            // Burger Club Fast Food & Sandwiches
   | 'panto-minimal'          // Panto Minimal Scandinavian Furniture
   | 'velvety-jewelry'        // Velvety Beauty, Perfumes & Jewelry
+  | 'ctrl-yz'          // CTRL YZ 3D Oversized Cyberpunk & Streetwear
   | 'sketch-comic';          // The signature 2D stickman hand-drawn comic style
 
 export type StoreThemeId = 'modern-clean' | 'comic-red' | 'minimal-luxury' | 'sketch-mono';

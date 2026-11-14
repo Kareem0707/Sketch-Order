@@ -372,7 +372,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  <div
  className={`min-h-screen flex flex-col justify-between transition-colors ${
  isDarkMode ? 'bg-[#0B0F17] text-white' : 'bg-[#FAF8F5] text-[#0F0F0F]'
- } font-body antialiased selection:bg-zinc-700 selection:text-white p-4`}
+ } font-body antialiased selection:bg-[#D9722B] selection:text-white p-4`}
  >
  {/* Top Navbar */}
  <header className="max-w-7xl mx-auto w-full py-4 flex items-center justify-between">
@@ -381,7 +381,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  playClick();
  onBackToHome();
  }}
- className="flex items-center gap-1.5 text-xs font-bold px-3 py-2 rounded-xl border border-inherit/30 hover:border-zinc-600 dark:border-zinc-400"
+ className="flex items-center gap-1.5 text-xs font-bold px-3 py-2 rounded-xl border border-inherit/30 hover:border-[#D9722B] dark:border-[#D9722B]/60"
  >
  <ArrowRight className="w-4 h-4 ml-0.5" />
  <span>العودة للرئيسية</span>
@@ -409,7 +409,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  : 'bg-white border-[#0F0F0F] shadow-[6px_6px_0px_#0F0F0F]'
  } sketch-border-1 text-center space-y-5`}
  >
- <div className="w-16 h-16 mx-auto rounded-2xl bg-zinc-500/10 border-2 border-zinc-600 dark:border-zinc-400 text-zinc-700 dark:text-zinc-300 flex items-center justify-center -rotate-3">
+ <div className="w-16 h-16 mx-auto rounded-2xl bg-[#D9722B]/10 border-2 border-[#D9722B] dark:border-[#D9722B]/60 text-[#D9722B] dark:text-[#E88B4D] flex items-center justify-center -rotate-3">
  <Store className="w-8 h-8" />
  </div>
 
@@ -447,8 +447,8 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  placeholder="مثال: sportech"
  className={`w-full p-3 rounded-xl font-mono text-sm font-bold border-2 outline-none transition-colors ${
  isDarkMode
- ? 'bg-slate-900 border-slate-700 text-white focus:border-zinc-600 dark:border-zinc-400'
- : 'bg-[#FAF8F5] border-[#0F0F0F] text-[#0F0F0F] focus:border-zinc-600 dark:border-zinc-400'
+ ? 'bg-slate-900 border-slate-700 text-white focus:border-[#D9722B] dark:border-[#D9722B]/60'
+ : 'bg-[#FAF8F5] border-[#0F0F0F] text-[#0F0F0F] focus:border-[#D9722B] dark:border-[#D9722B]/60'
  }`}
  />
  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-mono opacity-50 pointer-events-none">
@@ -459,7 +459,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
 
  <button
  type="submit"
- className="w-full py-3.5 rounded-2xl bg-zinc-800 hover:bg-zinc-900 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 font-black text-sm shadow-md transition-transform active:scale-95 flex items-center justify-center gap-2"
+ className="w-full py-3.5 rounded-2xl bg-[#D9722B] hover:bg-[#C25E1D] text-white dark:bg-[#D9722B] dark:hover:bg-[#C25E1D] dark:text-white font-black text-sm shadow-md transition-transform active:scale-95 flex items-center justify-center gap-2"
  >
  <span>دخول لوحة تحكم متجري </span>
  <ArrowRight className="w-4 h-4 -scale-x-100" />
@@ -484,10 +484,10 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  }`}
  >
  <div className="flex items-center gap-2">
- <span className="w-2 h-2 rounded-full bg-zinc-400"></span>
+ <span className="w-2 h-2 rounded-full bg-[#D9722B]"></span>
  <span>{st.brandName}</span>
  </div>
- <span className="font-mono text-[11px] text-zinc-700 dark:text-zinc-300">
+ <span className="font-mono text-[11px] text-[#D9722B] dark:text-[#E88B4D]">
  @{st.subdomain}
  </span>
  </button>
@@ -516,7 +516,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  <div
  className={`min-h-screen transition-colors ${
  isDarkMode ? 'bg-[#0B0F17] text-white' : 'bg-[#FAF8F5] text-[#0F0F0F]'
- } font-body antialiased selection:bg-zinc-700 selection:text-white pb-20`}
+ } font-body antialiased selection:bg-[#D9722B] selection:text-white pb-20`}
  >
  {/* ======================================================== */}
  {/* 1. TOP HEADER & MERCHANT IDENTITY */}
@@ -535,7 +535,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  playClick();
  onBackToHome();
  }}
- className="p-2 rounded-xl border border-inherit/20 hover:border-zinc-600 dark:border-zinc-400 text-xs font-bold flex items-center gap-1"
+ className="p-2 rounded-xl border border-inherit/20 hover:border-[#D9722B] dark:border-[#D9722B]/60 text-xs font-bold flex items-center gap-1"
  title="العودة للمنصة"
  >
  <ArrowRight className="w-4 h-4 ml-0.5" />
@@ -543,7 +543,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  </button>
 
  <div className="flex items-center gap-3 border-r-2 border-inherit/20 pr-3">
- <div className="w-10 h-10 rounded-2xl bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 font-black flex items-center justify-center font-heading text-lg shadow-sm">
+ <div className="w-10 h-10 rounded-2xl bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white font-black flex items-center justify-center font-heading text-lg shadow-sm">
  {currentStore.brandName.charAt(0)}
  </div>
  <div>
@@ -551,17 +551,17 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  <h1 className="font-heading font-black text-lg sm:text-xl leading-none">
  {currentStore.brandName}
  </h1>
- <span className="text-[10px] font-mono font-black bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 px-2 py-0.5 rounded-full">
+ <span className="text-[10px] font-mono font-black bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white px-2 py-0.5 rounded-full">
  متجر مباشر 
  </span>
  </div>
  <div className="flex items-center gap-2 mt-1">
- <span className="font-mono text-xs text-zinc-700 dark:text-zinc-300 font-bold">
+ <span className="font-mono text-xs text-[#D9722B] dark:text-[#E88B4D] font-bold">
  https://{currentStore.subdomain}.sketchorder.com
  </span>
  <button
  onClick={handleCopyStoreLink}
- className="p-1 hover:text-zinc-700 dark:text-zinc-300 transition-colors"
+ className="p-1 hover:text-[#D9722B] dark:text-[#E88B4D] transition-colors"
  title="نسخ رابط المتجر"
  >
  {copiedLink ? <Check className="w-3.5 h-3.5 text-zinc-400" /> : <Copy className="w-3.5 h-3.5" />}
@@ -579,7 +579,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  playClick();
  onOpenLiveStore(currentStore.subdomain);
  }}
- className="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-900 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 font-black text-xs flex items-center gap-1.5 shadow-sm transition-transform active:scale-95"
+ className="px-4 py-2 rounded-xl bg-[#D9722B] hover:bg-[#C25E1D] text-white dark:bg-[#D9722B] dark:hover:bg-[#C25E1D] dark:text-white font-black text-xs flex items-center gap-1.5 shadow-sm transition-transform active:scale-95"
  >
  <ExternalLink className="w-4 h-4" />
  <span>زيارة متجري المباشر (كعميل) </span>
@@ -625,9 +625,9 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  >
  <div className="flex items-center justify-between mb-2">
  <span className="text-xs font-mono font-black opacity-75">إجمالي مبيعات متجرك</span>
- <DollarSign className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
+ <DollarSign className="w-4 h-4 text-[#D9722B] dark:text-[#E88B4D]" />
  </div>
- <div className="text-3xl font-black font-mono text-zinc-700 dark:text-zinc-300">
+ <div className="text-3xl font-black font-mono text-[#D9722B] dark:text-[#E88B4D]">
  {totalSales.toLocaleString()} <span className="text-sm font-heading">ج.م</span>
  </div>
  <p className="text-[11px] font-bold opacity-60 mt-1">بدون أي خصم أو عمولات للمنصة</p>
@@ -643,9 +643,9 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  >
  <div className="flex items-center justify-between mb-2">
  <span className="text-xs font-mono font-black opacity-75">الطلبات الجديدة (قيد الشحن)</span>
- <Clock className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
+ <Clock className="w-4 h-4 text-[#D9722B] dark:text-[#E88B4D]" />
  </div>
- <div className="text-3xl font-black font-mono text-zinc-700 dark:text-zinc-300">
+ <div className="text-3xl font-black font-mono text-[#D9722B] dark:text-[#E88B4D]">
  {newOrdersCount} <span className="text-sm font-heading">طلب</span>
  </div>
  <p className="text-[11px] font-bold opacity-60 mt-1">تحتاج مراجعة للتسليم لشركة الشحن</p>
@@ -661,9 +661,9 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  >
  <div className="flex items-center justify-between mb-2">
  <span className="text-xs font-mono font-black opacity-75">المنتجات المعروضة</span>
- <Package className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
+ <Package className="w-4 h-4 text-[#D9722B] dark:text-[#E88B4D]" />
  </div>
- <div className="text-3xl font-black font-mono text-zinc-700 dark:text-zinc-300">
+ <div className="text-3xl font-black font-mono text-[#D9722B] dark:text-[#E88B4D]">
  {currentStore.storeConfig.products.length} <span className="text-sm font-heading">منتج</span>
  </div>
  <p className="text-[11px] font-bold opacity-60 mt-1">
@@ -681,9 +681,9 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  >
  <div className="flex items-center justify-between mb-2">
  <span className="text-xs font-mono font-black opacity-75">حالة الاستضافة والدومين</span>
- <Globe className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
+ <Globe className="w-4 h-4 text-[#D9722B] dark:text-[#E88B4D]" />
  </div>
- <div className="text-lg font-black font-mono text-zinc-700 dark:text-zinc-300 truncate">
+ <div className="text-lg font-black font-mono text-[#D9722B] dark:text-[#E88B4D] truncate">
  {currentStore.subdomain}.store
  </div>
  <p className="text-[11px] font-bold text-zinc-400 mt-1">
@@ -706,7 +706,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  }}
  className={`px-4 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm transition-all border ${
  activeTab === 'orders'
- ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 border-zinc-700 shadow-sm'
+ ? 'bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white border-[#D9722B] shadow-sm'
  : 'bg-inherit border-inherit/30 opacity-70 hover:opacity-100'
  }`}
  >
@@ -725,7 +725,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  }}
  className={`px-4 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm transition-all border ${
  activeTab === 'products'
- ? 'bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 border-zinc-700 shadow-sm'
+ ? 'bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white border-[#D9722B] shadow-sm'
  : 'bg-inherit border-inherit/30 opacity-70 hover:opacity-100'
  }`}
  >
@@ -737,7 +737,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  {activeTab === 'orders' && (
  <button
  onClick={handleSimulateNewCustomerOrder}
- className="px-3.5 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-900 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 font-black text-xs flex items-center gap-1.5 shadow-sm transition-transform active:scale-95"
+ className="px-3.5 py-2 rounded-xl bg-[#D9722B] hover:bg-[#C25E1D] text-white dark:bg-[#D9722B] dark:hover:bg-[#C25E1D] dark:text-white font-black text-xs flex items-center gap-1.5 shadow-sm transition-transform active:scale-95"
  >
  <Plus className="w-4 h-4" />
  <span>محاكاة أوردر زبون تجريبي (Test Order)</span>
@@ -747,7 +747,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  {activeTab === 'products' && (
  <button
  onClick={() => setIsAddProductOpen(true)}
- className="px-3.5 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-900 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 font-black text-xs flex items-center gap-1.5 shadow-sm transition-transform active:scale-95"
+ className="px-3.5 py-2 rounded-xl bg-[#D9722B] hover:bg-[#C25E1D] text-white dark:bg-[#D9722B] dark:hover:bg-[#C25E1D] dark:text-white font-black text-xs flex items-center gap-1.5 shadow-sm transition-transform active:scale-95"
  >
  <Plus className="w-4 h-4" />
  <span>إضافة منتج جديد لمتجرك</span>
@@ -769,7 +769,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  </p>
  <button
  onClick={handleSimulateNewCustomerOrder}
- className="px-4 py-2 rounded-xl bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 font-bold text-xs"
+ className="px-4 py-2 rounded-xl bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white font-bold text-xs"
  >
  تجربة أوردر زبون فوري الآن
  </button>
@@ -789,7 +789,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  {/* Order Header */}
  <div className="flex flex-wrap items-center justify-between gap-3 border-b pb-3 border-inherit/20">
  <div className="flex items-center gap-3">
- <span className="font-mono font-black text-xs px-2.5 py-1 rounded-lg bg-zinc-500/10 text-zinc-700 dark:text-zinc-300 border border-zinc-400/30 dark:border-zinc-600/30">
+ <span className="font-mono font-black text-xs px-2.5 py-1 rounded-lg bg-[#D9722B]/10 text-[#D9722B] dark:text-[#E88B4D] border border-[#D9722B]/30">
  #{order.id}
  </span>
  <div className="font-heading font-black text-base">
@@ -811,10 +811,10 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  }
  className={`p-2 rounded-xl text-xs font-black border-2 outline-none ${
  order.status === 'delivered'
- ? 'bg-zinc-500/10 text-zinc-400 border-zinc-600 dark:border-zinc-400'
+ ? 'bg-[#D9722B]/10 text-zinc-400 border-[#D9722B] dark:border-[#D9722B]/60'
  : order.status === 'shipped'
  ? 'bg-slate-800 text-zinc-400 border-slate-700'
- : 'bg-zinc-500/10 text-zinc-400 border-zinc-600 dark:border-zinc-400'
+ : 'bg-[#D9722B]/10 text-zinc-400 border-[#D9722B] dark:border-[#D9722B]/60'
  }`}
  >
  <option value="new">طلب جديد </option>
@@ -839,7 +839,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  )}`}
  target="_blank"
  rel="noreferrer"
- className="text-zinc-700 dark:text-zinc-300 font-bold flex items-center gap-1 pt-1 hover:underline"
+ className="text-[#D9722B] dark:text-[#E88B4D] font-bold flex items-center gap-1 pt-1 hover:underline"
  >
  <MessageCircle className="w-3.5 h-3.5" />
  <span className="font-mono">{order.customerPhone} (واتساب)</span>
@@ -869,7 +869,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  {/* Total & Payment Method */}
  <div className="space-y-1 md:text-left">
  <span className="font-bold opacity-60 block">طريقة الدفع والحساب:</span>
- <div className="text-xl font-black font-mono text-zinc-700 dark:text-zinc-300">
+ <div className="text-xl font-black font-mono text-[#D9722B] dark:text-[#E88B4D]">
  {order.totalAmount} ج.م
  </div>
  <span className="text-[11px] font-bold opacity-80 block">
@@ -915,7 +915,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  className="w-full h-full object-cover"
  />
  {prod.badge && (
- <span className="absolute top-2 right-2 text-[10px] font-black bg-zinc-800 text-white dark:bg-zinc-200 dark:text-zinc-950 px-2 py-0.5 rounded-full">
+ <span className="absolute top-2 right-2 text-[10px] font-black bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white px-2 py-0.5 rounded-full">
  {prod.badge}
  </span>
  )}
@@ -929,7 +929,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  </div>
 
  <div className="flex items-baseline justify-between pt-2 border-t border-inherit/20">
- <div className="font-mono font-black text-base text-zinc-700 dark:text-zinc-300">
+ <div className="font-mono font-black text-base text-[#D9722B] dark:text-[#E88B4D]">
  {prod.price} {currentStore.storeConfig.currency}
  </div>
 
@@ -1018,7 +1018,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
 
  <button
  type="submit"
- className="w-full py-3 rounded-2xl bg-zinc-800 hover:bg-zinc-900 text-white dark:bg-zinc-200 dark:hover:bg-white dark:text-zinc-950 font-black text-xs shadow-md mt-2"
+ className="w-full py-3 rounded-2xl bg-[#D9722B] hover:bg-[#C25E1D] text-white dark:bg-[#D9722B] dark:hover:bg-[#C25E1D] dark:text-white font-black text-xs shadow-md mt-2"
  >
  حفظ وإضافة المنتج للمتجر فوراً
  </button>
