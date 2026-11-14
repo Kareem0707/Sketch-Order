@@ -78,13 +78,13 @@ export const PricingPackages: React.FC<PricingPackagesProps> = ({ onSelectPlan }
  
  {/* Guarantees Tag */}
  <div className="inline-flex flex-wrap items-center justify-center gap-3 px-4 py-1.5 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-pill text-xs font-black mb-4 bg-[#FAF9F6] dark:bg-[#151D2A] text-[#0F0F0F] dark:text-slate-100 -rotate-1">
- <span className="flex items-center gap-1 text-emerald-800 dark:text-emerald-400">
- <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+ <span className="flex items-center gap-1 text-[#0F0F0F] dark:text-slate-100">
+ <CheckCircle2 className="w-3.5 h-3.5 text-orange-500 dark:text-orange-400" />
  <span>دفع مرة واحدة فقط</span>
  </span>
  <span className="text-slate-300 dark:text-slate-600">•</span>
- <span className="flex items-center gap-1 text-indigo-800 dark:text-indigo-400">
- <ShieldCheck className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+ <span className="flex items-center gap-1 text-[#0F0F0F] dark:text-slate-100">
+ <ShieldCheck className="w-3.5 h-3.5 text-orange-500 dark:text-orange-400" />
  <span>الضمان مدى الحياة</span>
  </span>
  <span className="text-slate-300 dark:text-slate-600">•</span>

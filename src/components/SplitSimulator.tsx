@@ -142,7 +142,7 @@ export const SplitSimulator: React.FC = () => {
  </div>
 
  {/* Note 3 */}
- <div className="border-2 border-dashed border-[#0F0F0F] dark:border-amber-500/40 p-3 sketch-border-1 bg-white dark:bg-amber-500/10 text-[#0F0F0F] dark:text-amber-200 rotate-2 sm:col-span-2 text-center text-xs font-bold">
+ <div className="border-2 border-dashed border-[#0F0F0F] dark:border-orange-500/40 p-3 sketch-border-1 bg-white dark:bg-orange-500/10 text-[#0F0F0F] dark:text-orange-300 rotate-2 sm:col-span-2 text-center text-xs font-bold">
  أزمة المخزون: بيع مقاسات خلصانة من المخزن بسبب تأخير التحديث في الشات!
  </div>
  </div>
@@ -162,7 +162,7 @@ export const SplitSimulator: React.FC = () => {
  {/* Header Badge */}
  <div className="flex flex-wrap items-center justify-between border-b-2 border-[#0F0F0F] dark:border-slate-700 pb-2 sm:pb-3 gap-1">
  <div className="flex items-center gap-1.5 sm:gap-2">
- <span className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-[#0F0F0F] dark:border-emerald-500 rounded-full flex items-center justify-center font-bold text-xs bg-[#0F0F0F] dark:bg-emerald-500 text-white dark:text-slate-950">
+ <span className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-[#0F0F0F] dark:border-orange-500 rounded-full flex items-center justify-center font-bold text-xs bg-[#0F0F0F] dark:bg-orange-500 text-white dark:text-slate-950">
  ✓
  </span>
  <span className="text-sm sm:text-lg font-black font-heading whitespace-nowrap text-[#0F0F0F] dark:text-white">
@@ -187,7 +187,7 @@ export const SplitSimulator: React.FC = () => {
  <p className="text-xs font-bold text-[#0F0F0F]/80 dark:text-slate-300">
  الزبون بيختار المقاس (42، 43، 44) واللون بوضوح تام، وبدون ما يسأل ولا سؤال مكرر!
  </p>
- <div className="text-[10px] font-mono font-bold text-right border-t border-dashed border-[#0F0F0F] dark:border-slate-700 pt-1 text-emerald-500">
+ <div className="text-[10px] font-mono font-bold text-right border-t border-dashed border-[#0F0F0F] dark:border-slate-700 pt-1 text-orange-500">
  المخزون: بيقل تلقائياً مع كل أوردر ✓
  </div>
  </div>
@@ -195,7 +195,7 @@ export const SplitSimulator: React.FC = () => {
  {/* Feature 2 */}
  <div className="border-2 border-[#0F0F0F] dark:border-slate-700 p-4 sketch-border-2 bg-white dark:bg-[#1E293B] sketch-shadow-sm space-y-2">
  <div className="flex items-center justify-between border-b border-[#0F0F0F] dark:border-slate-700 pb-1">
- <span className="text-xs font-bold flex items-center gap-1 text-emerald-500">
+ <span className="text-xs font-bold flex items-center gap-1 text-orange-500">
  <Check className="w-3.5 h-3.5" /> إشعار واتساب مفصص
  </span>
  <span className="text-[10px] bg-[#0F0F0F] dark:bg-slate-900 text-white px-1.5 py-0.5 sketch-border-pill font-mono border dark:border-slate-700">
@@ -205,7 +205,7 @@ export const SplitSimulator: React.FC = () => {
  <p className="text-xs font-bold text-[#0F0F0F]/80 dark:text-slate-300">
  بيوصلك إشعار بالاسم، المحافظة، ورابط اللوكيشن وطريقة الدفع بضغطة زر!
  </p>
- <div className="text-[10px] font-mono font-bold border-t border-dashed border-[#0F0F0F] dark:border-slate-700 pt-1 text-emerald-400">
+ <div className="text-[10px] font-mono font-bold border-t border-dashed border-[#0F0F0F] dark:border-slate-700 pt-1 text-orange-400">
  إيصال وفاتورة سكتش جاهزة للمندوب فوراً ✓
  </div>
  </div>

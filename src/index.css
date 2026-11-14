@@ -154,6 +154,50 @@
   color: #0F0F0F;
 }
 
+/* Dark Mode Sketch Shadows & Buttons */
+.dark .sketch-shadow-sm {
+  box-shadow: -3px 3px 0px #000000, -3px 3px 0px rgba(255, 255, 255, 0.12);
+}
+
+.dark .sketch-shadow {
+  box-shadow: -5px 5px 0px #000000, -5px 5px 0px rgba(255, 255, 255, 0.12);
+}
+
+.dark .sketch-shadow-lg {
+  box-shadow: -8px 8px 0px #000000, -8px 8px 0px rgba(255, 255, 255, 0.15);
+}
+
+.dark .sketch-shadow-xl {
+  box-shadow: -12px 12px 0px #000000, -12px 12px 0px rgba(255, 255, 255, 0.18);
+}
+
+.dark .btn-sketch {
+  border-color: #475569;
+  background-color: #111827;
+  color: #F8FAFC;
+  box-shadow: -4px 4px 0px #000000;
+}
+
+.dark .btn-sketch:hover {
+  background-color: #1E293B;
+  color: #FFFFFF;
+  border-color: #F97316;
+  box-shadow: -6px 6px 0px #F97316;
+}
+
+.dark .btn-sketch-primary {
+  background-color: #F97316;
+  border-color: #EA580C;
+  color: #0B0F17;
+  box-shadow: -4px 4px 0px #000000;
+}
+
+.dark .btn-sketch-primary:hover {
+  background-color: #EA580C;
+  color: #FFFFFF;
+  box-shadow: -6px 6px 0px #000000;
+}
+
 /* Stop-Motion Frame-by-Frame Animations */
 @keyframes stop-motion-wobble {
   0% { transform: rotate(0deg) translate(0, 0); }

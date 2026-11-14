@@ -9,12 +9,14 @@ import {
  X,
  Send,
  Plus,
+ MessageCircle,
 } from 'lucide-react';
 import type {
  TenantStoreAccount,
  TenantCustomerOrder,
  CustomProduct,
  CartItem,
+ TemplateId,
 } from '../types';
 import { playClick, playCashSound } from '../utils/soundEffects';
 import { DEFAULT_PRODUCTS_MAP, DEFAULT_CATEGORIES_MAP } from './FullPageStoreStudio';
@@ -27,7 +29,7 @@ interface TenantLiveStoreProps {
 
 export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  subdomain,
- onBackToMerchantPortal,
+ onBackToMerchantPortal: _onBackToMerchantPortal,
  onBackToHome,
 }) => {
  const [store, setStore] = useState<TenantStoreAccount | null>(null);
@@ -65,44 +67,60 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  console.error(e);
  }
 
- // Fallback if not found
- const fallbackStore: TenantStoreAccount = {
- tenantId: `tenant_${subdomain}`,
- subdomain,
- brandName: subdomain === 'sportech' ? 'سبورتك إيجيبت (SPORTECH)' : `${subdomain.toUpperCase()} Store`,
- ownerName: 'المدير',
- ownerPhone: '01012345678',
- planTier: 'pro',
- status: 'active',
- templateId: 'sportech-sneakers',
- createdAt: new Date().toISOString(),
- salesTotal: 0,
- ordersCount: 0,
- storeConfig: {
- storeName: subdomain === 'sportech' ? 'سبورتك إيجيبت (SPORTECH)' : `${subdomain.toUpperCase()} Store`,
- tagline: 'تسوق أفضل المنتجات العصرية بأعلى جودة وضمان حقيقي',
- niche: 'sneakers',
- templateId: 'sportech-sneakers',
- accentColor: '#F97316',
- customDomain: `${subdomain}.sketchorder.com`,
- currency: 'ج.م',
- whatsappNumber: '01012345678',
- governorate: 'القاهرة',
- sections: {
- heroBanner: true,
- categoriesBar: true,
- sizeGuide: true,
- bestSellers: true,
- flashSale: true,
- reviewsSection: true,
- instantWhatsappCart: true,
- analyticsDashboard: true,
- },
- categories: DEFAULT_CATEGORIES_MAP['sportech-sneakers'],
- products: DEFAULT_PRODUCTS_MAP['sportech-sneakers'],
- },
- };
- setStore(fallbackStore);
+ // Fallback if not found - dynamic per template/subdomain
+    const validTmplId: TemplateId = (subdomain in DEFAULT_PRODUCTS_MAP ? subdomain : 'sportech-sneakers') as TemplateId;
+    const tmplMetaMap: Record<TemplateId, { name: string; tagline: string; niche: any }> = {
+      'sportech-sneakers': { name: 'سبورتك إيجيبت (SPORTECH)', tagline: 'المتجر الأول في مصر للكوتشيات والمستلزمات الرياضية الأصلية', niche: 'sneakers' },
+      'cloudrunner-product': { name: 'نايكي ستور • Cloud Runner 2', tagline: 'حذاء ركض محبوك بتقنية استجابة فورية وخفة لا مثيل لها', niche: 'sneakers' },
+      'dinereserve-food': { name: 'داين ريزيرف • DineReserve', tagline: 'تجربة طعام فاخرة وحجز طاولات VIP في أرقى مطاعم العاصمة', niche: 'food' },
+      'fasco-fashion': { name: 'فاسكو ستريت وير (FASCO)', tagline: 'كولكشن ستريت وير وأوفر سايز شبابي مستوحى من أحدث صيحات الموضة', niche: 'streetwear' },
+      'burger-club': { name: 'برجر كلوب (Burger Club & Fries)', tagline: 'ألذ برجر سماش باللحم البقري الطازج والبطاطس المقرمشة بالجبنة', niche: 'food' },
+      'panto-minimal': { name: 'بانتو للأثاث الاسكندنافي (Panto)', tagline: 'أثاث وديكور اسكندنافي عصري يضفي الدفء والأناقة على منزلك', niche: 'furniture' },
+      'velvety-jewelry': { name: 'فيلفيتي للعطور والمجوهرات (Velvety)', tagline: 'عطور شرقية فاخرة ومجوهرات ذهبية مصممة لتبرز جمالك', niche: 'beauty' },
+      'sketch-comic': { name: 'سكتش أوردر كوميكس (Hand-Drawn)', tagline: 'هوية مرسومة يدوياً بالحبر الأسود للمتاجر الإبداعية والمميزة', niche: 'handmade' },
+    };
+    const tmplMeta = tmplMetaMap[validTmplId] || { name: `${subdomain.toUpperCase()} Store`, tagline: 'تسوق أفضل المنتجات العصرية بأعلى جودة وضمان حقيقي', niche: 'sneakers' };
+
+    const prods = DEFAULT_PRODUCTS_MAP[validTmplId] || DEFAULT_PRODUCTS_MAP['sportech-sneakers'];
+    const cats = DEFAULT_CATEGORIES_MAP[validTmplId] || ['الكل'];
+
+    const fallbackStore: TenantStoreAccount = {
+      tenantId: `tenant_${subdomain}`,
+      subdomain,
+      brandName: tmplMeta.name,
+      ownerName: 'المدير',
+      ownerPhone: '01012345678',
+      planTier: 'pro',
+      status: 'active',
+      templateId: validTmplId,
+      createdAt: new Date().toISOString(),
+      salesTotal: 0,
+      ordersCount: 0,
+      storeConfig: {
+        storeName: tmplMeta.name,
+        tagline: tmplMeta.tagline,
+        niche: tmplMeta.niche,
+        templateId: validTmplId,
+        accentColor: '#F97316',
+        customDomain: `${subdomain}.sketchorder.com`,
+        currency: 'ج.م',
+        whatsappNumber: '01012345678',
+        governorate: 'القاهرة',
+        sections: {
+          heroBanner: true,
+          categoriesBar: true,
+          sizeGuide: true,
+          bestSellers: true,
+          flashSale: true,
+          reviewsSection: true,
+          instantWhatsappCart: true,
+          analyticsDashboard: true,
+        },
+        categories: cats,
+        products: prods,
+      },
+    };
+    setStore(fallbackStore);
  }, [subdomain]);
 
  if (!store) {
@@ -242,7 +260,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
       )}
       <div className="bg-slate-950 text-white border-b border-slate-800 text-xs py-2 px-4 flex items-center justify-between select-none">
  <div className="flex items-center gap-2">
- <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+ <span className="w-2 h-2 rounded-full bg-orange-400 animate-ping"></span>
  <span className="font-bold">أنت الآن تتصفح المتجر المباشر الحقيقي للزبائن:</span>
  <span className="font-mono text-orange-400 font-black">
  https://{subdomain}.sketchorder.com
@@ -250,15 +268,21 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  </div>
 
  <div className="flex items-center gap-2">
- <button
- onClick={() => {
- playClick();
- onBackToMerchantPortal();
- }}
- className="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 text-white font-bold transition-transform active:scale-95"
- >
- لوحة تحكم التاجر 
- </button>
+ <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700 text-[11px] text-slate-300 font-medium">
+            تم إرسال تفاصيل الفاتورة ومتابعة الشحن تلقائياً لخدمة عملاء المتجر عبر واتساب.
+          </div>
+
+          <a
+            href={`https://wa.me/20${(storeConfig.whatsappNumber || '01012345678').replace(/^0/, '')}?text=${encodeURIComponent(
+              `أهلاً، أود متابعة شحن طلبي رقم #${orderConfirmed?.id} باسم ${orderConfirmed?.customerName}`
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full py-3 rounded-2xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-xs shadow-md flex items-center justify-center gap-2 transition-transform active:scale-95"
+          >
+            <MessageCircle className="w-4 h-4" />
+            <span>متابعة الشحن مع خدمة العملاء عبر واتساب</span>
+          </a>
  <button
  onClick={() => {
  playClick();
@@ -471,8 +495,8 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  {/* Details */}
  <div className="p-4 space-y-2 flex-1 flex flex-col justify-between">
  <div>
- <div className="flex items-center gap-1 text-[11px] text-amber-500 font-bold mb-1">
- <Star className="w-3.5 h-3.5 fill-amber-400" />
+ <div className="flex items-center gap-1 text-[11px] text-orange-500 font-bold mb-1">
+ <Star className="w-3.5 h-3.5 fill-orange-400" />
  <span>{prod.rating || 4.8}</span>
  <span className="opacity-60 font-normal">({prod.reviewsCount || 84})</span>
  </div>
@@ -600,7 +624,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
 
  {/* Social Proof */}
  <div className="flex items-center gap-2 text-xs opacity-75 font-medium">
- <Star className="w-4 h-4 fill-amber-400 text-amber-500" />
+ <Star className="w-4 h-4 fill-orange-400 text-orange-500" />
  <span className="font-bold">4.8</span>
  <span>•</span>
  <span>2,341 تقييم</span>
@@ -753,7 +777,7 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  </div>
  <div className="flex justify-between">
  <span className="opacity-70">مصاريف الشحن:</span>
- <span className="font-mono text-emerald-500">50 {storeConfig.currency}</span>
+ <span className="font-mono text-orange-500">50 {storeConfig.currency}</span>
  </div>
  <div className="flex justify-between text-base font-black pt-2 border-t border-inherit/15">
  <span>الإجمالي الكلي:</span>
@@ -906,32 +930,37 @@ export const TenantLiveStore: React.FC<TenantLiveStoreProps> = ({
  {/* ======================================================== */}
  {orderConfirmed && (
  <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md p-4 flex items-center justify-center animate-fadeIn">
- <div className="max-w-md w-full bg-slate-900 border-2 border-emerald-500 rounded-3xl p-6 text-white text-center space-y-4 shadow-2xl">
- <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center">
+ <div className="max-w-md w-full bg-slate-900 border-2 border-orange-500 rounded-3xl p-6 text-white text-center space-y-4 shadow-2xl">
+ <div className="w-16 h-16 rounded-full bg-orange-500/20 text-orange-400 mx-auto flex items-center justify-center">
  <CheckCircle2 className="w-10 h-10" />
  </div>
 
  <h3 className="font-heading font-black text-2xl">تم تأكيد طلبك بنجاح! </h3>
  <div className="font-mono text-sm font-bold bg-slate-800 p-2 rounded-xl text-orange-400">
- رقم الطلب: #{orderConfirmed.id}
+ رقم الطلب: #{orderConfirmed?.id}
  </div>
 
  <p className="text-xs text-slate-300 leading-relaxed font-bold">
- شكراً يا {orderConfirmed.customerName}! تم استلام طلبك وجاري تجهيزه للشحن إلى {orderConfirmed.customerGovernorate}.
+ شكراً يا {orderConfirmed?.customerName}! تم استلام طلبك وجاري تجهيزه للشحن إلى {orderConfirmed.customerGovernorate}.
  المبلغ الإجمالي: {orderConfirmed.totalAmount} ج.م.
  </p>
 
  <div className="pt-2 space-y-2">
- <button
- onClick={() => {
- playClick();
- onBackToMerchantPortal();
- }}
- className="w-full py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 text-white font-black text-xs shadow-md flex items-center justify-center gap-2"
- >
- <span>شاهد وصول هذا الأوردر فوراً في لوحة تحكم التاجر </span>
- <ArrowRight className="w-4 h-4 -scale-x-100" />
- </button>
+ <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700 text-[11px] text-slate-300 font-medium">
+            تم إرسال تفاصيل الفاتورة ومتابعة الشحن تلقائياً لخدمة عملاء المتجر عبر واتساب.
+          </div>
+
+          <a
+            href={`https://wa.me/20${(storeConfig.whatsappNumber || '01012345678').replace(/^0/, '')}?text=${encodeURIComponent(
+              `أهلاً، أود متابعة شحن طلبي رقم #${orderConfirmed?.id} باسم ${orderConfirmed?.customerName}`
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full py-3 rounded-2xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-xs shadow-md flex items-center justify-center gap-2 transition-transform active:scale-95"
+          >
+            <MessageCircle className="w-4 h-4" />
+            <span>متابعة الشحن مع خدمة العملاء عبر واتساب</span>
+          </a>
 
  <button
  onClick={() => setOrderConfirmed(null)}

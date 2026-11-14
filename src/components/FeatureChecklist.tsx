@@ -315,7 +315,7 @@ export const FeatureChecklist: React.FC<FeatureChecklistProps> = ({
 
  <div className="flex justify-between items-center text-xs font-bold text-[#0F0F0F]/85 border-b border-dashed border-[#0F0F0F] pb-2">
  <span> مدة التسليم المتوقعة:</span>
- <span className="font-bold text-emerald-800">في خلال دقايق معدودة </span>
+ <span className="font-bold text-orange-600 dark:text-orange-400">في خلال دقايق معدودة </span>
  </div>
 
  <div className="p-2 border-2 border-dashed border-[#0F0F0F] bg-neutral-50 sketch-border-tag text-xs font-bold text-center -rotate-1">
@@ -411,7 +411,7 @@ export const FeatureChecklist: React.FC<FeatureChecklistProps> = ({
  </p>
 
  <div className="flex items-center gap-3 pt-1 text-[11px] font-mono font-bold text-[#0F0F0F]/60">
- <span className="text-emerald-700">التسليم: في خلال دقايق</span>
+ <span className="text-orange-600 dark:text-orange-400">التسليم: في خلال دقايق</span>
  <span>•</span>
  <span>وحدة المخطط: {item.blueprintModule}</span>
  </div>

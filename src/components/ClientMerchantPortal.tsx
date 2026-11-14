@@ -395,7 +395,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  }}
  className="p-2 rounded-xl border border-inherit/30 text-xs font-bold"
  >
- {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-800" />}
+ {isDarkMode ? <Sun className="w-4 h-4 text-orange-400" /> : <Moon className="w-4 h-4 text-slate-800" />}
  </button>
  </div>
  </header>
@@ -484,7 +484,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  }`}
  >
  <div className="flex items-center gap-2">
- <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+ <span className="w-2 h-2 rounded-full bg-orange-400"></span>
  <span>{st.brandName}</span>
  </div>
  <span className="font-mono text-[11px] text-orange-500">
@@ -551,7 +551,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  <h1 className="font-heading font-black text-lg sm:text-xl leading-none">
  {currentStore.brandName}
  </h1>
- <span className="text-[10px] font-mono font-black bg-emerald-500 text-slate-950 px-2 py-0.5 rounded-full">
+ <span className="text-[10px] font-mono font-black bg-orange-500 text-slate-950 px-2 py-0.5 rounded-full">
  متجر مباشر 
  </span>
  </div>
@@ -564,7 +564,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  className="p-1 hover:text-orange-500 transition-colors"
  title="نسخ رابط المتجر"
  >
- {copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+ {copiedLink ? <Check className="w-3.5 h-3.5 text-orange-400" /> : <Copy className="w-3.5 h-3.5" />}
  </button>
  </div>
  </div>
@@ -593,7 +593,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  }}
  className="p-2 rounded-xl border border-inherit/30 text-xs font-bold"
  >
- {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-800" />}
+ {isDarkMode ? <Sun className="w-4 h-4 text-orange-400" /> : <Moon className="w-4 h-4 text-slate-800" />}
  </button>
 
  {/* Logout */}
@@ -625,9 +625,9 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  >
  <div className="flex items-center justify-between mb-2">
  <span className="text-xs font-mono font-black opacity-75">إجمالي مبيعات متجرك</span>
- <DollarSign className="w-4 h-4 text-emerald-500" />
+ <DollarSign className="w-4 h-4 text-orange-500" />
  </div>
- <div className="text-3xl font-black font-mono text-emerald-500">
+ <div className="text-3xl font-black font-mono text-orange-500">
  {totalSales.toLocaleString()} <span className="text-sm font-heading">ج.م</span>
  </div>
  <p className="text-[11px] font-bold opacity-60 mt-1">بدون أي خصم أو عمولات للمنصة</p>
@@ -643,9 +643,9 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  >
  <div className="flex items-center justify-between mb-2">
  <span className="text-xs font-mono font-black opacity-75">الطلبات الجديدة (قيد الشحن)</span>
- <Clock className="w-4 h-4 text-amber-500" />
+ <Clock className="w-4 h-4 text-orange-500" />
  </div>
- <div className="text-3xl font-black font-mono text-amber-500">
+ <div className="text-3xl font-black font-mono text-orange-500">
  {newOrdersCount} <span className="text-sm font-heading">طلب</span>
  </div>
  <p className="text-[11px] font-bold opacity-60 mt-1">تحتاج مراجعة للتسليم لشركة الشحن</p>
@@ -661,9 +661,9 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  >
  <div className="flex items-center justify-between mb-2">
  <span className="text-xs font-mono font-black opacity-75">المنتجات المعروضة</span>
- <Package className="w-4 h-4 text-indigo-500" />
+ <Package className="w-4 h-4 text-orange-500" />
  </div>
- <div className="text-3xl font-black font-mono text-indigo-500">
+ <div className="text-3xl font-black font-mono text-orange-500">
  {currentStore.storeConfig.products.length} <span className="text-sm font-heading">منتج</span>
  </div>
  <p className="text-[11px] font-bold opacity-60 mt-1">
@@ -686,7 +686,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  <div className="text-lg font-black font-mono text-orange-500 truncate">
  {currentStore.subdomain}.store
  </div>
- <p className="text-[11px] font-bold text-emerald-400 mt-1">
+ <p className="text-[11px] font-bold text-orange-400 mt-1">
  ✓ شهادة SSL مفعلة • سرعة تحميل 99/100
  </p>
  </div>
@@ -737,7 +737,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  {activeTab === 'orders' && (
  <button
  onClick={handleSimulateNewCustomerOrder}
- className="px-3.5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black text-xs flex items-center gap-1.5 shadow-sm transition-transform active:scale-95"
+ className="px-3.5 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-xs flex items-center gap-1.5 shadow-sm transition-transform active:scale-95"
  >
  <Plus className="w-4 h-4" />
  <span>محاكاة أوردر زبون تجريبي (Test Order)</span>
@@ -811,10 +811,10 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  }
  className={`p-2 rounded-xl text-xs font-black border-2 outline-none ${
  order.status === 'delivered'
- ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500'
+ ? 'bg-orange-500/10 text-orange-400 border-orange-500'
  : order.status === 'shipped'
- ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500'
- : 'bg-amber-500/10 text-amber-400 border-amber-500'
+ ? 'bg-slate-800 text-orange-400 border-slate-700'
+ : 'bg-orange-500/10 text-orange-400 border-orange-500'
  }`}
  >
  <option value="new">طلب جديد </option>
@@ -839,7 +839,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  )}`}
  target="_blank"
  rel="noreferrer"
- className="text-emerald-500 font-bold flex items-center gap-1 pt-1 hover:underline"
+ className="text-orange-500 font-bold flex items-center gap-1 pt-1 hover:underline"
  >
  <MessageCircle className="w-3.5 h-3.5" />
  <span className="font-mono">{order.customerPhone} (واتساب)</span>
@@ -869,7 +869,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  {/* Total & Payment Method */}
  <div className="space-y-1 md:text-left">
  <span className="font-bold opacity-60 block">طريقة الدفع والحساب:</span>
- <div className="text-xl font-black font-mono text-emerald-500">
+ <div className="text-xl font-black font-mono text-orange-500">
  {order.totalAmount} ج.م
  </div>
  <span className="text-[11px] font-bold opacity-80 block">
@@ -880,7 +880,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  : 'فودافون كاش'}
  </span>
  {order.notes && (
- <p className="text-[11px] text-amber-400 italic">"{order.notes}"</p>
+ <p className="text-[11px] text-orange-400 italic">"{order.notes}"</p>
  )}
  </div>
  </div>

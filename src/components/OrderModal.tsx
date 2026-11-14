@@ -297,13 +297,13 @@ export const OrderModal: React.FC<OrderModalProps> = ({
 
  {/* 3 Guarantees */}
  <div className="flex flex-wrap items-center justify-center gap-2 mt-2 text-xs font-bold text-slate-700 dark:text-slate-300">
- <span className="flex items-center gap-1 text-emerald-700 dark:text-emerald-400">
- <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+ <span className="flex items-center gap-1 text-orange-700 dark:text-orange-400">
+ <CheckCircle2 className="w-3.5 h-3.5 text-orange-600 dark:text-orange-400" />
  <span>الدفع مرة واحدة</span>
  </span>
  <span className="text-slate-400 dark:text-slate-600">•</span>
- <span className="flex items-center gap-1 text-indigo-700 dark:text-indigo-400">
- <ShieldCheck className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+ <span className="flex items-center gap-1 text-orange-700 dark:text-orange-400">
+ <ShieldCheck className="w-3.5 h-3.5 text-orange-600 dark:text-orange-400" />
  <span>الضمان مدى الحياة</span>
  </span>
  <span className="text-slate-400 dark:text-slate-600">•</span>
@@ -314,8 +314,8 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  </div>
 
  {initialStoreConfig && (
- <div className="mt-2.5 p-2 border border-dashed border-[#0F0F0F] dark:border-emerald-500/50 sketch-border-tag bg-emerald-50 dark:bg-emerald-950/40 text-xs font-bold text-emerald-800 dark:text-emerald-300 flex items-center justify-center gap-1.5">
- <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+ <div className="mt-2.5 p-2 border border-dashed border-[#0F0F0F] dark:border-orange-500/50 sketch-border-tag bg-orange-50 dark:bg-orange-950/40 text-xs font-bold text-orange-800 dark:text-orange-300 flex items-center justify-center gap-1.5">
+ <CheckCircle2 className="w-4 h-4 text-orange-600 dark:text-orange-400" />
  <span>تم اختيار تيمبليت متجر "{initialStoreConfig.storeName}" بنجاح</span>
  </div>
  )}
@@ -352,7 +352,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  currentStep === 1
  ? 'bg-orange-500 text-slate-950 border-[#0F0F0F] dark:border-orange-400 scale-110 shadow-md'
  : currentStep > 1
- ? 'bg-emerald-500 text-white border-[#0F0F0F] dark:border-emerald-400'
+ ? 'bg-orange-500 text-white border-[#0F0F0F] dark:border-orange-400'
  : 'bg-white dark:bg-slate-800 text-slate-500 border-slate-300 dark:border-slate-700'
  }`}
  >
@@ -381,7 +381,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  currentStep === 2
  ? 'bg-orange-500 text-slate-950 border-[#0F0F0F] dark:border-orange-400 scale-110 shadow-md'
  : currentStep > 2
- ? 'bg-emerald-500 text-white border-[#0F0F0F] dark:border-emerald-400'
+ ? 'bg-orange-500 text-white border-[#0F0F0F] dark:border-orange-400'
  : 'bg-white dark:bg-slate-800 text-slate-500 border-slate-300 dark:border-slate-700'
  }`}
  >
@@ -511,7 +511,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  <label className="text-xs font-black text-[#0F0F0F] dark:text-slate-200">
  الساب دومين المطلوب (رابط موقعك) *
  </label>
- <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
+ <span className="text-[10px] text-orange-600 dark:text-orange-400 font-bold flex items-center gap-1">
  <Sparkles className="w-3 h-3" /> متاح مجاناً مع الباقة
  </span>
  </div>
@@ -536,12 +536,12 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  </div>
 
  {/* LIVE SUBDOMAIN AVAILABILITY BADGE */}
- <div className="mt-2 p-2 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800 rounded-lg flex items-center justify-between text-xs font-bold text-emerald-800 dark:text-emerald-300">
+ <div className="mt-2 p-2 bg-orange-50 dark:bg-orange-950/40 border border-orange-300 dark:border-orange-800 rounded-lg flex items-center justify-between text-xs font-bold text-orange-800 dark:text-orange-300">
  <div className="flex items-center gap-1.5">
- <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+ <CheckCircle2 className="w-4 h-4 text-orange-600 dark:text-orange-400" />
  <span>مبروك! الدومين ده متاح حالياً ✓</span>
  </div>
- <span className="font-mono text-[11px] text-emerald-700 dark:text-emerald-400" dir="ltr">
+ <span className="font-mono text-[11px] text-orange-700 dark:text-orange-400" dir="ltr">
  {cleanSubdomain}.sketchorder.com
  </span>
  </div>
@@ -625,7 +625,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  <AlertCircle className="w-3.5 h-3.5" /> {stepErrors.whatsapp}
  </p>
  ) : formData.whatsapp && (
- <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold mt-1 flex items-center gap-1">
+ <p className="text-[11px] text-orange-600 dark:text-orange-400 font-bold mt-1 flex items-center gap-1">
  <CheckCircle2 className="w-3.5 h-3.5" /> رقم هاتف صالح للاستقبال عبر واتساب
  </p>
  )}
@@ -724,8 +724,8 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  </div>
 
  {/* 1-Click Copy Accounts Box */}
- <div className="p-3.5 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-2 bg-amber-50/60 dark:bg-amber-500/10 space-y-2.5">
- <span className="text-xs font-black text-[#0F0F0F] dark:text-amber-200 block">
+ <div className="p-3.5 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-2 bg-orange-50/60 dark:bg-orange-500/10 space-y-2.5">
+ <span className="text-xs font-black text-[#0F0F0F] dark:text-orange-200 block">
  بيانات التحويل المباشر (اضغط للنسخ فوراً):
  </span>
 
@@ -733,7 +733,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  <div className="flex items-center justify-between p-2.5 bg-white dark:bg-slate-900 border border-[#0F0F0F]/30 dark:border-slate-700 rounded-xl">
  <div className="text-right">
  <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400"> عنوان إنستاباي (InstaPay IPA):</div>
- <div className="font-mono font-black text-sm text-indigo-700 dark:text-indigo-400">
+ <div className="font-mono font-black text-sm text-orange-700 dark:text-orange-400">
  kareem07@instapay
  </div>
  </div>
@@ -743,8 +743,8 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  onClick={() => handleCopyText('kareem07@instapay', 'instapay')}
  className={`px-3 py-1.5 rounded-lg text-xs font-black flex items-center gap-1.5 transition-all ${
  copiedField === 'instapay'
- ? 'bg-emerald-600 text-white'
- : 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 hover:bg-indigo-100'
+ ? 'bg-orange-600 text-white'
+ : 'bg-orange-50 dark:bg-orange-950/60 text-orange-700 dark:text-orange-300 border border-orange-200 dark:border-orange-800 hover:bg-orange-100'
  }`}
  >
  {copiedField === 'instapay' ? (
@@ -765,7 +765,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  <div className="flex items-center justify-between p-2.5 bg-white dark:bg-slate-900 border border-[#0F0F0F]/30 dark:border-slate-700 rounded-xl">
  <div className="text-right">
  <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400"> رقم فودافون كاش:</div>
- <div className="font-mono font-black text-sm text-rose-700 dark:text-rose-400" dir="ltr">
+ <div className="font-mono font-black text-sm text-orange-700 dark:text-orange-400" dir="ltr">
  01023456789
  </div>
  </div>
@@ -775,8 +775,8 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  onClick={() => handleCopyText('01023456789', 'vodafone')}
  className={`px-3 py-1.5 rounded-lg text-xs font-black flex items-center gap-1.5 transition-all ${
  copiedField === 'vodafone'
- ? 'bg-emerald-600 text-white'
- : 'bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800 hover:bg-rose-100'
+ ? 'bg-orange-600 text-white'
+ : 'bg-orange-50 dark:bg-orange-950/60 text-orange-700 dark:text-orange-300 border border-orange-200 dark:border-orange-800 hover:bg-orange-100'
  }`}
  >
  {copiedField === 'vodafone' ? (
@@ -800,12 +800,12 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  إرفاق إيصال التحويل (لتسريع اعتماد وتفعيل المتجر):
  </label>
  {receiptBase64 ? (
- <div className="flex items-center justify-between p-2.5 bg-white dark:bg-slate-900 border-2 border-emerald-500 dark:border-emerald-600 rounded-xl shadow-xs">
+ <div className="flex items-center justify-between p-2.5 bg-white dark:bg-slate-900 border-2 border-orange-500 dark:border-orange-600 rounded-xl shadow-xs">
  <div className="flex items-center gap-2.5">
  <img src={receiptBase64} alt="إيصال التحويل" className="w-12 h-12 object-cover rounded-lg border border-slate-300 dark:border-slate-700" />
  <div>
- <span className="text-xs font-black text-emerald-700 dark:text-emerald-400 flex items-center gap-1">
- <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" /> تم إرفاق صورة الإيصال
+ <span className="text-xs font-black text-orange-700 dark:text-orange-400 flex items-center gap-1">
+ <CheckCircle2 className="w-4 h-4 text-orange-600 dark:text-orange-400" /> تم إرفاق صورة الإيصال
  </span>
  <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">ستظهر فوراً في لوحة تحكم التاجر للإدارة</span>
  </div>
@@ -850,7 +850,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  </div>
  </div>
  <div className="text-right">
- <span className="text-xs font-black text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 px-2 py-0.5 rounded-sm border border-emerald-200 dark:border-emerald-800">
+ <span className="text-xs font-black text-orange-700 dark:text-orange-300 bg-orange-50 dark:bg-orange-950/50 px-2 py-0.5 rounded-sm border border-orange-200 dark:border-orange-800">
  دفع مرة واحدة • ملكك مدى الحياة
  </span>
  </div>
@@ -905,7 +905,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  <div className="text-xs font-bold mt-2 text-[#0F0F0F]/80 dark:text-slate-300">
  التاريخ: {stampDate} • {currentPlan.name} • {currentPlan.priceDisplay}
  </div>
- <div className="text-xs font-mono font-bold mt-2 text-indigo-700 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 py-1 px-3 rounded-md border border-indigo-200 dark:border-indigo-800" dir="ltr">
+ <div className="text-xs font-mono font-bold mt-2 text-orange-700 dark:text-orange-400 bg-orange-50 dark:bg-orange-950/50 py-1 px-3 rounded-md border border-orange-200 dark:border-orange-800" dir="ltr">
  https://{cleanSubdomain}.sketchorder.com
  </div>
  </div>

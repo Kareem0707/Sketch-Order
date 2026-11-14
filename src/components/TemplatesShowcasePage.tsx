@@ -105,7 +105,7 @@ export const TemplatesShowcasePage: React.FC<TemplatesShowcasePageProps> = ({
  </button>
 
  <div className="flex items-center gap-2 border-r border-slate-300 dark:border-slate-800 pr-3">
-            <img src={isDarkMode ? brushLogoWhite : brushLogoBlack} alt="سكتش أوردر" className="h-8 object-contain" />
+            <img src={isDarkMode ? brushLogoWhite : brushLogoBlack} alt="سكتش أوردر" className="h-10 sm:h-12 object-contain" />
  <div>
  <span className="font-heading font-black text-base sm:text-lg tracking-tight block leading-none">
  سكتش أوردر
@@ -128,14 +128,14 @@ export const TemplatesShowcasePage: React.FC<TemplatesShowcasePageProps> = ({
  }}
  className={`p-2 rounded-xl transition-all border flex items-center gap-1.5 text-xs font-bold ${
  isDarkMode
- ? 'bg-amber-500/10 border-amber-500/30 text-amber-400 hover:bg-amber-500/20 shadow-xs'
+ ? 'bg-orange-500/10 border-orange-500/30 text-orange-400 hover:bg-orange-500/20 shadow-xs'
  : 'bg-slate-100 border-slate-300 text-slate-800 hover:bg-slate-200 shadow-xs'
  }`}
  title={isDarkMode ? 'التبديل للوضع النهاري (Light)' : 'التبديل للوضع الليلي (Dark)'}
  >
  {isDarkMode ? (
  <>
- <Sun className="w-4 h-4 text-amber-400" />
+ <Sun className="w-4 h-4 text-orange-400" />
  <span className="hidden md:inline">وضع نهاري</span>
  </>
  ) : (
@@ -201,7 +201,7 @@ export const TemplatesShowcasePage: React.FC<TemplatesShowcasePageProps> = ({
  placeholder="ابحث عن تيمبليت بالاسم أو النشاط..."
  value={searchQuery}
  onChange={(e) => setSearchQuery(e.target.value)}
- className={`w-full pr-10 pl-4 py-2.5 rounded-2xl text-xs font-bold border transition-all ${
+ className={`w-full pr-10 pl-4 py-2.5 border-2 sketch-border-2 text-xs font-bold transition-all ${
  isDarkMode
  ? 'bg-slate-900 border-slate-700 text-white placeholder-slate-500 focus:border-orange-500'
  : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-orange-500 shadow-xs'

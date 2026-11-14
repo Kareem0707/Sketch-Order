@@ -490,12 +490,12 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  }}
  className={`p-2.5 rounded-xl border-2 font-bold text-xs flex items-center gap-1.5 transition-all ${
  isDarkMode
- ? 'bg-amber-500/10 border-amber-400 text-amber-400 hover:bg-amber-500/20'
+ ? 'bg-orange-500/10 border-orange-500 text-orange-400 hover:bg-orange-500/20'
  : 'bg-white border-[#0F0F0F] text-[#0F0F0F] hover:bg-slate-100'
  }`}
  title={isDarkMode ? 'تفعيل الوضع النهاري' : 'تفعيل الوضع الليلي (Dark)'}
  >
- {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-800" />}
+ {isDarkMode ? <Sun className="w-4 h-4 text-orange-400" /> : <Moon className="w-4 h-4 text-slate-800" />}
  </button>
  </div>
  </div>
@@ -532,7 +532,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  >
  <div className="flex items-center justify-between mb-2">
  <span className="text-xs font-mono font-black opacity-75">إجمالي الإيرادات المحصلة</span>
- <div className="w-8 h-8 rounded-full bg-emerald-500/20 text-orange-500 flex items-center justify-center font-bold">
+ <div className="w-8 h-8 rounded-full bg-orange-500/20 text-orange-500 flex items-center justify-center font-bold">
  <DollarSign className="w-4 h-4" />
  </div>
  </div>
@@ -633,7 +633,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  }}
  className={`px-4 py-2 rounded-xl text-xs font-black transition-all border flex items-center gap-1.5 ${
  filterStatus === 'pending'
- ? 'bg-amber-500 text-slate-950 border-amber-600 shadow-xs'
+ ? 'bg-orange-500 text-slate-950 border-orange-600 shadow-xs'
  : 'bg-transparent border-inherit opacity-70 hover:opacity-100'
  }`}
  >
@@ -782,12 +782,12 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
 
  <div className="flex items-center gap-2">
  {isLive ? (
- <span className="px-3 py-1 rounded-full text-xs font-black bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
- <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+ <span className="px-3 py-1 rounded-full text-xs font-black bg-orange-500/15 text-orange-500 border border-orange-500/30 flex items-center gap-1.5">
+ <span className="w-2 h-2 rounded-full bg-orange-400 animate-ping"></span>
  <span>متجر مباشر وشغال </span>
  </span>
  ) : (
- <span className="px-3 py-1 rounded-full text-xs font-black bg-amber-500/15 text-amber-400 border border-amber-500/30 flex items-center gap-1.5">
+ <span className="px-3 py-1 rounded-full text-xs font-black bg-slate-200 dark:bg-slate-800 text-orange-400 border border-slate-700 flex items-center gap-1.5">
  <Clock className="w-3.5 h-3.5 animate-spin" />
  <span>بانتظار الموافقة والتفعيل </span>
  </span>
@@ -869,7 +869,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  </div>
 
  {order.notes && (
- <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300">
+ <div className="p-3 rounded-xl bg-orange-500/10 border border-slate-700 text-xs text-slate-300">
  <span className="font-bold">ملاحظات العميل: </span>
  {order.notes}
  </div>
@@ -882,7 +882,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  {!isLive ? (
  <button
  onClick={() => handleApproveAndDeploy(order)}
- className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black text-xs flex items-center gap-2 shadow-sm transition-transform active:scale-95"
+ className="px-5 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-slate-950 font-black text-xs flex items-center gap-2 shadow-sm transition-transform active:scale-95"
  >
  <Check className="w-4 h-4 stroke-[3]" />
  <span>الموافقة وتفعيل المتجر فوراً </span>
@@ -913,7 +913,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  : 'bg-slate-100 hover:bg-slate-200 text-slate-900 border-slate-300'
  }`}
  >
- <KeyRound className="w-3.5 h-3.5 text-indigo-400" />
+ <KeyRound className="w-3.5 h-3.5 text-orange-400" />
  <span>دخول لوحة التاجر كصاحب المتجر</span>
  </button>
  </div>

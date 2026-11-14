@@ -130,11 +130,12 @@ export const App: React.FC = () => {
         onSelectTemplateToStudio={(tId) => {
           playPaperFlip();
           setActiveStudioTemplateId(tId);
+          setActiveCustomStore(null);
           setViewMode('studio');
         }}
-        onOpenLiveStore={(_tId) => {
+        onOpenLiveStore={(tId) => {
           playClick();
-          setActiveTenantSubdomain('sportech');
+          setActiveTenantSubdomain(tId);
           setViewMode('tenant_live_store');
         }}
         onBuyTemplate={(_tId) => {
@@ -310,7 +311,7 @@ export const App: React.FC = () => {
                 <p className="text-xs font-bold opacity-80 leading-relaxed">
                   اختار المظهر اللي يعجبك (متجر سبورتك الرياضي، صفحة كوتشيات نايكي تفصيلية، مطاعم دارك فاخر، أو ستايل كوميكس مرسوم). عدّل الاسم والدومين والأقسام فورياً.
                 </p>
-                <div className="text-[11px] font-mono font-bold text-emerald-400 bg-emerald-500/10 p-1.5 rounded-md border border-emerald-500/30">
+                <div className="text-[11px] font-mono font-bold text-orange-500 bg-orange-500/10 p-1.5 rounded-md border border-orange-500/30">
                   ✓ تجربة مجانية فورية في صفحة كاملة
                 </div>
               </div>
@@ -335,7 +336,7 @@ export const App: React.FC = () => {
                 <p className="text-xs font-bold opacity-80 leading-relaxed">
                   جرب تضيف منتجك الخاص وصورك، تتحكم في الأقسام، وتشوف سيستم تحليل المبيعات وصافي الربح الحقيقي شغال قدام عينك بالجنيه المصري.
                 </p>
-                <div className="text-[11px] font-mono font-bold text-indigo-400 bg-indigo-500/10 p-1.5 rounded-md border border-indigo-500/30">
+                <div className="text-[11px] font-mono font-bold text-orange-500 bg-orange-500/10 p-1.5 rounded-md border border-orange-500/30">
                   ✓ لوحة تحكم متكاملة + تحليلات الأرباح
                 </div>
               </div>
@@ -360,7 +361,7 @@ export const App: React.FC = () => {
                 <p className="text-xs font-bold opacity-80 leading-relaxed">
                   دفع مرة واحدة بإنستاباي أو فودافون كاش أو فيزا. بنسلمك متجرك المستقل بدومينك الخاص (.store أو .com) ملكك مدى الحياة بدون أي اشتراكات أو نسب مبيعات.
                 </p>
-                <div className="text-[11px] font-mono font-bold text-amber-400 bg-amber-500/10 p-1.5 rounded-md border border-amber-500/30">
+                <div className="text-[11px] font-mono font-bold text-orange-500 bg-orange-500/10 p-1.5 rounded-md border border-orange-500/30">
                   ✓ تملك كامل 100% بدون نسب مبيعات
                 </div>
               </div>
@@ -373,7 +374,7 @@ export const App: React.FC = () => {
                 className="btn-sketch btn-sketch-primary text-sm sm:text-base py-3 px-6 -rotate-1 font-heading inline-flex items-center gap-2"
               >
                 <Grid className="w-5 h-5 text-orange-400" />
-                <span>معرض قوالب المتاجر (Figma Showcase)</span>
+                <span>قوالب المتاجر</span>
                 <ArrowLeft className="w-4 h-4 mr-1" />
               </button>
 

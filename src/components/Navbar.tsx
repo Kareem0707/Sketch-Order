@@ -5,7 +5,6 @@ import {
   ShoppingBag,
   Menu,
   X,
-  Smartphone,
   Grid,
   ShieldCheck,
   Store,
@@ -29,7 +28,7 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({
   onOpenOrderModal,
-  onOpenStudio,
+  onOpenStudio: _onOpenStudio,
   onOpenTemplates,
   onOpenOwnerAdmin,
   onOpenMerchantPortal,
@@ -95,34 +94,23 @@ export const Navbar: React.FC<NavbarProps> = ({
             <img
               src={isDarkMode ? brushLogoWhite : brushLogoBlack}
               alt="SKETCH ORDER"
-              className="h-7 sm:h-9 object-contain transition-transform group-hover:scale-105"
+              className="h-10 sm:h-12 md:h-13 object-contain transition-transform group-hover:scale-105"
             />
           </a>
 
           {/* 2. Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center gap-4 text-xs font-bold">
-            {/* Dedicated Figma Templates Showcase Link */}
+            {/* Dedicated Templates Showcase Link */}
             <button
               onClick={() => {
                 playClick();
-                onOpenTemplates();
+                if (onOpenTemplates) onOpenTemplates();
               }}
-              className="font-black px-3.5 py-1.5 border-2 border-orange-500 sketch-border-tag bg-orange-500/10 hover:bg-orange-500 text-orange-500 hover:text-slate-950 transition-all flex items-center gap-1.5 sketch-shadow-sm -rotate-1 active:scale-95"
-              title="تصفح جميع قوالب المتاجر في صفحة كاملة بنمط مجتمع فيجما"
+              className="font-black px-4 py-2 border-2 border-orange-500 sketch-border-tag bg-orange-500/10 hover:bg-orange-500 text-orange-500 hover:text-slate-950 transition-all flex items-center gap-1.5 sketch-shadow-sm -rotate-1 active:scale-95"
+              title="تصفح جميع قوالب المتاجر في صفحة كاملة"
             >
-              <Grid className="w-3.5 h-3.5" />
-              <span>قوالب المتاجر (Figma)</span>
-            </button>
-
-            <button
-              onClick={() => {
-                playClick();
-                onOpenStudio();
-              }}
-              className="font-black px-3 py-1.5 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-tag bg-[#0F0F0F] dark:bg-slate-900 text-white dark:text-slate-200 hover:bg-neutral-800 dark:hover:border-orange-500 transition-all flex items-center gap-1.5 sketch-shadow-sm rotate-1 active:scale-95"
-            >
-              <Smartphone className="w-3.5 h-3.5 text-orange-400" />
-              <span>استوديو المتاجر</span>
+              <Grid className="w-4 h-4" />
+              <span>قوالب المتاجر</span>
             </button>
 
             <button
@@ -188,7 +176,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               }}
               className={`p-2 border-2 sketch-border-circle flex items-center justify-center transition-all ${
                 isDarkMode
-                  ? 'border-slate-700 bg-slate-900 text-slate-300 hover:border-amber-400 hover:text-orange-400'
+                  ? 'border-slate-700 bg-slate-900 text-slate-300 hover:border-orange-500 hover:text-orange-400'
                   : 'border-[#0F0F0F] bg-white text-[#0F0F0F] hover:bg-neutral-50 sketch-shadow-sm'
               }`}
               title="لوحة تحكم المنصة والطلبات"
@@ -272,28 +260,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                 setMobileMenuOpen(false);
                 onOpenTemplates();
               }}
-              className="w-full text-right p-2.5 text-xs font-black bg-orange-500 text-slate-950 flex items-center justify-between rounded-xl shadow-sm"
+              className="w-full text-right p-3 text-xs font-black bg-orange-500 text-slate-950 flex items-center justify-between rounded-xl shadow-sm"
             >
               <span className="flex items-center gap-2">
                 <Grid className="w-4 h-4" />
-                <span>كتالوج قوالب المتاجر (Figma Showcase)</span>
+                <span>قوالب المتاجر</span>
               </span>
               <span className="text-[10px] bg-slate-950 text-white px-2 py-0.5 rounded-full font-bold">8 قوالب</span>
-            </button>
-
-            <button
-              onClick={() => {
-                playClick();
-                setMobileMenuOpen(false);
-                onOpenStudio();
-              }}
-              className="w-full text-right p-2.5 text-xs font-black bg-slate-800 text-slate-200 border border-slate-700 flex items-center justify-between rounded-xl"
-            >
-              <span className="flex items-center gap-2">
-                <Smartphone className="w-4 h-4 text-orange-400" />
-                <span>استوديو المتاجر المباشر</span>
-              </span>
-              <span className="text-[10px] bg-orange-500 text-slate-950 px-2 py-0.5 rounded-full font-bold">جرّب لايف</span>
             </button>
 
             <button
@@ -340,7 +313,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               </button>
               <button
                 onClick={() => handleNavClick('pricing-plans')}
-                className="w-full text-right p-2 text-xs font-black text-emerald-500 hover:bg-neutral-500/10 rounded-lg"
+                className="w-full text-right p-2 text-xs font-black text-orange-500 hover:bg-neutral-500/10 rounded-lg"
               >
                 الباقات والأسعار الرسمية
               </button>
