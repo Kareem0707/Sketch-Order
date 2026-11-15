@@ -39,9 +39,10 @@ declare global {
 
 const STORAGE_KEY_CLIENT_ID = 'sketch_google_client_id';
 const STORAGE_KEY_USER_PROFILE = 'sketch_customer_google_account';
+export const DEFAULT_GOOGLE_CLIENT_ID = '583524414496-pap3nvm82t5i7fl3i9od8bj60maec9gc.apps.googleusercontent.com';
 
 /**
- * Get active Google Client ID from Environment variable or localStorage
+ * Get active Google Client ID from Environment variable or localStorage or official default
  */
 export const getActiveGoogleClientId = (): string => {
   try {
@@ -56,7 +57,7 @@ export const getActiveGoogleClientId = (): string => {
   } catch (err) {
     console.error('Error reading Google Client ID:', err);
   }
-  return '';
+  return DEFAULT_GOOGLE_CLIENT_ID;
 };
 
 /**
