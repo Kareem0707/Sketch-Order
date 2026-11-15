@@ -699,85 +699,85 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  {/* ======================================================== */}
  {/* 2. SKETCH KPI CARDS (Doodle Style) */}
  {/* ======================================================== */}
- <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+ <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
  {/* KPI 1: Revenue */}
  <div
- className={`p-5 rounded-2xl border-2 transition-transform hover:-translate-y-1 ${
+ className={`p-3 sm:p-5 rounded-2xl border-2 transition-transform hover:-translate-y-1 ${
  isDarkMode
  ? 'bg-[#111827] border-slate-700 shadow-[4px_4px_0px_#1F2937]'
  : 'bg-white border-[#0F0F0F] shadow-[4px_4px_0px_#0F0F0F]'
  } sketch-border-1 relative overflow-hidden`}
  >
- <div className="flex items-center justify-between mb-2">
- <span className="text-xs font-mono font-black opacity-75">إجمالي الإيرادات المحصلة</span>
- <div className="w-8 h-8 rounded-full bg-[#D9722B]/20 text-[#D9722B] dark:text-[#E88B4D] flex items-center justify-center font-bold">
- <DollarSign className="w-4 h-4" />
+ <div className="flex items-center justify-between mb-1 sm:mb-2">
+ <span className="text-[11px] sm:text-xs font-mono font-black opacity-75 truncate">إجمالي الإيرادات</span>
+ <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#D9722B]/20 text-[#D9722B] dark:text-[#E88B4D] flex items-center justify-center font-bold shrink-0">
+ <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
  </div>
  </div>
- <div className="text-3xl font-black font-mono tracking-tight text-[#D9722B] dark:text-[#E88B4D]">
- {totalRevenue.toLocaleString()} <span className="text-sm font-heading">ج.م</span>
+ <div className="text-xl sm:text-3xl font-black font-mono tracking-tight text-[#D9722B] dark:text-[#E88B4D]">
+ {totalRevenue.toLocaleString()} <span className="text-xs sm:text-sm font-heading">ج.م</span>
  </div>
- <p className="text-[11px] font-bold opacity-60 mt-1">دفع لمرة واحدة • أرباح المنصة صافية 100%</p>
+ <p className="text-[10px] sm:text-[11px] font-bold opacity-60 mt-0.5 sm:mt-1 truncate">دفع لمرة واحدة • صافي 100%</p>
  </div>
 
  {/* KPI 2: Live Stores */}
  <div
- className={`p-5 rounded-2xl border-2 transition-transform hover:-translate-y-1 ${
+ className={`p-3 sm:p-5 rounded-2xl border-2 transition-transform hover:-translate-y-1 ${
  isDarkMode
  ? 'bg-[#111827] border-slate-700 shadow-[4px_4px_0px_#1F2937]'
  : 'bg-white border-[#0F0F0F] shadow-[4px_4px_0px_#0F0F0F]'
  } sketch-border-2 relative overflow-hidden`}
  >
- <div className="flex items-center justify-between mb-2">
- <span className="text-xs font-mono font-black opacity-75">متاجر مفعلة ونشطة (Live)</span>
- <div className="w-8 h-8 rounded-full bg-[#D9722B]/20 text-[#D9722B] dark:text-[#E88B4D] flex items-center justify-center font-bold">
- <Store className="w-4 h-4" />
+ <div className="flex items-center justify-between mb-1 sm:mb-2">
+ <span className="text-[11px] sm:text-xs font-mono font-black opacity-75 truncate">متاجر مفعلة ونشطة</span>
+ <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#D9722B]/20 text-[#D9722B] dark:text-[#E88B4D] flex items-center justify-center font-bold shrink-0">
+ <Store className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
  </div>
  </div>
- <div className="text-3xl font-black font-mono tracking-tight text-[#D9722B] dark:text-[#E88B4D]">
- {liveCount} <span className="text-sm font-heading">متجر</span>
+ <div className="text-xl sm:text-3xl font-black font-mono tracking-tight text-[#D9722B] dark:text-[#E88B4D]">
+ {liveCount} <span className="text-xs sm:text-sm font-heading">متجر</span>
  </div>
- <p className="text-[11px] font-bold opacity-60 mt-1">شغالة بدومينات ساب مستقلة وقابلة للبيع</p>
+ <p className="text-[10px] sm:text-[11px] font-bold opacity-60 mt-0.5 sm:mt-1 truncate">دومينات ساب مستقلة</p>
  </div>
 
  {/* KPI 3: Pending Review */}
  <div
- className={`p-5 rounded-2xl border-2 transition-transform hover:-translate-y-1 ${
+ className={`p-3 sm:p-5 rounded-2xl border-2 transition-transform hover:-translate-y-1 ${
  isDarkMode
  ? 'bg-[#111827] border-slate-700 shadow-[4px_4px_0px_#1F2937]'
  : 'bg-white border-[#0F0F0F] shadow-[4px_4px_0px_#0F0F0F]'
  } sketch-border-3 relative overflow-hidden`}
  >
- <div className="flex items-center justify-between mb-2">
- <span className="text-xs font-mono font-black opacity-75">بانتظار المراجعة والتفعيل</span>
- <div className="w-8 h-8 rounded-full bg-[#D9722B]/20 text-[#D9722B] dark:text-[#E88B4D] flex items-center justify-center font-bold animate-pulse">
- <Clock className="w-4 h-4" />
+ <div className="flex items-center justify-between mb-1 sm:mb-2">
+ <span className="text-[11px] sm:text-xs font-mono font-black opacity-75 truncate">بانتظار المراجعة</span>
+ <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#D9722B]/20 text-[#D9722B] dark:text-[#E88B4D] flex items-center justify-center font-bold animate-pulse shrink-0">
+ <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
  </div>
  </div>
- <div className="text-3xl font-black font-mono tracking-tight text-[#D9722B] dark:text-[#E88B4D]">
- {pendingCount} <span className="text-sm font-heading">طلب جديد</span>
+ <div className="text-xl sm:text-3xl font-black font-mono tracking-tight text-[#D9722B] dark:text-[#E88B4D]">
+ {pendingCount} <span className="text-xs sm:text-sm font-heading">طلب جديد</span>
  </div>
- <p className="text-[11px] font-bold opacity-60 mt-1">يحتاج فحص سكرين التحويل والضغط تفعيل</p>
+ <p className="text-[10px] sm:text-[11px] font-bold opacity-60 mt-0.5 sm:mt-1 truncate">تحويل فودافون/إنستاباي</p>
  </div>
 
  {/* KPI 4: Total Orders */}
  <div
- className={`p-5 rounded-2xl border-2 transition-transform hover:-translate-y-1 ${
+ className={`p-3 sm:p-5 rounded-2xl border-2 transition-transform hover:-translate-y-1 ${
  isDarkMode
  ? 'bg-[#111827] border-slate-700 shadow-[4px_4px_0px_#1F2937]'
  : 'bg-white border-[#0F0F0F] shadow-[4px_4px_0px_#0F0F0F]'
  } sketch-border-1 relative overflow-hidden`}
  >
- <div className="flex items-center justify-between mb-2">
- <span className="text-xs font-mono font-black opacity-75">إجمالي الطلبات المسجلة</span>
- <div className="w-8 h-8 rounded-full bg-[#D9722B]/20 text-[#D9722B] dark:text-[#E88B4D] flex items-center justify-center font-bold">
- <Sparkles className="w-4 h-4" />
+ <div className="flex items-center justify-between mb-1 sm:mb-2">
+ <span className="text-[11px] sm:text-xs font-mono font-black opacity-75 truncate">إجمالي الطلبات</span>
+ <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#D9722B]/20 text-[#D9722B] dark:text-[#E88B4D] flex items-center justify-center font-bold shrink-0">
+ <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
  </div>
  </div>
- <div className="text-3xl font-black font-mono tracking-tight text-[#D9722B] dark:text-[#E88B4D]">
- {orders.length} <span className="text-sm font-heading">طلب</span>
+ <div className="text-xl sm:text-3xl font-black font-mono tracking-tight text-[#D9722B] dark:text-[#E88B4D]">
+ {orders.length} <span className="text-xs sm:text-sm font-heading">طلب</span>
  </div>
- <p className="text-[11px] font-bold opacity-60 mt-1">نسبة التحويل والإغلاق 94%</p>
+ <p className="text-[10px] sm:text-[11px] font-bold opacity-60 mt-0.5 sm:mt-1 truncate">نسبة الإغلاق 94%</p>
  </div>
  </section>
 
