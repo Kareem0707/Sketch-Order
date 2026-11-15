@@ -13,6 +13,7 @@ import { CoreFeaturesSection } from './components/CoreFeaturesSection';
 import { BlogSection } from './components/BlogSection';
 import { Footer } from './components/Footer';
 import { OrderModal } from './components/OrderModal';
+import { SecretAdminGateModal, isDeviceAdminAuthenticated, setDeviceAdminAuthenticated } from './components/SecretAdminGateModal';
 import { Hammer, ArrowLeft, Grid } from 'lucide-react';
 import type { CustomStoreConfig, TemplateId } from './types';
 import { playClick, playPaperFlip } from './utils/soundEffects';
@@ -34,6 +35,37 @@ export const App: React.FC = () => {
   const [activeCustomStore, setActiveCustomStore] = useState<CustomStoreConfig | null>(null);
   const [activeTenantSubdomain, setActiveTenantSubdomain] = useState<string>('sportech');
   const [activeStudioTemplateId, setActiveStudioTemplateId] = useState<TemplateId>('sportech-sneakers');
+
+  // Secret Admin Vault & Authentication
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState<boolean>(() => isDeviceAdminAuthenticated());
+  const [isSecretGateOpen, setIsSecretGateOpen] = useState<boolean>(false);
+
+  // Monitor secret hash routes (#secret-admin, #admin-vault, or ?admin=secret)
+  useEffect(() => {
+    const handleSecretHashCheck = () => {
+      const hash = (window.location.hash || '').toLowerCase();
+      const params = new URLSearchParams(window.location.search);
+      const isSecretTriggered =
+        hash === '#secret-admin' ||
+        hash === '#admin-vault' ||
+        hash === '#admin' ||
+        params.get('admin') === 'secret' ||
+        params.has('admin_key');
+
+      if (isSecretTriggered) {
+        if (isDeviceAdminAuthenticated()) {
+          setIsAdminAuthenticated(true);
+          setViewMode('owner_admin');
+        } else {
+          setIsSecretGateOpen(true);
+        }
+      }
+    };
+
+    handleSecretHashCheck();
+    window.addEventListener('hashchange', handleSecretHashCheck);
+    return () => window.removeEventListener('hashchange', handleSecretHashCheck);
+  }, []);
 
   // Dark Theme Management
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
@@ -89,8 +121,23 @@ export const App: React.FC = () => {
 
   const openOwnerAdmin = () => {
     playClick();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    setViewMode('owner_admin');
+    if (isDeviceAdminAuthenticated()) {
+      setIsAdminAuthenticated(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setViewMode('owner_admin');
+    } else {
+      setIsSecretGateOpen(true);
+    }
+  };
+
+  const handleLogoutAdmin = () => {
+    playClick();
+    setDeviceAdminAuthenticated(false);
+    setIsAdminAuthenticated(false);
+    setViewMode('home');
+    if (window.location.hash.includes('admin')) {
+      window.location.hash = '';
+    }
   };
 
   const openMerchantPortal = (subdomain?: string) => {
@@ -182,6 +229,7 @@ export const App: React.FC = () => {
           playClick();
           setViewMode('home');
         }}
+        onLogoutAdmin={handleLogoutAdmin}
         onOpenStoreLive={(sub) => openTenantLiveStore(sub)}
         onOpenMerchantPortal={(sub) => openMerchantPortal(sub)}
         isDarkMode={isDarkMode}
@@ -249,6 +297,7 @@ export const App: React.FC = () => {
         onOpenMerchantPortal={() => openMerchantPortal()}
         isDarkMode={isDarkMode}
         onToggleDarkMode={toggleDarkMode}
+        isAdminAuthenticated={isAdminAuthenticated}
       />
 
       {/* Main Content Sections */}
@@ -431,6 +480,23 @@ export const App: React.FC = () => {
         preselectedFeatures={preselectedFeatures}
         initialStoreConfig={activeCustomStore}
         initialPlan={selectedPlan}
+      />
+
+      {/* Secret Admin Vault Gate Modal */}
+      <SecretAdminGateModal
+        isOpen={isSecretGateOpen}
+        onClose={() => {
+          setIsSecretGateOpen(false);
+          if (window.location.hash.includes('admin')) {
+            window.location.hash = '';
+          }
+        }}
+        onSuccess={() => {
+          setIsSecretGateOpen(false);
+          setIsAdminAuthenticated(true);
+          setViewMode('owner_admin');
+        }}
+        isDarkMode={isDarkMode}
       />
     </div>
   );

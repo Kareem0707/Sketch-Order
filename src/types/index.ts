@@ -202,4 +202,46 @@ export interface TenantStoreAccount {
   createdAt: string;
   salesTotal: number;
   ordersCount: number;
+  customDomain?: string;
+  vercelStatus?: 'verified' | 'pending_dns' | 'not_registered';
 }
+
+export interface GoogleUserProfile {
+  sub: string;
+  email: string;
+  name: string;
+  picture?: string;
+  email_verified?: boolean;
+}
+
+export interface VercelDomainRecord {
+  name: string;
+  apexName: string;
+  verified: boolean;
+  verification?: Array<{
+    type: string;
+    domain: string;
+    value: string;
+    reason?: string;
+  }>;
+  createdAt?: number;
+  updatedAt?: number;
+}
+
+export interface VercelConfig {
+  token: string;
+  projectId: string;
+  teamId?: string;
+}
+
+export interface LiveDnsCheckResult {
+  domain: string;
+  isVercelIp: boolean;
+  resolvedIps: string[];
+  cnameTargets: string[];
+  status: 'pointing_to_vercel' | 'not_pointing' | 'not_found' | 'error';
+  rawAnswer?: any;
+  message: string;
+  checkedAt: string;
+}
+

@@ -18,13 +18,23 @@ import {
  Moon,
  AlertCircle,
  Globe,
+ RefreshCw,
+ CheckCircle2,
+ AlertTriangle,
 } from 'lucide-react';
 import type {
  TenantStoreAccount,
  TenantCustomerOrder,
  CustomProduct,
+ LiveDnsCheckResult,
 } from '../types';
 import { playClick, playCashSound } from '../utils/soundEffects';
+import {
+ checkDomainLiveDns,
+ addDomainToVercel,
+ isVercelConfigured,
+ getVercelCliAddCommand,
+} from '../services/vercelDomainService';
 import { DEFAULT_PRODUCTS_MAP, DEFAULT_CATEGORIES_MAP } from './FullPageStoreStudio';
 
 interface ClientMerchantPortalProps {
@@ -66,6 +76,14 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  const [copiedActualDomain, setCopiedActualDomain] = useState<boolean>(false);
  const [isEditDomainModalOpen, setIsEditDomainModalOpen] = useState<boolean>(false);
  const [newCustomDomainInput, setNewCustomDomainInput] = useState<string>('');
+
+ // Live DNS & Vercel state
+ const [liveDnsResult, setLiveDnsResult] = useState<LiveDnsCheckResult | null>(null);
+ const [isCheckingDns, setIsCheckingDns] = useState<boolean>(false);
+ const [copiedDnsIp, setCopiedDnsIp] = useState<boolean>(false);
+ const [copiedCname, setCopiedCname] = useState<boolean>(false);
+ const [copiedCliCmd, setCopiedCliCmd] = useState<boolean>(false);
+ const [vercelAddNote, setVercelAddNote] = useState<string | null>(null);
 
  // Load stores from localStorage
  const loadStores = () => {
@@ -337,25 +355,47 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
    setTimeout(() => setCopiedActualDomain(false), 2500);
  };
 
- const handleSaveCustomDomain = (newDomain: string) => {
-   if (!currentStore || !activeSubdomain) return;
-   playCashSound();
-   const clean = newDomain.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/.*$/, '');
-   if (!clean) return;
+  const handleRunLiveDnsCheck = async () => {
+    playClick();
+    setIsCheckingDns(true);
+    const res = await checkDomainLiveDns(actualLiveDomain);
+    setIsCheckingDns(false);
+    setLiveDnsResult(res);
+  };
 
-   const updatedStore: TenantStoreAccount = {
-     ...currentStore,
-     storeConfig: {
-       ...currentStore.storeConfig,
-       customDomain: clean,
-     },
-   };
-   setCurrentStore(updatedStore);
-   const updatedStores = { ...allStores, [activeSubdomain]: updatedStore };
-   setAllStores(updatedStores);
-   localStorage.setItem('sketch_tenant_stores', JSON.stringify(updatedStores));
-   setIsEditDomainModalOpen(false);
- };
+  const handleSaveCustomDomain = async (newDomain: string) => {
+    if (!currentStore || !activeSubdomain) return;
+    playCashSound();
+    const clean = newDomain.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+    if (!clean) return;
+
+    if (isVercelConfigured()) {
+      setVercelAddNote('جاري تسجيل الدومين تلقائياً على سيرفرات Vercel...');
+      const vRes = await addDomainToVercel(clean);
+      if (vRes.success) {
+        setVercelAddNote('✓ تم تسجيل وربط الدومين بنجاح بمشروعك على Vercel!');
+      } else {
+        setVercelAddNote(`ملاحظة Vercel: ${vRes.error}`);
+      }
+    }
+
+    const updatedStore: TenantStoreAccount = {
+      ...currentStore,
+      customDomain: clean,
+      storeConfig: {
+        ...currentStore.storeConfig,
+        customDomain: clean,
+      },
+    };
+    setCurrentStore(updatedStore);
+    const updatedStores = { ...allStores, [activeSubdomain]: updatedStore };
+    setAllStores(updatedStores);
+    localStorage.setItem('sketch_tenant_stores', JSON.stringify(updatedStores));
+    setIsEditDomainModalOpen(false);
+
+    // Run live DNS check immediately
+    checkDomainLiveDns(clean).then((res) => setLiveDnsResult(res));
+  };
 
  // Simulate a new customer order for instant testing
  const handleSimulateNewCustomerOrder = () => {
@@ -711,19 +751,56 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
    </div>
 
    {/* Live Diagnostics Badges */}
-   <div className="pt-3.5 border-t border-zinc-100 dark:border-slate-800 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono font-bold">
-     <div className="p-2.5 rounded-xl bg-neutral-50 dark:bg-slate-800/60 border border-zinc-200 dark:border-slate-700 flex items-center gap-2.5">
-       <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span>
-       <span className="text-zinc-700 dark:text-zinc-300">DNS Status: 76.76.21.21 (نشط وموجه عالمياً)</span>
+   {/* Live Diagnostics Badges & Real Google DNS Check */}
+   <div className="pt-3.5 border-t border-zinc-100 dark:border-slate-800 space-y-3">
+     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono font-bold">
+       <div className="p-2.5 rounded-xl bg-neutral-50 dark:bg-slate-800/60 border border-zinc-200 dark:border-slate-700 flex items-center justify-between">
+         <div className="flex items-center gap-2">
+           <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span>
+           <span className="text-zinc-700 dark:text-zinc-300">Vercel Anycast IP: 76.76.21.21</span>
+         </div>
+         <button
+           onClick={handleRunLiveDnsCheck}
+           disabled={isCheckingDns}
+           className="text-[10px] font-bold text-[#D9722B] hover:underline flex items-center gap-1 cursor-pointer"
+           title="فحص حقيقي للـ DNS عبر Google Public DNS"
+         >
+           <RefreshCw className={`w-3 h-3 ${isCheckingDns ? 'animate-spin' : ''}`} />
+           <span>{isCheckingDns ? 'جاري الفحص...' : 'فحص DNS لايف'}</span>
+         </button>
+       </div>
+       <div className="p-2.5 rounded-xl bg-neutral-50 dark:bg-slate-800/60 border border-zinc-200 dark:border-slate-700 flex items-center gap-2.5">
+         <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span>
+         <span className="text-zinc-700 dark:text-zinc-300">SSL Certificate: مشفر ومعتمد 100% Let's Encrypt</span>
+       </div>
+       <div className="p-2.5 rounded-xl bg-neutral-50 dark:bg-slate-800/60 border border-zinc-200 dark:border-slate-700 flex items-center gap-2.5">
+         <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span>
+         <span className="text-zinc-700 dark:text-zinc-300">Global Anycast: سرعة استجابة فائقة داخل مصر 99/100</span>
+       </div>
      </div>
-     <div className="p-2.5 rounded-xl bg-neutral-50 dark:bg-slate-800/60 border border-zinc-200 dark:border-slate-700 flex items-center gap-2.5">
-       <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span>
-       <span className="text-zinc-700 dark:text-zinc-300">SSL Certificate: مشفر ومعتمد 100% Let's Encrypt</span>
-     </div>
-     <div className="p-2.5 rounded-xl bg-neutral-50 dark:bg-slate-800/60 border border-zinc-200 dark:border-slate-700 flex items-center gap-2.5">
-       <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span>
-       <span className="text-zinc-700 dark:text-zinc-300">Cloudflare CDN: سرعة فائقة داخل مصر 99/100</span>
-     </div>
+
+     {/* Live Google DNS Result Output */}
+     {liveDnsResult && (
+       <div
+         className={`p-3 rounded-xl border text-xs font-mono flex items-start gap-2.5 animate-fadeIn ${
+           liveDnsResult.isVercelIp
+             ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-600 dark:text-emerald-400'
+             : 'bg-amber-500/10 border-amber-500/40 text-amber-700 dark:text-amber-300'
+         }`}
+       >
+         {liveDnsResult.isVercelIp ? (
+           <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+         ) : (
+           <AlertTriangle className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+         )}
+         <div className="flex-1 space-y-0.5">
+           <div className="font-bold">{liveDnsResult.message}</div>
+           <div className="text-[10px] opacity-75">
+             IPs المسترجعة: {liveDnsResult.resolvedIps.join(', ') || 'لم يتم العثور على سجل A'} • تم الفحص عبر Google Public DNS في {new Date(liveDnsResult.checkedAt).toLocaleTimeString('ar-EG')}
+           </div>
+         </div>
+       </div>
+     )}
    </div>
  </section>
  
@@ -1181,11 +1258,74 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
            />
          </div>
 
-         {/* DNS Help Pill */}
-         <div className="p-3 rounded-xl bg-neutral-100 dark:bg-slate-800/80 border border-zinc-200 dark:border-slate-700 text-[11px] font-mono font-bold space-y-1 text-zinc-600 dark:text-zinc-400">
-           <div className="text-[#D9722B] font-heading">سجلات DNS المطلوبة للربط:</div>
-           <div>• A Record: @ ➔ 76.76.21.21</div>
-           <div>• CNAME: www ➔ cname.sketchorder.store</div>
+         {/* DNS Help & Real Records Cards */}
+         <div className="p-3.5 rounded-2xl bg-neutral-100 dark:bg-slate-800/80 border border-zinc-200 dark:border-slate-700 text-xs font-mono font-bold space-y-2.5 text-zinc-600 dark:text-zinc-300">
+           <div className="text-[#D9722B] font-heading font-black text-xs flex items-center justify-between">
+             <span>سجلات DNS الرسمية المطلوبة لربط Vercel:</span>
+             <span className="text-[10px] text-zinc-400 font-mono">Anycast Global</span>
+           </div>
+
+           {/* Record 1: A Record */}
+           <div className="p-2 rounded-xl bg-white dark:bg-slate-900 border border-zinc-200 dark:border-slate-700 flex items-center justify-between">
+             <div>
+               <span className="text-[10px] font-bold text-zinc-400 block">سجل A (الأساسي):</span>
+               <span className="font-mono text-xs">@ ➔ 76.76.21.21</span>
+             </div>
+             <button
+               type="button"
+               onClick={() => {
+                 navigator.clipboard.writeText('76.76.21.21');
+                 setCopiedDnsIp(true);
+                 setTimeout(() => setCopiedDnsIp(false), 2000);
+               }}
+               className="px-2.5 py-1 text-[11px] rounded-lg bg-neutral-100 dark:bg-slate-800 hover:bg-[#D9722B] hover:text-white font-bold"
+             >
+               {copiedDnsIp ? 'تم النسخ!' : 'نسخ IP'}
+             </button>
+           </div>
+
+           {/* Record 2: CNAME Record */}
+           <div className="p-2 rounded-xl bg-white dark:bg-slate-900 border border-zinc-200 dark:border-slate-700 flex items-center justify-between">
+             <div>
+               <span className="text-[10px] font-bold text-zinc-400 block">سجل CNAME:</span>
+               <span className="font-mono text-xs">www ➔ cname.vercel-dns.com</span>
+             </div>
+             <button
+               type="button"
+               onClick={() => {
+                 navigator.clipboard.writeText('cname.vercel-dns.com');
+                 setCopiedCname(true);
+                 setTimeout(() => setCopiedCname(false), 2000);
+               }}
+               className="px-2.5 py-1 text-[11px] rounded-lg bg-neutral-100 dark:bg-slate-800 hover:bg-[#D9722B] hover:text-white font-bold"
+             >
+               {copiedCname ? 'تم النسخ!' : 'نسخ CNAME'}
+             </button>
+           </div>
+
+           {/* Vercel CLI command */}
+           <div className="p-2 rounded-xl bg-neutral-200/60 dark:bg-slate-950 border border-zinc-300 dark:border-slate-800 flex items-center justify-between text-[11px]">
+             <span className="font-mono text-slate-700 dark:text-slate-300">
+               {getVercelCliAddCommand(newCustomDomainInput || actualLiveDomain)}
+             </span>
+             <button
+               type="button"
+               onClick={() => {
+                 navigator.clipboard.writeText(getVercelCliAddCommand(newCustomDomainInput || actualLiveDomain));
+                 setCopiedCliCmd(true);
+                 setTimeout(() => setCopiedCliCmd(false), 2000);
+               }}
+               className="px-2 py-0.5 text-[10px] rounded bg-neutral-300 dark:bg-slate-800 font-bold hover:bg-[#D9722B] hover:text-white"
+             >
+               {copiedCliCmd ? 'تم!' : 'نسخ الأمر'}
+             </button>
+           </div>
+
+           {vercelAddNote && (
+             <div className="text-[11px] font-bold text-emerald-500 pt-1">
+               {vercelAddNote}
+             </div>
+           )}
          </div>
        </div>
 

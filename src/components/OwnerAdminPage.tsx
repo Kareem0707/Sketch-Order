@@ -20,19 +20,44 @@ import {
   Globe,
   Power,
   Mail,
+  LogOut,
+  Copy,
+  Server,
+  Cloud,
+  ShieldAlert,
+  AlertTriangle,
 } from 'lucide-react';
-import type { ClientOrderRequest, TenantStoreAccount } from '../types';
+import type { ClientOrderRequest, TenantStoreAccount, VercelDomainRecord, LiveDnsCheckResult } from '../types';
+import {
+  getActiveVercelConfig,
+  saveVercelConfig,
+  testVercelConnection,
+  listVercelProjectDomains,
+  addDomainToVercel,
+  checkDomainLiveDns,
+} from '../services/vercelDomainService';
+import {
+  getActiveGoogleClientId,
+  saveGoogleClientId,
+  isGoogleSdkReady,
+} from '../services/googleAuthService';
+import {
+  getAdminMasterPassword,
+  setAdminMasterPassword,
+  setDeviceAdminAuthenticated,
+} from './SecretAdminGateModal';
 import { playClick, playCashSound } from '../utils/soundEffects';
 import logoSquareImg from '../assets/sketch-order-logo-square.png';
 import mascotPng from '../assets/sketch-mascot.png';
 import { STUDIO_TEMPLATES, DEFAULT_PRODUCTS_MAP, DEFAULT_CATEGORIES_MAP } from './FullPageStoreStudio';
 
 interface OwnerAdminPageProps {
- onBackToHome: () => void;
- onOpenStoreLive: (subdomain: string) => void;
- onOpenMerchantPortal: (subdomain: string) => void;
- isDarkMode: boolean;
- onToggleDarkMode: () => void;
+  onBackToHome: () => void;
+  onLogoutAdmin?: () => void;
+  onOpenStoreLive: (subdomain: string) => void;
+  onOpenMerchantPortal: (subdomain: string) => void;
+  isDarkMode: boolean;
+  onToggleDarkMode: () => void;
 }
 
 const DEFAULT_ORDERS_MOCK: ClientOrderRequest[] = [
@@ -92,20 +117,115 @@ const DEFAULT_ORDERS_MOCK: ClientOrderRequest[] = [
 ];
 
 export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
- onBackToHome,
- onOpenStoreLive,
- onOpenMerchantPortal,
- isDarkMode,
- onToggleDarkMode,
+  onBackToHome,
+  onLogoutAdmin,
+  onOpenStoreLive,
+  onOpenMerchantPortal,
+  isDarkMode,
+  onToggleDarkMode,
 }) => {
- const [orders, setOrders] = useState<ClientOrderRequest[]>([]);
+  const [orders, setOrders] = useState<ClientOrderRequest[]>([]);
   const [tenantStores, setTenantStores] = useState<Record<string, TenantStoreAccount>>({});
-  const [adminViewTab, setAdminViewTab] = useState<'orders' | 'tenants'>('orders');
+  const [adminViewTab, setAdminViewTab] = useState<'orders' | 'tenants' | 'vercel_hub' | 'google_cloud'>('orders');
   const [tenantSearchQuery, setTenantSearchQuery] = useState<string>('');
- const [filterStatus, setFilterStatus] = useState<'all' | 'pending' | 'approved'>('all');
- const [searchQuery, setSearchQuery] = useState<string>('');
- const [selectedReceiptUrl, setSelectedReceiptUrl] = useState<string | null>(null);
- const [actionSuccessMessage, setActionSuccessMessage] = useState<string | null>(null);
+  const [filterStatus, setFilterStatus] = useState<'all' | 'pending' | 'approved'>('all');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [selectedReceiptUrl, setSelectedReceiptUrl] = useState<string | null>(null);
+  const [actionSuccessMessage, setActionSuccessMessage] = useState<string | null>(null);
+
+  // Vercel config & live state
+  const [vercelToken, setVercelToken] = useState(getActiveVercelConfig().token);
+  const [vercelProjectId, setVercelProjectId] = useState(getActiveVercelConfig().projectId);
+  const [vercelTeamId, setVercelTeamId] = useState(getActiveVercelConfig().teamId || '');
+  const [vercelConnStatus, setVercelConnStatus] = useState<'idle' | 'testing' | 'connected' | 'error'>('idle');
+  const [vercelConnMessage, setVercelConnMessage] = useState('');
+  const [vercelDomains, setVercelDomains] = useState<VercelDomainRecord[]>([]);
+  const [isLoadingDomains, setIsLoadingDomains] = useState(false);
+  const [newDomainInput, setNewDomainInput] = useState('');
+  const [isAddingDomain, setIsAddingDomain] = useState(false);
+  const [dnsCheckResult, setDnsCheckResult] = useState<LiveDnsCheckResult | null>(null);
+  const [dnsCheckingDomain, setDnsCheckingDomain] = useState<string | null>(null);
+
+  // Google OAuth config state
+  const [googleClientId, setGoogleClientId] = useState(getActiveGoogleClientId());
+  const [googleSavedMsg, setGoogleSavedMsg] = useState('');
+
+  // Admin Master Password state & Secret link
+  const [isChangePwdOpen, setIsChangePwdOpen] = useState(false);
+  const [newAdminPwd, setNewAdminPwd] = useState('');
+  const [copiedSecretUrl, setCopiedSecretUrl] = useState(false);
+
+  const handleCopySecretUrl = () => {
+    playClick();
+    const url = `${window.location.origin}${window.location.pathname}#secret-admin`;
+    navigator.clipboard.writeText(url);
+    setCopiedSecretUrl(true);
+    setTimeout(() => setCopiedSecretUrl(false), 3000);
+  };
+
+  const handleLogoutAndHide = () => {
+    playClick();
+    setDeviceAdminAuthenticated(false);
+    if (onLogoutAdmin) {
+      onLogoutAdmin();
+    } else {
+      onBackToHome();
+    }
+  };
+
+  const handleSaveAndTestVercel = async () => {
+    playClick();
+    saveVercelConfig({
+      token: vercelToken,
+      projectId: vercelProjectId,
+      teamId: vercelTeamId || undefined,
+    });
+    setVercelConnStatus('testing');
+    setVercelConnMessage('جاري اختبار الاتصال بسيرفرات Vercel...');
+
+    const res = await testVercelConnection();
+    if (res.success) {
+      setVercelConnStatus('connected');
+      setVercelConnMessage(
+        `✓ تم الاتصال بـ Vercel بنجاح! اسم المشروع: ${res.project?.name || vercelProjectId} (Framework: ${res.project?.framework || 'Vite'})`
+      );
+      handleFetchVercelDomains();
+    } else {
+      setVercelConnStatus('error');
+      setVercelConnMessage(`فشل الاتصال: ${res.error}`);
+    }
+  };
+
+  const handleFetchVercelDomains = async () => {
+    setIsLoadingDomains(true);
+    const res = await listVercelProjectDomains();
+    setIsLoadingDomains(false);
+    if (res.success && res.domains) {
+      setVercelDomains(res.domains);
+    }
+  };
+
+  const handleAddDomainDirectlyToVercel = async () => {
+    if (!newDomainInput.trim()) return;
+    playClick();
+    setIsAddingDomain(true);
+    const res = await addDomainToVercel(newDomainInput.trim());
+    setIsAddingDomain(false);
+    if (res.success) {
+      setActionSuccessMessage(`تمت إضافة الدومين (${newDomainInput}) إلى مشروع Vercel بنجاح!`);
+      setNewDomainInput('');
+      handleFetchVercelDomains();
+    } else {
+      alert(`خطأ: ${res.error}`);
+    }
+  };
+
+  const handleAdminDnsCheck = async (domain: string) => {
+    setDnsCheckingDomain(domain);
+    const res = await checkDomainLiveDns(domain);
+    setDnsCheckingDomain(null);
+    setDnsCheckResult(res);
+  };
 
   // Load tenant stores from localStorage
   const loadTenantStores = () => {
@@ -483,42 +603,99 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  <span className="hidden sm:inline">طلب تجريبي جديد</span>
  </button>
 
- {/* Dark Mode Button */}
- <button
- onClick={() => {
- playClick();
- onToggleDarkMode();
- }}
- className={`p-2.5 rounded-xl border-2 font-bold text-xs flex items-center gap-1.5 transition-all ${
- isDarkMode
- ? 'bg-[#D9722B]/10 border-[#D9722B] dark:border-[#D9722B]/60 text-zinc-400 hover:bg-[#C25E1D]/20'
- : 'bg-white border-[#0F0F0F] text-[#0F0F0F] hover:bg-slate-100'
- }`}
- title={isDarkMode ? 'تفعيل الوضع النهاري' : 'تفعيل الوضع الليلي (Dark)'}
- >
- {isDarkMode ? <Sun className="w-4 h-4 text-zinc-400" /> : <Moon className="w-4 h-4 text-slate-800" />}
- </button>
- </div>
- </div>
- </header>
+            {/* Logout and hide admin icon button */}
+            <button
+              onClick={handleLogoutAndHide}
+              className="px-3 py-2 rounded-xl border-2 border-red-500/60 bg-red-500/10 hover:bg-red-500/20 text-red-500 text-xs font-black flex items-center gap-1.5 transition-all shadow-xs"
+              title="تسجيل الخروج وإلغاء تذكر هذا الجهاز وإخفاء الأيقونة"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span className="hidden md:inline">خروج وإخفاء الأيقونة</span>
+            </button>
 
- {/* Success Banner Alert */}
- {actionSuccessMessage && (
- <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-4 animate-fadeIn">
- <div className="p-3.5 rounded-2xl bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white font-black text-sm flex items-center justify-between border-2 border-[#D9722B] shadow-md">
- <div className="flex items-center gap-2">
- <CheckCircle2 className="w-5 h-5 shrink-0" />
- <span>{actionSuccessMessage}</span>
- </div>
- <button onClick={() => setActionSuccessMessage(null)} className="p-1">
- <X className="w-4 h-4" />
- </button>
- </div>
- </div>
- )}
+            {/* Dark Mode Button */}
+            <button
+              onClick={() => {
+                playClick();
+                onToggleDarkMode();
+              }}
+              className={`p-2.5 rounded-xl border-2 font-bold text-xs flex items-center gap-1.5 transition-all ${
+                isDarkMode
+                  ? 'bg-[#D9722B]/10 border-[#D9722B] dark:border-[#D9722B]/60 text-zinc-400 hover:bg-[#C25E1D]/20'
+                  : 'bg-white border-[#0F0F0F] text-[#0F0F0F] hover:bg-slate-100'
+              }`}
+              title={isDarkMode ? 'تفعيل الوضع النهاري' : 'تفعيل الوضع الليلي (Dark)'}
+            >
+              {isDarkMode ? <Sun className="w-4 h-4 text-zinc-400" /> : <Moon className="w-4 h-4 text-slate-800" />}
+            </button>
+          </div>
+        </div>
+      </header>
 
- {/* Main Container */}
- <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 space-y-8">
+      {/* Success Banner Alert */}
+      {actionSuccessMessage && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-4 animate-fadeIn">
+          <div className="p-3.5 rounded-2xl bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white font-black text-sm flex items-center justify-between border-2 border-[#D9722B] shadow-md">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-5 h-5 shrink-0" />
+              <span>{actionSuccessMessage}</span>
+            </div>
+            <button onClick={() => setActionSuccessMessage(null)} className="p-1">
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Main Container */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 space-y-8">
+        {/* Secret Admin Vault Banner & Secret URL Card */}
+        <section
+          className={`p-4 sm:p-5 rounded-2xl border-2 sketch-border-2 transition-all ${
+            isDarkMode
+              ? 'bg-amber-950/20 border-amber-500/40 text-amber-200'
+              : 'bg-amber-50 border-amber-600/40 text-amber-950'
+          }`}
+        >
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+            <div className="flex items-start sm:items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-amber-500/20 border-2 border-amber-500 flex items-center justify-center text-amber-500 shrink-0">
+                <ShieldAlert className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="font-heading font-black text-sm sm:text-base">
+                    جلسة إدارة سرية موثقة على هذا الجهاز (Secret Admin Session)
+                  </h3>
+                  <span className="text-[10px] font-mono bg-amber-500 text-slate-950 font-black px-2 py-0.5 rounded-full">
+                    مخفية عن الزوار
+                  </span>
+                </div>
+                <p className="text-xs opacity-80 mt-0.5 leading-relaxed">
+                  أيقونة الإدارة تظهر الآن على هذا المتصفح فقط ومخفية تماماً عن الزوار العاديين على الويب. استخدم الرابط السري أدناه للوصول إليها من أي جهاز آخر.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2 w-full lg:w-auto">
+              <button
+                onClick={handleCopySecretUrl}
+                className="btn-sketch text-xs py-2 px-3.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black flex items-center gap-1.5 shadow-sm"
+              >
+                {copiedSecretUrl ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                <span>{copiedSecretUrl ? 'تم نسخ الرابط السري!' : 'نسخ الرابط السري (#secret-admin)'}</span>
+              </button>
+
+              <button
+                onClick={() => setIsChangePwdOpen(true)}
+                className="px-3.5 py-2 rounded-xl border border-inherit/40 bg-neutral-100 dark:bg-slate-800 text-xs font-bold hover:border-amber-500 flex items-center gap-1.5"
+              >
+                <KeyRound className="w-4 h-4 text-amber-500" />
+                <span>تغيير كلمة المرور</span>
+              </button>
+            </div>
+          </div>
+        </section>
  {/* ======================================================== */}
  {/* 2. SKETCH KPI CARDS (Doodle Style) */}
  {/* ======================================================== */}
@@ -719,6 +896,36 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
         >
           <Globe className="w-4 h-4" />
           <span>إدارة المتاجر والدومينات الفرعية ({Object.keys(tenantStores).length})</span>
+        </button>
+
+        <button
+          onClick={() => {
+            playClick();
+            setAdminViewTab('vercel_hub');
+          }}
+          className={`px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm transition-all border-2 flex items-center gap-2 ${
+            adminViewTab === 'vercel_hub'
+              ? 'bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white border-[#D9722B] shadow-sm -rotate-1'
+              : 'bg-transparent border-inherit opacity-75 hover:opacity-100'
+          }`}
+        >
+          <Cloud className="w-4 h-4" />
+          <span>ربط Vercel API والدومينات الحقيقية</span>
+        </button>
+
+        <button
+          onClick={() => {
+            playClick();
+            setAdminViewTab('google_cloud');
+          }}
+          className={`px-5 py-2.5 rounded-xl font-heading font-black text-xs sm:text-sm transition-all border-2 flex items-center gap-2 ${
+            adminViewTab === 'google_cloud'
+              ? 'bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white border-[#D9722B] shadow-sm rotate-1'
+              : 'bg-transparent border-inherit opacity-75 hover:opacity-100'
+          }`}
+        >
+          <KeyRound className="w-4 h-4" />
+          <span>إعدادات Google Cloud OAuth</span>
         </button>
       </div>
 
@@ -1134,6 +1341,367 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
             )}
           </div>
         </section>
+      )}
+
+      {/* ======================================================== */}
+      {/* TAB 3: VERCEL API & REAL CUSTOM DOMAINS HUB              */}
+      {/* ======================================================== */}
+      {adminViewTab === 'vercel_hub' && (
+        <section className="space-y-6 animate-fadeIn">
+          <div className="p-6 rounded-3xl border-2 border-[#0F0F0F] dark:border-slate-700 bg-white dark:bg-[#111827] space-y-6">
+            {/* Header */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-4 border-slate-200 dark:border-slate-800">
+              <div>
+                <div className="flex items-center gap-2">
+                  <Cloud className="w-6 h-6 text-[#D9722B]" />
+                  <h2 className="text-xl font-heading font-black">
+                    بوابة الربط المباشر مع Vercel API والدومينات الحقيقية
+                  </h2>
+                </div>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  ربط المنصة بحسابك على Vercel لإنشاء وتفعيل الدومينات الحقيقية للعملاء تلقائياً مع شهادات SSL و DNS عالمي.
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                {vercelConnStatus === 'connected' ? (
+                  <span className="px-3 py-1 bg-emerald-500/15 border border-emerald-500 text-emerald-500 rounded-full text-xs font-bold flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>متصل بـ Vercel API بنجاح</span>
+                  </span>
+                ) : vercelConnStatus === 'error' ? (
+                  <span className="px-3 py-1 bg-red-500/15 border border-red-500 text-red-500 rounded-full text-xs font-bold flex items-center gap-1.5">
+                    <AlertTriangle className="w-3.5 h-3.5" />
+                    <span>خطأ في الاتصال</span>
+                  </span>
+                ) : (
+                  <span className="px-3 py-1 bg-neutral-100 dark:bg-slate-800 border text-slate-500 rounded-full text-xs font-bold">
+                    جاهز للاختبار
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Inputs Form */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-xs font-bold mb-1">Vercel Personal Token *</label>
+                <input
+                  type="password"
+                  placeholder="احصل عليه من vercel.com/account/tokens"
+                  value={vercelToken}
+                  onChange={(e) => setVercelToken(e.target.value)}
+                  className="w-full px-3 py-2 text-xs font-mono rounded-xl border bg-neutral-50 dark:bg-slate-900 border-slate-300 dark:border-slate-700"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold mb-1">Vercel Project ID / Slug *</label>
+                <input
+                  type="text"
+                  placeholder="مثال: sketch-order أو prj_xxxx"
+                  value={vercelProjectId}
+                  onChange={(e) => setVercelProjectId(e.target.value)}
+                  className="w-full px-3 py-2 text-xs font-mono rounded-xl border bg-neutral-50 dark:bg-slate-900 border-slate-300 dark:border-slate-700"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold mb-1">Vercel Team ID (اختياري)</label>
+                <input
+                  type="text"
+                  placeholder="team_xxxx (اتركه فارغاً للحساب الشخصي)"
+                  value={vercelTeamId}
+                  onChange={(e) => setVercelTeamId(e.target.value)}
+                  className="w-full px-3 py-2 text-xs font-mono rounded-xl border bg-neutral-50 dark:bg-slate-900 border-slate-300 dark:border-slate-700"
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                onClick={handleSaveAndTestVercel}
+                className="btn-sketch btn-sketch-primary text-xs py-2.5 px-4 flex items-center gap-2"
+              >
+                <Server className="w-4 h-4" />
+                <span>حفظ واختبار الاتصال المباشر بـ Vercel</span>
+              </button>
+              <button
+                onClick={handleFetchVercelDomains}
+                className="btn-sketch text-xs py-2.5 px-4 border border-slate-300 dark:border-slate-700 flex items-center gap-2 bg-neutral-100 dark:bg-slate-800"
+              >
+                <RefreshCw className={`w-4 h-4 ${isLoadingDomains ? 'animate-spin' : ''}`} />
+                <span>جلب قائمة دومينات المشروع الحالية من Vercel</span>
+              </button>
+            </div>
+
+            {vercelConnMessage && (
+              <p
+                className={`text-xs font-bold p-3 rounded-xl border ${
+                  vercelConnStatus === 'connected'
+                    ? 'bg-emerald-500/10 border-emerald-500 text-emerald-600 dark:text-emerald-400'
+                    : 'bg-red-500/10 border-red-500 text-red-500'
+                }`}
+              >
+                {vercelConnMessage}
+              </p>
+            )}
+
+            {/* Add New Custom Domain Directly to Vercel */}
+            <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-3">
+              <h3 className="font-heading font-black text-sm">إضافة دومين حقيقي جديد لـ Vercel الآن:</h3>
+              <div className="flex gap-2 max-w-lg">
+                <input
+                  type="text"
+                  placeholder="مثال: store.mybrand.com أو mybrand.store"
+                  value={newDomainInput}
+                  onChange={(e) => setNewDomainInput(e.target.value)}
+                  className="flex-1 px-3 py-2 text-xs font-mono rounded-xl border bg-neutral-50 dark:bg-slate-900 border-slate-300 dark:border-slate-700"
+                  dir="ltr"
+                />
+                <button
+                  onClick={handleAddDomainDirectlyToVercel}
+                  disabled={isAddingDomain}
+                  className="btn-sketch btn-sketch-primary text-xs py-2 px-4 whitespace-nowrap"
+                >
+                  {isAddingDomain ? 'جاري الإضافة...' : 'إضافة إلى Vercel'}
+                </button>
+              </div>
+            </div>
+
+            {/* Live Google DNS Inspector */}
+            <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-3">
+              <h3 className="font-heading font-black text-sm flex items-center gap-2">
+                <Globe className="w-4 h-4 text-[#D9722B]" />
+                <span>فاحص الـ DNS الحي عبر Google Public DNS:</span>
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                استعلام حقيقي وفوري عبر بروتوكول DNS-over-HTTPS للتأكد أن دومين العميل موجه لسيرفرات Vercel (76.76.21.21).
+              </p>
+              <div className="flex gap-2 max-w-lg">
+                <input
+                  type="text"
+                  placeholder="اكتب أي دومين لفحصه (مثال: sportech.store)"
+                  id="admin-dns-test-input"
+                  className="flex-1 px-3 py-2 text-xs font-mono rounded-xl border bg-neutral-50 dark:bg-slate-900 border-slate-300 dark:border-slate-700"
+                  dir="ltr"
+                />
+                <button
+                  onClick={() => {
+                    const el = document.getElementById('admin-dns-test-input') as HTMLInputElement;
+                    if (el && el.value) handleAdminDnsCheck(el.value);
+                  }}
+                  className="btn-sketch text-xs py-2 px-4 bg-[#D9722B] text-white"
+                >
+                  {dnsCheckingDomain ? 'جاري الفحص...' : 'فحص DNS لايف'}
+                </button>
+              </div>
+              {dnsCheckResult && (
+                <div
+                  className={`p-4 rounded-2xl border text-xs font-mono ${
+                    dnsCheckResult.isVercelIp
+                      ? 'bg-emerald-500/10 border-emerald-500 text-emerald-400'
+                      : 'bg-amber-500/10 border-amber-500 text-amber-300'
+                  }`}
+                >
+                  <div className="font-bold mb-1">{dnsCheckResult.message}</div>
+                  <div className="text-[11px] opacity-80">
+                    IPs المسترجعة: {dnsCheckResult.resolvedIps.join(', ') || 'لا يوجد'}
+                  </div>
+                  <div className="text-[10px] opacity-60">وقت الفحص: {dnsCheckResult.checkedAt}</div>
+                </div>
+              )}
+            </div>
+
+            {/* Vercel Project Domains List */}
+            <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-3">
+              <h3 className="font-heading font-black text-sm">الدومينات المضافة في مشروع Vercel ({vercelDomains.length}):</h3>
+              {vercelDomains.length === 0 ? (
+                <p className="text-xs text-slate-400 italic">
+                  اضغط زر "جلب قائمة دومينات المشروع الحالية" لعرض الدومينات الحية المسجلة على فيرسل.
+                </p>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {vercelDomains.map((dom) => (
+                    <div
+                      key={dom.name}
+                      className="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-neutral-50 dark:bg-slate-900/60 flex items-center justify-between"
+                    >
+                      <div>
+                        <div className="font-mono font-bold text-xs" dir="ltr">
+                          {dom.name}
+                        </div>
+                        <div className="text-[10px] text-slate-400 font-mono mt-0.5">Apex: {dom.apexName}</div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {dom.verified ? (
+                          <span className="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                            ✓ موثق
+                          </span>
+                        ) : (
+                          <span className="text-[10px] font-bold text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">
+                            بانتظار الـ DNS
+                          </span>
+                        )}
+                        <button
+                          onClick={() => handleAdminDnsCheck(dom.name)}
+                          className="p-1 rounded bg-neutral-200 dark:bg-slate-800 text-[10px] font-bold hover:bg-[#D9722B] hover:text-white"
+                          title="فحص DNS"
+                        >
+                          فحص
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ======================================================== */}
+      {/* TAB 4: GOOGLE CLOUD CONSOLE OAUTH CONFIG                 */}
+      {/* ======================================================== */}
+      {adminViewTab === 'google_cloud' && (
+        <section className="space-y-6 animate-fadeIn">
+          <div className="p-6 rounded-3xl border-2 border-[#0F0F0F] dark:border-slate-700 bg-white dark:bg-[#111827] space-y-6">
+            <div className="flex items-center gap-3 border-b pb-4 border-slate-200 dark:border-slate-800">
+              <KeyRound className="w-6 h-6 text-[#4285F4]" />
+              <div>
+                <h2 className="text-xl font-heading font-black">
+                  إعدادات Google Cloud Console Credentials (Real OAuth)
+                </h2>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                  تفعيل تسجيل الدخول الحقيقي بحسابات جوجل لربط العملاء واستلام بياناتهم وتوثيق عقودهم.
+                </p>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-blue-500/10 border border-blue-500/30 text-xs text-blue-900 dark:text-blue-200 space-y-2">
+              <div className="font-bold flex items-center gap-1.5">
+                <span>خطوات الحصول على الـ Client ID من Google Cloud Console:</span>
+                <a
+                  href="https://console.cloud.google.com/apis/credentials"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline font-bold text-[#4285F4] hover:text-blue-600 inline-flex items-center gap-1 mr-2"
+                >
+                  <span>فتح صفحة Credentials مباشرة</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+              <ol className="list-decimal list-inside space-y-1 pr-2 opacity-90 leading-relaxed">
+                <li>اضغط على <strong>+ CREATE CREDENTIALS</strong> ثم اختر <strong>OAuth client ID</strong>.</li>
+                <li>في نوع التطبيق (Application type) اختر <strong>Web application</strong>.</li>
+                <li>
+                  في قسم <strong>Authorized JavaScript origins</strong> أضف:
+                  <code className="mx-1 px-1.5 py-0.5 rounded bg-black/10 dark:bg-black/30 font-mono text-[11px]" dir="ltr">
+                    http://localhost:5173
+                  </code>
+                  و
+                  <code className="mx-1 px-1.5 py-0.5 rounded bg-black/10 dark:bg-black/30 font-mono text-[11px]" dir="ltr">
+                    https://{window.location.host}
+                  </code>
+                </li>
+                <li>اضغط <strong>CREATE</strong> وانسخ الـ <strong>Client ID</strong> والصقه في الحقل أدناه.</li>
+              </ol>
+            </div>
+
+            <div className="space-y-3">
+              <label className="block text-xs font-black">Google OAuth Client ID:</label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  dir="ltr"
+                  placeholder="مثال: 123456789-xxxxxxxx.apps.googleusercontent.com"
+                  value={googleClientId}
+                  onChange={(e) => setGoogleClientId(e.target.value)}
+                  className="flex-1 px-3 py-2.5 text-xs font-mono rounded-xl border bg-neutral-50 dark:bg-slate-900 border-slate-300 dark:border-slate-700 focus:border-[#4285F4]"
+                />
+                <button
+                  onClick={() => {
+                    saveGoogleClientId(googleClientId);
+                    setGoogleSavedMsg('تم حفظ وتفعيل الـ Google Client ID بنجاح! زر جوجل الحقيقي مفعل الآن في شاشة الشراء.');
+                    setTimeout(() => setGoogleSavedMsg(''), 5000);
+                  }}
+                  className="btn-sketch bg-[#4285F4] text-white text-xs py-2 px-5 font-black hover:bg-blue-600 shadow-md"
+                >
+                  حفظ وتفعيل فوري
+                </button>
+              </div>
+              {googleSavedMsg && (
+                <p className="text-xs font-bold text-emerald-500 animate-fadeIn">
+                  {googleSavedMsg}
+                </p>
+              )}
+            </div>
+
+            <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-neutral-50 dark:bg-slate-900 flex items-center justify-between text-xs">
+              <div>
+                <span className="font-bold block">حالة Google Identity Services SDK:</span>
+                <span className="text-[11px] text-slate-400">
+                  {isGoogleSdkReady() ? '✓ مكتبة accounts.google.com محملة وجاهزة في المتصفح' : 'جاري تحميل مكتبة جوجل...'}
+                </span>
+              </div>
+              <span
+                className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
+                  getActiveGoogleClientId()
+                    ? 'bg-emerald-500/15 text-emerald-500 border border-emerald-500/30'
+                    : 'bg-amber-500/15 text-amber-500 border border-amber-500/30'
+                }`}
+              >
+                {getActiveGoogleClientId() ? 'المعرف مهيأ' : 'بانتظار إدخال المعرف'}
+              </span>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Modal: Change Admin Master Password */}
+      {isChangePwdOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs animate-fadeIn">
+          <div className="max-w-sm w-full bg-white dark:bg-slate-900 rounded-3xl p-6 border-3 border-amber-500 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between border-b pb-3 border-slate-700/30">
+              <div className="flex items-center gap-2">
+                <KeyRound className="w-5 h-5 text-amber-500" />
+                <h3 className="font-heading font-black text-base">تغيير كلمة المرور السرية</h3>
+              </div>
+              <button onClick={() => setIsChangePwdOpen(false)} className="text-slate-400 p-1">
+                ✕
+              </button>
+            </div>
+            <div>
+              <label className="block text-xs font-bold mb-1">كلمة المرور الجديدة:</label>
+              <input
+                type="text"
+                value={newAdminPwd}
+                onChange={(e) => setNewAdminPwd(e.target.value)}
+                placeholder="اكتب كلمة مرور جديدة قوية..."
+                className="w-full px-3 py-2 text-sm font-mono rounded-xl border bg-neutral-50 dark:bg-slate-800 border-slate-300 dark:border-slate-700"
+              />
+              <span className="text-[10px] text-slate-400 block mt-1">الكلمة الحالية: {getAdminMasterPassword()}</span>
+            </div>
+            <div className="flex gap-2 justify-end pt-2">
+              <button
+                onClick={() => setIsChangePwdOpen(false)}
+                className="px-3 py-2 rounded-xl border text-xs font-bold"
+              >
+                إلغاء
+              </button>
+              <button
+                onClick={() => {
+                  if (newAdminPwd.trim()) {
+                    setAdminMasterPassword(newAdminPwd.trim());
+                    setActionSuccessMessage('تم تحديث كلمة مرور الإدارة السرية بنجاح!');
+                    setIsChangePwdOpen(false);
+                    setNewAdminPwd('');
+                  }
+                }}
+                className="btn-sketch bg-amber-500 text-slate-950 text-xs font-black py-2 px-4"
+              >
+                حفظ كلمة المرور
+              </button>
+            </div>
+          </div>
+        </div>
       )}
  </main>
 

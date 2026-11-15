@@ -16,10 +16,19 @@ import {
  MapPin,
  AlertCircle,
  Mail,
+ ExternalLink,
+ Settings,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import type { BlueprintFormData, CustomStoreConfig, ClientOrderRequest } from '../types';
 import { playStampSlam, playClick, playCashSound } from '../utils/soundEffects';
+import {
+  getActiveGoogleClientId,
+  saveGoogleClientId,
+  initGoogleIdentity,
+  renderGoogleOfficialButton,
+} from '../services/googleAuthService';
+import { isVercelConfigured, addDomainToVercel } from '../services/vercelDomainService';
 import logoImg from '../assets/sketch-order-logo.png';
 import mascotImg from '../assets/sketch-mascot.png';
 
@@ -122,15 +131,20 @@ export const OrderModal: React.FC<OrderModalProps> = ({
 
  // Google Sign-In state & Modal
  const [isGoogleModalOpen, setIsGoogleModalOpen] = useState<boolean>(false);
+ const [googleModalTab, setGoogleModalTab] = useState<'signin' | 'credentials'>('signin');
  const [googleEmailInput, setGoogleEmailInput] = useState<string>(storedGoogle?.email || '');
  const [googleNameInput, setGoogleNameInput] = useState<string>(storedGoogle?.name || '');
+ const [googleClientIdInput, setGoogleClientIdInput] = useState<string>(getActiveGoogleClientId());
+ const [googleConfigSaved, setGoogleConfigSaved] = useState<boolean>(false);
 
- const handleGoogleSignInConfirm = (email: string, name: string) => {
+ const handleGoogleSignInConfirm = (email: string, name: string, picture?: string) => {
    playCashSound();
    const profile = {
      name: name.trim() || 'تاجر سكتش أوردر',
      email: email.trim().toLowerCase(),
-     picture: `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name || email)}&backgroundColor=d9722b`,
+     picture:
+       picture ||
+       `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name || email)}&backgroundColor=d9722b`,
    };
    try {
      localStorage.setItem('sketch_customer_google_account', JSON.stringify(profile));
@@ -147,6 +161,30 @@ export const OrderModal: React.FC<OrderModalProps> = ({
      setStepErrors((prev) => ({ ...prev, customerEmail: '' }));
    }
  };
+
+ useEffect(() => {
+   const activeId = getActiveGoogleClientId();
+   if (!activeId) return;
+
+   const timer = setTimeout(() => {
+     initGoogleIdentity((profile) => {
+       handleGoogleSignInConfirm(profile.email, profile.name, profile.picture);
+     }, activeId);
+
+     const modalBtnSlot = document.getElementById('google-official-btn-slot');
+     if (modalBtnSlot) {
+       modalBtnSlot.innerHTML = '';
+       renderGoogleOfficialButton(modalBtnSlot, {
+         theme: 'outline',
+         size: 'large',
+         text: 'signin_with',
+         width: 280,
+       });
+     }
+   }, 350);
+
+   return () => clearTimeout(timer);
+ }, [isGoogleModalOpen, currentStep, googleConfigSaved]);
 
  const handleGoogleSignOut = () => {
    playClick();
@@ -314,6 +352,11 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  const updated = [newOrder, ...parsed];
  localStorage.setItem('sketch_order_client_requests', JSON.stringify(updated));
  window.dispatchEvent(new Event('sketch_order_new_request'));
+
+ // Auto-provision domain on Vercel if configured
+ if (isVercelConfigured()) {
+   addDomainToVercel(fullSubdomain).catch((err) => console.error('Vercel domain provisioning:', err));
+ }
  } catch {
  // ignore
  }
@@ -1131,99 +1174,225 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  {/* ======================================================== */}
  {isGoogleModalOpen && (
    <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs animate-fadeIn">
-     <div className="relative max-w-sm w-full bg-white dark:bg-[#111827] rounded-3xl border-3 border-[#0F0F0F] dark:border-slate-700 p-6 shadow-2xl space-y-4 text-center">
-       <div className="w-12 h-12 mx-auto rounded-full bg-neutral-100 dark:bg-slate-800 border flex items-center justify-center shadow-xs">
-         <GoogleGIcon />
+     <div className="relative max-w-md w-full bg-white dark:bg-[#111827] rounded-3xl border-3 border-[#0F0F0F] dark:border-slate-700 p-6 shadow-2xl space-y-4">
+       {/* Modal Header */}
+       <div className="flex items-center justify-between border-b border-zinc-200 dark:border-slate-800 pb-3">
+         <div className="flex items-center gap-2">
+           <GoogleGIcon />
+           <h3 className="font-heading font-black text-base sm:text-lg text-[#0F0F0F] dark:text-white">
+             {googleModalTab === 'signin' ? 'تسجيل الدخول بحساب Google' : 'بيانات Google Cloud Credentials'}
+           </h3>
+         </div>
+         <button
+           onClick={() => setIsGoogleModalOpen(false)}
+           className="p-1 rounded-xl hover:bg-neutral-100 dark:hover:bg-slate-800 text-zinc-400 hover:text-zinc-700 dark:hover:text-white"
+         >
+           <X className="w-5 h-5" />
+         </button>
        </div>
 
-       <div className="space-y-1">
-         <h3 className="font-heading font-black text-lg text-[#0F0F0F] dark:text-white">
-           تسجيل الدخول باستخدام Google
-         </h3>
-         <p className="text-xs text-zinc-500 dark:text-zinc-400 font-bold">
-           لربط متجر سكتش أوردر بحسابك وتوثيق عقد الملكية والتواصل عبر الإيميل
-         </p>
+       {/* Tabs: Sign-In vs Google Cloud Setup */}
+       <div className="grid grid-cols-2 gap-1 p-1 rounded-xl bg-neutral-100 dark:bg-slate-800 text-xs font-bold">
+         <button
+           type="button"
+           onClick={() => setGoogleModalTab('signin')}
+           className={`py-1.5 px-3 rounded-lg transition-all ${
+             googleModalTab === 'signin'
+               ? 'bg-white dark:bg-slate-900 text-[#4285F4] shadow-2xs font-black'
+               : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
+           }`}
+         >
+           تسجيل الدخول السريع
+         </button>
+         <button
+           type="button"
+           onClick={() => setGoogleModalTab('credentials')}
+           className={`py-1.5 px-3 rounded-lg transition-all flex items-center justify-center gap-1 ${
+             googleModalTab === 'credentials'
+               ? 'bg-white dark:bg-slate-900 text-[#4285F4] shadow-2xs font-black'
+               : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
+           }`}
+         >
+           <Settings className="w-3.5 h-3.5" />
+           <span>إعدادات Google Cloud</span>
+         </button>
        </div>
 
-       <div className="space-y-2.5 text-right pt-2">
-         <div>
-           <label className="block text-[11px] font-black text-zinc-700 dark:text-zinc-300 mb-1">
-             بريدك الإلكتروني في Google:
-           </label>
-           <input
-             type="email"
-             dir="ltr"
-             placeholder="example@gmail.com"
-             value={googleEmailInput}
-             onChange={(e) => setGoogleEmailInput(e.target.value)}
-             className="w-full px-3 py-2 rounded-xl border-2 border-zinc-300 dark:border-slate-700 bg-neutral-50 dark:bg-slate-900 text-xs font-mono font-bold text-left focus:border-[#4285F4] outline-hidden"
-           />
-         </div>
+       {/* TAB 1: Sign-In Screen */}
+       {googleModalTab === 'signin' && (
+         <div className="space-y-4 text-center">
+           {/* Official Google Button Render Slot */}
+           <div className="space-y-2">
+             <div id="google-official-btn-slot" className="flex justify-center min-h-[44px] items-center">
+               {!getActiveGoogleClientId() && (
+                 <div className="p-3 rounded-xl bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900 text-xs text-blue-900 dark:text-blue-300 text-right space-y-1.5">
+                   <div className="font-black flex items-center gap-1.5 text-[#4285F4]">
+                     <GoogleGIcon />
+                     <span>تسجيل دخول Google الرسمي (OAuth 2.0)</span>
+                   </div>
+                   <p className="text-[11px] leading-relaxed opacity-90">
+                     لفتح نافذة جوجل الرسمية مباشرة بحسابك، يمكنك ربط الـ Client ID من تبويب <strong>[إعدادات Google Cloud]</strong>، أو تسجيل إيميلك يدوياً أدناه.
+                   </p>
+                 </div>
+               )}
+             </div>
 
-         <div>
-           <label className="block text-[11px] font-black text-zinc-700 dark:text-zinc-300 mb-1">
-             اسمك الكامل (حسب حسابك):
-           </label>
-           <input
-             type="text"
-             placeholder="مثال: كريم محمود"
-             value={googleNameInput}
-             onChange={(e) => setGoogleNameInput(e.target.value)}
-             className="w-full px-3 py-2 rounded-xl border-2 border-zinc-300 dark:border-slate-700 bg-neutral-50 dark:bg-slate-900 text-xs font-bold text-right focus:border-[#4285F4] outline-hidden"
-           />
-         </div>
+             {getActiveGoogleClientId() && (
+               <div className="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 py-1 px-2.5 rounded-full inline-flex items-center gap-1">
+                 <CheckCircle2 className="w-3 h-3" />
+                 <span>متصل بـ Google Identity Services (OAuth نشط)</span>
+               </div>
+             )}
+           </div>
 
-         {/* Quick 1-Click sample accounts for convenient testing */}
-         <div className="pt-1">
-           <span className="text-[10px] text-zinc-400 font-mono block mb-1">أو اختر للمعاينة الفورية:</span>
-           <div className="flex flex-col gap-1.5">
+           <div className="relative border-t border-zinc-200 dark:border-slate-800 my-2">
+             <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-[#111827] px-2 text-[10px] font-bold text-zinc-400 uppercase">
+               أو أدخل بيانات حسابك
+             </span>
+           </div>
+
+           <div className="space-y-2.5 text-right">
+             <div>
+               <label className="block text-[11px] font-black text-zinc-700 dark:text-zinc-300 mb-1">
+                 بريدك الإلكتروني في Google:
+               </label>
+               <input
+                 type="email"
+                 dir="ltr"
+                 placeholder="example@gmail.com"
+                 value={googleEmailInput}
+                 onChange={(e) => setGoogleEmailInput(e.target.value)}
+                 className="w-full px-3 py-2 rounded-xl border-2 border-zinc-300 dark:border-slate-700 bg-neutral-50 dark:bg-slate-900 text-xs font-mono font-bold text-left focus:border-[#4285F4] outline-hidden"
+               />
+             </div>
+
+             <div>
+               <label className="block text-[11px] font-black text-zinc-700 dark:text-zinc-300 mb-1">
+                 اسمك الكامل (حسب حسابك):
+               </label>
+               <input
+                 type="text"
+                 placeholder="مثال: كريم محمود"
+                 value={googleNameInput}
+                 onChange={(e) => setGoogleNameInput(e.target.value)}
+                 className="w-full px-3 py-2 rounded-xl border-2 border-zinc-300 dark:border-slate-700 bg-neutral-50 dark:bg-slate-900 text-xs font-bold text-right focus:border-[#4285F4] outline-hidden"
+               />
+             </div>
+
+             {/* Quick 1-Click sample accounts for convenient testing */}
+             <div className="pt-1">
+               <span className="text-[10px] text-zinc-400 font-mono block mb-1">حسابات تجريبية للمعاينة السريعة:</span>
+               <div className="flex flex-col gap-1.5">
+                 <button
+                   type="button"
+                   onClick={() => {
+                     setGoogleEmailInput('kareem.store.owner@gmail.com');
+                     setGoogleNameInput('كريم محمود');
+                   }}
+                   className="text-[11px] font-bold p-1.5 rounded-lg bg-neutral-100 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950/40 text-left px-2.5 border border-zinc-200 dark:border-slate-700 flex items-center justify-between"
+                 >
+                   <span>كريم محمود</span>
+                   <span className="font-mono text-zinc-500">kareem.store.owner@gmail.com</span>
+                 </button>
+                 <button
+                   type="button"
+                   onClick={() => {
+                     setGoogleEmailInput('ahmed.merchant@gmail.com');
+                     setGoogleNameInput('أحمد الشناوي');
+                   }}
+                   className="text-[11px] font-bold p-1.5 rounded-lg bg-neutral-100 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950/40 text-left px-2.5 border border-zinc-200 dark:border-slate-700 flex items-center justify-between"
+                 >
+                   <span>أحمد الشناوي</span>
+                   <span className="font-mono text-zinc-500">ahmed.merchant@gmail.com</span>
+                 </button>
+               </div>
+             </div>
+           </div>
+
+           <div className="pt-3 border-t border-zinc-200 dark:border-slate-700 flex items-center justify-end gap-2">
              <button
                type="button"
-               onClick={() => {
-                 setGoogleEmailInput('kareem.store.owner@gmail.com');
-                 setGoogleNameInput('كريم محمود');
-               }}
-               className="text-[11px] font-bold p-1.5 rounded-lg bg-neutral-100 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950/40 text-left px-2.5 border border-zinc-200 dark:border-slate-700 flex items-center justify-between"
+               onClick={() => setIsGoogleModalOpen(false)}
+               className="px-3.5 py-2 rounded-xl border border-zinc-300 dark:border-slate-700 text-xs font-bold text-zinc-600 dark:text-zinc-300 hover:bg-neutral-100 dark:hover:bg-slate-800"
              >
-               <span>كريم محمود</span>
-               <span className="font-mono text-zinc-500">kareem.store.owner@gmail.com</span>
+               إلغاء
              </button>
              <button
                type="button"
                onClick={() => {
-                 setGoogleEmailInput('ahmed.merchant@gmail.com');
-                 setGoogleNameInput('أحمد الشناوي');
+                 const email = googleEmailInput.trim() || 'merchant@gmail.com';
+                 const name = googleNameInput.trim() || 'تاجر سكتش أوردر';
+                 handleGoogleSignInConfirm(email, name);
                }}
-               className="text-[11px] font-bold p-1.5 rounded-lg bg-neutral-100 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950/40 text-left px-2.5 border border-zinc-200 dark:border-slate-700 flex items-center justify-between"
+               className="px-4 py-2 rounded-xl bg-[#4285F4] hover:bg-[#3367D6] text-white text-xs font-black shadow-md flex items-center gap-1.5"
              >
-               <span>أحمد الشناوي</span>
-               <span className="font-mono text-zinc-500">ahmed.merchant@gmail.com</span>
+               <Check className="w-4 h-4" />
+               <span>تأكيد الحساب ومتابعة الطلب</span>
              </button>
            </div>
          </div>
-       </div>
+       )}
 
-       <div className="pt-3 border-t border-zinc-200 dark:border-slate-700 flex items-center justify-end gap-2">
-         <button
-           type="button"
-           onClick={() => setIsGoogleModalOpen(false)}
-           className="px-3.5 py-2 rounded-xl border border-zinc-300 dark:border-slate-700 text-xs font-bold text-zinc-600 dark:text-zinc-300 hover:bg-neutral-100 dark:hover:bg-slate-800"
-         >
-           إلغاء
-         </button>
-         <button
-           type="button"
-           onClick={() => {
-             const email = googleEmailInput.trim() || 'merchant@gmail.com';
-             const name = googleNameInput.trim() || 'تاجر سكتش أوردر';
-             handleGoogleSignInConfirm(email, name);
-           }}
-           className="px-4 py-2 rounded-xl bg-[#4285F4] hover:bg-[#3367D6] text-white text-xs font-black shadow-md flex items-center gap-1.5"
-         >
-           <Check className="w-4 h-4" />
-           <span>متابعة وتأكيد حساب Google</span>
-         </button>
-       </div>
+       {/* TAB 2: Google Cloud Credentials Setup */}
+       {googleModalTab === 'credentials' && (
+         <div className="space-y-3 text-right">
+           <div className="p-3.5 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900 text-xs text-blue-950 dark:text-blue-200 space-y-1.5">
+             <div className="font-black flex items-center justify-between">
+               <span>خطوات ربط Google Cloud Console:</span>
+               <a
+                 href="https://console.cloud.google.com/apis/credentials"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 className="text-[#4285F4] hover:underline flex items-center gap-1 text-[11px]"
+               >
+                 <span>فتح Credentials</span>
+                 <ExternalLink className="w-3 h-3" />
+               </a>
+             </div>
+             <p className="text-[11px] leading-relaxed">
+               1. اضغط Create Credentials ثم OAuth client ID.<br />
+               2. اختر Application type: <strong>Web application</strong>.<br />
+               3. في Authorized JavaScript origins أضف: <code className="font-mono text-[10px]" dir="ltr">http://localhost:5173</code> ورابط موقعك.<br />
+               4. الصق الـ Client ID في الأسفل واضغط حفظ.
+             </p>
+           </div>
+
+           <div>
+             <label className="block text-xs font-black mb-1">Google OAuth Client ID:</label>
+             <input
+               type="text"
+               dir="ltr"
+               placeholder="xxxxxx.apps.googleusercontent.com"
+               value={googleClientIdInput}
+               onChange={(e) => setGoogleClientIdInput(e.target.value)}
+               className="w-full px-3 py-2 text-xs font-mono rounded-xl border bg-neutral-50 dark:bg-slate-900 border-zinc-300 dark:border-slate-700"
+             />
+           </div>
+
+           <div className="pt-2 flex items-center justify-end gap-2">
+             <button
+               type="button"
+               onClick={() => setGoogleModalTab('signin')}
+               className="px-3.5 py-2 rounded-xl border text-xs font-bold"
+             >
+               رجوع
+             </button>
+             <button
+               type="button"
+               onClick={() => {
+                 if (googleClientIdInput.trim()) {
+                   saveGoogleClientId(googleClientIdInput.trim());
+                   setGoogleConfigSaved(true);
+                   setGoogleModalTab('signin');
+                 }
+               }}
+               className="btn-sketch bg-[#4285F4] text-white text-xs py-2 px-4 font-black shadow-md"
+             >
+               حفظ وتفعيل فوري
+             </button>
+           </div>
+         </div>
+       )}
      </div>
    </div>
  )}

@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { HandDrawnDivider } from './common/HandDrawnDivider';
 import { playClick, playPencilScratch, setSoundEnabled, getSoundEnabled } from '../utils/soundEffects';
+import { isDeviceAdminAuthenticated } from './SecretAdminGateModal';
 import brushLogoBlack from '../assets/sketch-brush-logo-black.png';
 import brushLogoWhite from '../assets/sketch-brush-logo-white.png';
 
@@ -24,6 +25,7 @@ interface NavbarProps {
   onOpenMerchantPortal: () => void;
   isDarkMode: boolean;
   onToggleDarkMode: () => void;
+  isAdminAuthenticated?: boolean;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -34,10 +36,27 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenMerchantPortal,
   isDarkMode,
   onToggleDarkMode,
+  isAdminAuthenticated: propIsAdmin,
 }) => {
   const [soundOn, setSoundOn] = useState(getSoundEnabled());
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hasActiveMerchantStore, setHasActiveMerchantStore] = useState<boolean>(true);
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState<boolean>(() => isDeviceAdminAuthenticated());
+
+  // Listen for admin auth updates and storage events
+  useEffect(() => {
+    if (typeof propIsAdmin !== 'undefined') {
+      setIsAdminAuthenticated(propIsAdmin);
+    }
+  }, [propIsAdmin]);
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setIsAdminAuthenticated(isDeviceAdminAuthenticated());
+    };
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
 
   // Check if any tenant store is activated
   useEffect(() => {
@@ -175,22 +194,25 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
             </button>
 
-            {/* Owner Admin (Sketch-Styled Icon Button) */}
-            <button
-              onClick={() => {
-                playClick();
-                onOpenOwnerAdmin();
-              }}
-              className={`p-2 border-2 sketch-border-circle flex items-center justify-center transition-all ${
-                isDarkMode
-                  ? 'border-slate-700 bg-slate-900 text-slate-300 hover:border-[#D9722B] dark:border-[#D9722B]/60 hover:text-zinc-400'
-                  : 'border-[#0F0F0F] bg-white text-[#0F0F0F] hover:bg-neutral-50 sketch-shadow-sm'
-              }`}
-              title="لوحة تحكم المنصة والطلبات"
-              aria-label="لوحة تحكم المنصة"
-            >
-              <ShieldCheck className="w-4 h-4 text-[#D9722B] dark:text-[#E88B4D]" />
-            </button>
+            {/* Owner Admin: Hidden from public, ONLY visible on devices authenticated via the secret link */}
+            {isAdminAuthenticated && (
+              <button
+                onClick={() => {
+                  playClick();
+                  onOpenOwnerAdmin();
+                }}
+                className={`relative p-2 border-2 sketch-border-circle flex items-center justify-center transition-all animate-in fade-in zoom-in-90 ${
+                  isDarkMode
+                    ? 'border-amber-500/80 bg-amber-500/10 text-amber-400 hover:bg-amber-500/20'
+                    : 'border-amber-600 bg-amber-50 text-amber-700 hover:bg-amber-100 sketch-shadow-sm'
+                }`}
+                title="لوحة تحكم المنصة والطلبات (جلسة سرية موثقة على هذا الجهاز)"
+                aria-label="لوحة تحكم المنصة"
+              >
+                <ShieldCheck className="w-4 h-4 text-amber-500" />
+                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-amber-500 rounded-full border-2 border-slate-900"></span>
+              </button>
+            )}
 
             {/* Sketch-Styled Theme Toggle Button */}
             <button
@@ -291,19 +313,24 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="text-[10px] bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white px-2 py-0.5 rounded-full font-bold">نشط</span>
             </button>
 
-            <button
-              onClick={() => {
-                playClick();
-                setMobileMenuOpen(false);
-                onOpenOwnerAdmin();
-              }}
-              className="w-full text-right p-2.5 text-xs font-black bg-slate-800 text-slate-200 border border-slate-700 rounded-xl flex items-center justify-between"
-            >
-              <span className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-zinc-400" />
-                <span>لوحة تحكم المنصة والطلبات</span>
-              </span>
-            </button>
+            {isAdminAuthenticated && (
+              <button
+                onClick={() => {
+                  playClick();
+                  setMobileMenuOpen(false);
+                  onOpenOwnerAdmin();
+                }}
+                className="w-full text-right p-2.5 text-xs font-black bg-amber-500/15 text-amber-400 border border-amber-500/40 rounded-xl flex items-center justify-between"
+              >
+                <span className="flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-amber-400" />
+                  <span>لوحة تحكم المنصة والطلبات (مدير مسجل)</span>
+                </span>
+                <span className="text-[10px] bg-amber-500 text-slate-950 font-black px-2 py-0.5 rounded-full">
+                  Admin
+                </span>
+              </button>
+            )}
 
             <div className="pt-2 border-t border-slate-700/40 space-y-1">
               <button
