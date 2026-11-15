@@ -53,6 +53,27 @@
   background-image: linear-gradient(to bottom, transparent 27px, rgba(15, 15, 15, 0.08) 28px);
 }
 
+/* Pencil Sketch Diagonal Striped Hatching (Wireframe Header & Ads) */
+.sketch-stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(15, 15, 15, 0.08),
+    rgba(15, 15, 15, 0.08) 3px,
+    transparent 3px,
+    transparent 10px
+  );
+}
+
+.dark .sketch-stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.08) 3px,
+    transparent 3px,
+    transparent 10px
+  );
+}
+
 /* Hand-drawn Irregular Border Geometries */
 .sketch-border-1 {
   border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;

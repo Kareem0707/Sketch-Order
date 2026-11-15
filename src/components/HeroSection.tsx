@@ -1,613 +1,833 @@
 import React, { useState } from 'react';
 import {
- Sparkles,
- RefreshCw,
- CheckCircle2,
- ShieldCheck,
- Zap,
- Hammer,
- Film,
- X,
- Volume2,
- VolumeX,
+  RefreshCw,
+  CheckCircle2,
+  ShieldCheck,
+  Zap,
+  Hammer,
   Grid,
-  Smartphone,
+  Search,
+  Star,
+  ArrowLeft,
+  BookOpen,
+  MessageSquare,
+  Globe,
+  ChevronLeft,
+  ChevronRight,
+  ShoppingBag,
+  User,
+  Home,
+  Film,
 } from 'lucide-react';
 import { StickmanDoodle } from './common/StickmanDoodle';
 import { ComicSpeechBubble } from './common/ComicSpeechBubble';
+import { HomeVideoSlot } from './HomeVideoSlot';
+import { STUDIO_TEMPLATES } from './FullPageStoreStudio';
 import { playPaperFlip, playPencilScratch, playClick, playCashSound } from '../utils/soundEffects';
 
 interface HeroSectionProps {
- onOpenOrderModal: () => void;
- onExplorePlayground: () => void;
- onOpenStudio: () => void;
+  onOpenOrderModal: () => void;
+  onExplorePlayground: () => void;
+  onOpenStudio: () => void;
   onOpenTemplates: () => void;
+  onOpenMerchantPortal?: () => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
- onOpenOrderModal,
- onExplorePlayground,
- onOpenStudio,
+  onOpenOrderModal,
+  onExplorePlayground: _onExplorePlayground,
+  onOpenStudio,
   onOpenTemplates,
+  onOpenMerchantPortal,
 }) => {
- // State: 'mess' (Chaos) or 'solution' (Blueprint)
- const [viewState, setViewState] = useState<'mess' | 'solution'>('mess');
- const [isScribbling, setIsScribbling] = useState(false);
- const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
- const [videoAudio, setVideoAudio] = useState(true);
+  // Navigation / View Tabs inside the Wireframe
+  const [activeWireframeTab, setActiveWireframeTab] = useState<'archive' | 'comparison' | 'blog' | 'forum'>('archive');
+  const [viewState, setViewState] = useState<'mess' | 'solution'>('solution');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
- const triggerTransition = (targetState: 'mess' | 'solution') => {
- playPencilScratch();
- setIsScribbling(true);
+  const triggerTransition = (targetState: 'mess' | 'solution') => {
+    playPencilScratch();
 
- setTimeout(() => {
- setViewState(targetState);
- playPaperFlip();
- if (targetState === 'solution') {
- playCashSound();
- }
- }, 450);
+    setTimeout(() => {
+      setViewState(targetState);
+      playPaperFlip();
+      if (targetState === 'solution') {
+        playCashSound();
+      }
+    }, 300);
+  };
 
- setTimeout(() => {
- setIsScribbling(false);
- }, 850);
- };
+  // Filter templates for the Media Archive grid
+  const filteredTemplates = STUDIO_TEMPLATES.filter((tmpl) => {
+    const matchesSearch =
+      searchQuery === '' ||
+      tmpl.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      tmpl.categoryBadge.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      tmpl.description.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesSearch;
+  });
 
- return (
- <section id="story-chaos" className="relative pt-10 sm:pt-14 pb-16 sm:pb-24 overflow-hidden paper-pattern">
- <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16">
- 
- {/* Main Headline & Value Guarantees with Generous Whitespace */}
- <div className="text-center max-w-4xl mx-auto space-y-6 sm:space-y-8">
- 
- {/* 3 Core Guarantees: الدفع مرة واحدة • الضمان مدى الحياة • سرعة التواصل مع الدعم */}
- <div className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-4 px-5 py-2.5 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-pill text-xs sm:text-sm font-black sketch-shadow-sm bg-white dark:bg-[#151D2A] text-[#0F0F0F] dark:text-slate-100 -rotate-1 hover:rotate-0 transition-transform">
- <span className="flex items-center gap-1.5 text-[#0F0F0F] dark:text-slate-100">
- <CheckCircle2 className="w-4 h-4 text-[#D9722B] dark:text-[#E88B4D]" />
- <span>الدفع مرة واحدة فقط (بدون أي اشتراكات شهرية)</span>
- </span>
- <span className="text-slate-300 dark:text-slate-600 hidden sm:inline">•</span>
- <span className="flex items-center gap-1.5 text-[#0F0F0F] dark:text-slate-100">
- <ShieldCheck className="w-4 h-4 text-[#D9722B] dark:text-[#E88B4D]" />
- <span>الضمان مدى الحياة لمتجرك المستقل</span>
- </span>
- <span className="text-slate-300 dark:text-slate-600 hidden sm:inline">•</span>
- <span className="flex items-center gap-1.5 text-[#D9722B] dark:text-[#E88B4D]">
- <Zap className="w-4 h-4 text-[#D9722B] dark:text-[#E88B4D]" />
- <span>سرعة فائقة في التواصل مع الدعم</span>
- </span>
- </div>
+  // Display 6 templates in the media archive grid
+  const itemsPerPage = 6;
+  const totalPages = Math.max(1, Math.ceil(filteredTemplates.length / itemsPerPage));
+  const paginatedTemplates = filteredTemplates.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
- {/* Headline with Live Animated Hand-drawn Underline */}
- <div className="relative">
- <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black font-heading tracking-tight leading-[1.2] sm:leading-[1.15] text-[#0F0F0F] dark:text-white">
- متجرك كأنه{' '}
- <span className="relative inline-block text-[#D9722B] dark:text-[#E88B4D]">
- مرسوم بقلمك
- {/* SVG Stroke Animation Live Wavy Underline */}
- <svg
- className="absolute -bottom-2 sm:-bottom-3 left-0 w-full h-3 sm:h-4 text-[#D9722B] dark:text-[#E88B4D] overflow-visible"
- viewBox="0 0 250 20"
- fill="none"
- >
- <path
- d="M 5 12 Q 40 2, 75 12 T 145 12 T 215 12 T 245 10"
- stroke="currentColor"
- strokeWidth="4"
- strokeLinecap="round"
- className="animate-svg-draw"
- />
- </svg>
- </span>{' '}
- على ورقة كشكول!
- </h1>
- </div>
+  return (
+    <section id="story-chaos" className="relative pt-6 sm:pt-10 pb-16 sm:pb-24 overflow-hidden paper-pattern">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 space-y-8">
 
- {/* New User-Specified Copy with High Contrast */}
- <p className="text-lg sm:text-2xl font-bold text-[#0F0F0F]/85 dark:text-slate-200 max-w-3xl mx-auto leading-relaxed pt-2">
- حوّل فوضى رسايل الواتس وإنستجرام ومشاكل فودافون كاش وتأخير الردود لمتجر تفاعلي شيك وسريع بأسلوب{' '}
- <span className="font-comic text-xl sm:text-3xl font-black px-2 py-0.5 border-b-3 border-[#0F0F0F] dark:border-[#D9722B] dark:border-[#D9722B]/60 text-[#D9722B] dark:text-[#E88B4D] bg-[#D9722B]/10 rounded-sm">
- سكتش أوردر
- </span>{' '}
- اللي يدخل قلب زبونك من أول ثانية!
- </p>
+        {/* ======================================================== */}
+        {/* 1. TOP VALUES & CORE GUARANTEES PILL                    */}
+        {/* ======================================================== */}
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 px-4 py-2 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-pill text-xs sm:text-sm font-black sketch-shadow-sm bg-white dark:bg-[#151D2A] text-[#0F0F0F] dark:text-slate-100 max-w-fit mx-auto -rotate-1">
+          <span className="flex items-center gap-1.5">
+            <CheckCircle2 className="w-4 h-4 text-[#D9722B]" />
+            <span>الدفع مرة واحدة فقط (بدون اشتراكات شهرية)</span>
+          </span>
+          <span className="text-slate-300 dark:text-slate-600 hidden sm:inline">•</span>
+          <span className="flex items-center gap-1.5">
+            <ShieldCheck className="w-4 h-4 text-[#D9722B]" />
+            <span>الضمان مدى الحياة لمتجرك المستقل</span>
+          </span>
+          <span className="text-slate-300 dark:text-slate-600 hidden sm:inline">•</span>
+          <span className="flex items-center gap-1.5 text-[#D9722B] dark:text-[#E88B4D]">
+            <Zap className="w-4 h-4" />
+            <span>تسليم فوري بدومينك الخاص</span>
+          </span>
+        </div>
 
-          {/* Call to Action Studio Buttons + 2D Animation Story Button */}
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-3.5">
-            {/* Primary CTA: Open Figma Templates Showcase */}
-            <button
-              onClick={() => {
-                playClick();
-                onOpenTemplates();
-              }}
-              className="btn-sketch btn-sketch-primary text-base py-3 px-6 -rotate-1 shadow-md hover:shadow-lg transition-all"
-            >
-              <Grid className="w-5 h-5 text-slate-950" />
-              <span>تصفح قوالب المتاجر</span>
-            </button>
+        {/* ======================================================== */}
+        {/* 2. THE MASTER BROWSER WINDOW WIREFRAME FRAMEWORK        */}
+        {/* Matches Image 2 (Apirak.com wireframe) + Image 1 Bento  */}
+        {/* ======================================================== */}
+        <div className="relative rounded-3xl md:rounded-[36px] border-3 md:border-4 border-[#0F0F0F] dark:border-slate-600 bg-white dark:bg-[#0F172A] sketch-shadow-xl overflow-hidden transition-all">
+          
+          {/* ------------------------------------------------------ */}
+          {/* A. BROWSER CHROME TITLE & ADDRESS BAR                  */}
+          {/* ------------------------------------------------------ */}
+          <div className="bg-[#FAF8F5] dark:bg-[#111827] border-b-2 sm:border-b-3 border-[#0F0F0F] dark:border-slate-700 px-3 sm:px-6 py-2.5 sm:py-3 flex flex-wrap items-center justify-between gap-3">
+            {/* Window Controls (3 dots) */}
+            <div className="flex items-center gap-2">
+              <span className="w-3.5 h-3.5 rounded-full bg-red-400 border border-[#0F0F0F]/30 dark:border-red-600 inline-block"></span>
+              <span className="w-3.5 h-3.5 rounded-full bg-amber-400 border border-[#0F0F0F]/30 dark:border-amber-600 inline-block"></span>
+              <span className="w-3.5 h-3.5 rounded-full bg-emerald-400 border border-[#0F0F0F]/30 dark:border-emerald-600 inline-block"></span>
+              <span className="font-mono text-xs font-bold text-zinc-500 dark:text-zinc-400 mr-2 hidden sm:inline">
+                Apirak / SketchOrder Browser v2.6
+              </span>
+            </div>
 
-            {/* Secondary CTA: Live Mobile Studio */}
-            <button
-              onClick={() => {
-                playClick();
-                onOpenStudio();
-              }}
-              className="btn-sketch btn-sketch-secondary text-base py-3 px-6 rotate-1 shadow-md hover:shadow-lg transition-all"
-            >
-              <Smartphone className="w-5 h-5 text-[#D9722B] dark:text-[#E88B4D]" />
-              <span>جرب بناء وتعديل متجرك (لايف)</span>
-            </button>
+            {/* Address / URL Bar */}
+            <div className="flex-1 max-w-md mx-auto hidden md:flex items-center justify-center">
+              <div className="w-full bg-white dark:bg-slate-900 border-2 border-[#0F0F0F]/20 dark:border-slate-700 rounded-full px-4 py-1 text-xs font-mono text-zinc-700 dark:text-zinc-300 flex items-center justify-between shadow-2xs">
+                <span className="text-emerald-500 flex items-center gap-1">
+                  <Globe className="w-3.5 h-3.5" />
+                  <span>https://</span>
+                </span>
+                <span className="font-bold text-[#0F0F0F] dark:text-white">sketchorder.store/home</span>
+                <span className="text-[10px] text-zinc-400">⚡ 100% Secure</span>
+              </div>
+            </div>
 
-            {/* 2D Animation Story Button */}
-            <button
-              onClick={() => {
-                playClick();
-                setIsVideoModalOpen(true);
-              }}
-              className="btn-sketch text-sm sm:text-base py-3 px-5 border-2 border-[#D9722B] dark:border-[#D9722B]/60/50 text-[#D9722B] dark:text-[#E88B4D] flex items-center gap-2 -rotate-1"
-              title="مشاهدة فيديو القصة الكرتونية 2D في شاشة التلفزيون"
-            >
-              <Film className="w-4 h-4 text-[#D9722B] dark:text-[#E88B4D] animate-pulse" />
-              <span className="font-black">شوف القصة في 30 ثانية</span>
-            </button>
+            {/* Top Right Quick Breadcrumbs (Home | Login | Register | Contact) */}
+            <div className="flex items-center gap-3 text-xs font-bold text-zinc-600 dark:text-zinc-300 font-mono">
+              <a
+                href="#media-archive"
+                onClick={(e) => {
+                  e.preventDefault();
+                  playClick();
+                  setActiveWireframeTab('archive');
+                }}
+                className="hover:text-[#D9722B] transition-colors"
+              >
+                المعرض
+              </a>
+              <span className="text-zinc-400">|</span>
+              <button
+                onClick={() => {
+                  playClick();
+                  onOpenTemplates();
+                }}
+                className="hover:text-[#D9722B] transition-colors"
+              >
+                القوالب
+              </button>
+              <span className="text-zinc-400">|</span>
+              {onOpenMerchantPortal && (
+                <button
+                  onClick={() => {
+                    playClick();
+                    onOpenMerchantPortal();
+                  }}
+                  className="hover:text-[#D9722B] transition-colors"
+                >
+                  لوحة التاجر
+                </button>
+              )}
+              <span className="text-zinc-400 hidden sm:inline">|</span>
+              <button
+                onClick={() => {
+                  playClick();
+                  onOpenOrderModal();
+                }}
+                className="text-[#D9722B] dark:text-[#E88B4D] hover:underline hidden sm:inline"
+              >
+                تواصل معنا
+              </button>
+            </div>
           </div>
 
-          {/* Switch Scene Pill */}
-          <div className="flex items-center justify-center gap-2 pt-2">
-            <div className="p-1.5 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-2 bg-white dark:bg-[#151D2A] sketch-shadow flex items-center gap-2">
- <button
- onClick={() => triggerTransition('mess')}
- className={`px-3 py-1.5 text-xs sm:text-sm font-black transition-all ${
- viewState === 'mess'
- ? 'bg-[#0F0F0F] text-white dark:bg-[#D9722B] dark:text-slate-950 sketch-border-1'
- : 'hover:bg-neutral-100 dark:hover:bg-slate-800 text-[#0F0F0F] dark:text-slate-300'
- }`}
- >
- 
- مشهد 1: فوضى الشات
- </button>
+          <div className="p-4 sm:p-8 space-y-8">
+            
+            {/* ---------------------------------------------------- */}
+            {/* B. HERO BANNER: "MY WEBSITE" / سكتش أوردر             */}
+            {/* With Diagonal Striped Hatching + Comic Bubble & CTA  */}
+            {/* ---------------------------------------------------- */}
+            <div className="relative rounded-2xl md:rounded-3xl border-3 border-[#0F0F0F] dark:border-slate-700 bg-white dark:bg-[#111827] sketch-stripes p-5 sm:p-8 overflow-hidden sketch-shadow">
+              {/* Subtle background color overlay so text remains razor sharp */}
+              <div className="absolute inset-0 bg-white/85 dark:bg-[#111827]/90 pointer-events-none"></div>
 
- <button
- onClick={() => triggerTransition('solution')}
- className={`px-3 py-1.5 text-xs sm:text-sm font-black transition-all ${
- viewState === 'solution'
- ? 'bg-[#0F0F0F] text-white dark:bg-[#D9722B] dark:text-slate-950 sketch-border-1'
- : 'hover:bg-neutral-100 dark:hover:bg-slate-800 text-[#0F0F0F] dark:text-slate-300'
- }`}
- >
- 
- مشهد 2: حل سكتش السريع
- </button>
- </div>
+              <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+                
+                {/* Left Mascot Silhouette Doodle */}
+                <div className="hidden lg:flex flex-col items-center justify-center shrink-0">
+                  <StickmanDoodle size={110} />
+                  <span className="text-[10px] font-mono font-bold bg-white dark:bg-slate-900 border border-[#0F0F0F] dark:border-slate-700 px-2 py-0.5 rounded-md mt-1">
+                    تميمة سكتش مان
+                  </span>
+                </div>
 
- <button
- onClick={() => triggerTransition(viewState === 'mess' ? 'solution' : 'mess')}
- className="p-2.5 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-circle bg-white dark:bg-[#151D2A] text-[#0F0F0F] dark:text-slate-200 hover:bg-neutral-100 dark:hover:bg-slate-800 sketch-shadow-sm active:translate-x-0.5 active:translate-y-0.5 transition-all text-xs font-bold"
- title="اشطب الصفحة واقلب المشهد"
- >
- <RefreshCw className={`w-4 h-4 ${isScribbling ? 'animate-spin' : ''}`} />
- </button>
- </div>
- </div>
+                {/* Center Speech Bubble Headline ("My Website") */}
+                <div className="text-center md:text-right flex-1 space-y-3">
+                  <div className="inline-block">
+                    <ComicSpeechBubble className="-rotate-1" variant="normal">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2.5 h-2.5 rounded-full bg-[#D9722B] animate-pulse"></span>
+                        <h1 className="text-2xl sm:text-4xl md:text-5xl font-black font-heading tracking-tight text-[#0F0F0F] dark:text-white">
+                          سكتش أوردر • <span className="text-[#D9722B] dark:text-[#E88B4D]">متجرك مرسوم بقلمك</span>
+                        </h1>
+                      </div>
+                    </ComicSpeechBubble>
+                  </div>
 
- {/* Comic Strip Hero Frame / The Canvas */}
- <div className="relative max-w-5xl mx-auto">
- 
- {/* Comic Panel Header Label */}
- <div className="flex items-center justify-between px-3 -mb-3 z-10 relative">
- <div className="bg-[#0F0F0F] text-white dark:bg-slate-950 dark:border dark:border-slate-700 text-xs font-bold px-3 py-1 sketch-border-tag -rotate-2">
- {viewState === 'mess' ? 'المشهد الأول: فوضى الشات والطلبات الضايعة' : 'المشهد الثاني: متجر سكتش المنظم التلقائي'}
- </div>
- <div className="border border-[#0F0F0F] dark:border-slate-700 bg-white dark:bg-[#151D2A] text-xs font-bold px-2.5 py-1 sketch-border-pill rotate-1 text-[#0F0F0F] dark:text-slate-200">
- التسليم في خلال دقائق 
- </div>
- </div>
+                  <p className="text-xs sm:text-base font-bold text-zinc-700 dark:text-zinc-200 max-w-2xl leading-relaxed">
+                    تقسيمة عصرية بتجمع بين روح الرسم اليدوي وفيديو تفاعلي حي. ودّع زحمة رسائل الواتس واستلم متجرك المستقل بالدومين الخاص في خلال دقائق!
+                  </p>
+                </div>
 
- {/* Main Comic Panel Box */}
- <div className="relative border-3 md:border-4 border-[#0F0F0F] dark:border-slate-600 sketch-border-1 bg-white dark:bg-[#111827] text-[#0F0F0F] dark:text-white p-6 sm:p-10 sketch-shadow-xl min-h-[440px] flex flex-col justify-between overflow-hidden">
- 
- {/* Scribble Overlay Animation (Stop-motion transition effect) */}
- {isScribbling && (
- <div className="absolute inset-0 z-50 pointer-events-none flex items-center justify-center bg-white/40 dark:bg-black/40 backdrop-blur-3xs">
- <svg className="w-full h-full text-[#0F0F0F] dark:text-white" viewBox="0 0 800 500" fill="none">
- <path
- d="M 20 50 L 780 450 M 760 30 L 40 470 M 10 250 L 790 230 M 350 20 L 420 480 M 100 80 L 700 420 M 680 90 L 120 410"
- stroke="currentColor"
- strokeWidth="10"
- strokeLinecap="round"
- strokeLinejoin="round"
- />
- </svg>
- </div>
- )}
+                {/* Right Action Button ("Buy content" / امتلك متجرك الآن) */}
+                <div className="flex flex-col sm:flex-row md:flex-col gap-3 shrink-0 items-center justify-center">
+                  <button
+                    onClick={() => {
+                      playClick();
+                      onOpenOrderModal();
+                    }}
+                    className="btn-sketch btn-sketch-primary text-sm sm:text-base py-3.5 px-6 -rotate-1 shadow-md hover:scale-105 transition-transform"
+                  >
+                    <ShoppingBag className="w-5 h-5 text-white dark:text-slate-950" />
+                    <span>امتلك متجرك الآن (Buy Store)</span>
+                  </button>
 
- {/* ========================================================= */}
- {/* STATE 1: THE MESS (فوضى رسائل الزباين والمندوب) */}
- {/* ========================================================= */}
- {viewState === 'mess' && (
- <div className="space-y-6 animate-fadeIn">
- 
- {/* Warning Notification Banner */}
- <div className="border-2 border-dashed border-[#0F0F0F] dark:border-[#D9722B]/40 p-3.5 sketch-border-3 bg-[#FAF9F6] dark:bg-[#D9722B]/10 text-center text-xs sm:text-sm font-bold text-[#0F0F0F] dark:text-zinc-200">
- تحذير: 68% من أصحاب المتاجر في مصر بيخسروا زباينهم بسبب بطء الرد وتداخل تحويلات إنستاباي وسكرينات فودافون كاش!
- </div>
+                  <button
+                    onClick={() => {
+                      playClick();
+                      onOpenStudio();
+                    }}
+                    className="btn-sketch text-xs sm:text-sm py-2 px-4 rotate-1 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white border-2 border-[#0F0F0F] dark:border-slate-600"
+                  >
+                    <Hammer className="w-4 h-4 text-[#D9722B]" />
+                    <span>تجربة الاستوديو لايف</span>
+                  </button>
+                </div>
 
- {/* Overlapping Chat Messages Grid with STAGGERED POP-IN ANIMATION */}
- <div className="relative min-h-[220px] my-4 grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
- 
- {/* Chat Bubbles Left Side */}
- <div className="md:col-span-5 space-y-4">
- <div className="animate-pop-in-1">
- <ComicSpeechBubble className="-rotate-2">
- <div className="text-xs font-mono font-bold text-[#0F0F0F]/60 dark:text-slate-400 mb-0.5">عميل مستعجل:</div>
- <div>"يا كابتن الكوتشي دا متاح مقاس 43؟ وبكام الشحن للمهندسين؟"</div>
- <div className="text-xs font-bold text-[#D9722B] dark:text-[#E88B4D] mt-1 border-t border-dashed border-[#0F0F0F] dark:border-slate-600 pt-1">
- رد متأخر: متاح بس الشحن على حسب المندوب...
- </div>
- </ComicSpeechBubble>
- </div>
+              </div>
+            </div>
 
- <div className="animate-pop-in-2">
- <ComicSpeechBubble className="rotate-2" variant="scream">
- <div className="text-xs font-mono font-bold text-[#D9722B] dark:text-[#E88B4D] mb-0.5">زبونة قلقانة:</div>
- <div>"حولت 650 جنيه فودافون كاش من الصبح ومحدش أكد الأوردر لحد دلوقتي!"</div>
- <div className="text-xs font-bold text-slate-500 dark:text-slate-400 mt-1 border-t border-dashed border-[#0F0F0F] dark:border-slate-600 pt-1">
- رد: معلش الرسايل كتير اديني نص ساعة أراجع المحفظة...
- </div>
- </ComicSpeechBubble>
- </div>
- </div>
+            {/* ---------------------------------------------------- */}
+            {/* C. WIREFRAME TABS BAR (Home | Archive | Blog | Forum) */}
+            {/* Matching folder tabs shown at the bottom of Image 2   */}
+            {/* ---------------------------------------------------- */}
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-[#0F0F0F]/15 dark:border-slate-700 pb-2">
+              
+              {/* Folder Tabs Navigation */}
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                {[
+                  { id: 'archive', label: 'المعرض والفيديو الرئيسي (Media Archive)', icon: Film },
+                  { id: 'comparison', label: 'المقارنة: فوضى الشات vs حل سكتش', icon: RefreshCw },
+                  { id: 'blog', label: 'المدونة وقصص النجاح (Blog)', icon: BookOpen },
+                  { id: 'forum', label: 'ساحة التجار والتحديثات (Forum)', icon: MessageSquare },
+                ].map((tab) => {
+                  const Icon = tab.icon;
+                  const isActive = activeWireframeTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => {
+                        playClick();
+                        setActiveWireframeTab(tab.id as any);
+                      }}
+                      className={`px-3.5 py-2 rounded-t-xl font-heading text-xs sm:text-sm font-black transition-all flex items-center gap-2 border-2 border-b-0 ${
+                        isActive
+                          ? 'bg-[#0F0F0F] text-white dark:bg-[#D9722B] dark:text-slate-950 border-[#0F0F0F] dark:border-[#D9722B] -translate-y-1 shadow-sm'
+                          : 'bg-neutral-100 dark:bg-slate-800 text-zinc-600 dark:text-zinc-300 border-transparent hover:bg-neutral-200 dark:hover:bg-slate-700'
+                      }`}
+                    >
+                      <Icon className="w-4 h-4" />
+                      <span>{tab.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
 
- {/* Center: The Official Mascot Stressed / Overwhelmed with Live Wobble */}
- <div className="md:col-span-3 flex flex-col items-center justify-center text-center animate-wobble-slow">
- <StickmanDoodle size={160} />
- <span className="text-xs font-black bg-white dark:bg-slate-900 border border-[#0F0F0F] dark:border-slate-700 px-2.5 py-1 sketch-border-tag mt-2 text-[#0F0F0F] dark:text-slate-200 shadow-xs">
- صاحب المتجر محتار في وسط الرسايل!
- </span>
- </div>
+              {/* Quick Search Input */}
+              <div className="relative min-w-[220px] max-w-xs">
+                <Search className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 pointer-events-none" />
+                <input
+                  type="text"
+                  placeholder="ابحث في القوالب والمعرض..."
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                  className="w-full pr-9 pl-3 py-1.5 rounded-full border-2 border-[#0F0F0F]/20 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-bold text-zinc-800 dark:text-zinc-100 focus:outline-hidden focus:border-[#D9722B]"
+                />
+              </div>
 
- {/* Chat Bubbles Right Side */}
- <div className="md:col-span-4 space-y-4">
- <div className="animate-pop-in-3">
- <ComicSpeechBubble className="rotate-3">
- <div className="text-xs font-mono font-bold text-[#0F0F0F]/60 dark:text-slate-400 mb-0.5">مندوب الشحن:</div>
- <div>"اللوكيشن مش واضح ورقم العميل مقفول.. هكنسل الأوردر وهرجع الشحنة!"</div>
- </ComicSpeechBubble>
- </div>
+            </div>
 
- <div className="animate-pop-in-4">
- <div className="p-3 border-2 border-[#0F0F0F] dark:border-[#D9722B]/40 sketch-border-2 bg-neutral-100 dark:bg-[#D9722B]/10 text-xs font-bold -rotate-1 text-center text-[#D9722B] dark:text-[#E88B4D] dark:text-zinc-300">
- أوردر ملغي بسبب التأخير في الرد
- </div>
- </div>
- </div>
+            {/* ---------------------------------------------------- */}
+            {/* D. TOP THREE-COLUMN ROW: BLOG | FORUM | ADS/GUARANTEE */}
+            {/* Exact recreation of the 3 columns in Image 2         */}
+            {/* ---------------------------------------------------- */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
+              
+              {/* 1. Blog Column (المدونة) */}
+              <div className="md:col-span-4 rounded-2xl border-2 border-[#0F0F0F] dark:border-slate-700 bg-white dark:bg-[#111827] p-4 sketch-border-1 sketch-shadow-sm space-y-3 flex flex-col justify-between">
+                <div className="space-y-2.5">
+                  <div className="flex items-center justify-between border-b border-zinc-200 dark:border-slate-700 pb-2">
+                    <span className="font-heading font-black text-sm text-[#0F0F0F] dark:text-white flex items-center gap-1.5">
+                      <BookOpen className="w-4 h-4 text-[#D9722B]" />
+                      <span>المدونة • Blog</span>
+                    </span>
+                    <span className="text-[10px] font-mono font-bold text-[#D9722B] bg-[#D9722B]/10 px-2 py-0.5 rounded-full">
+                      وثائقي جديد
+                    </span>
+                  </div>
 
- </div>
+                  <h3 className="text-sm font-black font-heading text-zinc-900 dark:text-zinc-100 hover:text-[#D9722B] cursor-pointer transition-colors">
+                    "RDX كواليس صناعة المتاجر": إزاي براند مصري حقق 24,000 طلب تلقائي؟
+                  </h3>
 
- {/* Bottom Actions for Mess */}
- <div className="pt-4 border-t-2 border-[#0F0F0F] dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4">
- <div className="text-xs sm:text-sm font-bold text-[#0F0F0F]/80 dark:text-slate-300">
- مستعد تخلص من الصداع دا؟ وفر 5 ساعات يومياً بنقرة واحدة:
- </div>
+                  {/* 3 Preview Thumbnail Boxes (From Image 2 Wireframe) */}
+                  <div className="grid grid-cols-3 gap-2 py-1">
+                    <div className="aspect-square rounded-lg border border-[#0F0F0F]/20 dark:border-slate-700 bg-neutral-100 dark:bg-slate-800 overflow-hidden flex items-center justify-center p-1 text-center">
+                      <img
+                        src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200&auto=format&fit=crop&q=80"
+                        alt="سبورتك"
+                        className="w-full h-full object-cover rounded"
+                      />
+                    </div>
+                    <div className="aspect-square rounded-lg border border-[#0F0F0F]/20 dark:border-slate-700 bg-neutral-100 dark:bg-slate-800 overflow-hidden flex items-center justify-center p-1 text-center">
+                      <img
+                        src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=200&auto=format&fit=crop&q=80"
+                        alt="بن الصعيدي"
+                        className="w-full h-full object-cover rounded"
+                      />
+                    </div>
+                    <div className="aspect-square rounded-lg border border-[#0F0F0F]/20 dark:border-slate-700 bg-neutral-100 dark:bg-slate-800 overflow-hidden flex items-center justify-center p-1 text-center">
+                      <img
+                        src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200&auto=format&fit=crop&q=80"
+                        alt="برجر كلوب"
+                        className="w-full h-full object-cover rounded"
+                      />
+                    </div>
+                  </div>
 
- <button
- onClick={() => triggerTransition('solution')}
- className="btn-sketch btn-sketch-primary text-sm sm:text-base py-2.5 px-6 -rotate-1"
- >
- <span>امسح الفوضى وشوف حل سكتش أوردر</span>
- <Sparkles className="w-4 h-4 ml-2" />
- </button>
- </div>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-300 leading-relaxed font-bold">
+                    لقاءات وتجارب حية مع رواد التجارة في مصر اللي غيروا طريقة استلام الأوردرات لأسلوب مريح بدون وجع دماغ.
+                  </p>
+                </div>
 
- </div>
- )}
+                <div className="pt-2 border-t border-zinc-100 dark:border-slate-800">
+                  <button
+                    onClick={() => {
+                      playClick();
+                      onOpenTemplates();
+                    }}
+                    className="text-xs font-bold text-[#D9722B] hover:underline flex items-center gap-1"
+                  >
+                    <span>اقرأ القصة كاملة وشوف القوالب</span>
+                    <ArrowLeft className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
 
- {/* ========================================================= */}
- {/* STATE 2: THE SOLUTION (متجر سكتش المنظم التلقائي) */}
- {/* ========================================================= */}
- {viewState === 'solution' && (
- <div className="space-y-6 animate-fadeIn">
- 
- {/* Blueprint Header */}
- <div className="border-2 border-[#0F0F0F] dark:border-slate-700 p-3 sketch-border-2 bg-white dark:bg-[#151D2A] flex items-center justify-between text-xs sm:text-sm font-bold">
- <div className="flex items-center gap-2">
- <span className="w-5 h-5 rounded-full bg-[#0F0F0F] dark:bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white dark:text-slate-950 flex items-center justify-center text-xs">
- ✓
- </span>
- <span className="text-[#0F0F0F] dark:text-white">متجرك المستقل جاهز: منظم، سريع، وبيستقبل الأوردرات في ثواني!</span>
- </div>
- <span className="text-xs font-bold text-zinc-400 bg-[#D9722B]/10 border border-[#D9722B]/30 text-zinc-400 px-2.5 py-0.5 rounded-full">
- ضمان مدى الحياة
- </span>
- </div>
+              {/* 2. Forum Column (ساحة التجار والنقاش) */}
+              <div className="md:col-span-5 rounded-2xl border-2 border-[#0F0F0F] dark:border-slate-700 bg-white dark:bg-[#111827] p-4 sketch-border-2 sketch-shadow-sm space-y-3 flex flex-col justify-between">
+                <div className="space-y-2.5">
+                  <div className="flex items-center justify-between border-b border-zinc-200 dark:border-slate-700 pb-2">
+                    <span className="font-heading font-black text-sm text-[#0F0F0F] dark:text-white flex items-center gap-1.5">
+                      <MessageSquare className="w-4 h-4 text-[#D9722B]" />
+                      <span>ساحة التجار • Forum & Updates</span>
+                    </span>
+                    <span className="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                      <span>نشط الآن</span>
+                    </span>
+                  </div>
 
- {/* 3 Structured Blueprint Columns */}
- <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center my-2">
- 
- {/* Left Column: Interactive Store Preview Mockup */}
- <div className="md:col-span-5 border-2 border-[#0F0F0F] dark:border-slate-700 p-4 sketch-border-1 bg-white dark:bg-[#151D2A] sketch-shadow-sm space-y-3">
- <div className="flex items-center justify-between border-b-2 border-[#0F0F0F] dark:border-slate-700 pb-2">
- <div className="flex items-center gap-1.5">
- <span className="w-3 h-3 rounded-full border border-[#0F0F0F] dark:border-slate-600 bg-[#0F0F0F] dark:bg-[#D9722B]"></span>
- <span className="w-3 h-3 rounded-full border border-[#0F0F0F] dark:border-slate-600 bg-white dark:bg-slate-700"></span>
- <span className="w-3 h-3 rounded-full border border-[#0F0F0F] dark:border-slate-600 bg-white dark:bg-slate-700"></span>
- </div>
- <span className="text-xs font-mono font-bold text-[#D9722B] dark:text-[#E88B4D]">kicks-eg.store</span>
- </div>
+                  {/* Bulleted List (Exact match to Image 2 wireframe Forum) */}
+                  <ul className="space-y-2 text-xs font-bold text-zinc-700 dark:text-zinc-200">
+                    <li className="flex items-start gap-2 hover:bg-neutral-50 dark:hover:bg-slate-800/50 p-1.5 rounded-lg transition-colors cursor-pointer">
+                      <span className="text-[#D9722B] shrink-0">•</span>
+                      <span><strong>إطلاق قالب نايكي (Cloud Runner 2):</strong> مخصص لصفحات الهبوط المباشرة بمعدل تحويل عالي.</span>
+                    </li>
+                    <li className="flex items-start gap-2 hover:bg-neutral-50 dark:hover:bg-slate-800/50 p-1.5 rounded-lg transition-colors cursor-pointer">
+                      <span className="text-[#D9722B] shrink-0">•</span>
+                      <span><strong>ربط فودافون كاش وإنستاباي:</strong> رفع سكرينات التحويل وتأكيد فوري بالواتس.</span>
+                    </li>
+                    <li className="flex items-start gap-2 hover:bg-neutral-50 dark:hover:bg-slate-800/50 p-1.5 rounded-lg transition-colors cursor-pointer">
+                      <span className="text-[#D9722B] shrink-0">•</span>
+                      <span><strong>حساب صافي الأرباح:</strong> لوحة تحكم التاجر بتعرضلك ربحك الفعلي بعد خصم تكلفة المنتج.</span>
+                    </li>
+                    <li className="flex items-start gap-2 hover:bg-neutral-50 dark:hover:bg-slate-800/50 p-1.5 rounded-lg transition-colors cursor-pointer">
+                      <span className="text-[#D9722B] shrink-0">•</span>
+                      <span><strong>دعم الشحن لجميع المحافظات:</strong> أسعار شحن مخصصة للقاهرة وإسكندرية والصعيد تلقائياً.</span>
+                    </li>
+                  </ul>
+                </div>
 
- <div className="space-y-2">
- <div className="flex items-center justify-between p-2 border border-[#0F0F0F] dark:border-slate-700 sketch-border-pill bg-neutral-50 dark:bg-slate-900 text-xs font-bold">
- <span> المنتج: كوتشي Cloud Runner مقاس 43</span>
- <span className="font-mono text-[#D9722B] dark:text-[#E88B4D]">1,290 ج.م</span>
- </div>
+                <div className="pt-2 border-t border-zinc-100 dark:border-slate-800 flex items-center justify-between text-xs">
+                  <span className="text-zinc-400 font-mono text-[11px]">+140 تاجر متصل</span>
+                  <button
+                    onClick={() => {
+                      playClick();
+                      onOpenStudio();
+                    }}
+                    className="text-[#D9722B] hover:underline font-bold flex items-center gap-1"
+                  >
+                    <span>جرّب لوحة التاجر لايف</span>
+                    <ArrowLeft className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
 
- <div className="flex items-center justify-between p-2 border border-[#0F0F0F] dark:border-slate-700 sketch-border-pill bg-neutral-50 dark:bg-slate-900 text-xs font-bold">
- <span> التوصيل: القاهرة - مدينة نصر</span>
- <span className="font-bold text-[#D9722B] dark:text-[#E88B4D]">في خلال دقايق ✓</span>
- </div>
+              {/* 3. Sidebar Column: Ads by Google / Guarantee Banner */}
+              <div className="md:col-span-3 space-y-3">
+                {/* Main Ad Box */}
+                <div className="rounded-2xl border-2 border-[#0F0F0F] dark:border-slate-700 bg-neutral-50 dark:bg-slate-900 sketch-stripes p-4 text-center sketch-shadow-sm space-y-3 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-white/90 dark:bg-slate-900/90 pointer-events-none"></div>
+                  
+                  <div className="relative z-10 space-y-2">
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-500 bg-white dark:bg-slate-800 border border-zinc-300 dark:border-slate-700 px-2 py-0.5 rounded-full inline-block">
+                      Ads by Sketch • عرض حصري
+                    </span>
+                    
+                    <h4 className="font-heading font-black text-base text-[#D9722B] dark:text-[#E88B4D]">
+                      باقة التاجر الذهبي
+                    </h4>
 
- <div className="p-2 border-2 border-[#0F0F0F] dark:border-[#D9722B]/40 sketch-border-1 bg-[#0F0F0F] dark:bg-slate-900 text-white dark:text-zinc-200 text-center text-xs font-bold">
- ✓ تم تحويل الأوردر بفاتورته ورابط اللوكيشن تلقائياً للواتساب
- </div>
- </div>
+                    <div className="text-2xl font-black font-mono text-[#0F0F0F] dark:text-white">
+                      0% عمولة
+                    </div>
 
- <div className="text-[11px] font-bold text-[#0F0F0F]/70 dark:text-slate-400 pt-1 text-center">
- * بدون لوحات تحكم معقدة ولا اشتراكات شهرية مستنزفة
- </div>
- </div>
+                    <p className="text-[11px] font-bold text-zinc-600 dark:text-zinc-300 leading-snug">
+                      متجرك بدومين خاص، دفع مرة واحدة فقط مدى الحياة بدون مصاريف سنوية مستترة!
+                    </p>
 
- {/* Center Column: Happy Official Mascot Pointing */}
- <div className="md:col-span-4 flex flex-col items-center justify-center text-center">
- <StickmanDoodle size={160} />
- <div className="mt-1 bg-white dark:bg-slate-900 border-2 border-[#0F0F0F] dark:border-slate-700 text-xs font-black px-3 py-1 sketch-border-pill sketch-shadow-sm -rotate-2 text-[#0F0F0F] dark:text-slate-100">
- "الزبون يطلب وأنت مرتاح وبتشرب قهوتك!"
- </div>
- </div>
+                    <button
+                      onClick={() => {
+                        playClick();
+                        onOpenOrderModal();
+                      }}
+                      className="w-full btn-sketch btn-sketch-primary text-xs py-2 px-3 shadow-xs"
+                    >
+                      <span>احجز باقتك الآن</span>
+                    </button>
+                  </div>
+                </div>
 
- {/* Right Column: Hand-Drawn Growth Chart */}
- <div className="md:col-span-3 border-2 border-[#0F0F0F] dark:border-slate-700 p-4 sketch-border-3 bg-white dark:bg-[#151D2A] sketch-shadow-sm space-y-2 text-center">
- <div className="text-xs font-bold text-[#0F0F0F]/80 dark:text-slate-300">
- معدل إتمام الشراء 
- </div>
+                {/* Secondary Mini Note Widget */}
+                <div className="rounded-xl border border-dashed border-[#0F0F0F]/30 dark:border-slate-700 p-2.5 bg-white dark:bg-slate-900 text-center text-xs font-bold text-zinc-600 dark:text-zinc-300">
+                  ⚡ التسليم في خلال 24 ساعة فقط جاهز للبيع مباشرة
+                </div>
+              </div>
 
- <svg viewBox="0 0 160 100" className="w-full h-24 text-[#0F0F0F] dark:text-white" fill="none">
- <line x1="10" y1="90" x2="150" y2="90" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
- <line x1="10" y1="10" x2="10" y2="90" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
- 
- <path
- d="M 15 82 L 40 70 L 65 75 L 90 48 L 115 54 L 145 18"
- stroke="#52525B"
- strokeWidth="3.2"
- strokeLinecap="round"
- strokeLinejoin="round"
- />
- <path d="M 132 18 L 145 18 L 145 32" stroke="#52525B" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
- 
- <circle cx="15" cy="82" r="3" fill="#52525B" />
- <circle cx="40" cy="70" r="3" fill="#52525B" />
- <circle cx="65" cy="75" r="3" fill="#52525B" />
- <circle cx="90" cy="48" r="3" fill="#52525B" />
- <circle cx="115" cy="54" r="3" fill="#52525B" />
- <circle cx="145" cy="18" r="4" fill="#52525B" />
- </svg>
+            </div>
 
- <div className="text-xl font-black font-heading leading-none text-[#D9722B] dark:text-[#E88B4D]">
- +320% مبيعات
- </div>
- <div className="text-[10px] font-bold text-[#0F0F0F]/70 dark:text-slate-400">
- في سرعة تقفيل الأوردرات بدون أسئلة متكررة
- </div>
- </div>
+            {/* ---------------------------------------------------- */}
+            {/* E. CORE SECTION: MEDIA ARCHIVE & DEDICATED VIDEO     */}
+            {/* The centerpiece wireframe layout from Image 2        */}
+            {/* ---------------------------------------------------- */}
+            <div id="media-archive" className="space-y-6 pt-4 border-t-2 border-[#0F0F0F]/15 dark:border-slate-700">
+              
+              {/* Media Archive Header */}
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="px-2.5 py-0.5 rounded-md bg-[#0F0F0F] text-white dark:bg-[#D9722B] dark:text-slate-950 font-heading font-black text-xs">
+                      المعرض الرئيسي
+                    </span>
+                    <h2 className="text-xl sm:text-2xl font-black font-heading text-[#0F0F0F] dark:text-white">
+                      معرض القوالب والوسائط • Media Archive
+                    </h2>
+                  </div>
+                  <p className="text-xs font-bold text-zinc-600 dark:text-zinc-300">
+                    تصفح قوالب المتاجر على اليمين، وشاهد الفيديو المخصص للشاشة الرئيسية على اليسار.
+                  </p>
+                </div>
 
- </div>
+                {/* View Switchers */}
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      playClick();
+                      onOpenTemplates();
+                    }}
+                    className="btn-sketch text-xs py-1.5 px-3 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white"
+                  >
+                    <Grid className="w-3.5 h-3.5 text-[#D9722B]" />
+                    <span>تصفح كل القوالب الـ 9</span>
+                  </button>
+                </div>
+              </div>
 
- {/* Bottom Actions for Solution */}
- <div className="pt-4 border-t-2 border-[#0F0F0F] dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4">
- <div className="flex flex-wrap items-center gap-3">
- <button
- onClick={() => {
- playClick();
- onOpenStudio();
- }}
- className="btn-sketch btn-sketch-primary text-base py-3 px-6 -rotate-1"
- >
- <Hammer className="w-5 h-5 text-zinc-400 dark:text-slate-950" />
- <span>ابنِ متجرك وجربه في الاستوديو</span>
- </button>
+              {/* DUAL CONTAINER: Left Media Grid + Right Dedicated Video Player */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                
+                {/* LEFT / THUMBNAILS GRID (Media Archive Grid with Star Ratings!) */}
+                <div className="lg:col-span-5 space-y-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-3.5">
+                    {paginatedTemplates.map((template) => (
+                      <div
+                        key={template.id}
+                        onClick={() => {
+                          playClick();
+                          onOpenStudio();
+                        }}
+                        className="group relative rounded-2xl border-2 border-[#0F0F0F] dark:border-slate-700 bg-white dark:bg-[#151D2A] p-2.5 sketch-border-1 sketch-shadow-sm hover:-translate-y-1 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between"
+                      >
+                        {/* Image Preview with Arrow Action Badge (as seen in Image 1) */}
+                        <div className="relative aspect-4/3 rounded-xl overflow-hidden bg-neutral-100 dark:bg-slate-800 border border-zinc-200 dark:border-slate-700 mb-2">
+                          <img
+                            src={template.previewImage}
+                            alt={template.name}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            loading="lazy"
+                          />
+                          
+                          {/* Corner Arrow Badge (like Image 1 preview badges) */}
+                          <div className="absolute bottom-1.5 left-1.5 w-6 h-6 rounded-lg bg-white/90 dark:bg-slate-900/90 text-[#0F0F0F] dark:text-white flex items-center justify-center shadow-xs group-hover:bg-[#D9722B] group-hover:text-white transition-colors">
+                            <ArrowLeft className="w-3.5 h-3.5" />
+                          </div>
+                        </div>
 
- <button
- onClick={() => {
- playClick();
- onOpenOrderModal();
- }}
- className="btn-sketch text-base py-3 px-6 rotate-1"
- >
- <Sparkles className="w-5 h-5" />
- <span>امتلك موقعك الآن</span>
- </button>
+                        {/* Template Details */}
+                        <div className="space-y-1">
+                          <h4 className="text-xs font-black font-heading text-zinc-900 dark:text-white truncate">
+                            {template.name}
+                          </h4>
+                          <span className="text-[10px] text-zinc-500 dark:text-zinc-400 font-mono block truncate">
+                            {template.categoryBadge}
+                          </span>
 
- <button
- onClick={() => {
- playClick();
- onExplorePlayground();
- }}
- className="text-xs font-bold underline hover:opacity-75 transition-opacity text-[#0F0F0F] dark:text-slate-300"
- >
- <span>معاينة المتجر التجريبي</span>
- </button>
- </div>
+                          {/* 5-STAR RATING (Exact match to Image 2 wireframe stars: ⭐⭐⭐⭐⭐) */}
+                          <div className="flex items-center gap-0.5 pt-0.5 text-amber-500">
+                            {[...Array(5)].map((_, i) => (
+                              <Star key={i} className="w-3 h-3 fill-current" />
+                            ))}
+                            <span className="text-[10px] font-mono font-bold text-zinc-400 mr-1">5.0</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
 
- <button
- onClick={() => triggerTransition('mess')}
- className="text-xs font-bold underline underline-offset-4 hover:opacity-70 transition-opacity text-[#0F0F0F] dark:text-slate-400"
- >
- ↺ رجوع لمشهد الفوضى للمقارنة
- </button>
- </div>
+                  {/* Micro Hint */}
+                  <div className="text-center">
+                    <span className="text-[11px] font-bold text-zinc-500 dark:text-zinc-400">
+                      اضغط على أي قالب لتجربته وتعديله مباشرة في الاستوديو لايف ✓
+                    </span>
+                  </div>
+                </div>
 
- </div>
- )}
+                {/* RIGHT / DEDICATED BIG VIDEO PLAYER (المكان المخصص للفيديو الرئيسي) */}
+                <div className="lg:col-span-7 space-y-2">
+                  <HomeVideoSlot onOpenStudio={onOpenStudio} />
+                </div>
 
- </div>
+              </div>
 
- </div>
+              {/* ---------------------------------------------------- */}
+              {/* F. PAGINATION BAR: Pages 1 2 3 4 5 6 7 ... 120 121 122 */}
+              {/* Exact match to pagination row at bottom of Image 2    */}
+              {/* ---------------------------------------------------- */}
+              <div className="pt-4 border-t-2 border-[#0F0F0F]/15 dark:border-slate-700 flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-zinc-700 dark:text-zinc-300">
+                  <span className="font-heading ml-1">الصفحات • Pages:</span>
+                  
+                  {[1, 2, 3, 4, 5, 6, 7].map((pageNum) => (
+                    <button
+                      key={pageNum}
+                      onClick={() => {
+                        playClick();
+                        setCurrentPage(pageNum);
+                      }}
+                      className={`w-7 h-7 rounded-lg text-xs font-mono font-black flex items-center justify-center border transition-all ${
+                        currentPage === pageNum
+                          ? 'bg-[#0F0F0F] text-white dark:bg-[#D9722B] dark:text-slate-950 border-[#0F0F0F] dark:border-[#D9722B] shadow-xs'
+                          : 'bg-white dark:bg-slate-900 text-zinc-700 dark:text-zinc-300 border-zinc-300 dark:border-slate-700 hover:bg-neutral-100 dark:hover:bg-slate-800'
+                      }`}
+                    >
+                      {pageNum}
+                    </button>
+                  ))}
 
- {/* ======================================================== */}
- {/* SOCIAL PROOF & LIVE METRICS MARQUEE (الثقل والتاريخ التجاري) */}
- {/* ======================================================== */}
- <div className="pt-4 border-t-2 border-[#0F0F0F]/10 dark:border-slate-800">
- <div className="text-center mb-6">
- <span className="inline-block text-xs sm:text-sm font-black text-slate-800 dark:text-slate-200 bg-[#D9722B]/10 dark:bg-[#D9722B]/20 text-[#D9722B] dark:text-[#E88B4D] px-4 py-1.5 sketch-border-pill">
- موثوق ومعتمد من +140 متجر وبراند مصري نشط يعملون بنظام سكتش أوردر
- </span>
- </div>
+                  <span className="px-1 text-zinc-400 font-bold">...</span>
 
- {/* Marquee Brand Track */}
- <div className="overflow-hidden relative py-3 bg-neutral-50 dark:bg-slate-900/40 border-y border-[#0F0F0F]/10 dark:border-slate-800">
- <div className="animate-marquee items-center gap-8 text-xs sm:text-sm font-black whitespace-nowrap text-slate-700 dark:text-slate-300">
- {[
- { name: ' سبورتك إيجيبت (SPORTECH)', cat: 'كوتشيات ومستلزمات' },
- { name: ' بن الصعيدي الأصلي', cat: 'قهوة ومحمصة' },
- { name: ' برجر كلوب & فرايز', cat: 'سماش برجر' },
- { name: ' فاسكو ستريت وير (FASCO)', cat: 'أوفر سايز' },
- { name: ' داين ريزيرف الزمالك', cat: 'مطاعم فاخرة' },
- { name: ' بانتو إسكندنافيان ديكور', cat: 'أثاث منزلي' },
- { name: ' فيلفيتي للعطور والمجوهرات', cat: 'عطور باريسية' },
- { name: ' كيكس كايرو ستور', cat: 'سنيكرز نادرة' },
- { name: ' سبورتك إيجيبت (SPORTECH)', cat: 'كوتشيات ومستلزمات' },
- { name: ' بن الصعيدي الأصلي', cat: 'قهوة ومحمصة' },
- { name: ' برجر كلوب & فرايز', cat: 'سماش برجر' },
- { name: ' فاسكو ستريت وير (FASCO)', cat: 'أوفر سايز' },
- ].map((b, idx) => (
- <div
- key={idx}
- className="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl border border-[#0F0F0F]/15 dark:border-slate-700 bg-white dark:bg-[#151D2A] shadow-2xs hover:scale-105 transition-transform"
- >
- <span className="w-2 h-2 rounded-full bg-[#D9722B]"></span>
- <span className="font-heading">{b.name}</span>
- <span className="text-[10px] text-slate-400 font-mono">({b.cat})</span>
- </div>
- ))}
- </div>
- </div>
+                  {[120, 121, 122].map((pageNum) => (
+                    <button
+                      key={pageNum}
+                      onClick={() => {
+                        playClick();
+                        setCurrentPage(pageNum);
+                      }}
+                      className={`w-8 h-7 rounded-lg text-xs font-mono font-black flex items-center justify-center border transition-all ${
+                        currentPage === pageNum
+                          ? 'bg-[#0F0F0F] text-white dark:bg-[#D9722B] dark:text-slate-950 border-[#0F0F0F] dark:border-[#D9722B]'
+                          : 'bg-white dark:bg-slate-900 text-zinc-700 dark:text-zinc-300 border-zinc-300 dark:border-slate-700 hover:bg-neutral-100 dark:hover:bg-slate-800'
+                      }`}
+                    >
+                      {pageNum}
+                    </button>
+                  ))}
+                </div>
 
- {/* Key Metrics Counters */}
- <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 text-center">
- <div className="p-3 border border-[#0F0F0F]/15 dark:border-slate-800 rounded-2xl bg-white dark:bg-[#151D2A]">
- <div className="text-2xl sm:text-3xl font-black font-mono text-[#D9722B] dark:text-[#E88B4D]">+24,500</div>
- <div className="text-xs font-bold text-slate-600 dark:text-slate-400 mt-0.5">أوردر تم تنفيذه تلقائياً</div>
- </div>
- <div className="p-3 border border-[#0F0F0F]/15 dark:border-slate-800 rounded-2xl bg-white dark:bg-[#151D2A]">
- <div className="text-2xl sm:text-3xl font-black font-mono text-[#D9722B] dark:text-[#E88B4D]">0%</div>
- <div className="text-xs font-bold text-slate-600 dark:text-slate-400 mt-0.5">عمولات على أرباح مبيعاتك</div>
- </div>
- <div className="p-3 border border-[#0F0F0F]/15 dark:border-slate-800 rounded-2xl bg-white dark:bg-[#151D2A]">
- <div className="text-2xl sm:text-3xl font-black font-mono text-[#D9722B] dark:text-[#E88B4D]">100%</div>
- <div className="text-xs font-bold text-slate-600 dark:text-slate-400 mt-0.5">ملكية كاملة برابط ودومين خاص</div>
- </div>
- <div className="p-3 border border-[#0F0F0F]/15 dark:border-slate-800 rounded-2xl bg-white dark:bg-[#151D2A]">
- <div className="text-2xl sm:text-3xl font-black font-mono text-[#D9722B] dark:text-[#E88B4D]">24 ساعة</div>
- <div className="text-xs font-bold text-slate-600 dark:text-slate-400 mt-0.5">تسليم المتجر وبدء البيع فوراً</div>
- </div>
- </div>
- </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      playClick();
+                      setCurrentPage((prev) => Math.max(1, prev - 1));
+                    }}
+                    disabled={currentPage === 1}
+                    className="p-1.5 rounded-lg border border-zinc-300 dark:border-slate-700 bg-white dark:bg-slate-900 disabled:opacity-40"
+                    title="السابق"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => {
+                      playClick();
+                      setCurrentPage((prev) => Math.min(totalPages, prev + 1));
+                    }}
+                    disabled={currentPage >= totalPages}
+                    className="p-1.5 rounded-lg border border-zinc-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-neutral-100 dark:hover:bg-slate-800 disabled:opacity-40"
+                    title="التالي"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
 
- </div>
+            </div>
 
- {/* ======================================================== */}
- {/* 2D ANIMATION STORY MODAL (شاشة التلفزيون المرسومة CRT) */}
- {/* ======================================================== */}
- {isVideoModalOpen && (
- <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
- <div className="relative max-w-2xl w-full bg-[#18181B] border-4 border-[#D9722B] dark:border-[#D9722B]/60/80 rounded-[36px] p-6 text-white shadow-[0_0_50px_rgba(245,158,11,0.25)] space-y-4">
- 
- {/* TV Frame Top Bar with Knobs & Antenna */}
- <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
- <div className="flex items-center gap-2">
- <div className="w-3 h-3 rounded-full bg-red-500 animate-ping"></div>
- <h3 className="font-heading font-black text-base text-zinc-400">
- سكتش تي في • قصة الستيك مان في 30 ثانية
- </h3>
- </div>
+            {/* ---------------------------------------------------- */}
+            {/* G. INTERACTIVE SCENE COMPARISON (Chaos vs Solution) */}
+            {/* Embedded cleanly if user clicks Comparison tab        */}
+            {/* ---------------------------------------------------- */}
+            {activeWireframeTab === 'comparison' && (
+              <div className="rounded-2xl border-3 border-[#0F0F0F] dark:border-slate-600 bg-neutral-50 dark:bg-slate-900 p-6 space-y-6 animate-fadeIn">
+                <div className="flex flex-wrap items-center justify-between gap-4 border-b border-zinc-200 dark:border-slate-700 pb-3">
+                  <div>
+                    <h3 className="text-lg font-black font-heading text-[#0F0F0F] dark:text-white">
+                      مقارنة المشهد: فوضى الشات اليومية vs متجر سكتش المنظم
+                    </h3>
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                      شوف الفرق الحقيقي اللي هيعيشه العميل وصاحب المتجر بنظام سكتش أوردر
+                    </p>
+                  </div>
 
- <div className="flex items-center gap-2">
- <button
- onClick={() => setVideoAudio(!videoAudio)}
- className="p-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300"
- title="كتم / تشغيل الصوت"
- >
- {videoAudio ? <Volume2 className="w-4 h-4 text-zinc-400" /> : <VolumeX className="w-4 h-4" />}
- </button>
- <button
- onClick={() => {
- playClick();
- setIsVideoModalOpen(false);
- }}
- className="p-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white"
- aria-label="إغلاق"
- >
- <X className="w-5 h-5" />
- </button>
- </div>
- </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => triggerTransition('mess')}
+                      className={`px-3 py-1.5 text-xs font-black rounded-lg transition-all ${
+                        viewState === 'mess'
+                          ? 'bg-red-500 text-white shadow-xs'
+                          : 'bg-white dark:bg-slate-800 text-zinc-700 dark:text-zinc-300'
+                      }`}
+                    >
+                      مشهد 1: فوضى الشات
+                    </button>
+                    <button
+                      onClick={() => triggerTransition('solution')}
+                      className={`px-3 py-1.5 text-xs font-black rounded-lg transition-all ${
+                        viewState === 'solution'
+                          ? 'bg-emerald-600 text-white shadow-xs'
+                          : 'bg-white dark:bg-slate-800 text-zinc-700 dark:text-zinc-300'
+                      }`}
+                    >
+                      مشهد 2: حل سكتش السريع
+                    </button>
+                  </div>
+                </div>
 
- {/* CRT TV Screen with Scanlines & 2D Animation Story Simulator */}
- <div className="relative rounded-2xl bg-[#090D16] border-2 border-[#D9722B] aspect-video flex flex-col items-center justify-center overflow-hidden p-6 text-center select-none">
- 
- {/* Scanlines Effect */}
- <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%)] bg-[length:100%_4px] pointer-events-none opacity-40"></div>
+                {viewState === 'mess' ? (
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center animate-fadeIn">
+                    <div className="space-y-3">
+                      <ComicSpeechBubble className="-rotate-2">
+                        <div className="text-xs font-mono font-bold text-zinc-400">عميل مستعجل:</div>
+                        <div>"يا كابتن الكوتشي دا متاح مقاس 43؟ وبكام الشحن للمهندسين؟"</div>
+                      </ComicSpeechBubble>
+                      <ComicSpeechBubble className="rotate-2" variant="scream">
+                        <div className="text-xs font-mono font-bold text-red-500">زبونة قلقانة:</div>
+                        <div>"حولت 650 فودافون كاش ومحدش رد عليا لحد دلوقتي!"</div>
+                      </ComicSpeechBubble>
+                    </div>
 
- {/* Story Narrative Progression */}
- <div className="relative z-10 space-y-4 max-w-lg">
- <div className="w-24 h-24 mx-auto animate-wobble-slow">
- <StickmanDoodle size={100} />
- </div>
+                    <div className="text-center py-4">
+                      <StickmanDoodle size={130} />
+                      <div className="text-xs font-bold text-red-500 mt-2">
+                        صاحب المتجر غرقان في وسط الرسايل!
+                      </div>
+                    </div>
 
- <div className="bg-black/70 backdrop-blur-xs border border-[#D9722B]/30 p-4 rounded-2xl shadow-lg space-y-2">
- <span className="text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-widest block">
- 2D ANIMATION STORYLINE
- </span>
- <h4 className="text-lg sm:text-xl font-heading font-black text-white">
- من زحمة رسايل "بكام الشحن للمهندسين" إلى متجر أوتوماتيك يستقبل أوردراتك وأنت نايم!
- </h4>
- <p className="text-xs text-zinc-300 leading-relaxed">
- وداعاً لضياع أرقام العملاء، وداعاً لتحويلات فودافون كاش المتشابهة. سكتش أوردر بينقل متجرك لمستوى المنصات العالمية بهوية مصرية كوميدية خفيفة على قلب الزبون.
- </p>
- </div>
+                    <div className="space-y-3">
+                      <ComicSpeechBubble className="rotate-2">
+                        <div className="text-xs font-mono font-bold text-zinc-400">مندوب الشحن:</div>
+                        <div>"اللوكيشن مش واضح ورقم العميل مقفول.. هرجع الشحنة!"</div>
+                      </ComicSpeechBubble>
+                      <div className="p-3 rounded-xl bg-red-100 dark:bg-red-950/40 border border-red-300 dark:border-red-800 text-xs text-red-700 dark:text-red-300 font-bold text-center">
+                        النتيجة: 68% أوردرات ملغية وصداع يومي مستمر
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center animate-fadeIn">
+                    <div className="p-4 rounded-2xl bg-white dark:bg-slate-800 border-2 border-[#0F0F0F] dark:border-slate-700 space-y-2">
+                      <div className="text-xs font-mono font-bold text-[#D9722B]">kicks-eg.store</div>
+                      <div className="text-xs font-bold">✓ العميل اختار مقاس 43 واشترى في 15 ثانية</div>
+                      <div className="text-xs font-bold text-emerald-600">✓ التحويل اتأكد باللوكيشن تلقائياً على الواتساب</div>
+                    </div>
 
- <div className="flex items-center justify-center gap-3 pt-2">
- <button
- onClick={() => {
- playClick();
- setIsVideoModalOpen(false);
- onOpenStudio();
- }}
- className="btn-sketch btn-sketch-primary text-xs py-2 px-5"
- >
- <Hammer className="w-4 h-4 text-zinc-400" />
- <span>ادخل الاستوديو وجرب بنفسك لايف</span>
- </button>
- </div>
- </div>
+                    <div className="text-center py-4">
+                      <StickmanDoodle size={130} />
+                      <div className="text-xs font-bold text-emerald-600 mt-2">
+                        "الزبون يطلب وأنت مرتاح وبتشرب قهوتك!"
+                      </div>
+                    </div>
 
- {/* Bottom Channel Indicator */}
- <div className="absolute bottom-2 right-3 font-mono text-[10px] text-zinc-500">
- CH 01 • SKETCH-ORDER 2026
- </div>
- </div>
+                    <div className="p-4 rounded-2xl bg-white dark:bg-slate-800 border-2 border-[#0F0F0F] dark:border-slate-700 text-center space-y-2">
+                      <div className="text-2xl font-black font-heading text-[#D9722B]">+320% مبيعات</div>
+                      <div className="text-xs font-bold text-zinc-500">
+                        زيادة في إتمام الطلبات بدون أسئلة متكررة ولا تأخير
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
 
- {/* TV Bottom Speaker Grille & Controls */}
- <div className="flex items-center justify-between px-2 text-xs text-zinc-400">
- <span className="font-mono text-[11px]">HD 1080p • 2D VECTOR ANIMATION READY</span>
- <div className="flex items-center gap-1 text-[11px] font-bold text-zinc-400">
- <span>تكتكة زرار الموبايل شغالة ✓</span>
- </div>
- </div>
+          </div>
+        </div>
 
- </div>
- </div>
- )}
+        {/* ======================================================== */}
+        {/* 3. SOCIAL PROOF & METRICS ROW                           */}
+        {/* ======================================================== */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 text-center">
+          <div className="p-3 sm:p-4 border-2 border-[#0F0F0F]/15 dark:border-slate-800 rounded-2xl bg-white dark:bg-[#151D2A] sketch-shadow-sm">
+            <div className="text-2xl sm:text-3xl font-black font-mono text-[#D9722B] dark:text-[#E88B4D]">+24,500</div>
+            <div className="text-xs font-bold text-zinc-600 dark:text-zinc-400 mt-1">أوردر تم تنفيذه تلقائياً</div>
+          </div>
+          <div className="p-3 sm:p-4 border-2 border-[#0F0F0F]/15 dark:border-slate-800 rounded-2xl bg-white dark:bg-[#151D2A] sketch-shadow-sm">
+            <div className="text-2xl sm:text-3xl font-black font-mono text-[#D9722B] dark:text-[#E88B4D]">0%</div>
+            <div className="text-xs font-bold text-zinc-600 dark:text-zinc-400 mt-1">عمولات على أرباح مبيعاتك</div>
+          </div>
+          <div className="p-3 sm:p-4 border-2 border-[#0F0F0F]/15 dark:border-slate-800 rounded-2xl bg-white dark:bg-[#151D2A] sketch-shadow-sm">
+            <div className="text-2xl sm:text-3xl font-black font-mono text-[#D9722B] dark:text-[#E88B4D]">100%</div>
+            <div className="text-xs font-bold text-zinc-600 dark:text-zinc-400 mt-1">ملكية كاملة برابط ودومين خاص</div>
+          </div>
+          <div className="p-3 sm:p-4 border-2 border-[#0F0F0F]/15 dark:border-slate-800 rounded-2xl bg-white dark:bg-[#151D2A] sketch-shadow-sm">
+            <div className="text-2xl sm:text-3xl font-black font-mono text-[#D9722B] dark:text-[#E88B4D]">24 ساعة</div>
+            <div className="text-xs font-bold text-zinc-600 dark:text-zinc-400 mt-1">تسليم المتجر وبدء البيع فوراً</div>
+          </div>
+        </div>
 
- </section>
- );
+      </div>
+
+      {/* ======================================================== */}
+      {/* 4. FLOATING BENTO DOCK (Matches Bottom Dock in Image 1)  */}
+      {/* [🏠 الرئيسية] [⊞ القوالب] [⚙️ الاستوديو] [👤 لوحة التاجر] [🛍️ الطلب] */}
+      {/* ======================================================== */}
+      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 px-3 py-2 rounded-2xl bg-[#0F0F0F]/90 dark:bg-[#111827]/95 backdrop-blur-md border-2 border-white/20 dark:border-slate-700 shadow-2xl flex items-center gap-1.5 sm:gap-2 text-white">
+        <button
+          onClick={() => {
+            playClick();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className="p-2 sm:px-3 sm:py-1.5 rounded-xl hover:bg-white/10 flex items-center gap-1.5 text-xs font-bold transition-colors"
+          title="الرئيسية"
+        >
+          <Home className="w-4 h-4 text-[#D9722B]" />
+          <span className="hidden sm:inline">الرئيسية</span>
+        </button>
+
+        <button
+          onClick={() => {
+            playClick();
+            onOpenTemplates();
+          }}
+          className="p-2 sm:px-3 sm:py-1.5 rounded-xl hover:bg-white/10 flex items-center gap-1.5 text-xs font-bold transition-colors"
+          title="قوالب المتاجر"
+        >
+          <Grid className="w-4 h-4 text-zinc-300" />
+          <span className="hidden sm:inline">القوالب</span>
+        </button>
+
+        <button
+          onClick={() => {
+            playClick();
+            onOpenStudio();
+          }}
+          className="p-2 sm:px-3 sm:py-1.5 rounded-xl hover:bg-white/10 flex items-center gap-1.5 text-xs font-bold transition-colors"
+          title="استوديو التخصيص لايف"
+        >
+          <Hammer className="w-4 h-4 text-zinc-300" />
+          <span className="hidden sm:inline">الاستوديو</span>
+        </button>
+
+        {onOpenMerchantPortal && (
+          <button
+            onClick={() => {
+              playClick();
+              onOpenMerchantPortal();
+            }}
+            className="p-2 sm:px-3 sm:py-1.5 rounded-xl hover:bg-white/10 flex items-center gap-1.5 text-xs font-bold transition-colors"
+            title="لوحة تحكم التاجر"
+          >
+            <User className="w-4 h-4 text-zinc-300" />
+            <span className="hidden sm:inline">لوحة التاجر</span>
+          </button>
+        )}
+
+        <div className="w-[1px] h-5 bg-white/20 mx-1"></div>
+
+        <button
+          onClick={() => {
+            playClick();
+            onOpenOrderModal();
+          }}
+          className="px-3.5 py-1.5 rounded-xl bg-[#D9722B] hover:bg-[#C25E1D] text-white flex items-center gap-1.5 text-xs font-black shadow-md transition-all transform hover:scale-105 active:scale-95"
+          title="امتلك متجرك الآن"
+        >
+          <ShoppingBag className="w-4 h-4" />
+          <span>اطلب متجرك</span>
+        </button>
+      </div>
+
+    </section>
+  );
 };

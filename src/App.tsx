@@ -262,6 +262,7 @@ export const App: React.FC = () => {
           onExplorePlayground={openFullStudio}
           onOpenStudio={openFullStudio}
           onOpenTemplates={openTemplatesShowcase}
+          onOpenMerchantPortal={() => openMerchantPortal()}
         />
 
         {/* Practical 3-Step Process Callout */}
