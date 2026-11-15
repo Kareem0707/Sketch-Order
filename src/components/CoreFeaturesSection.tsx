@@ -35,14 +35,13 @@ export const CoreFeaturesSection: React.FC<CoreFeaturesSectionProps> = ({
       id: 'buy-once',
       title: 'اشتري مرة واحدة وامتلكه للأبد',
       titleEn: 'BUY ONCE, OWN FOREVER',
-      badge: '0% عمولات • بدون اشتراكات شهرية',
+      badge: '0% عمولات • بدون اشتراكات',
       tagColor: 'bg-emerald-500 text-white dark:bg-emerald-600',
       image: '/assets/features/buy-once-own-forever.jpg',
       points: [
-        'ملكية كاملة 100% للمتجر والدومين وقاعدة البيانات مدى الحياة.',
-        'بدون أي مصاريف أو تجديدات شهرية مستنزفة (وفر آلاف الجنيهات).',
-        '0% عمولات على مبيعاتك - كل قرش تكسبه هو ملكك بالكامل.',
-        'تسليم عقد ملكية رقمي رسمي باسم متجرك وبراندك.',
+        'ملكية كاملة 100% للمتجر والدومين وقاعدة البيانات.',
+        'بدون أي اشتراكات أو تجديدات شهرية مستنزفة.',
+        '0% عمولات على مبيعاتك - كل قرش تكسبه ملكك.',
       ],
       icon: ShoppingBag,
       footerNote: 'وفر أكثر من 18,000 ج.م سنوياً مقارنة بالمنصات الأخرى',
@@ -51,14 +50,13 @@ export const CoreFeaturesSection: React.FC<CoreFeaturesSectionProps> = ({
       id: 'support-24-7',
       title: 'دعم فني واستشارات سريعة 24/7',
       titleEn: '24/7 DEDICATED SUPPORT',
-      badge: 'متصل على مدار الساعة في مصر',
+      badge: 'متصل 24 ساعة في مصر',
       tagColor: 'bg-[#D9722B] text-white dark:bg-[#D9722B]',
       image: '/assets/features/support-24-7.jpg',
       points: [
-        'فريق دعم مصري متاح 24 ساعة عبر الواتساب والمكالمات الهاتفية.',
-        'مساعدة خطوة بخطوة في رفع المنتجات، ضبط الأسعار، والصور.',
-        'ربط حسابات فودافون كاش وإنستاباي وضبط أسعار الشحن للمحافظات.',
-        'متوسط وقت الرد أقل من 5 دقائق لحل أي مشكلة تقنية فوراً.',
+        'فريق دعم مصري متاح 24 ساعة عبر الواتساب والمكالمات.',
+        'مساعدة خطوة بخطوة في رفع المنتجات وضبط الأسعار.',
+        'ربط فودافون كاش وإنستاباي وضبط أسعار الشحن.',
       ],
       icon: Headphones,
       footerNote: 'دعم مباشر برقم واتساب وتواصل فوري مع مهندسي النظام',
@@ -67,14 +65,13 @@ export const CoreFeaturesSection: React.FC<CoreFeaturesSectionProps> = ({
       id: 'lifetime-warranty',
       title: 'ضمان شامل مدى الحياة',
       titleEn: 'LIFETIME WARRANTY & PEACE OF MIND',
-      badge: 'معتمد وموثق 100% راحة بال تامة',
+      badge: 'معتمد وموثق 100% راحة بال',
       tagColor: 'bg-blue-600 text-white dark:bg-blue-600',
       image: '/assets/features/lifetime-warranty.jpg',
       points: [
-        'ضمان فني شامل ضد أي أعطال أو توقف في السيرفرات مدى الحياة.',
-        'تحديثات دورية مجانية وتطويرات أمنية مستمرة لسرعة المتجر.',
-        'نسخ احتياطي تلقائي يومي لجميع بيانات المنتجات والعملاء والطلبات.',
-        'حماية قصوى 256-bit SSL وتوافق مع محركات بحث جوجل.',
+        'ضمان فني شامل ضد أي أعطال أو توقف في السيرفرات.',
+        'تحديثات دورية مجانية وتطويرات أمنية مستمرة.',
+        'حماية قصوى 256-bit SSL ونسخ احتياطي يومي.',
       ],
       icon: ShieldCheck,
       footerNote: 'أمان كامل واستقرار يضمن تشغيل متجرك بدون أي توقف',
@@ -82,45 +79,45 @@ export const CoreFeaturesSection: React.FC<CoreFeaturesSectionProps> = ({
   ];
 
   return (
-    <section id="core-features" className={`py-14 sm:py-20 select-none ${className}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <section id="core-features" className={`py-8 sm:py-12 select-none ${className}`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border-2 border-[#0F0F0F] dark:border-slate-700 bg-white dark:bg-[#151D2A] text-xs font-mono font-black -rotate-1 sketch-shadow-sm">
-            <Sparkles className="w-4 h-4 text-[#D9722B]" />
-            <span>CORE GUARANTEES • مميزات سكتش أوردر الحصرية</span>
+        <div className="text-center max-w-2xl mx-auto space-y-2">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border-2 border-[#0F0F0F] dark:border-slate-700 bg-white dark:bg-[#151D2A] text-xs font-mono font-black -rotate-1 sketch-shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-[#D9722B]" />
+            <span>مميزات سكتش أوردر الحصرية</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl font-black font-heading tracking-tight text-[#0F0F0F] dark:text-white">
+          <h2 className="text-2xl sm:text-4xl font-black font-heading tracking-tight text-[#0F0F0F] dark:text-white">
             المميزات الثلاثة اللي بتخليك{' '}
             <span className="text-[#D9722B] dark:text-[#E88B4D] relative inline-block">
               تبيع وأنت مطمئن
             </span>
           </h2>
 
-          <p className="text-sm sm:text-lg font-bold text-zinc-600 dark:text-zinc-300 leading-relaxed">
-            صممنا نظام سكتش أوردر مخصوص للتجار المصريين عشان تنهي استنزاف الاشتراكات الشهرية وتضمن استقرار متجرك للأبد.
+          <p className="text-xs sm:text-sm font-bold text-zinc-600 dark:text-zinc-300 leading-relaxed">
+            صممنا النظام مخصوص للتجار عشان تنهي استنزاف الاشتراكات الشهرية وتضمن استقرار متجرك للأبد.
           </p>
         </div>
 
-        {/* 3 Prominent Feature Cards Grid (With Authentic Stickman Illustrations) */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* 3 Compact Feature Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
           {features.map((feature, idx) => {
             const Icon = feature.icon;
             return (
               <div
                 key={feature.id}
-                className={`rounded-3xl border-3 md:border-4 border-[#0F0F0F] dark:border-slate-600 bg-white dark:bg-[#111827] overflow-hidden sketch-shadow-lg transition-transform hover:-translate-y-2 flex flex-col justify-between ${
+                className={`rounded-2xl md:rounded-3xl border-3 border-[#0F0F0F] dark:border-slate-600 bg-white dark:bg-[#111827] overflow-hidden sketch-shadow transition-transform hover:-translate-y-1.5 flex flex-col justify-between ${
                   idx === 0 ? 'sketch-border-1' : idx === 1 ? 'sketch-border-2' : 'sketch-border-3'
                 }`}
               >
-                {/* Card Top Artwork (Authentic User-Provided Illustration) */}
-                <div className="relative group bg-neutral-100 dark:bg-slate-800/80 border-b-3 border-[#0F0F0F] dark:border-slate-700 aspect-4/3 overflow-hidden cursor-pointer">
+                {/* Card Top Artwork (Compact Height Image) */}
+                <div className="relative group bg-neutral-100 dark:bg-slate-800/80 border-b-2 sm:border-b-3 border-[#0F0F0F] dark:border-slate-700 h-36 sm:h-40 md:h-44 overflow-hidden cursor-pointer">
                   <img
                     src={feature.image}
                     alt={feature.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
                     onClick={() => {
                       playPaperFlip();
                       setSelectedImageModal({
@@ -133,8 +130,8 @@ export const CoreFeaturesSection: React.FC<CoreFeaturesSectionProps> = ({
                   />
                   
                   {/* Floating Badge on Image */}
-                  <div className="absolute top-3 right-3 z-10">
-                    <span className={`text-[11px] font-mono font-black px-3 py-1 rounded-full shadow-md ${feature.tagColor}`}>
+                  <div className="absolute top-2.5 right-2.5 z-10">
+                    <span className={`text-[10px] font-mono font-black px-2.5 py-0.5 rounded-full shadow-sm ${feature.tagColor}`}>
                       {feature.badge}
                     </span>
                   </div>
@@ -150,35 +147,30 @@ export const CoreFeaturesSection: React.FC<CoreFeaturesSectionProps> = ({
                         description: feature.titleEn,
                       });
                     }}
-                    className="absolute bottom-3 left-3 p-2 rounded-xl bg-black/60 hover:bg-black/80 text-white backdrop-blur-xs transition-colors shadow-md opacity-0 group-hover:opacity-100"
+                    className="absolute bottom-2 left-2 p-1.5 rounded-lg bg-black/60 hover:bg-black/80 text-white backdrop-blur-xs transition-colors shadow-sm opacity-0 group-hover:opacity-100"
                     title="تكبير الرسم التوضيحي"
                   >
-                    <Maximize2 className="w-4 h-4" />
+                    <Maximize2 className="w-3.5 h-3.5" />
                   </button>
                 </div>
 
                 {/* Card Body */}
-                <div className="p-6 sm:p-7 space-y-5 flex-1 flex flex-col justify-between">
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-9 h-9 rounded-xl bg-[#D9722B]/15 text-[#D9722B] flex items-center justify-center shrink-0">
-                        <Icon className="w-5 h-5" />
+                <div className="p-4 sm:p-5 space-y-3 flex-1 flex flex-col justify-between">
+                  <div className="space-y-2.5">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-lg bg-[#D9722B]/15 text-[#D9722B] flex items-center justify-center shrink-0">
+                        <Icon className="w-4 h-4" />
                       </div>
-                      <div>
-                        <h3 className="font-heading font-black text-xl text-[#0F0F0F] dark:text-white leading-tight">
-                          {feature.title}
-                        </h3>
-                        <span className="text-[10px] font-mono font-bold text-zinc-400 dark:text-zinc-500">
-                          {feature.titleEn}
-                        </span>
-                      </div>
+                      <h3 className="font-heading font-black text-base sm:text-lg text-[#0F0F0F] dark:text-white leading-tight">
+                        {feature.title}
+                      </h3>
                     </div>
 
                     {/* Bullet Points */}
-                    <ul className="space-y-2.5 pt-2">
+                    <ul className="space-y-1.5 pt-1">
                       {feature.points.map((pt, pIdx) => (
-                        <li key={pIdx} className="flex items-start gap-2 text-xs sm:text-sm font-bold text-zinc-700 dark:text-zinc-300 leading-relaxed">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-500 dark:text-emerald-400 shrink-0 mt-0.5" />
+                        <li key={pIdx} className="flex items-start gap-1.5 text-xs font-bold text-zinc-700 dark:text-zinc-300 leading-snug">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400 shrink-0 mt-0.5" />
                           <span>{pt}</span>
                         </li>
                       ))}
@@ -186,8 +178,8 @@ export const CoreFeaturesSection: React.FC<CoreFeaturesSectionProps> = ({
                   </div>
 
                   {/* Card Bottom Note & CTA */}
-                  <div className="pt-4 border-t-2 border-dashed border-[#0F0F0F]/15 dark:border-slate-700/80 space-y-3">
-                    <div className="text-[11px] font-mono font-bold text-[#D9722B] dark:text-[#E88B4D] bg-[#D9722B]/10 p-2 rounded-xl border border-[#D9722B]/20 text-center">
+                  <div className="pt-3 border-t-2 border-dashed border-[#0F0F0F]/15 dark:border-slate-700/80 space-y-2">
+                    <div className="text-[10px] font-mono font-bold text-[#D9722B] dark:text-[#E88B4D] bg-[#D9722B]/10 p-1.5 rounded-lg border border-[#D9722B]/20 text-center truncate">
                       ✓ {feature.footerNote}
                     </div>
 
@@ -196,10 +188,10 @@ export const CoreFeaturesSection: React.FC<CoreFeaturesSectionProps> = ({
                         playClick();
                         onOpenOrderModal();
                       }}
-                      className="w-full btn-sketch btn-sketch-primary text-xs sm:text-sm py-2.5 px-4 shadow-sm hover:scale-[1.02] transition-transform"
+                      className="w-full btn-sketch btn-sketch-primary text-xs py-2 px-3 shadow-xs hover:scale-[1.02] transition-transform flex items-center justify-center gap-1.5 font-heading font-black"
                     >
-                      <Sparkles className="w-4 h-4" />
-                      <span>احجز متجرك بهذه الميزة الآن</span>
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>احجز متجرك بهذه الميزة</span>
                     </button>
                   </div>
                 </div>
@@ -210,33 +202,31 @@ export const CoreFeaturesSection: React.FC<CoreFeaturesSectionProps> = ({
         </div>
 
         {/* Bottom Trust Guarantee Strip */}
-        <div className="rounded-2xl border-2 border-[#0F0F0F] dark:border-slate-700 bg-neutral-50 dark:bg-slate-900 p-5 sketch-shadow-sm flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-right">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-md -rotate-3">
-              <Award className="w-6 h-6" />
+        <div className="rounded-2xl border-2 border-[#0F0F0F] dark:border-slate-700 bg-neutral-50 dark:bg-slate-900 p-3.5 sm:p-4 sketch-shadow-sm flex flex-col md:flex-row items-center justify-between gap-3 text-center md:text-right">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-xl bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-sm -rotate-2">
+              <Award className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="font-heading font-black text-base text-[#0F0F0F] dark:text-white">
+              <h4 className="font-heading font-black text-sm text-[#0F0F0F] dark:text-white">
                 عقد موثق وضمان استرداد كامل خلال 14 يوماً
               </h4>
-              <p className="text-xs font-bold text-zinc-600 dark:text-zinc-400">
+              <p className="text-[11px] font-bold text-zinc-600 dark:text-zinc-400">
                 لو النظام مش مناسب لاحتياجاتك، بنرجعلك فلوسك كاملة بدون أي تعقيدات.
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => {
-                playClick();
-                onOpenOrderModal();
-              }}
-              className="btn-sketch text-xs sm:text-sm py-2 px-5 bg-white dark:bg-slate-800 text-[#0F0F0F] dark:text-white border-2 border-[#0F0F0F] dark:border-slate-600"
-            >
-              <span>طلب المتجر بالعقد والضمان</span>
-              <ArrowLeft className="w-4 h-4 mr-1" />
-            </button>
-          </div>
+          <button
+            onClick={() => {
+              playClick();
+              onOpenOrderModal();
+            }}
+            className="btn-sketch text-xs py-1.5 px-4 bg-white dark:bg-slate-800 text-[#0F0F0F] dark:text-white border-2 border-[#0F0F0F] dark:border-slate-600 flex items-center gap-1 font-heading font-black shrink-0"
+          >
+            <span>طلب المتجر بالعقد والضمان</span>
+            <ArrowLeft className="w-3.5 h-3.5 mr-1" />
+          </button>
         </div>
 
       </div>
@@ -279,7 +269,7 @@ export const CoreFeaturesSection: React.FC<CoreFeaturesSectionProps> = ({
                   setSelectedImageModal(null);
                   onOpenOrderModal();
                 }}
-                className="btn-sketch btn-sketch-primary text-xs py-2 px-5"
+                className="btn-sketch btn-sketch-primary text-xs py-2 px-5 font-heading font-black"
               >
                 <span>احجز متجرك الآن</span>
               </button>
