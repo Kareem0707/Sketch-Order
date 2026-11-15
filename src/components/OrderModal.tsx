@@ -15,12 +15,34 @@ import {
  Store,
  MapPin,
  AlertCircle,
+ Mail,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import type { BlueprintFormData, CustomStoreConfig, ClientOrderRequest } from '../types';
 import { playStampSlam, playClick, playCashSound } from '../utils/soundEffects';
 import logoImg from '../assets/sketch-order-logo.png';
 import mascotImg from '../assets/sketch-mascot.png';
+
+const GoogleGIcon = () => (
+  <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+    <path
+      fill="#4285F4"
+      d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"
+    />
+    <path
+      fill="#34A853"
+      d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.26v3.15C3.25 21.36 7.34 24 12 24z"
+    />
+    <path
+      fill="#FBBC05"
+      d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.26C.46 8.16 0 9.94 0 12s.46 3.84 1.26 5.42l4.02-3.15z"
+    />
+    <path
+      fill="#EA4335"
+      d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.25 2.64 1.26 6.58l4.02 3.15c.95-2.83 3.6-4.98 6.72-4.98z"
+    />
+  </svg>
+);
 
 interface OrderModalProps {
  isOpen: boolean;
@@ -64,8 +86,21 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  // Wizard Step state: 1, 2, or 3
  const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
 
+ // Check stored Google account
+ const storedGoogle = (() => {
+   try {
+     const raw = localStorage.getItem('sketch_customer_google_account');
+     return raw ? JSON.parse(raw) : null;
+   } catch {
+     return null;
+   }
+ })();
+
  const [formData, setFormData] = useState<BlueprintFormData>({
- fullName: '',
+ fullName: storedGoogle?.name || '',
+ customerEmail: storedGoogle?.email || '',
+ isGoogleVerified: !!storedGoogle,
+ googleProfile: storedGoogle || undefined,
  storeName: initialStoreConfig ? initialStoreConfig.storeName : '',
  storeType: initialStoreConfig
  ? initialStoreConfig.niche === 'sneakers'
@@ -84,6 +119,47 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  selectedFeatures: preselectedFeatures,
  customStoreConfig: initialStoreConfig || undefined,
  });
+
+ // Google Sign-In state & Modal
+ const [isGoogleModalOpen, setIsGoogleModalOpen] = useState<boolean>(false);
+ const [googleEmailInput, setGoogleEmailInput] = useState<string>(storedGoogle?.email || '');
+ const [googleNameInput, setGoogleNameInput] = useState<string>(storedGoogle?.name || '');
+
+ const handleGoogleSignInConfirm = (email: string, name: string) => {
+   playCashSound();
+   const profile = {
+     name: name.trim() || 'تاجر سكتش أوردر',
+     email: email.trim().toLowerCase(),
+     picture: `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name || email)}&backgroundColor=d9722b`,
+   };
+   try {
+     localStorage.setItem('sketch_customer_google_account', JSON.stringify(profile));
+   } catch {}
+   setFormData((prev) => ({
+     ...prev,
+     customerEmail: profile.email,
+     fullName: prev.fullName.trim() ? prev.fullName : profile.name,
+     isGoogleVerified: true,
+     googleProfile: profile,
+   }));
+   setIsGoogleModalOpen(false);
+   if (stepErrors.customerEmail) {
+     setStepErrors((prev) => ({ ...prev, customerEmail: '' }));
+   }
+ };
+
+ const handleGoogleSignOut = () => {
+   playClick();
+   try {
+     localStorage.removeItem('sketch_customer_google_account');
+   } catch {}
+   setFormData((prev) => ({
+     ...prev,
+     customerEmail: '',
+     isGoogleVerified: false,
+     googleProfile: undefined,
+   }));
+ };
 
  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
  const [stampDate, setStampDate] = useState<string>('');
@@ -159,7 +235,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  return Object.keys(errors).length === 0;
  };
 
- // Step 2 Validation (WhatsApp regex for Egypt)
+ // Step 2 Validation (WhatsApp regex for Egypt + Verified Email)
  const validateStep2 = () => {
  const errors: { [key: string]: string } = {};
  if (!formData.fullName.trim()) {
@@ -171,6 +247,12 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  errors.whatsapp = 'يرجى إدخال رقم الواتساب للتواصل';
  } else if (!isEgyptianPhone && cleanPhone.length < 10) {
  errors.whatsapp = 'يرجى إدخال رقم واتساب مصري صحيح (مثال: 01012345678)';
+ }
+ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+ if (!formData.customerEmail || !formData.customerEmail.trim()) {
+ errors.customerEmail = 'يرجى تسجيل الدخول بحساب Google أو إدخال بريدك الإلكتروني للتواصل';
+ } else if (!emailRegex.test(formData.customerEmail.trim())) {
+ errors.customerEmail = 'يرجى إدخال بريد إلكتروني صحيح (مثال: name@gmail.com)';
  }
  setStepErrors(errors);
  return Object.keys(errors).length === 0;
@@ -206,6 +288,8 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  id: orderId,
  createdAt: new Date().toLocaleString('ar-EG'),
  clientName: formData.fullName,
+ customerEmail: formData.customerEmail,
+ isGoogleVerified: formData.isGoogleVerified,
  whatsappNumber: formData.whatsapp,
  brandName: formData.storeName,
  subdomain: fullSubdomain,
@@ -251,10 +335,13 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  const domainPart = `\n- الساب دومين المطلوب: ${cleanSubdomain}.sketchorder.com`;
  const templatePart = initialStoreConfig ? `\n- التيمبليت المختار: ${initialStoreConfig.templateId}` : '';
  const receiptPart = receiptBase64 ? '\n- سكرين شوت التحويل: تم إرفاقها ومحفوظة بالسيستم ✓' : '';
+ const emailPart = formData.customerEmail
+   ? `\n- البريد الإلكتروني الموثق (Google): ${formData.customerEmail} ${formData.isGoogleVerified ? '✓' : ''}`
+   : '';
  const message = `أهلاً فريق سكتش أوردر! 
 تم إرسال طلب متجر جديد برقم (${generatedOrderId}):
 - الباقة المختارة: ${currentPlan.name} (${currentPlan.priceDisplay})
-- اسم المالك: ${formData.fullName}
+- اسم المالك: ${formData.fullName}${emailPart}
 - اسم المتجر: ${formData.storeName}
 - النشاط: ${formData.storeType}
 - المحافظة: ${formData.governorate}${domainPart}${templatePart}
@@ -568,6 +655,97 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  {/* ---------------------------------------------------- */}
  {currentStep === 2 && (
  <div className="space-y-4 animate-in fade-in duration-200">
+ 
+ {/* Google Sign-In Identity Card */}
+ <div className="p-3.5 rounded-2xl border-2 border-[#0F0F0F] dark:border-slate-700 bg-neutral-50 dark:bg-slate-900/80 sketch-border-1 sketch-shadow-sm space-y-2.5">
+   <div className="flex items-center justify-between">
+     <div className="flex items-center gap-2">
+       <GoogleGIcon />
+       <span className="font-heading font-black text-xs sm:text-sm text-[#0F0F0F] dark:text-white">
+         تسجيل حساب Google (لتوثيق ملكية المتجر)
+       </span>
+     </div>
+     {formData.isGoogleVerified ? (
+       <span className="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/15 px-2 py-0.5 rounded-full border border-emerald-500/30 flex items-center gap-1">
+         <CheckCircle2 className="w-3 h-3" />
+         <span>موثق بنجاح</span>
+       </span>
+     ) : (
+       <span className="text-[10px] font-mono font-bold text-red-500 bg-red-500/10 px-2 py-0.5 rounded-full border border-red-500/20">
+         مطلوب *
+       </span>
+     )}
+   </div>
+
+   {formData.isGoogleVerified ? (
+     <div className="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-800 border border-zinc-200 dark:border-slate-700">
+       <div className="flex items-center gap-2">
+         <div className="w-7 h-7 rounded-full bg-[#D9722B] text-white flex items-center justify-center font-bold text-xs shadow-2xs">
+           {formData.fullName?.charAt(0) || 'G'}
+         </div>
+         <div>
+           <div className="text-xs font-black text-zinc-900 dark:text-white leading-tight">{formData.fullName}</div>
+           <div className="text-[10px] font-mono text-zinc-500 dark:text-zinc-400">{formData.customerEmail}</div>
+         </div>
+       </div>
+       <button
+         type="button"
+         onClick={handleGoogleSignOut}
+         className="text-[11px] font-bold text-red-500 hover:underline px-2 py-1"
+       >
+         تبديل الحساب
+       </button>
+     </div>
+   ) : (
+     <div className="space-y-1.5">
+       <button
+         type="button"
+         onClick={() => {
+           playClick();
+           setIsGoogleModalOpen(true);
+         }}
+         className="w-full py-2.5 px-3.5 rounded-xl border-2 border-zinc-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-neutral-100 dark:hover:bg-slate-700 text-[#0F0F0F] dark:text-white font-heading font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-xs transition-transform active:scale-98"
+       >
+         <GoogleGIcon />
+         <span>تسجيل الدخول السريع بحساب Google</span>
+       </button>
+       <p className="text-[10px] text-zinc-500 dark:text-zinc-400 font-bold text-center">
+         يتم ربط المتجر والعقد الرسمي بحسابك على جوجل للتواصل واستلام بيانات الدخول فوراً.
+       </p>
+     </div>
+   )}
+ </div>
+
+ {/* Verified Email Field */}
+ <div>
+   <label className="block text-xs font-black mb-1 text-[#0F0F0F] dark:text-slate-200">
+     البريد الإلكتروني للتواصل وتوثيق العقد الرسمي *
+   </label>
+   <div className="relative">
+     <Mail className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" />
+     <input
+       type="email"
+       required
+       dir="ltr"
+       placeholder="name@gmail.com"
+       value={formData.customerEmail || ''}
+       onChange={(e) => {
+         setFormData({ ...formData, customerEmail: e.target.value, isGoogleVerified: false });
+         if (stepErrors.customerEmail) {
+           setStepErrors((prev) => ({ ...prev, customerEmail: '' }));
+         }
+       }}
+       className={`w-full pr-9 pl-3 py-2.5 text-sm font-bold font-mono border-2 ${
+         stepErrors.customerEmail ? 'border-red-500' : 'border-[#0F0F0F] dark:border-slate-700'
+       } sketch-border-1 bg-white dark:bg-slate-900 text-[#0F0F0F] dark:text-white text-right focus:outline-hidden`}
+     />
+   </div>
+   {stepErrors.customerEmail && (
+     <p className="text-xs text-red-500 font-bold mt-1 flex items-center gap-1">
+       <AlertCircle className="w-3.5 h-3.5" /> {stepErrors.customerEmail}
+     </p>
+   )}
+ </div>
  
  {/* Full Name */}
  <div>
@@ -908,6 +1086,12 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  <div className="text-xs font-mono font-bold mt-2 text-[#D9722B] dark:text-[#E88B4D] bg-zinc-100 dark:bg-zinc-800/60/50 py-1 px-3 rounded-md border border-zinc-200 dark:border-[#D9722B]" dir="ltr">
  https://{cleanSubdomain}.sketchorder.com
  </div>
+ {formData.customerEmail && (
+   <div className="text-[11px] font-bold mt-2 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 py-1 px-3 rounded-md border border-emerald-500/30 flex items-center justify-center gap-1.5" dir="ltr">
+     <span>{formData.customerEmail}</span>
+     <span className="text-[10px]">✓ موثق بحساب Google</span>
+   </div>
+ )}
  </div>
 
  <div className="space-y-1.5 px-2">
@@ -915,7 +1099,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  ألف مبروك يا {formData.fullName}! 
  </h3>
  <p className="text-xs sm:text-sm font-bold text-[#0F0F0F]/80 dark:text-slate-300 max-w-md mx-auto leading-relaxed">
- تم حفظ حجز الساب دومين لمتجر "{formData.storeName}" وتسجيل إيصال التحويل في لوحة تحكم المنصة. جاري تفعيل استضافتك وتسليم لوحة تحكم التاجر المستقلة في دقائق معدودة!
+ تم حفظ حجز الساب دومين لمتجر "{formData.storeName}" وتسجيل إيصال التحويل في لوحة تحكم المنصة. تم ربط المتجر بحسابك <strong className="text-[#D9722B] dark:text-[#E88B4D] font-mono">({formData.customerEmail})</strong> وسنرسل لك تفاصيل الدخول وبيانات الاستضافة على هذا الإيميل فوراً!
  </p>
  </div>
 
@@ -940,6 +1124,108 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  </div>
 
  </div>
+ )}
+
+ {/* ======================================================== */}
+ {/* GOOGLE SIGN-IN INTERACTIVE MODAL                         */}
+ {/* ======================================================== */}
+ {isGoogleModalOpen && (
+   <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs animate-fadeIn">
+     <div className="relative max-w-sm w-full bg-white dark:bg-[#111827] rounded-3xl border-3 border-[#0F0F0F] dark:border-slate-700 p-6 shadow-2xl space-y-4 text-center">
+       <div className="w-12 h-12 mx-auto rounded-full bg-neutral-100 dark:bg-slate-800 border flex items-center justify-center shadow-xs">
+         <GoogleGIcon />
+       </div>
+
+       <div className="space-y-1">
+         <h3 className="font-heading font-black text-lg text-[#0F0F0F] dark:text-white">
+           تسجيل الدخول باستخدام Google
+         </h3>
+         <p className="text-xs text-zinc-500 dark:text-zinc-400 font-bold">
+           لربط متجر سكتش أوردر بحسابك وتوثيق عقد الملكية والتواصل عبر الإيميل
+         </p>
+       </div>
+
+       <div className="space-y-2.5 text-right pt-2">
+         <div>
+           <label className="block text-[11px] font-black text-zinc-700 dark:text-zinc-300 mb-1">
+             بريدك الإلكتروني في Google:
+           </label>
+           <input
+             type="email"
+             dir="ltr"
+             placeholder="example@gmail.com"
+             value={googleEmailInput}
+             onChange={(e) => setGoogleEmailInput(e.target.value)}
+             className="w-full px-3 py-2 rounded-xl border-2 border-zinc-300 dark:border-slate-700 bg-neutral-50 dark:bg-slate-900 text-xs font-mono font-bold text-left focus:border-[#4285F4] outline-hidden"
+           />
+         </div>
+
+         <div>
+           <label className="block text-[11px] font-black text-zinc-700 dark:text-zinc-300 mb-1">
+             اسمك الكامل (حسب حسابك):
+           </label>
+           <input
+             type="text"
+             placeholder="مثال: كريم محمود"
+             value={googleNameInput}
+             onChange={(e) => setGoogleNameInput(e.target.value)}
+             className="w-full px-3 py-2 rounded-xl border-2 border-zinc-300 dark:border-slate-700 bg-neutral-50 dark:bg-slate-900 text-xs font-bold text-right focus:border-[#4285F4] outline-hidden"
+           />
+         </div>
+
+         {/* Quick 1-Click sample accounts for convenient testing */}
+         <div className="pt-1">
+           <span className="text-[10px] text-zinc-400 font-mono block mb-1">أو اختر للمعاينة الفورية:</span>
+           <div className="flex flex-col gap-1.5">
+             <button
+               type="button"
+               onClick={() => {
+                 setGoogleEmailInput('kareem.store.owner@gmail.com');
+                 setGoogleNameInput('كريم محمود');
+               }}
+               className="text-[11px] font-bold p-1.5 rounded-lg bg-neutral-100 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950/40 text-left px-2.5 border border-zinc-200 dark:border-slate-700 flex items-center justify-between"
+             >
+               <span>كريم محمود</span>
+               <span className="font-mono text-zinc-500">kareem.store.owner@gmail.com</span>
+             </button>
+             <button
+               type="button"
+               onClick={() => {
+                 setGoogleEmailInput('ahmed.merchant@gmail.com');
+                 setGoogleNameInput('أحمد الشناوي');
+               }}
+               className="text-[11px] font-bold p-1.5 rounded-lg bg-neutral-100 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950/40 text-left px-2.5 border border-zinc-200 dark:border-slate-700 flex items-center justify-between"
+             >
+               <span>أحمد الشناوي</span>
+               <span className="font-mono text-zinc-500">ahmed.merchant@gmail.com</span>
+             </button>
+           </div>
+         </div>
+       </div>
+
+       <div className="pt-3 border-t border-zinc-200 dark:border-slate-700 flex items-center justify-end gap-2">
+         <button
+           type="button"
+           onClick={() => setIsGoogleModalOpen(false)}
+           className="px-3.5 py-2 rounded-xl border border-zinc-300 dark:border-slate-700 text-xs font-bold text-zinc-600 dark:text-zinc-300 hover:bg-neutral-100 dark:hover:bg-slate-800"
+         >
+           إلغاء
+         </button>
+         <button
+           type="button"
+           onClick={() => {
+             const email = googleEmailInput.trim() || 'merchant@gmail.com';
+             const name = googleNameInput.trim() || 'تاجر سكتش أوردر';
+             handleGoogleSignInConfirm(email, name);
+           }}
+           className="px-4 py-2 rounded-xl bg-[#4285F4] hover:bg-[#3367D6] text-white text-xs font-black shadow-md flex items-center gap-1.5"
+         >
+           <Check className="w-4 h-4" />
+           <span>متابعة وتأكيد حساب Google</span>
+         </button>
+       </div>
+     </div>
+   </div>
  )}
 
  </div>

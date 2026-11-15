@@ -121,10 +121,17 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
 
             <button
-              onClick={() => handleNavClick('split-simulator')}
-              className="hover:underline underline-offset-4 transition-all text-slate-700 dark:text-slate-200 hover:text-[#D9722B] dark:text-[#E88B4D] dark:hover:text-zinc-400"
+              onClick={() => handleNavClick('core-features')}
+              className="hover:underline underline-offset-4 transition-all text-slate-700 dark:text-slate-200 hover:text-[#D9722B] dark:text-[#E88B4D]"
             >
-              المقارنة الحية
+              المميزات
+            </button>
+
+            <button
+              onClick={() => handleNavClick('blog-section')}
+              className="hover:underline underline-offset-4 transition-all text-slate-700 dark:text-slate-200 hover:text-[#D9722B] dark:text-[#E88B4D]"
+            >
+              المدونة
             </button>
 
             <button

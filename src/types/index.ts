@@ -129,6 +129,13 @@ export interface FeatureItem {
 
 export interface BlueprintFormData {
   fullName: string;
+  customerEmail?: string;
+  isGoogleVerified?: boolean;
+  googleProfile?: {
+    email: string;
+    name: string;
+    picture?: string;
+  };
   storeName: string;
   storeType: string;
   whatsapp: string;
@@ -148,6 +155,8 @@ export interface ClientOrderRequest {
   id: string;
   createdAt: string;
   clientName: string;
+  customerEmail?: string;
+  isGoogleVerified?: boolean;
   whatsappNumber: string;
   brandName: string;
   subdomain: string;

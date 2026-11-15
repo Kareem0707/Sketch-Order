@@ -356,11 +356,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   <button
                     onClick={() => {
                       playClick();
-                      onOpenTemplates();
+                      const el = document.getElementById('blog-section');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
                     }}
                     className="text-xs font-bold text-[#D9722B] hover:underline flex items-center gap-1"
                   >
-                    <span>اقرأ القصة كاملة وشوف القوالب</span>
+                    <span>اقرأ المقالات وقصص النجاح في المدونة</span>
                     <ArrowLeft className="w-3.5 h-3.5" />
                   </button>
                 </div>

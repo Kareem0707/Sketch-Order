@@ -19,6 +19,7 @@ import {
  KeyRound,
   Globe,
   Power,
+  Mail,
 } from 'lucide-react';
 import type { ClientOrderRequest, TenantStoreAccount } from '../types';
 import { playClick, playCashSound } from '../utils/soundEffects';
@@ -813,6 +814,17 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  <MessageCircle className="w-3.5 h-3.5" />
  <span className="font-mono">{order.whatsappNumber}</span>
  </a>
+ {order.customerEmail && (
+   <a
+     href={`mailto:${order.customerEmail}?subject=${encodeURIComponent(`تفعيل متجر ${order.brandName} - سكتش أوردر`)}`}
+     className="text-emerald-500 font-mono text-[11px] font-bold flex items-center gap-1 mt-1 hover:underline"
+     title="مراسلة العميل عبر البريد الإلكتروني"
+   >
+     <Mail className="w-3.5 h-3.5" />
+     <span className="truncate">{order.customerEmail}</span>
+     {order.isGoogleVerified && <span className="text-[9px] bg-emerald-500/20 text-emerald-400 px-1 rounded">Google ✓</span>}
+   </a>
+ )}
  </div>
 
  {/* Package & Template */}

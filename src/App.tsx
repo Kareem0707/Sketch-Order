@@ -9,6 +9,8 @@ import { TenantLiveStore } from './components/TenantLiveStore';
 import { SplitSimulator } from './components/SplitSimulator';
 import { PricingPackages } from './components/PricingPackages';
 import { FaqSection } from './components/FaqSection';
+import { CoreFeaturesSection } from './components/CoreFeaturesSection';
+import { BlogSection } from './components/BlogSection';
 import { Footer } from './components/Footer';
 import { OrderModal } from './components/OrderModal';
 import { Hammer, ArrowLeft, Grid } from 'lucide-react';
@@ -265,6 +267,12 @@ export const App: React.FC = () => {
           onOpenMerchantPortal={() => openMerchantPortal()}
         />
 
+        {/* Section: Core Guarantees & Features (3 Illustrations) */}
+        <CoreFeaturesSection
+          onOpenOrderModal={() => handleOpenOrderWithPlan('pro')}
+          onOpenStudio={openFullStudio}
+        />
+
         {/* Practical 3-Step Process Callout */}
         <section
           className={`py-12 border-y-2 select-none transition-colors ${
@@ -394,6 +402,12 @@ export const App: React.FC = () => {
 
         {/* Section: Live Mini Store Simulator */}
         
+
+        {/* Section: SEO-Optimized Knowledge Hub & Blog Section */}
+        <BlogSection
+          onOpenOrderModal={() => handleOpenOrderWithPlan('pro')}
+          onOpenStudio={openFullStudio}
+        />
 
         {/* FAQs */}
         <FaqSection />
