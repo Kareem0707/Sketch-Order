@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import type { TemplateId } from '../types';
 import { STUDIO_TEMPLATES } from './FullPageStoreStudio';
+import { TemplateDualDeviceMockup } from './common/TemplateDualDeviceMockup';
 import { playClick, playPaperFlip } from '../utils/soundEffects';
 import brushLogoWhite from '../assets/sketch-brush-logo-white.png';
 import brushLogoBlack from '../assets/sketch-brush-logo-black.png';
@@ -296,67 +297,45 @@ export const TemplatesShowcasePage: React.FC<TemplatesShowcasePageProps> = ({
                     : 'bg-white border-[#0F0F0F] shadow-[-6px_6px_0px_#0F0F0F] hover:shadow-[-8px_8px_0px_#D9722B]'
                 } sketch-border-1 relative`}
               >
-                {/* 16:10 Mockup Container */}
-                <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100 dark:bg-slate-800 border-b-2 border-inherit">
-                  <img
-                    src={tmpl.previewImage}
-                    alt={tmpl.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    onError={(e) => {
-                      e.currentTarget.onerror = null;
-                      e.currentTarget.src =
-                        'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&auto=format&fit=crop&q=80';
-                    }}
-                  />
-
-                  {/* Category Badge */}
-                  <span className="absolute top-3 right-3 text-[10px] font-black px-2.5 py-1 rounded-lg bg-white/95 dark:bg-slate-950/90 text-slate-900 dark:text-white shadow-xs border border-slate-200 dark:border-slate-700 backdrop-blur-xs">
-                    {tmpl.categoryBadge}
-                  </span>
-
-                  {/* Like Button */}
-                  <button
-                    onClick={(e) => handleToggleLike(tmpl.id, e)}
-                    className="absolute top-3 left-3 p-1.5 rounded-full bg-white/90 dark:bg-slate-950/80 shadow-xs transition-transform active:scale-125 border border-inherit"
-                    title="إضافة للمفضلة"
-                  >
-                    <Heart
-                      className={`w-4 h-4 ${
-                        isLiked ? 'fill-[#D9722B] text-[#D9722B]' : 'text-slate-400'
-                      }`}
-                    />
-                  </button>
-
-                  {/* Tag Pill */}
-                  {tmpl.tag && (
-                    <span className="absolute bottom-3 left-3 text-[10px] font-black px-2.5 py-0.5 rounded-md bg-[#D9722B] text-white shadow-xs">
-                      {tmpl.tag}
-                    </span>
-                  )}
-                </div>
+                {/* Dual Device Mockup: PC + Phone View (Matches Reference) */}
+                <TemplateDualDeviceMockup
+                  template={tmpl}
+                  onPreviewClick={() => {
+                    playClick();
+                    onSelectTemplateToStudio(tmpl.id);
+                  }}
+                />
 
                 {/* Card Body */}
-                <div className="p-5 space-y-4 flex-1 flex flex-col justify-between">
-                  <div>
-                    <div className="text-[10px] font-mono text-[#D9722B] font-bold uppercase tracking-wide">
-                      {tmpl.nameEn}
-                    </div>
-                    <h3 className="text-lg font-black font-heading mt-0.5 leading-snug">
+                <div className="p-4 sm:p-5 space-y-3.5 flex-1 flex flex-col justify-between">
+                  <div className="space-y-1.5 text-center">
+                    <h3 className="text-base sm:text-lg font-black font-heading leading-snug">
                       {tmpl.name}
                     </h3>
-                    <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 mt-1 leading-relaxed font-medium">
-                      {tmpl.description}
+                    <p className="text-xs text-slate-600 dark:text-slate-400 font-bold leading-relaxed">
+                      تصميم سريع وبسيط لزيادة المبيعات • متجر متكامل
                     </p>
+                    
+                    {/* Category Pill Tag (As in Reference Screenshot) */}
+                    <div className="pt-1 flex items-center justify-center">
+                      <span className="px-3 py-1 rounded-full text-xs font-bold bg-neutral-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 shadow-2xs">
+                        {tmpl.categoryBadge}
+                      </span>
+                    </div>
                   </div>
 
                   {/* Stats Bar */}
                   <div className="pt-2 border-t border-dashed border-inherit/20 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-bold">
-                    <span className="flex items-center gap-1">
-                      <Heart className="w-3.5 h-3.5 text-[#D9722B]" />
+                    <button
+                      onClick={(e) => handleToggleLike(tmpl.id, e)}
+                      className="flex items-center gap-1 hover:text-[#D9722B] transition-colors"
+                      title="إعجاب بالقالب"
+                    >
+                      <Heart className={`w-3.5 h-3.5 ${isLiked ? 'fill-[#D9722B] text-[#D9722B]' : 'text-slate-400'}`} />
                       <span>{isLiked ? '3.5k' : '3.4k'} إعجاب</span>
-                    </span>
-                    <span className="flex items-center gap-1 text-slate-700 dark:text-slate-300">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#D9722B]" />
+                    </button>
+                    <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
+                      <CheckCircle2 className="w-3.5 h-3.5" />
                       <span>شامل مجاناً بالباقة</span>
                     </span>
                   </div>

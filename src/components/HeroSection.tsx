@@ -181,19 +181,39 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     className="group flex items-center justify-between gap-3 p-2 rounded-xl border border-zinc-200 dark:border-slate-800 hover:border-[#D9722B] bg-neutral-50 dark:bg-slate-900/60 hover:bg-white dark:hover:bg-slate-800 transition-all cursor-pointer shadow-2xs hover:-translate-x-1"
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
-                      <img
-                        src={template.previewImage}
-                        alt={template.name}
-                        className="w-12 h-12 rounded-lg object-cover border border-zinc-200 dark:border-slate-700 shrink-0"
-                        loading="lazy"
-                      />
+                      {/* Dual Device Mini Preview (PC + Phone) */}
+                      <div className="relative w-14 h-12 rounded-lg overflow-hidden border border-zinc-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 shrink-0 shadow-2xs">
+                        <img
+                          src={template.previewImage}
+                          alt={`${template.name} PC`}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                        {/* Overlapping Phone Mockup */}
+                        <div className="absolute left-0.5 bottom-0.5 w-5 h-8 rounded-[4px] border border-black bg-slate-900 shadow-md overflow-hidden">
+                          <img
+                            src={template.previewImage}
+                            alt={`${template.name} Mobile`}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <span className="absolute top-0.5 right-0.5 text-[6px] font-mono font-black bg-black/75 text-white px-0.5 rounded">
+                          PC+فون
+                        </span>
+                      </div>
+
                       <div className="min-w-0">
                         <div className="text-xs font-black font-heading text-zinc-900 dark:text-white truncate group-hover:text-[#D9722B] transition-colors">
                           {template.name}
                         </div>
-                        <span className="text-[10px] font-mono font-bold text-zinc-500 dark:text-zinc-400 truncate block">
-                          {template.categoryBadge}
-                        </span>
+                        <div className="flex items-center gap-1.5 mt-0.5">
+                          <span className="text-[10px] font-mono font-bold text-zinc-500 dark:text-zinc-400 truncate">
+                            {template.categoryBadge}
+                          </span>
+                          <span className="text-[9px] font-mono text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-500/10 px-1 rounded hidden sm:inline">
+                            📱+💻
+                          </span>
+                        </div>
                       </div>
                     </div>
 
