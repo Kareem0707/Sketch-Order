@@ -181,25 +181,45 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     className="group flex items-center justify-between gap-3 p-2 rounded-xl border border-zinc-200 dark:border-slate-800 hover:border-[#D9722B] bg-neutral-50 dark:bg-slate-900/60 hover:bg-white dark:hover:bg-slate-800 transition-all cursor-pointer shadow-2xs hover:-translate-x-1"
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
-                      {/* Dual Device Mini Preview (PC + Phone) */}
-                      <div className="relative w-14 h-12 rounded-lg overflow-hidden border border-zinc-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 shrink-0 shadow-2xs">
-                        <img
-                          src={template.previewImage}
-                          alt={`${template.name} PC`}
-                          className="w-full h-full object-cover"
-                          loading="lazy"
-                        />
-                        {/* Overlapping Phone Mockup */}
-                        <div className="absolute left-0.5 bottom-0.5 w-5 h-8 rounded-[4px] border border-black bg-slate-900 shadow-md overflow-hidden">
+                      {/* Dual Device Mini Preview (PC Web + Phone Web) */}
+                      <div className="relative w-16 h-12 rounded-lg overflow-hidden border border-zinc-200 dark:border-slate-700 bg-slate-900 shrink-0 shadow-2xs flex flex-col justify-between">
+                        {/* Mini PC Topbar */}
+                        <div className="h-2.5 bg-black/90 px-1 flex items-center justify-between">
+                          <div className="flex gap-0.5">
+                            <span className="w-1 h-1 rounded-full bg-red-400"></span>
+                            <span className="w-1 h-1 rounded-full bg-emerald-400"></span>
+                          </div>
+                          <span className="text-[5px] text-zinc-400 font-mono">web.store</span>
+                        </div>
+                        {/* Mini PC Content */}
+                        <div className="relative flex-1 overflow-hidden">
                           <img
                             src={template.previewImage}
-                            alt={`${template.name} Mobile`}
+                            alt={`${template.name} PC`}
                             className="w-full h-full object-cover"
+                            loading="lazy"
                           />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 p-0.5 flex flex-col justify-between">
+                            <span className="text-[5px] font-black text-white truncate">{template.name.split(' ')[0]}</span>
+                            <span className="text-[5px] font-bold text-amber-300">تسوق الآن 🛍️</span>
+                          </div>
                         </div>
-                        <span className="absolute top-0.5 right-0.5 text-[6px] font-mono font-black bg-black/75 text-white px-0.5 rounded">
-                          PC+فون
-                        </span>
+                        {/* Overlapping Phone Mockup */}
+                        <div className="absolute left-0.5 bottom-0.5 w-5 h-9 rounded-[5px] border border-black bg-slate-950 shadow-md overflow-hidden flex flex-col justify-between z-10">
+                          <div className="h-1 bg-black flex justify-center items-center">
+                            <span className="w-2 h-0.5 rounded-full bg-slate-700"></span>
+                          </div>
+                          <div className="relative flex-1 overflow-hidden">
+                            <img
+                              src={template.previewImage}
+                              alt={`${template.name} Mobile`}
+                              className="w-full h-full object-cover"
+                            />
+                            <div className="absolute inset-0 bg-black/40 flex items-end p-0.5">
+                              <span className="text-[4px] font-black text-white">📱</span>
+                            </div>
+                          </div>
+                        </div>
                       </div>
 
                       <div className="min-w-0">
