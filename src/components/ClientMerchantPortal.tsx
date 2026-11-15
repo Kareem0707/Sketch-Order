@@ -333,27 +333,30 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  }
  };
 
- // Copy Store Link
- const handleCopyStoreLink = () => {
- if (!activeSubdomain) return;
- playClick();
- const link = `https://${activeSubdomain}.sketchorder.com`;
- navigator.clipboard.writeText(link);
- setCopiedLink(true);
- setTimeout(() => setCopiedLink(false), 2000);
- };
+  // Guaranteed 100% Working Live Store URL (No DNS wait required, live on deployed domain immediately)
+  const guaranteedLiveStoreUrl = typeof window !== 'undefined'
+    ? `${window.location.origin}/#/store/${currentStore?.subdomain || activeSubdomain || 'sportech'}`
+    : `https://sketch-order.vercel.app/#/store/${currentStore?.subdomain || activeSubdomain || 'sportech'}`;
 
- const actualLiveDomain = currentStore?.storeConfig?.customDomain && !currentStore.storeConfig.customDomain.includes('sketchorder.com')
-   ? currentStore.storeConfig.customDomain
-   : `${currentStore?.subdomain || 'sportech'}.store`;
+  // Copy Store Link (Copies the guaranteed functional live URL)
+  const handleCopyStoreLink = () => {
+    if (!activeSubdomain) return;
+    playClick();
+    navigator.clipboard.writeText(guaranteedLiveStoreUrl);
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), 2500);
+  };
 
- const handleCopyActualDomain = () => {
-   playClick();
-   const full = `https://${actualLiveDomain}`;
-   navigator.clipboard.writeText(full);
-   setCopiedActualDomain(true);
-   setTimeout(() => setCopiedActualDomain(false), 2500);
- };
+  const actualLiveDomain = currentStore?.storeConfig?.customDomain && !currentStore.storeConfig.customDomain.includes('sketchorder.com')
+    ? currentStore.storeConfig.customDomain
+    : `${currentStore?.subdomain || 'sportech'}.store`;
+
+  const handleCopyActualDomain = () => {
+    playClick();
+    navigator.clipboard.writeText(guaranteedLiveStoreUrl);
+    setCopiedActualDomain(true);
+    setTimeout(() => setCopiedActualDomain(false), 2500);
+  };
 
   const handleRunLiveDnsCheck = async () => {
     playClick();
@@ -446,7 +449,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  return (
  <div
  className={`min-h-screen flex flex-col justify-between transition-colors ${
- isDarkMode ? 'bg-[#0B0F17] text-white' : 'bg-[#FAF8F5] text-[#0F0F0F]'
+ isDarkMode ? 'bg-[#141416] text-white' : 'bg-[#FAF8F5] text-[#0F0F0F]'
  } font-body antialiased selection:bg-[#D9722B] selection:text-white p-4`}
  >
  {/* Top Navbar */}
@@ -590,7 +593,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  return (
  <div
  className={`min-h-screen transition-colors ${
- isDarkMode ? 'bg-[#0B0F17] text-white' : 'bg-[#FAF8F5] text-[#0F0F0F]'
+ isDarkMode ? 'bg-[#141416] text-white' : 'bg-[#FAF8F5] text-[#0F0F0F]'
  } font-body antialiased selection:bg-[#D9722B] selection:text-white pb-20`}
  >
  {/* ======================================================== */}
@@ -598,7 +601,7 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  {/* ======================================================== */}
  <header
  className={`sticky top-0 z-40 border-b-2 backdrop-blur-md transition-colors ${
- isDarkMode ? 'bg-[#0B0F17]/95 border-slate-700' : 'bg-white/95 border-[#0F0F0F]'
+ isDarkMode ? 'bg-[#141416]/95 border-slate-700' : 'bg-white/95 border-[#0F0F0F]'
  }`}
  >
  <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-4">
@@ -621,31 +624,30 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  <div className="w-10 h-10 rounded-2xl bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white font-black flex items-center justify-center font-heading text-lg shadow-sm">
  {currentStore.brandName.charAt(0)}
  </div>
- <div>
- <div className="flex items-center gap-2">
- <h1 className="font-heading font-black text-lg sm:text-xl leading-none">
- {currentStore.brandName}
- </h1>
- <span className="text-[10px] font-mono font-black bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white px-2 py-0.5 rounded-full">
- متجر مباشر 
- </span>
- </div>
- <div className="flex items-center gap-2 mt-1">
- <span className="font-mono text-xs text-[#D9722B] dark:text-[#E88B4D] font-bold">
- https://{currentStore.subdomain}.sketchorder.com
- </span>
- <button
- onClick={handleCopyStoreLink}
- className="p-1 hover:text-[#D9722B] dark:text-[#E88B4D] transition-colors"
- title="نسخ رابط المتجر"
- >
- {copiedLink ? <Check className="w-3.5 h-3.5 text-zinc-400" /> : <Copy className="w-3.5 h-3.5" />}
- </button>
- </div>
- </div>
- </div>
- </div>
-
+            <div>
+              <div className="flex items-center gap-2">
+                <h1 className="font-heading font-black text-lg sm:text-xl leading-none">
+                  {currentStore.brandName}
+                </h1>
+                <span className="text-[10px] font-mono font-black bg-[#D9722B] text-white dark:bg-[#D9722B] dark:text-white px-2 py-0.5 rounded-full">
+                  متجر مباشر 
+                </span>
+              </div>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="font-mono text-xs text-[#D9722B] dark:text-[#E88B4D] font-bold truncate max-w-[280px] sm:max-w-md" dir="ltr">
+                  {guaranteedLiveStoreUrl}
+                </span>
+                <button
+                  onClick={handleCopyStoreLink}
+                  className="p-1 hover:text-[#D9722B] dark:text-[#E88B4D] transition-colors"
+                  title="نسخ رابط المتجر الفعال فوراً"
+                >
+                  {copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
  {/* Left: Direct Live Store Action + Logout */}
  <div className="flex items-center gap-2 sm:gap-3">
  {/* Open Live Storefront */}
@@ -692,35 +694,37 @@ export const ClientMerchantPortal: React.FC<ClientMerchantPortalProps> = ({
  <section className="rounded-3xl border-3 border-[#0F0F0F] dark:border-slate-700 bg-white dark:bg-[#111827] p-5 sm:p-7 sketch-shadow-lg space-y-4">
    <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
      <div className="space-y-2">
+     <div className="space-y-2">
        <div className="flex items-center gap-2">
          <span className="flex h-3 w-3 relative">
            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
            <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
          </span>
          <span className="text-xs font-mono font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-wider bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/30">
-           الدومين الفعلي والنهائي لمتجرك • LIVE CUSTOM DOMAIN
+           رابط متجرك المباشر والفعال فوراً 100% (شغال الآن بدون انتظار DNS)
          </span>
        </div>
 
        <div className="flex flex-wrap items-center gap-3 pt-1">
-         <div className="text-2xl sm:text-4xl font-mono font-black text-[#0F0F0F] dark:text-white flex items-center gap-2.5" dir="ltr">
+         <div className="text-lg sm:text-2xl font-mono font-black text-[#0F0F0F] dark:text-white flex items-center gap-2.5 break-all" dir="ltr">
            <Globe className="w-7 h-7 text-[#D9722B] shrink-0" />
-           <span>https://{actualLiveDomain}</span>
+           <span>{guaranteedLiveStoreUrl}</span>
          </div>
 
          <button
            onClick={handleCopyActualDomain}
            className="px-3.5 py-2 rounded-xl border-2 border-[#0F0F0F] dark:border-slate-700 bg-neutral-100 dark:bg-slate-800 hover:bg-[#D9722B] hover:text-white text-xs font-bold font-mono transition-colors flex items-center gap-2 shadow-xs"
-           title="نسخ رابط الدومين الفعلي لمشاركته مع العملاء"
+           title="نسخ رابط متجرك المباشر الفعال لمشاركته مع العملاء"
          >
            {copiedActualDomain ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
-           <span>{copiedActualDomain ? 'تم النسخ بنجاح!' : 'نسخ رابط متجرك الفعلي'}</span>
+           <span>{copiedActualDomain ? "تم النسخ بنجاح!" : "نسخ رابط متجرك الشغال فوراً"}</span>
          </button>
        </div>
 
        <p className="text-xs sm:text-sm font-bold text-zinc-600 dark:text-zinc-300 leading-relaxed max-w-3xl">
-         دا الرابط الحقيقي والنهائي اللي عملائك هيدخلوا يطلبوا منه على إنستجرام وتيك توك وفيسبوك. شغال 24/7 بسيرفرات سريعة وشهادة أمان 256-bit SSL بدون أي اشتراكات أو عمولات.
+         هذا الرابط المباشر شغال وفعال 100% فوراً الآن على سيرفرات المنصة بدون الحاجة لانتظار إعدادات DNS. يمكنك مشاركته فوراً في البايو على إنستجرام وتيك توك أو رسائل الواتساب مع عملائك لاستقبال الأوردرات.
        </p>
+     </div>
      </div>
 
      {/* Direct Actions */}

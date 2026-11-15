@@ -311,18 +311,18 @@
 
 
 /* ============================================================ */
-/* DARK THEME: CHALKBOARD & INK BLUEPRINT AESTHETIC */
+/* DARK THEME: WARM GRAPHITE & CHALK SKETCHBOOK AESTHETIC      */
 /* ============================================================ */
 html.dark {
-  --ink: #F8FAFC;
-  --paper: #0B0F17;
-  --paper-soft: #111827;
+  --ink: #F4F4F5;
+  --paper: #141416;
+  --paper-soft: #1C1C20;
   color-scheme: dark;
 }
 
 html.dark body {
-  background-color: #0B0F17 !important;
-  color: #F8FAFC !important;
+  background-color: #141416 !important;
+  color: #F4F4F5 !important;
 }
 
 html.dark h1,
@@ -331,85 +331,72 @@ html.dark h3,
 html.dark h4,
 html.dark h5,
 html.dark h6 {
-  color: #F8FAFC;
+  color: #FAFAFA;
 }
 
 html.dark p {
-  color: #CBD5E1;
+  color: #D4D4D8;
 }
 
-/* Bulletproof remapping for legacy sketch monochrome classes */
-html.dark [class*="#0F0F0F"],
-html.dark [class*="#0f0f0f"] {
-  color: #F8FAFC !important;
+/* Warm hand-drawn chalk graphite borders */
+html.dark .border-\[\#0F0F0F\] {
+  border-color: #3F3F46 !important;
 }
 
-html.dark button[class*="#0F0F0F"],
-html.dark a[class*="#0F0F0F"] {
-  color: #F8FAFC !important;
-}
-
-/* Borders in dark mode */
-html.dark .border-\[\#0F0F0F\],
-html.dark .border-2,
-html.dark .border-3,
-html.dark .border-4 {
-  border-color: rgba(148, 163, 184, 0.35);
-}
-
-/* Background remapping for chalkboard paper patterns */
+/* Background remapping for warm chalkboard paper patterns */
 html.dark .paper-pattern {
-  background-color: #0B0F17 !important;
+  background-color: #141416 !important;
   background-image: 
-    radial-gradient(#334155 0.85px, transparent 0.85px),
-    radial-gradient(#334155 0.85px, #0B0F17 0.85px) !important;
+    radial-gradient(rgba(255, 255, 255, 0.12) 0.85px, transparent 0.85px),
+    radial-gradient(rgba(255, 255, 255, 0.12) 0.85px, #141416 0.85px) !important;
   opacity: 1 !important;
 }
 
 html.dark .paper-grid {
-  background-color: #0B0F17 !important;
+  background-color: #141416 !important;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px) !important;
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px) !important;
 }
 
 html.dark .paper-ruled {
-  background-color: #0B0F17 !important;
-  background-image: linear-gradient(to bottom, transparent 27px, rgba(255, 255, 255, 0.08) 28px) !important;
+  background-color: #141416 !important;
+  background-image: linear-gradient(to bottom, transparent 27px, rgba(255, 255, 255, 0.06) 28px) !important;
 }
 
-/* Comic shadows in dark mode: Deep black offset with subtle chalk outline */
+/* Comic shadows in dark mode: Deep matte black offset with warm chalk edge */
 html.dark .sketch-shadow-sm {
-  box-shadow: -3px 3px 0px #000000, 0 0 0 1px rgba(255, 255, 255, 0.15) !important;
+  box-shadow: -3px 3px 0px #000000, 0 0 0 1px rgba(255, 255, 255, 0.08) !important;
 }
 
 html.dark .sketch-shadow {
-  box-shadow: -5px 5px 0px #000000, 0 0 0 1px rgba(255, 255, 255, 0.2) !important;
+  box-shadow: -5px 5px 0px #000000, 0 0 0 1px rgba(255, 255, 255, 0.1) !important;
 }
 
 html.dark .sketch-shadow-lg {
-  box-shadow: -8px 8px 0px #000000, 0 0 0 1.25px rgba(255, 255, 255, 0.25) !important;
+  box-shadow: -8px 8px 0px #000000, 0 0 0 1px rgba(255, 255, 255, 0.12) !important;
 }
 
 html.dark .sketch-shadow-xl {
-  box-shadow: -12px 12px 0px #000000, 0 0 0 1.5px rgba(255, 255, 255, 0.3) !important;
+  box-shadow: -12px 12px 0px #000000, 0 0 0 1px rgba(255, 255, 255, 0.15) !important;
 }
 
 html.dark .sketch-shadow-pressed {
   box-shadow: -1px 1px 0px #000000 !important;
 }
 
-/* Hand-drawn Buttons in Dark Mode */
+/* Hand-drawn Sketch Buttons in Dark Mode (Rich Warm Graphite & Amber) */
 html.dark .btn-sketch {
-  border: 2px solid #E2E8F0 !important;
-  background-color: #1E293B !important;
-  color: #F8FAFC !important;
-  box-shadow: -4px 4px 0px #000000, 0 0 0 1px rgba(255, 255, 255, 0.2) !important;
+  border: 2px solid #52525B !important;
+  background-color: #222226 !important;
+  color: #F4F4F5 !important;
+  box-shadow: -4px 4px 0px #000000, 0 0 0 1px rgba(255, 255, 255, 0.08) !important;
 }
 
 html.dark .btn-sketch:hover {
-  background-color: #FFFFFF !important;
-  color: #0F0F0F !important;
+  background-color: #2E2E34 !important;
+  color: #FFFFFF !important;
+  border-color: #D9722B !important;
   box-shadow: -6px 6px 0px #D9722B !important;
 }
 
@@ -420,16 +407,16 @@ html.dark .btn-sketch:active {
 
 html.dark .btn-sketch-primary {
   background-color: #D9722B !important;
-  border-color: #D9722B !important;
-  color: #0B0F17 !important;
+  border-color: #EA580C !important;
+  color: #FFFFFF !important;
   font-weight: 900 !important;
-  box-shadow: -4px 4px 0px #000000, 0 0 0 1px rgba(217, 114, 43, 0.35) !important;
+  box-shadow: -4px 4px 0px #000000, 0 0 0 1px rgba(217, 114, 43, 0.4) !important;
 }
 
 html.dark .btn-sketch-primary:hover {
-  background-color: #FB923C !important;
-  border-color: #FB923C !important;
-  color: #000000 !important;
+  background-color: #EA580C !important;
+  border-color: #F59E0B !important;
+  color: #FFFFFF !important;
   box-shadow: -6px 6px 0px #000000 !important;
 }
 

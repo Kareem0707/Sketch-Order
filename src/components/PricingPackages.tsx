@@ -70,7 +70,7 @@ export const PRICING_PLANS: PricingPlan[] = [
 
 export const PricingPackages: React.FC<PricingPackagesProps> = ({ onSelectPlan }) => {
  return (
- <section id="pricing-plans" className="py-16 bg-white dark:bg-[#0B0F17] border-t-2 border-[#0F0F0F] dark:border-slate-800 select-none transition-colors">
+ <section id="pricing-plans" className="py-16 bg-white dark:bg-[#141416] border-t-2 border-[#0F0F0F] dark:border-slate-800 select-none transition-colors">
  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
  
  {/* Header */}

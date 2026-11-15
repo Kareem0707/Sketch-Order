@@ -33,7 +33,7 @@ export const SplitSimulator: React.FC = () => {
  };
 
  return (
- <section id="split-simulator" className="py-16 paper-ruled relative overflow-hidden select-none dark:bg-[#0B0F17] transition-colors">
+ <section id="split-simulator" className="py-16 paper-ruled relative overflow-hidden select-none dark:bg-[#141416] transition-colors">
  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
  
  {/* Header & Explanation */}

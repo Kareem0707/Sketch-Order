@@ -182,58 +182,58 @@ export const TemplateDualDeviceMockup: React.FC<TemplateDualDeviceMockupProps> =
   return (
     <div
       onClick={onPreviewClick}
-      className={`relative w-full aspect-[16/11] rounded-2xl overflow-hidden bg-gradient-to-br from-slate-100 via-zinc-100 to-slate-200 dark:from-slate-900 dark:via-slate-850 dark:to-slate-950 p-2 sm:p-2.5 flex items-center justify-center select-none group cursor-pointer border-b-2 border-inherit ${className}`}
+      className={`relative w-full aspect-[16/10] sm:aspect-[16/9.5] rounded-3xl overflow-hidden bg-gradient-to-br from-neutral-100 via-zinc-100 to-slate-200 dark:from-[#18181B] dark:via-[#1F1F24] dark:to-[#121214] p-3 sm:p-4 flex items-center justify-center select-none group cursor-pointer border-b-2 border-inherit ${className}`}
     >
       {/* Background Dots Grid */}
-      <div className="absolute inset-0 opacity-20 dark:opacity-10 pointer-events-none bg-[radial-gradient(#475569_1px,transparent_1px)] [background-size:10px_10px]"></div>
+      <div className="absolute inset-0 opacity-25 dark:opacity-15 pointer-events-none bg-[radial-gradient(#52525B_1px,transparent_1px)] [background-size:12px_12px]"></div>
 
       {/* ======================================================== */}
       {/* 1. PC / DESKTOP WEBSITE HOMEPAGE MOCKUP (Background)     */}
-      {/* Complete web layout: Header + Hero + Categories + Grid  */}
+      {/* Complete web layout: Browser + Nav + Hero + Products + Bar */}
       {/* ======================================================== */}
-      <div className="w-[88%] h-[84%] rounded-xl overflow-hidden border-2 border-slate-700/80 bg-white dark:bg-slate-950 shadow-md transform -translate-x-2 -translate-y-1 transition-all duration-300 group-hover:scale-[1.01] relative z-10 flex flex-col justify-between">
+      <div className="w-[90%] h-[88%] rounded-2xl overflow-hidden border-2 border-zinc-700/80 bg-white dark:bg-zinc-950 shadow-xl transform -translate-x-2 -translate-y-1 transition-all duration-300 group-hover:scale-[1.01] relative z-10 flex flex-col justify-between">
         
         {/* Desktop Browser Chrome Bar */}
-        <div className="h-4 sm:h-5 bg-slate-200 dark:bg-slate-800 px-2 flex items-center justify-between border-b border-slate-300 dark:border-slate-700 shrink-0">
-          <div className="flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-red-400"></span>
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+        <div className="h-5 sm:h-6 bg-neutral-200 dark:bg-zinc-900 px-2.5 flex items-center justify-between border-b border-zinc-300 dark:border-zinc-800 shrink-0">
+          <div className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-red-400"></span>
+            <span className="w-2 h-2 rounded-full bg-amber-400"></span>
+            <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
           </div>
-          <div className="text-[7px] sm:text-[8px] font-mono font-bold text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
+          <div className="text-[8px] sm:text-[9px] font-mono font-bold text-zinc-600 dark:text-zinc-400 flex items-center gap-1.5" dir="ltr">
             <span className="text-emerald-500">🔒</span>
             <span>https://{template.id}.store</span>
           </div>
-          <span className="text-[6px] sm:text-[7px] font-mono text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-500/10 px-1 rounded">
-            💻 PC Web
+          <span className="text-[7px] sm:text-[8px] font-mono text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-500/10 px-1.5 py-0.5 rounded">
+            💻 Desktop Web
           </span>
         </div>
 
         {/* Real Desktop Website Content */}
-        <div className="flex-1 flex flex-col justify-between overflow-hidden bg-slate-900 text-white relative">
+        <div className="flex-1 flex flex-col justify-between overflow-hidden bg-zinc-950 text-white relative">
           
           {/* Desktop Web Navbar */}
-          <div className="h-5 sm:h-6 bg-black/90 px-2 flex items-center justify-between border-b border-white/10 shrink-0">
-            <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded bg-[#D9722B] flex items-center justify-center text-[5px]">⚡</span>
-              <span className="font-heading font-black text-[8px] tracking-wide text-white">
+          <div className="h-6 sm:h-7 bg-black/95 px-2.5 flex items-center justify-between border-b border-white/10 shrink-0">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded bg-[#D9722B] flex items-center justify-center text-[6px]">⚡</span>
+              <span className="font-heading font-black text-[9px] sm:text-[10px] tracking-wide text-white">
                 {ui.storeName}
               </span>
             </div>
-            <div className="hidden sm:flex items-center gap-2 text-[6px] font-bold text-zinc-300">
+            <div className="hidden sm:flex items-center gap-2.5 text-[7px] font-bold text-zinc-300">
               <span className="text-white">الرئيسية</span>
               <span>المنتجات</span>
               <span>العروض</span>
               <span>تواصل</span>
             </div>
-            <div className="flex items-center gap-1">
-              <span className="text-[6px] bg-white/10 px-1 py-0.5 rounded text-zinc-300 hidden sm:inline">🔍 بحث...</span>
-              <span className="w-3.5 h-3.5 rounded bg-[#D9722B] text-white flex items-center justify-center text-[6px] font-bold">🛒 2</span>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[7px] bg-white/10 px-1.5 py-0.5 rounded text-zinc-300 hidden sm:inline">🔍 بحث بالمتجر...</span>
+              <span className="w-4 h-4 rounded bg-[#D9722B] text-white flex items-center justify-center text-[7px] font-bold">🛒 2</span>
             </div>
           </div>
 
           {/* Desktop Hero Banner */}
-          <div className="relative flex-1 p-2 flex items-center justify-between overflow-hidden bg-gradient-to-r from-black/90 via-black/60 to-transparent">
+          <div className="relative flex-1 p-2.5 sm:p-3 flex items-center justify-between overflow-hidden bg-gradient-to-r from-black/95 via-black/70 to-transparent">
             {/* Background Store Image */}
             <img
               src={template.previewImage}
@@ -244,48 +244,64 @@ export const TemplateDualDeviceMockup: React.FC<TemplateDualDeviceMockupProps> =
 
             {/* Headline and CTA text on left */}
             <div className="relative z-10 space-y-1 max-w-[55%]">
-              <span className="text-[6px] font-mono font-bold px-1 py-0.5 rounded bg-[#D9722B] text-white inline-block">
+              <span className="text-[7px] sm:text-[8px] font-mono font-bold px-1.5 py-0.5 rounded bg-[#D9722B] text-white inline-block">
                 {ui.heroTag}
               </span>
-              <div className="font-heading font-black text-[9px] sm:text-[11px] leading-tight text-white drop-shadow-sm">
+              <div className="font-heading font-black text-[10px] sm:text-[13px] leading-tight text-white drop-shadow-sm">
                 {ui.headline}
               </div>
-              <p className="text-[6px] sm:text-[7px] text-zinc-300 font-bold truncate">
+              <p className="text-[7px] sm:text-[8px] text-zinc-300 font-bold truncate">
                 {ui.subhead}
               </p>
               <div className="pt-0.5">
-                <span className="px-2 py-0.5 rounded bg-white text-slate-950 font-black text-[6px] inline-flex items-center gap-0.5 shadow-xs">
+                <span className="px-2.5 py-1 rounded bg-white text-zinc-950 font-black text-[7px] inline-flex items-center gap-1 shadow-xs">
                   تسوق الكولكشن 🛍️
                 </span>
               </div>
             </div>
 
-            {/* Floating Hero Product Badge on right */}
-            <div className="relative z-10 w-14 sm:w-18 h-12 sm:h-14 rounded-lg overflow-hidden border border-white/20 shadow-lg bg-black/60 p-1 flex flex-col justify-between shrink-0">
-              <img
-                src={template.previewImage}
-                alt="Product feature"
-                className="w-full h-7 sm:h-8 object-cover rounded"
-              />
-              <div className="text-[6px] font-bold text-white truncate text-center">
-                {ui.item1Name}
+            {/* Floating Hero Product Badges on right (2 Products) */}
+            <div className="relative z-10 hidden sm:flex items-center gap-1.5 shrink-0">
+              <div className="w-16 h-16 rounded-xl overflow-hidden border border-white/20 shadow-lg bg-black/70 p-1 flex flex-col justify-between">
+                <img
+                  src={template.previewImage}
+                  alt={ui.item1Name}
+                  className="w-full h-8 object-cover rounded"
+                />
+                <div className="text-[6px] font-bold text-white truncate text-center">
+                  {ui.item1Name}
+                </div>
+                <div className="text-[6px] font-mono font-black text-amber-300 text-center">
+                  {ui.item1Price}
+                </div>
               </div>
-              <div className="text-[6px] font-mono font-black text-amber-300 text-center">
-                {ui.item1Price}
+
+              <div className="w-16 h-16 rounded-xl overflow-hidden border border-white/20 shadow-lg bg-black/70 p-1 flex flex-col justify-between">
+                <img
+                  src={template.previewImage}
+                  alt={ui.item2Name}
+                  className="w-full h-8 object-cover rounded filter hue-rotate-15"
+                />
+                <div className="text-[6px] font-bold text-white truncate text-center">
+                  {ui.item2Name}
+                </div>
+                <div className="text-[6px] font-mono font-black text-emerald-400 text-center">
+                  {ui.item2Price}
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Desktop Categories & Mini Product Row Bar */}
-          <div className="h-6 sm:h-7 bg-zinc-950/95 border-t border-white/10 px-2 flex items-center justify-between text-[6px] font-bold shrink-0">
-            <div className="flex items-center gap-1">
+          {/* Desktop Categories & Trust Bar */}
+          <div className="h-6 sm:h-7 bg-zinc-950/95 border-t border-white/10 px-2.5 flex items-center justify-between text-[7px] font-bold shrink-0">
+            <div className="flex items-center gap-1.5">
               <span className="text-zinc-400">الأقسام:</span>
-              <span className="px-1 py-0.5 rounded bg-white/10 text-white">{ui.category1}</span>
-              <span className="px-1 py-0.5 rounded bg-white/10 text-white">{ui.category2}</span>
-              <span className="px-1 py-0.5 rounded bg-white/10 text-white hidden sm:inline">{ui.category3}</span>
+              <span className="px-1.5 py-0.5 rounded bg-white/10 text-white">{ui.category1}</span>
+              <span className="px-1.5 py-0.5 rounded bg-white/10 text-white">{ui.category2}</span>
+              <span className="px-1.5 py-0.5 rounded bg-white/10 text-white hidden sm:inline">{ui.category3}</span>
             </div>
-            <div className="flex items-center gap-1 text-emerald-400 font-mono">
-              <span>✓ شحن لجميع المحافظات</span>
+            <div className="flex items-center gap-1 text-emerald-400 font-mono text-[6px] sm:text-[7px]">
+              <span>✓ شحن لجميع المحافظات • دفع عند الاستلام</span>
             </div>
           </div>
 
@@ -296,41 +312,41 @@ export const TemplateDualDeviceMockup: React.FC<TemplateDualDeviceMockupProps> =
       {/* 2. MOBILE / PHONE WEBSITE HOMEPAGE MOCKUP (Foreground)   */}
       {/* Complete mobile layout: Topbar + Stories + Banner + WhatsApp */}
       {/* ======================================================== */}
-      <div className="absolute left-2.5 sm:left-4 bottom-1.5 sm:bottom-2.5 w-[34%] sm:w-[35%] h-[88%] rounded-[18px] sm:rounded-[20px] border-[2.5px] border-slate-950 dark:border-slate-700 bg-slate-950 shadow-2xl overflow-hidden z-20 transform group-hover:scale-105 transition-all duration-300 flex flex-col justify-between">
+      <div className="absolute left-3 sm:left-5 bottom-2 sm:bottom-3 w-[36%] sm:w-[36%] h-[90%] rounded-[20px] sm:rounded-[22px] border-[2.5px] border-zinc-950 dark:border-zinc-700 bg-zinc-950 shadow-2xl overflow-hidden z-20 transform group-hover:scale-105 transition-all duration-300 flex flex-col justify-between">
         
         {/* Dynamic Island / Notch */}
-        <div className="h-3 bg-black px-2 flex items-center justify-between text-white text-[5px] font-mono shrink-0">
+        <div className="h-3.5 bg-black px-2 flex items-center justify-between text-white text-[5px] font-mono shrink-0">
           <span>10:30</span>
-          <div className="w-6 h-1.5 rounded-full bg-slate-900 border border-slate-800"></div>
+          <div className="w-7 h-1.5 rounded-full bg-zinc-900 border border-zinc-800"></div>
           <span>5G 🔋</span>
         </div>
 
         {/* Real Mobile Store Homepage Screen */}
-        <div className="flex-1 flex flex-col justify-between overflow-hidden bg-slate-900 text-white relative">
+        <div className="flex-1 flex flex-col justify-between overflow-hidden bg-zinc-900 text-white relative">
           
           {/* Mobile Store Header */}
-          <div className="h-5 bg-black/95 px-1.5 flex items-center justify-between border-b border-white/15 shrink-0">
-            <span className="text-[7px]">☰</span>
-            <span className="font-heading font-black text-[7px] text-white truncate max-w-[60px]">
+          <div className="h-5 sm:h-6 bg-black/95 px-2 flex items-center justify-between border-b border-white/15 shrink-0">
+            <span className="text-[8px]">☰</span>
+            <span className="font-heading font-black text-[8px] text-white truncate max-w-[65px]">
               {ui.storeName}
             </span>
-            <span className="w-3 h-3 rounded-full bg-[#D9722B] text-white flex items-center justify-center text-[5px] font-bold">
+            <span className="w-3.5 h-3.5 rounded-full bg-[#D9722B] text-white flex items-center justify-center text-[6px] font-bold">
               🛒
             </span>
           </div>
 
           {/* Mobile Stories / Quick Categories Row */}
-          <div className="px-1 py-0.5 flex items-center justify-between bg-zinc-950/80 border-b border-white/10 shrink-0">
+          <div className="px-1.5 py-0.5 flex items-center justify-between bg-zinc-950/80 border-b border-white/10 shrink-0">
             <div className="flex items-center gap-1 overflow-hidden">
-              <span className="w-3 h-3 rounded-full border border-[#D9722B] bg-[#D9722B]/20 flex items-center justify-center text-[4px]">🔥</span>
-              <span className="w-3 h-3 rounded-full border border-white/30 bg-white/10 flex items-center justify-center text-[4px]">👟</span>
-              <span className="w-3 h-3 rounded-full border border-white/30 bg-white/10 flex items-center justify-center text-[4px]">⭐</span>
+              <span className="w-3.5 h-3.5 rounded-full border border-[#D9722B] bg-[#D9722B]/20 flex items-center justify-center text-[5px]">🔥</span>
+              <span className="w-3.5 h-3.5 rounded-full border border-white/30 bg-white/10 flex items-center justify-center text-[5px]">👟</span>
+              <span className="w-3.5 h-3.5 rounded-full border border-white/30 bg-white/10 flex items-center justify-center text-[5px]">⭐</span>
             </div>
-            <span className="text-[5px] font-mono text-[#D9722B] font-bold">📱 موبايل</span>
+            <span className="text-[6px] font-mono text-[#D9722B] font-bold">📱 موبايل</span>
           </div>
 
           {/* Mobile Hero Banner */}
-          <div className="relative flex-1 overflow-hidden p-1 flex flex-col justify-between">
+          <div className="relative flex-1 overflow-hidden p-1.5 flex flex-col justify-between">
             <img
               src={template.previewImage}
               alt={`${template.name} Mobile Homepage`}
@@ -341,28 +357,28 @@ export const TemplateDualDeviceMockup: React.FC<TemplateDualDeviceMockupProps> =
 
             {/* Mobile Tag */}
             <div className="relative z-10 flex items-center justify-between">
-              <span className="px-1 rounded bg-[#D9722B] text-[5px] font-bold">
+              <span className="px-1.5 py-0.5 rounded bg-[#D9722B] text-[6px] font-bold">
                 {ui.heroTag}
               </span>
-              <span className="text-[5px] font-mono text-amber-300">★ 4.9</span>
+              <span className="text-[6px] font-mono text-amber-300">★ 4.9</span>
             </div>
 
             {/* Mobile Product Card & Quick WhatsApp Action */}
             <div className="relative z-10 space-y-0.5">
-              <div className="text-[6px] font-black font-heading truncate text-white">
+              <div className="text-[7px] font-black font-heading truncate text-white">
                 {ui.item1Name}
               </div>
-              <div className="text-[6px] font-mono font-black text-amber-300">
+              <div className="text-[7px] font-mono font-black text-amber-300">
                 {ui.item1Price}
               </div>
-              <div className="w-full py-0.5 rounded bg-emerald-600 text-white font-black text-[5px] text-center shadow-xs flex items-center justify-center gap-0.5">
+              <div className="w-full py-0.5 rounded bg-emerald-600 text-white font-black text-[6px] text-center shadow-xs flex items-center justify-center gap-0.5">
                 <span>اطلب بالواتساب 💬</span>
               </div>
             </div>
           </div>
 
           {/* Mobile Bottom Tabbar */}
-          <div className="h-3.5 bg-black px-2 flex items-center justify-between text-[5px] text-zinc-400 border-t border-white/10 shrink-0">
+          <div className="h-4 bg-black px-2.5 flex items-center justify-between text-[6px] text-zinc-400 border-t border-white/10 shrink-0">
             <span className="text-white">🏠 رئيسية</span>
             <span>🔍 بحث</span>
             <span>📦 طلباتي</span>

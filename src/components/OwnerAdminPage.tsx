@@ -539,7 +539,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  return (
  <div
  className={`min-h-screen transition-colors duration-200 ${
- isDarkMode ? 'bg-[#0B0F17] text-[#F8FAFC]' : 'bg-[#FAF8F5] text-[#0F0F0F]'
+ isDarkMode ? 'bg-[#141416] text-[#F8FAFC]' : 'bg-[#FAF8F5] text-[#0F0F0F]'
  } font-body antialiased selection:bg-[#D9722B] selection:text-white pb-20`}
  >
  {/* ======================================================== */}
@@ -548,7 +548,7 @@ export const OwnerAdminPage: React.FC<OwnerAdminPageProps> = ({
  <header
  className={`sticky top-0 z-40 border-b-2 transition-colors ${
  isDarkMode
- ? 'bg-[#0B0F17]/95 border-slate-700 shadow-md'
+ ? 'bg-[#141416]/95 border-slate-700 shadow-md'
  : 'bg-[#FFFDF9]/95 border-[#0F0F0F] shadow-xs'
  } backdrop-blur-md`}
  >

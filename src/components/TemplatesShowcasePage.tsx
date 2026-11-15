@@ -5,7 +5,6 @@ import {
   Search,
   CheckCircle2,
   Heart,
-  Smartphone,
   ExternalLink,
   ShoppingBag,
   Sparkles,
@@ -80,7 +79,7 @@ export const TemplatesShowcasePage: React.FC<TemplatesShowcasePageProps> = ({
   return (
     <div
       className={`min-h-screen transition-colors duration-200 ${
-        isDarkMode ? 'bg-[#0B0F17] text-white' : 'bg-[#FAF8F5] text-[#0F0F0F] paper-pattern'
+        isDarkMode ? 'bg-[#141416] text-white' : 'bg-[#FAF8F5] text-[#0F0F0F] paper-pattern'
       } font-body antialiased selection:bg-[#D9722B] selection:text-white pb-24`}
     >
       {/* ======================================================== */}
@@ -89,7 +88,7 @@ export const TemplatesShowcasePage: React.FC<TemplatesShowcasePageProps> = ({
       <header
         className={`sticky top-0 z-40 border-b backdrop-blur-md transition-colors ${
           isDarkMode
-            ? 'bg-[#0B0F17]/90 border-slate-800 shadow-[0_4px_20px_rgba(0,0,0,0.5)]'
+            ? 'bg-[#141416]/90 border-slate-800 shadow-[0_4px_20px_rgba(0,0,0,0.5)]'
             : 'bg-[#FAF8F5]/95 border-[#0F0F0F]/20 shadow-xs'
         }`}
       >
@@ -282,10 +281,10 @@ export const TemplatesShowcasePage: React.FC<TemplatesShowcasePageProps> = ({
       </section>
 
       {/* ======================================================== */}
-      {/* 3. TEMPLATES GRID (Authentic Hand-Drawn Cards) */}
+      {/* 3. TEMPLATES GRID (Large High-Clarity Square/Rectangular Cards) */}
       {/* ======================================================== */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
           {filteredTemplates.map((tmpl) => {
             const isLiked = likedTemplateIds.includes(tmpl.id);
             return (
@@ -293,11 +292,11 @@ export const TemplatesShowcasePage: React.FC<TemplatesShowcasePageProps> = ({
                 key={tmpl.id}
                 className={`rounded-3xl border-2 sm:border-3 transition-all duration-300 overflow-hidden flex flex-col justify-between group ${
                   isDarkMode
-                    ? 'bg-slate-900/90 border-slate-700 hover:border-[#D9722B] shadow-[6px_6px_0px_#1E293B] hover:shadow-[6px_6px_0px_#D9722B]'
+                    ? 'bg-[#18181B] border-zinc-700 hover:border-[#D9722B] shadow-[6px_6px_0px_#000000] hover:shadow-[6px_6px_0px_#D9722B]'
                     : 'bg-white border-[#0F0F0F] shadow-[-6px_6px_0px_#0F0F0F] hover:shadow-[-8px_8px_0px_#D9722B]'
                 } sketch-border-1 relative`}
               >
-                {/* Dual Device Mockup: PC + Phone View (Matches Reference) */}
+                {/* Dual Device Mockup: PC + Phone View (Full Realistic Website UI) */}
                 <TemplateDualDeviceMockup
                   template={tmpl}
                   onPreviewClick={() => {
@@ -307,82 +306,79 @@ export const TemplatesShowcasePage: React.FC<TemplatesShowcasePageProps> = ({
                 />
 
                 {/* Card Body */}
-                <div className="p-4 sm:p-5 space-y-3.5 flex-1 flex flex-col justify-between">
-                  <div className="space-y-1.5 text-center">
-                    <h3 className="text-base sm:text-lg font-black font-heading leading-snug">
+                <div className="p-5 sm:p-6 space-y-4 flex-1 flex flex-col justify-between">
+                  <div className="space-y-2 text-center">
+                    <h3 className="text-lg sm:text-2xl font-black font-heading leading-snug">
                       {tmpl.name}
                     </h3>
-                    <p className="text-xs text-slate-600 dark:text-slate-400 font-bold leading-relaxed">
-                      تصميم سريع وبسيط لزيادة المبيعات • متجر متكامل
+                    <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 font-bold leading-relaxed">
+                      تصميم سريع وبسيط لزيادة المبيعات • متجر إلكتروني متكامل
                     </p>
                     
                     {/* Category Pill Tag (As in Reference Screenshot) */}
                     <div className="pt-1 flex items-center justify-center">
-                      <span className="px-3 py-1 rounded-full text-xs font-bold bg-neutral-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 shadow-2xs">
+                      <span className="px-3.5 py-1 rounded-full text-xs font-black bg-neutral-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-300 dark:border-zinc-700 shadow-2xs">
                         {tmpl.categoryBadge}
                       </span>
                     </div>
                   </div>
 
                   {/* Stats Bar */}
-                  <div className="pt-2 border-t border-dashed border-inherit/20 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-bold">
+                  <div className="pt-2.5 border-t border-dashed border-inherit/20 flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400 font-bold">
                     <button
                       onClick={(e) => handleToggleLike(tmpl.id, e)}
-                      className="flex items-center gap-1 hover:text-[#D9722B] transition-colors"
+                      className="flex items-center gap-1.5 hover:text-[#D9722B] transition-colors"
                       title="إعجاب بالقالب"
                     >
-                      <Heart className={`w-3.5 h-3.5 ${isLiked ? 'fill-[#D9722B] text-[#D9722B]' : 'text-slate-400'}`} />
+                      <Heart className={`w-4 h-4 ${isLiked ? 'fill-[#D9722B] text-[#D9722B]' : 'text-zinc-400'}`} />
                       <span>{isLiked ? '3.5k' : '3.4k'} إعجاب</span>
                     </button>
-                    <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
-                      <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
+                      <CheckCircle2 className="w-4 h-4" />
                       <span>شامل مجاناً بالباقة</span>
                     </span>
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="pt-2 space-y-2">
+                  <div className="pt-2 space-y-2.5">
                     {/* Primary Button: Preview & Edit in Studio */}
                     <button
                       onClick={() => {
                         playClick();
                         onSelectTemplateToStudio(tmpl.id);
                       }}
-                      className="w-full py-2.5 rounded-xl bg-[#0F0F0F] hover:bg-black dark:bg-white dark:hover:bg-slate-200 text-white dark:text-slate-950 font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition-transform active:scale-95 shadow-[-3px_3px_0px_#D9722B] border-2 border-inherit"
+                      className="w-full py-3 px-4 rounded-2xl bg-[#D9722B] hover:bg-[#C25E1D] text-white font-heading font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md transition-all active:scale-98"
                     >
-                      <Smartphone className="w-4 h-4 text-[#D9722B]" />
-                      <span>معاينة وتعديل في الاستوديو 📱</span>
+                      <Rocket className="w-4 h-4" />
+                      <span>معاينة وتعديل في الاستوديو (لايف)</span>
                     </button>
 
+                    {/* Secondary Row: Direct Live Store & Order */}
                     <div className="grid grid-cols-2 gap-2">
-                      {/* Secondary Button: Live Full Store */}
                       <button
                         onClick={() => {
                           playClick();
                           onOpenLiveStore(tmpl.id);
                         }}
-                        className={`py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition-colors border-2 ${
+                        className={`py-2.5 px-3 rounded-xl border-2 text-xs font-black flex items-center justify-center gap-1.5 transition-colors ${
                           isDarkMode
-                            ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
-                            : 'bg-white hover:bg-slate-100 text-slate-800 border-[#0F0F0F]/30 shadow-xs'
-                        } sketch-border-tag`}
-                        title="تصفح المتجر بشاشة كاملة كأنك عميل"
+                            ? 'bg-zinc-800 hover:bg-zinc-700 border-zinc-700 text-zinc-200'
+                            : 'bg-zinc-100 hover:bg-zinc-200 border-zinc-300 text-zinc-800'
+                        }`}
                       >
-                        <ExternalLink className="w-3 h-3 text-[#D9722B]" />
-                        <span>متجر مباشر ↗</span>
+                        <ExternalLink className="w-3.5 h-3.5 text-[#D9722B]" />
+                        <span>فتح المتجر المباشر</span>
                       </button>
 
-                      {/* Buy Button */}
                       <button
                         onClick={() => {
                           playClick();
                           onBuyTemplate(tmpl.id);
                         }}
-                        className="py-2 rounded-xl text-xs font-black bg-[#D9722B]/10 hover:bg-[#D9722B] text-[#D9722B] hover:text-white border-2 border-[#D9722B]/40 transition-all flex items-center justify-center gap-1 sketch-border-tag"
-                        title="طلب حجز هذا القالب فوراً"
+                        className="py-2.5 px-3 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs flex items-center justify-center gap-1.5 hover:opacity-90 transition-opacity"
                       >
-                        <ShoppingBag className="w-3 h-3" />
-                        <span>طلب القالب</span>
+                        <ShoppingBag className="w-3.5 h-3.5" />
+                        <span>طلب القالب فوراً</span>
                       </button>
                     </div>
                   </div>

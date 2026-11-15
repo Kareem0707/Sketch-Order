@@ -721,20 +721,32 @@ export const OrderModal: React.FC<OrderModalProps> = ({
    </div>
 
    {formData.isGoogleVerified ? (
-     <div className="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-800 border border-zinc-200 dark:border-slate-700">
-       <div className="flex items-center gap-2">
-         <div className="w-7 h-7 rounded-full bg-[#D9722B] text-white flex items-center justify-center font-bold text-xs shadow-2xs">
-           {formData.fullName?.charAt(0) || 'G'}
-         </div>
+     <div className="flex items-center justify-between p-2.5 rounded-2xl bg-white dark:bg-slate-800 border-2 border-[#0F0F0F] dark:border-slate-700 shadow-xs">
+       <div className="flex items-center gap-2.5">
+         {formData.googleProfile?.picture ? (
+           <img
+             src={formData.googleProfile.picture}
+             alt={formData.fullName}
+             referrerPolicy="no-referrer"
+             className="w-10 h-10 rounded-full object-cover border-2 border-[#D9722B] shadow-xs shrink-0"
+           />
+         ) : (
+           <div className="w-10 h-10 rounded-full bg-[#D9722B] text-white flex items-center justify-center font-bold text-sm shadow-xs shrink-0">
+             {formData.fullName?.charAt(0) || 'G'}
+           </div>
+         )}
          <div>
-           <div className="text-xs font-black text-zinc-900 dark:text-white leading-tight">{formData.fullName}</div>
+           <div className="text-xs font-black text-zinc-900 dark:text-white leading-tight flex items-center gap-1.5">
+             <span>{formData.fullName}</span>
+             <span className="text-[9px] bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 px-1.5 py-0.5 rounded-full font-bold">حساب موثق ✓</span>
+           </div>
            <div className="text-[10px] font-mono text-zinc-500 dark:text-zinc-400">{formData.customerEmail}</div>
          </div>
        </div>
        <button
          type="button"
          onClick={handleGoogleSignOut}
-         className="text-[11px] font-bold text-red-500 hover:underline px-2 py-1"
+         className="text-[11px] font-bold text-red-500 hover:underline px-2.5 py-1 rounded-lg border border-red-500/20 hover:bg-red-500/10 transition-colors"
        >
          تبديل الحساب
        </button>
@@ -927,6 +939,47 @@ export const OrderModal: React.FC<OrderModalProps> = ({
  {/* ---------------------------------------------------- */}
  {currentStep === 3 && (
  <div className="space-y-4 animate-in fade-in duration-200">
+       {/* Selected Package & Price Summary Box (Requested by User) */}
+       <div className="p-3.5 sm:p-4 rounded-2xl border-2 border-[#0F0F0F] dark:border-slate-700 bg-amber-500/10 dark:bg-amber-500/15 sketch-border-1 sketch-shadow-sm space-y-2.5">
+         <div className="flex items-center justify-between">
+           <span className="text-[10px] sm:text-[11px] font-mono font-black text-amber-600 dark:text-amber-400 uppercase tracking-wider bg-amber-500/20 px-2.5 py-0.5 rounded-full border border-amber-500/30">
+             الباقة المختارة لمتجرك • SELECTED PLAN
+           </span>
+           <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 font-mono">
+             دفع لمرة واحدة ومدى الحياة ∞
+           </span>
+         </div>
+
+         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1 border-b border-amber-500/20 pb-2.5">
+           <div>
+             <h3 className="font-heading font-black text-base sm:text-lg text-[#0F0F0F] dark:text-white leading-tight">
+               {currentPlan.name}
+             </h3>
+             <p className="text-[11px] text-zinc-600 dark:text-zinc-300 font-bold mt-0.5">
+               {currentPlan.badge}
+             </p>
+           </div>
+
+           <div className="text-right sm:text-left shrink-0">
+             <span className="text-xl sm:text-2xl font-black font-mono text-[#D9722B] dark:text-[#E88B4D]">
+               {currentPlan.priceDisplay}
+             </span>
+             <span className="text-[10px] block font-bold text-zinc-500 dark:text-zinc-400">
+               بدون أي اشتراكات أو تجديدات شهرية
+             </span>
+           </div>
+         </div>
+
+         <div className="flex items-center justify-between text-xs pt-0.5 text-zinc-700 dark:text-zinc-300">
+           <span className="font-bold">
+             اسم المتجر: <strong>{formData.storeName || "متجري الجديد"}</strong>
+           </span>
+           <span className="font-mono text-[11px] text-[#D9722B] font-bold" dir="ltr">
+             https://{cleanSubdomain}.sketchorder.com
+           </span>
+         </div>
+       </div>
+
  
  {/* Payment Methods */}
  <div>

@@ -40,15 +40,62 @@ export const App: React.FC = () => {
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState<boolean>(() => isDeviceAdminAuthenticated());
   const [isSecretGateOpen, setIsSecretGateOpen] = useState<boolean>(false);
 
-  // Monitor secret hash routes (#secret-admin, #admin-vault, or ?admin=secret)
+  // Comprehensive URL Routing (Hash & Query Params) for 100% Working Live Links
   useEffect(() => {
-    const handleSecretHashCheck = () => {
-      const hash = (window.location.hash || '').toLowerCase();
+    const handleUrlRouteCheck = () => {
+      const rawHash = window.location.hash || '';
+      const cleanHash = rawHash.toLowerCase().trim();
       const params = new URLSearchParams(window.location.search);
+
+      // 1. Direct Storefront Route: #/store/:subdomain or ?store=:subdomain or #store=:subdomain
+      let detectedStoreSubdomain: string | null = null;
+      if (cleanHash.startsWith('#/store/')) {
+        detectedStoreSubdomain = rawHash.slice(8).split('/')[0].split('?')[0].trim();
+      } else if (cleanHash.startsWith('#store=')) {
+        detectedStoreSubdomain = rawHash.slice(7).split('&')[0].trim();
+      } else if (params.has('store')) {
+        detectedStoreSubdomain = params.get('store')?.trim() || null;
+      }
+
+      if (detectedStoreSubdomain) {
+        setActiveTenantSubdomain(detectedStoreSubdomain);
+        setViewMode('tenant_live_store');
+        return;
+      }
+
+      // 2. Merchant Portal Route: #/portal or #/portal/:subdomain or ?portal=:subdomain
+      if (cleanHash.startsWith('#/portal') || params.has('portal')) {
+        let portalSub: string | null = null;
+        if (cleanHash.startsWith('#/portal/')) {
+          portalSub = rawHash.slice(9).split('/')[0].split('?')[0].trim();
+        } else if (params.has('portal') && params.get('portal')) {
+          portalSub = params.get('portal')!.trim();
+        }
+        if (portalSub) {
+          setActiveTenantSubdomain(portalSub);
+        }
+        setViewMode('merchant_portal');
+        return;
+      }
+
+      // 3. Templates Showcase Route: #/templates
+      if (cleanHash === '#/templates' || cleanHash === '#templates' || params.get('view') === 'templates') {
+        setViewMode('templates');
+        return;
+      }
+
+      // 4. Studio Playground Route: #/studio
+      if (cleanHash === '#/studio' || cleanHash === '#studio' || params.get('view') === 'studio') {
+        setViewMode('studio');
+        return;
+      }
+
+      // 5. Secret Admin Vault & Authentication: #secret-admin or #/secret-admin
       const isSecretTriggered =
-        hash === '#secret-admin' ||
-        hash === '#admin-vault' ||
-        hash === '#admin' ||
+        cleanHash === '#secret-admin' ||
+        cleanHash === '#/secret-admin' ||
+        cleanHash === '#admin-vault' ||
+        cleanHash === '#admin' ||
         params.get('admin') === 'secret' ||
         params.has('admin_key');
 
@@ -59,12 +106,28 @@ export const App: React.FC = () => {
         } else {
           setIsSecretGateOpen(true);
         }
+        return;
+      }
+
+      // If empty hash or #home on root, stay or return to home if not in modal
+      if (cleanHash === '' || cleanHash === '#' || cleanHash === '#home') {
+        // Only reset if currently showing a routed full-page view
+        setViewMode((current) => {
+          if (current === 'tenant_live_store' || current === 'merchant_portal' || current === 'templates' || current === 'studio' || current === 'owner_admin') {
+            return 'home';
+          }
+          return current;
+        });
       }
     };
 
-    handleSecretHashCheck();
-    window.addEventListener('hashchange', handleSecretHashCheck);
-    return () => window.removeEventListener('hashchange', handleSecretHashCheck);
+    handleUrlRouteCheck();
+    window.addEventListener('hashchange', handleUrlRouteCheck);
+    window.addEventListener('popstate', handleUrlRouteCheck);
+    return () => {
+      window.removeEventListener('hashchange', handleUrlRouteCheck);
+      window.removeEventListener('popstate', handleUrlRouteCheck);
+    };
   }, []);
 
   // Dark Theme Management
@@ -109,18 +172,21 @@ export const App: React.FC = () => {
 
   const openFullStudio = () => {
     playClick();
+    window.location.hash = '#/studio';
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setViewMode('studio');
   };
 
   const openTemplatesShowcase = () => {
     playClick();
+    window.location.hash = '#/templates';
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setViewMode('templates');
   };
 
   const openOwnerAdmin = () => {
     playClick();
+    window.location.hash = '#secret-admin';
     if (isDeviceAdminAuthenticated()) {
       setIsAdminAuthenticated(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -134,28 +200,33 @@ export const App: React.FC = () => {
     playClick();
     setDeviceAdminAuthenticated(false);
     setIsAdminAuthenticated(false);
+    window.location.hash = '';
     setViewMode('home');
-    if (window.location.hash.includes('admin')) {
-      window.location.hash = '';
-    }
   };
 
   const openMerchantPortal = (subdomain?: string) => {
     playClick();
-    if (subdomain) {
-      setActiveTenantSubdomain(subdomain);
-    }
+    const targetSub = subdomain || activeTenantSubdomain || 'sportech';
+    setActiveTenantSubdomain(targetSub);
+    window.location.hash = `#/portal/${targetSub}`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setViewMode('merchant_portal');
   };
 
   const openTenantLiveStore = (subdomain?: string) => {
     playClick();
-    if (subdomain) {
-      setActiveTenantSubdomain(subdomain);
-    }
+    const targetSub = subdomain || activeTenantSubdomain || 'sportech';
+    setActiveTenantSubdomain(targetSub);
+    window.location.hash = `#/store/${targetSub}`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setViewMode('tenant_live_store');
+  };
+
+  const handleBackToHome = () => {
+    playClick();
+    window.location.hash = '';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setViewMode('home');
   };
 
   // ==========================================================
@@ -164,20 +235,16 @@ export const App: React.FC = () => {
   if (viewMode === 'templates') {
     return (
       <TemplatesShowcasePage
-        onBackToHome={() => {
-          playClick();
-          setViewMode('home');
-        }}
+        onBackToHome={handleBackToHome}
         onSelectTemplateToStudio={(tId) => {
           playPaperFlip();
           setActiveStudioTemplateId(tId);
           setActiveCustomStore(null);
           setViewMode('studio');
+          window.location.hash = '#/studio';
         }}
         onOpenLiveStore={(tId) => {
-          playClick();
-          setActiveTenantSubdomain(tId);
-          setViewMode('tenant_live_store');
+          openTenantLiveStore(tId);
         }}
         onBuyTemplate={(_tId) => {
           setSelectedPlan('pro');
@@ -196,10 +263,7 @@ export const App: React.FC = () => {
     return (
       <div className="min-h-screen bg-slate-950 font-sans text-slate-100 antialiased selection:bg-[#D9722B] selection:text-white">
         <FullPageStoreStudio
-          onBackToHome={() => {
-            playClick();
-            setViewMode('home');
-          }}
+          onBackToHome={handleBackToHome}
           onBuyAndDeploy={handleBuyCustomStore}
           initialConfig={activeCustomStore}
           initialTemplateId={activeStudioTemplateId}
@@ -225,10 +289,7 @@ export const App: React.FC = () => {
   if (viewMode === 'owner_admin') {
     return (
       <OwnerAdminPage
-        onBackToHome={() => {
-          playClick();
-          setViewMode('home');
-        }}
+        onBackToHome={handleBackToHome}
         onLogoutAdmin={handleLogoutAdmin}
         onOpenStoreLive={(sub) => openTenantLiveStore(sub)}
         onOpenMerchantPortal={(sub) => openMerchantPortal(sub)}
@@ -244,10 +305,7 @@ export const App: React.FC = () => {
   if (viewMode === 'merchant_portal') {
     return (
       <ClientMerchantPortal
-        onBackToHome={() => {
-          playClick();
-          setViewMode('home');
-        }}
+        onBackToHome={handleBackToHome}
         onOpenLiveStore={(sub) => openTenantLiveStore(sub)}
         initialSubdomain={activeTenantSubdomain}
         isDarkMode={isDarkMode}
@@ -264,10 +322,7 @@ export const App: React.FC = () => {
       <TenantLiveStore
         subdomain={activeTenantSubdomain}
         onBackToMerchantPortal={() => openMerchantPortal(activeTenantSubdomain)}
-        onBackToHome={() => {
-          playClick();
-          setViewMode('home');
-        }}
+        onBackToHome={handleBackToHome}
       />
     );
   }
@@ -279,7 +334,7 @@ export const App: React.FC = () => {
     <div
       className={`min-h-screen transition-colors duration-200 ${
         isDarkMode
-          ? 'bg-[#0B0F17] text-[#F8FAFC]'
+          ? 'bg-[#141416] text-[#F8FAFC]'
           : 'bg-white text-[#0F0F0F]'
       } font-body selection:bg-[#D9722B] selection:text-white antialiased`}
     >
