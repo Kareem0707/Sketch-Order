@@ -10,7 +10,6 @@ import { SplitSimulator } from './components/SplitSimulator';
 import { PricingPackages } from './components/PricingPackages';
 import { FaqSection } from './components/FaqSection';
 import { CoreFeaturesSection } from './components/CoreFeaturesSection';
-import { BlogSection } from './components/BlogSection';
 import { Footer } from './components/Footer';
 import { OrderModal } from './components/OrderModal';
 import { SecretAdminGateModal, isDeviceAdminAuthenticated, setDeviceAdminAuthenticated } from './components/SecretAdminGateModal';
@@ -506,12 +505,6 @@ export const App: React.FC = () => {
 
         {/* Section: Live Mini Store Simulator */}
         
-
-        {/* Section: SEO-Optimized Knowledge Hub & Blog Section */}
-        <BlogSection
-          onOpenOrderModal={() => handleOpenOrderWithPlan('pro')}
-          onOpenStudio={openFullStudio}
-        />
 
         {/* FAQs */}
         <FaqSection />

@@ -1,8 +1,5 @@
 import React from 'react';
 import {
-  CheckCircle2,
-  ShieldCheck,
-  Zap,
   Hammer,
   Grid,
   ArrowLeft,
@@ -40,27 +37,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
 
         {/* ======================================================== */}
-        {/* 1. TOP VALUES & CORE GUARANTEES PILL                    */}
-        {/* ======================================================== */}
-        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 px-4 py-2 border-2 border-[#0F0F0F] dark:border-slate-700 sketch-border-pill text-xs sm:text-sm font-black sketch-shadow-sm bg-white dark:bg-[#151D2A] text-[#0F0F0F] dark:text-slate-100 max-w-fit mx-auto -rotate-1">
-          <span className="flex items-center gap-1.5">
-            <CheckCircle2 className="w-4 h-4 text-[#D9722B]" />
-            <span>الدفع مرة واحدة فقط (بدون اشتراكات شهرية)</span>
-          </span>
-          <span className="text-slate-300 dark:text-slate-600 hidden sm:inline">•</span>
-          <span className="flex items-center gap-1.5">
-            <ShieldCheck className="w-4 h-4 text-[#D9722B]" />
-            <span>الضمان مدى الحياة لمتجرك المستقل</span>
-          </span>
-          <span className="text-slate-300 dark:text-slate-600 hidden sm:inline">•</span>
-          <span className="flex items-center gap-1.5 text-[#D9722B] dark:text-[#E88B4D]">
-            <Zap className="w-4 h-4" />
-            <span>تسليم فوري بدومينك الخاص</span>
-          </span>
-        </div>
-
-        {/* ======================================================== */}
-        {/* 2. HERO BANNER: HEADLINE & ACTION BUTTONS               */}
+        {/* 1. HERO BANNER: HEADLINE & ACTION BUTTONS               */}
         {/* ======================================================== */}
         <div className="relative rounded-2xl md:rounded-3xl border-3 border-[#0F0F0F] dark:border-slate-700 bg-white dark:bg-[#111827] sketch-stripes p-5 sm:p-7 overflow-hidden sketch-shadow">
           <div className="absolute inset-0 bg-white/85 dark:bg-[#111827]/90 pointer-events-none"></div>
@@ -136,13 +113,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     <span className="w-3 h-3 rounded-full bg-amber-400 inline-block"></span>
                     <span className="w-3 h-3 rounded-full bg-emerald-400 inline-block"></span>
                   </div>
-                  <span className="text-xs font-heading font-black text-zinc-800 dark:text-zinc-200 mr-2">
+                  <span className="text-xs sm:text-sm font-heading font-black text-zinc-800 dark:text-zinc-200 mr-2">
                     فيديو شرح المنصة وشاشة المتجر التفاعلية
                   </span>
                 </div>
-                <span className="text-[11px] font-mono font-bold text-[#D9722B] dark:text-[#E88B4D] bg-[#D9722B]/10 px-2 py-0.5 rounded-md border border-[#D9722B]/20">
-                  Full HD • فيديو حي
-                </span>
               </div>
 
               {/* The Video Player Slot */}

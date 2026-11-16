@@ -327,12 +327,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               >
                 الباقات والأسعار الرسمية
               </button>
-              <button
-                onClick={() => handleNavClick('blog-section')}
-                className="w-full text-right p-2 text-xs font-bold hover:bg-neutral-500/10 rounded-lg"
-              >
-                المدونة ومقالات التجارة الإلكترونية
-              </button>
             </div>
           </div>
         )}

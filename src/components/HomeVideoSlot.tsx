@@ -221,8 +221,8 @@ export const HomeVideoSlot: React.FC<HomeVideoSlotProps> = ({
             <Film className="w-4 h-4 text-[#D9722B]" />
             <span>فيديو الشاشة الرئيسية (مكان مخصص)</span>
           </span>
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#D9722B]/15 text-[#D9722B] dark:text-[#E88B4D] font-bold border border-[#D9722B]/30">
-            {videoUrl ? 'فيديو مخصص نشط' : 'وضع المعاينة التفاعلي 30 ثانية'}
+          <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-[#D9722B]/15 text-[#D9722B] dark:text-[#E88B4D] border border-[#D9722B]/30">
+            {videoUrl ? 'فيديو مخصص نشط' : 'عرض توضيحي 30 ثانية'}
           </span>
         </div>
 
@@ -233,7 +233,7 @@ export const HomeVideoSlot: React.FC<HomeVideoSlotProps> = ({
             setTempUrlInput(videoUrl);
             setIsSettingUrlModalOpen(true);
           }}
-          className="text-xs font-bold font-mono px-2.5 py-1 rounded-lg border border-dashed border-[#0F0F0F]/30 dark:border-slate-600 hover:border-[#D9722B] hover:text-[#D9722B] dark:text-slate-300 transition-colors flex items-center gap-1.5 bg-white dark:bg-slate-900"
+          className="text-xs font-bold px-2.5 py-1 rounded-lg border border-dashed border-[#0F0F0F]/30 dark:border-slate-600 hover:border-[#D9722B] hover:text-[#D9722B] dark:text-slate-300 transition-colors flex items-center gap-1.5 bg-white dark:bg-slate-900"
           title="ضع رابط فيديو MP4 أو يوتيوب هنا"
         >
           <LinkIcon className="w-3.5 h-3.5 text-[#D9722B]" />
@@ -318,7 +318,7 @@ export const HomeVideoSlot: React.FC<HomeVideoSlotProps> = ({
               {/* Dynamic Phase Storyboard */}
               {demoScenePhase === 'mess' && (
                 <div className="space-y-1.5 animate-fadeIn">
-                  <span className="text-[11px] font-mono font-bold text-red-400 bg-red-950/60 px-2.5 py-0.5 rounded-full border border-red-500/30">
+                  <span className="text-xs font-bold text-red-400 bg-red-950/60 px-3 py-0.5 rounded-full border border-red-500/30">
                     المشهد 1: فوضى الواتس وضياع الأوردرات (0s - 10s)
                   </span>
                   <h4 className="text-base sm:text-xl font-heading font-black text-white">
@@ -332,7 +332,7 @@ export const HomeVideoSlot: React.FC<HomeVideoSlotProps> = ({
 
               {demoScenePhase === 'drawing' && (
                 <div className="space-y-1.5 animate-fadeIn">
-                  <span className="text-[11px] font-mono font-bold text-[#D9722B] bg-[#D9722B]/20 px-2.5 py-0.5 rounded-full border border-[#D9722B]/40">
+                  <span className="text-xs font-bold text-[#D9722B] bg-[#D9722B]/20 px-3 py-0.5 rounded-full border border-[#D9722B]/40">
                     المشهد 2: القلم السحري بيرسم متجرك (10s - 20s)
                   </span>
                   <h4 className="text-base sm:text-xl font-heading font-black text-white">
@@ -346,7 +346,7 @@ export const HomeVideoSlot: React.FC<HomeVideoSlotProps> = ({
 
               {demoScenePhase === 'success' && (
                 <div className="space-y-1.5 animate-fadeIn">
-                  <span className="text-[11px] font-mono font-bold text-emerald-400 bg-emerald-950/60 px-2.5 py-0.5 rounded-full border border-emerald-500/30">
+                  <span className="text-xs font-bold text-emerald-400 bg-emerald-950/60 px-3 py-0.5 rounded-full border border-emerald-500/30">
                     المشهد 3: الأوردرات بتتسلم تلقائياً (20s - 30s)
                   </span>
                   <h4 className="text-base sm:text-xl font-heading font-black text-white">
@@ -432,19 +432,15 @@ export const HomeVideoSlot: React.FC<HomeVideoSlotProps> = ({
 
             {/* Right Controls */}
             <div className="flex items-center gap-2">
-              <span className="hidden sm:inline-block font-mono text-[10px] text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/30">
-                1080p HD
-              </span>
-
               {onOpenStudio && (
                 <button
                   onClick={() => {
                     playClick();
                     onOpenStudio();
                   }}
-                  className="hidden md:inline-flex items-center gap-1 text-[11px] font-bold text-white bg-[#D9722B] hover:bg-[#C25E1D] px-2.5 py-1 rounded-md transition-colors"
+                  className="hidden md:inline-flex items-center gap-1 text-xs font-black text-white bg-[#D9722B] hover:bg-[#C25E1D] px-3 py-1 rounded-md transition-colors"
                 >
-                  <Sparkles className="w-3 h-3" />
+                  <Sparkles className="w-3.5 h-3.5" />
                   <span>جرّب المتجر الآن</span>
                 </button>
               )}
